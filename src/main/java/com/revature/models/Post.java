@@ -4,6 +4,9 @@ import com.revature.utilites.SecurityUtil;
 
 import java.sql.Timestamp;
 
+/**
+ * Post Model
+ */
 public class Post {
     private int psid;
     private Profile creator;
