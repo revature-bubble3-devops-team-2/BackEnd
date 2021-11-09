@@ -2,9 +2,9 @@ server:
   port: 8082
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
+    url: jdbc:postgresql://localhost:5432/backend
     username: postgres
-    password: p4ssw0rd
+    password: password
   jpa:
     show-sql: true
     generate-ddl: false

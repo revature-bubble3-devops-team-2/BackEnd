@@ -1,4 +1,7 @@
 package com.revature.data;
+import com.revature.models.Profile;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public class ProfileData {
+
+public interface ProfileData extends JpaRepository<Profile, Integer> {
 }
