@@ -21,5 +21,7 @@ public class Post {
         this.body = body;
         this.imgURL = imgURL;
         this.datePosted = datePosted;
+
+        //this is a comment
     }
 }
