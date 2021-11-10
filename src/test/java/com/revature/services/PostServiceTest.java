@@ -28,7 +28,6 @@ public class PostServiceTest {
 
     private static final Logger logger = LogManager.getLogger(PostRepoTest.class);
 
-    @Autowired
     @Mock
     PostRepo postRepo;
 
