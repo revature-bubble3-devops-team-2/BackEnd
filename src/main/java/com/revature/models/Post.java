@@ -6,20 +6,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
 @Component
 @Entity @Table(name = "post")
-@Getter @Setter @AllArgsConstructor @ToString @EqualsAndHashCode
+@Data @AllArgsConstructor
 public class Post {
 
     @Id
     @Column(name = "post_id")
+    @NotNull
     private int psid;
 
     @Autowired
     @ManyToOne
     @JoinColumn(name = "profile_id")
+    @NotNull
     private Profile creator;
 
     @Column
@@ -29,6 +32,7 @@ public class Post {
     private String imgURL;
 
     @Column(name = "date_posted")
+    @NotNull
     private Timestamp datePosted;
 
     public Post() {

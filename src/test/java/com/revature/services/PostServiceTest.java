@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class PostServiceTest {
 
@@ -59,5 +59,17 @@ public class PostServiceTest {
         Post temp = new Post(3, tempProfile, "Hello World", null, Timestamp.valueOf(LocalDateTime.now()));
         Post check = postService.addNewPost(temp);
         assertEquals(check, temp);
+    }
+
+    @Test
+    void testAddInvalidPost() {
+        Profile tempProfile = new Profile(23412341, "profile2", "22", "Two", "LastTwo", "Email2");
+        Post temp = new Post(3, tempProfile, "Hello World", null, Timestamp.valueOf(LocalDateTime.now()));
+
+        assertAll(
+                () -> assertNull(postService.addNewPost(null)), //add null
+                () -> assertNull(postService.addNewPost(new Post())), //add empty post
+                () -> assertNull(postService.addNewPost(temp)) //invalid profile
+        );
     }
 }

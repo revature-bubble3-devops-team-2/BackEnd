@@ -13,12 +13,19 @@ public class PostServiceImpl implements PostService{
 
     @Override
     public Post addNewPost(Post post) {
-        try {
-            postRepo.save(post);
-            return post;
-        } catch (Exception e) {
-            return null;
+        if (post != null) {
+            try {
+                if (post.getCreator()==null || post.getDatePosted()==null) {
+                    return null;
+                }
+
+                postRepo.save(post);
+                return post;
+            } catch (Exception e) {
+                return null;
+            }
         }
+        return null;
     }
 
     @Override
