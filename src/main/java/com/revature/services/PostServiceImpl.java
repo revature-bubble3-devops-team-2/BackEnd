@@ -15,7 +15,6 @@ public class PostServiceImpl implements PostService{
     public Post addNewPost(Post post) {
         try {
             postRepo.save(post);
-            //System.out.println(temp);
             return post;
         } catch (Exception e) {
             return null;
