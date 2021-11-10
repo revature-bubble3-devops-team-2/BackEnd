@@ -27,8 +27,9 @@ public class HibernateUtil {
 
             sessionFactory = new Configuration()
                     .setProperties(settings)
-                    .addAnnotatedClass(User.class)
-                    .addAnnotatedClass(AuthorizationSession.class)
+                    .addAnnotatedClass(Profile.class)
+                    .addAnnotatedClass(Post.class)
+                    .addAnnotatedClass(Comment.class)
                     .buildSessionFactory();
         }
         return sessionFactory;

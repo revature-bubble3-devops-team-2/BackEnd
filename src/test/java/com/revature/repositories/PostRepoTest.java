@@ -28,19 +28,19 @@ public class PostRepoTest {
     @Autowired
     PostRepo postRepo;
 
-    @BeforeAll
-    static void setup() {
-        try (Session session = HibernateUtil.getSession()) {
-            Transaction transaction = session.beginTransaction();
-            char[] buf = new char[1400];
-            int i = new FileReader("src/test/resources/post-setup.sql").read(buf);
-            if (i==0) System.exit(i);
-            session.createSQLQuery(String.valueOf(buf).trim()).executeUpdate();
-            transaction.commit();
-        } catch (IOException e) {
-            logger.error(e.getMessage());
-        }
-    }
+//    @BeforeAll
+//    static void setup() {
+//        try (Session session = HibernateUtil.getSession()) {
+//            Transaction transaction = session.beginTransaction();
+//            char[] buf = new char[1400];
+//            int i = new FileReader("src/test/resources/post-setup.sql").read(buf);
+//            if (i==0) System.exit(i);
+//            session.createSQLQuery(String.valueOf(buf).trim()).executeUpdate();
+//            transaction.commit();
+//        } catch (IOException e) {
+//            logger.error(e.getMessage());
+//        }
+//    }
 
     @Test
     void addPost() {
