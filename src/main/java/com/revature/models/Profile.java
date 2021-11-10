@@ -1,35 +1,51 @@
 package com.revature.models;
 
 import com.revature.utilites.SecurityUtil;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Component
 @Entity
-@Data
+@Data @AllArgsConstructor
 public class Profile {
+
     @Id
     private int pid;
+
+    @NotNull
+    @Column(unique = true)
+    @Size(min=3, max = 50)
     private String username;
+
+    @NotNull
+    @Size(min=3, max = 50)
     private String passkey;
+
+    @NotNull
+    @Column(name = "firstname")
+    @Size(min=3, max = 50)
     private String firstName;
+
+    @NotNull
+    @Column(name = "lastname")
+    @Size(min=3, max = 50)
     private String lastName;
+
+    @NotNull
+    @Column(unique = true)
+    @Size(min=3, max = 50)
     private String email;
 
     public Profile() {
         pid = SecurityUtil.getId();
     }
 
-    public Profile(int pid, String username, String passkey, String firstName, String lastName, String email) {
-        this.pid = pid;
-        this.username = username;
-        this.passkey = passkey;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-    }
 }

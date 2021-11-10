@@ -1,4 +1,20 @@
 package com.revature.services;
 
-public class ProfileServiceImpl {
+import com.revature.data.ProfileData;
+import com.revature.models.Profile;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class ProfileServiceImpl implements ProfileService{
+
+    @Autowired
+    private ProfileData profileData;
+
+    public ProfileServiceImpl(){}
+
+    @Override
+    public Profile addNewProfile(Profile profile) {
+        return profileData.save(profile);
+    }
 }
