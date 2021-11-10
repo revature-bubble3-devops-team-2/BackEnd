@@ -9,7 +9,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Component
-@Entity @Table(name = "post", schema = "public")
+@Entity @Table(name = "post")
 @Getter @Setter @AllArgsConstructor @ToString @EqualsAndHashCode
 public class Post {
 

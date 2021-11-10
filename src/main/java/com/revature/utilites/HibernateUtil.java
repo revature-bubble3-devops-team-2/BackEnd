@@ -23,7 +23,7 @@ public class HibernateUtil {
             settings.put(Environment.DIALECT, System.getenv("DB_DIALECT"));
 
             settings.put(Environment.SHOW_SQL, "true");
-            settings.put(Environment.HBM2DDL_AUTO, "validate");
+            settings.put(Environment.HBM2DDL_AUTO, "update");
 
             sessionFactory = new Configuration()
                     .setProperties(settings)
