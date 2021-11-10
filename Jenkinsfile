@@ -40,6 +40,8 @@ pipeline {
                 statusComment += "\nRan ${summary.getTotalCount()} total tests."
                 statusComment += "\n\tFailed ${summary.getFailCount()}, Passed ${summary.getPassCount()}, Skipped ${summary.getSkipCount()}"
                 statusComment += "\nSeems you still have a ways to go hm? :face_with_monocle:"
+            } else {
+                statusComment = "Something went wrong in compiling the code. Someone should fix that. "
             }
         }
         discordSend description: statusComment, result: currentResult,
