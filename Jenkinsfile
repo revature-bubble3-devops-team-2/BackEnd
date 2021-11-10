@@ -37,17 +37,19 @@ pipeline {
             webhookURL: "https://discord.com/api/webhooks/908092496905637938/kTyL4F8KdvJfbuOzTdV-u8foJbqRiltJUGYWSbJ65tT61W_AIGGhFva-iuMN-CbYINFH"
       }
       failure {
-        script {
-            def summary = junit testResults: '**/target/surefire-reports/*.xml'
-            if (summary.getFailCount > 0 ) {
-                statusComment = "*[${env.JOB_NAME}] <${env.BUILD_URL}|#${env.BUILD_NUMBER}>* failed to build on ${env.GIT_BRANCH} branch."
-                statusComment += "\nRan ${summary.getTotalCount()} total tests."
-                statusComment += "\n\tFailed ${summary.getFailCount()}, Passed ${summary.getPassCount()}, Skipped ${summary.getSkipCount()}"
-                statusComment += "\nSeems you still have a ways to go hm? :face_with_monocle:"
+        steps {
+            script {
+                def summary = junit testResults: '**/target/surefire-reports/*.xml'
+                if (summary.getFailCount > 0 ) {
+                    statusComment = "*[${env.JOB_NAME}] <${env.BUILD_URL}|#${env.BUILD_NUMBER}>* failed to build on ${env.GIT_BRANCH} branch."
+                    statusComment += "\nRan ${summary.getTotalCount()} total tests."
+                    statusComment += "\n\tFailed ${summary.getFailCount()}, Passed ${summary.getPassCount()}, Skipped ${summary.getSkipCount()}"
+                    statusComment += "\nSeems you still have a ways to go hm? :face_with_monocle:"
+                }
             }
+            discordSend description: statusComment, result: currentResult
+                        webhookURL: "https://discord.com/api/webhooks/908092496905637938/kTyL4F8KdvJfbuOzTdV-u8foJbqRiltJUGYWSbJ65tT61W_AIGGhFva-iuMN-CbYINFH"
         }
-        discordSend description: statusComment, result: currentResult
-                    webhookURL: "https://discord.com/api/webhooks/908092496905637938/kTyL4F8KdvJfbuOzTdV-u8foJbqRiltJUGYWSbJ65tT61W_AIGGhFva-iuMN-CbYINFH"
       }
    }
 }
