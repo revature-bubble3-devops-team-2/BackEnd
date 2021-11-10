@@ -47,7 +47,7 @@ pipeline {
                     statusComment += "\nSeems you still have a ways to go hm? :face_with_monocle:"
                 }
             }
-            discordSend description: statusComment, result: currentResult
+            discordSend description: statusComment, result: currentResult,
                         webhookURL: "https://discord.com/api/webhooks/908092496905637938/kTyL4F8KdvJfbuOzTdV-u8foJbqRiltJUGYWSbJ65tT61W_AIGGhFva-iuMN-CbYINFH"
         }
       }
