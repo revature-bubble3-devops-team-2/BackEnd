@@ -4,5 +4,10 @@ import com.revature.models.Info;
 
 public interface InfoService {
 
-    public Info getInfoById(Integer id);
+    public Info getInfoByProfileId(Integer id);
+
+    public Info updateInfo(Info info);
+
+    public Info createInfo(Info info);
+
 }

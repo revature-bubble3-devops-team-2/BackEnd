@@ -3,9 +3,7 @@ package com.revature.models;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.util.Date;
 
 @Component
@@ -13,6 +11,7 @@ import java.util.Date;
 @Data
 public class Info {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int infoId;
     @OneToOne
     private Profile profile;
