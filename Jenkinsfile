@@ -4,28 +4,28 @@ pipeline {
    stages {
       stage('checkout') {
           steps {
-            discordSend description: ":cyclone: *Cloning Repo*",
+            discordSend description: ":cyclone: *Cloning Repo*", result: grey,
                         webhookURL: "https://discord.com/api/webhooks/908092496905637938/kTyL4F8KdvJfbuOzTdV-u8foJbqRiltJUGYWSbJ65tT61W_AIGGhFva-iuMN-CbYINFH"
             checkout scm
           }
       }
       stage('clean') {
         steps {
-        discordSend description: ":soap: *Cleaning ${env.JOB_NAME}*",
+        discordSend description: ":soap: *Cleaning ${env.JOB_NAME}*", result: currentBuild.currentResult,
                     webhookURL: "https://discord.com/api/webhooks/908092496905637938/kTyL4F8KdvJfbuOzTdV-u8foJbqRiltJUGYWSbJ65tT61W_AIGGhFva-iuMN-CbYINFH"
             sh 'mvn clean'
         }
       }
       stage('test') {
         steps {
-            discordSend description: ":memo: *Testing ${env.JOB_NAME}*",
+            discordSend description: ":memo: *Testing ${env.JOB_NAME}*", result: currentBuild.currentResult,
                         webhookURL: "https://discord.com/api/webhooks/908092496905637938/kTyL4F8KdvJfbuOzTdV-u8foJbqRiltJUGYWSbJ65tT61W_AIGGhFva-iuMN-CbYINFH"
             sh 'mvn test'
         }
       }
       stage('package') {
         steps {
-            discordSend description: ":package: *Packaging ${env.JOB_NAME}*",
+            discordSend description: ":package: *Packaging ${env.JOB_NAME}*", result: currentBuild.currentResult,
                         webhookURL: "https://discord.com/api/webhooks/908092496905637938/kTyL4F8KdvJfbuOzTdV-u8foJbqRiltJUGYWSbJ65tT61W_AIGGhFva-iuMN-CbYINFH"
           sh 'mvn -DskipTests package'
         }
@@ -44,7 +44,7 @@ pipeline {
                 statusComment = "Something went wrong in compiling the code. Someone should fix that. "
             }
         }
-        discordSend description: statusComment, result: currentResult,
+        discordSend description: statusComment, result: currentBuild.currentResult,
                     webhookURL: "https://discord.com/api/webhooks/908092496905637938/kTyL4F8KdvJfbuOzTdV-u8foJbqRiltJUGYWSbJ65tT61W_AIGGhFva-iuMN-CbYINFH"
       }
    }
