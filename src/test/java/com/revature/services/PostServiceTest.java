@@ -39,7 +39,6 @@ public class PostServiceTest {
         MockitoAnnotations.openMocks(this);
     }
 
-
     @BeforeAll
     static void setup() {
         try(Session session = HibernateUtil.getSession()) {
