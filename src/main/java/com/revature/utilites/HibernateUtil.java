@@ -16,11 +16,11 @@ public class HibernateUtil {
         if(sessionFactory == null) {
 
             Properties settings = new Properties();
-            settings.put(Environment.DRIVER, "org.postgresql.Driver");
-            settings.put(Environment.URL, System.getenv("BubbleDB_URL"));
-            settings.put(Environment.USER, System.getenv("BubbleDB_User"));
-            settings.put(Environment.PASS, System.getenv("BubbleDB_Password"));
-            settings.put(Environment.DIALECT, "org.hibernate.dialect.PostgreSQLDialect");
+            settings.put(Environment.DRIVER, System.getenv("DB_DRIVER"));
+            settings.put(Environment.URL, System.getenv("DB_URL"));
+            settings.put(Environment.USER, System.getenv("DB_User"));
+            settings.put(Environment.PASS, System.getenv("DB_Password"));
+            settings.put(Environment.DIALECT, System.getenv("DB_DIALECT"));
 
             settings.put(Environment.SHOW_SQL, "true");
             settings.put(Environment.HBM2DDL_AUTO, "validate");
