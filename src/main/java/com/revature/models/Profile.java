@@ -1,8 +1,17 @@
 package com.revature.models;
 
 import com.revature.utilites.SecurityUtil;
+import lombok.Data;
+import org.springframework.stereotype.Component;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Component
+@Entity
+@Data
 public class Profile {
+    @Id
     private int pid;
     private String username;
     private String passkey;
