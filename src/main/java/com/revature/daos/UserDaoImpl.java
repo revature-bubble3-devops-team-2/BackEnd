@@ -17,30 +17,31 @@ import static com.revature.utilites.HibernateUtil.getSessionFactory;
 
 @Repository
 public class UserDaoImpl implements UserDao {
-    private static SessionFactory sf = getSessionFactory();
+    //private static SessionFactory sf = getSessionFactory();
 
     @Override
     public User register(User user, String password) throws NoSuchAlgorithmException {
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        Base64.Encoder base64Encoder = Base64.getUrlEncoder();
-
-        String bcrypt = bCryptPasswordEncoder.encode(password);
-        user.setPasswordHash(bcrypt);
-
-        KeyGenerator kg = KeyGenerator.getInstance("HmacSHA256");
-        SecretKey tokenKey = kg.generateKey();
-        String token = base64Encoder.encodeToString(tokenKey.getEncoded());
-
-        AuthorizationSession authorizationSession = new AuthorizationSession(token, user);
-        try (Session sess = sf.openSession()) {
-            Transaction tx = sess.beginTransaction();
-            sess.save(user);
-            System.out.println("Inserted User: " + user);
-            sess.save(authorizationSession);
-            System.out.println("Inserted Authorization Session: " + authorizationSession);
-            tx.commit();
-        }
-        user.setAuthorizationToken(new AuthorizationSessionJWT(token).getJwt());
-        return user;
+//        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+//        Base64.Encoder base64Encoder = Base64.getUrlEncoder();
+//
+//        String bcrypt = bCryptPasswordEncoder.encode(password);
+//        user.setPasswordHash(bcrypt);
+//
+//        KeyGenerator kg = KeyGenerator.getInstance("HmacSHA256");
+//        SecretKey tokenKey = kg.generateKey();
+//        String token = base64Encoder.encodeToString(tokenKey.getEncoded());
+//
+//        AuthorizationSession authorizationSession = new AuthorizationSession(token, user);
+//        try (Session sess = sf.openSession()) {
+//            Transaction tx = sess.beginTransaction();
+//            sess.save(user);
+//            System.out.println("Inserted User: " + user);
+//            sess.save(authorizationSession);
+//            System.out.println("Inserted Authorization Session: " + authorizationSession);
+//            tx.commit();
+//        }
+//        user.setAuthorizationToken(new AuthorizationSessionJWT(token).getJwt());
+//        return user;
+        return null;
     }
 }
