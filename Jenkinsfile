@@ -4,7 +4,7 @@ pipeline {
    stages {
       stage('testing'){
           steps {
-            sh 'echo this is found'
+            checkout scm
           }
       }
    }
