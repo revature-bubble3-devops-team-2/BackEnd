@@ -5,13 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.revature</groupId>
-    <artifactId>BackEnd</artifactId>
-    <version>1.0</version>
-
-    <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-    </properties>
+    <artifactId>BubbleBackend</artifactId>
+    <version>1.0-SNAPSHOT</version>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -31,10 +26,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-com.revature.data-jpa</artifactId>-->
-<!--        </dependency>-->
+
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
@@ -104,8 +96,32 @@
             <version>RELEASE</version>
             <scope>test</scope>
         </dependency>
-    </dependencies>
 
+        <!-- Testing -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.7.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>4.0.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>4.0.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.200</version>
+        </dependency>
+    </dependencies>
 
     <build>
         <finalName>Bubble</finalName>
@@ -114,6 +130,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.4.3</version>
             </plugin>
 
             <!-- Allow Testing with Maven -->
@@ -124,8 +141,8 @@
                 <configuration>
                     <environmentVariables>
                         <DB_URL>jdbc:h2:~/test</DB_URL>
-                        <DB_USER></DB_USER>
-                        <DB_PASS></DB_PASS>
+                        <DB_User></DB_User>
+                        <DB_Password></DB_Password>
                         <DB_DRIVER>org.h2.Driver</DB_DRIVER>
                         <DB_DIALECT>org.hibernate.dialect.H2Dialect</DB_DIALECT>
                     </environmentVariables>

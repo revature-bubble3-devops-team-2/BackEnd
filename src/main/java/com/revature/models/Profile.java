@@ -1,9 +1,7 @@
 package com.revature.models;
 
 import com.revature.utilites.SecurityUtil;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.Column;
@@ -15,6 +13,7 @@ import javax.validation.constraints.Size;
 @Component
 @Entity
 @Data @AllArgsConstructor
+@Getter @Setter
 public class Profile {
 
     @Id
