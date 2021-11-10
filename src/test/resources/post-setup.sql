@@ -1,4 +1,4 @@
-drop table if exists profile, post, likes;
+drop table if exists profile, post, likes cascade;
 
 create table profile (
 	profile_id int primary key,

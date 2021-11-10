@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/posts")
 public class PostController {
 
-<<<<<<< HEAD
     @Autowired
     public PostService postService;
 
@@ -25,7 +24,5 @@ public class PostController {
             return new ResponseEntity<>(temp, HttpStatus.CREATED);
         }
     }
-=======
 
->>>>>>> main
 }
