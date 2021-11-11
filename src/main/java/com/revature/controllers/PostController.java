@@ -15,13 +15,19 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin
 @RequestMapping("/posts")
 public class PostController {
 
     @Autowired
     public PostService postService;
 
+    /**
+     * @param post Post to be added to the database
+     * @param req Authorized token of the profile
+     * @return HTTP created status and the original post when it is added,
+     *          HTTP bad request status and null otherwise
+     */
     @PostMapping
     @NoAuthIn
     public ResponseEntity<Post> addPost(@RequestBody Post post, HttpServletRequest req) {
@@ -36,6 +42,9 @@ public class PostController {
         }
     }
 
+    /**
+     * @return list of all the Posts
+     */
     @GetMapping
     @ResponseBody
     public List<Post> getAllPosts() {
