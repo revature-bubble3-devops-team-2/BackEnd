@@ -11,21 +11,21 @@ public class PostServiceImpl implements PostService{
     @Autowired
     public PostRepo postRepo;
 
+    /**
+     * @param post Post to be added into the database
+     * @return Post that was added or null if an error occurs
+     */
     @Override
-    public Post addNewPost(Post post) {
-        if (post != null) {
-            try {
-                if (post.getCreator()==null || post.getDatePosted()==null) {
-                    return null;
-                }
-
-                postRepo.save(post);
-                return post;
-            } catch (Exception e) {
-                return null;
+    public Post addPost(Post post) {
+        try {
+            if (post.getDatePosted()==null || post.getCreator()==null) {
+                throw new NullPointerException();
             }
+            postRepo.save(post);
+            return post;
+        } catch (Exception e) {
+            return null;
         }
-        return null;
     }
 
     @Override

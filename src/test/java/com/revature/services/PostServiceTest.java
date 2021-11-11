@@ -15,7 +15,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -54,22 +53,22 @@ public class PostServiceTest {
     }
 
     @Test
-    void testAddNewPost() {
+    void testAddPost() {
         Profile tempProfile = new Profile(2, "profile2", "22", "Two", "LastTwo", "Email2");
         Post temp = new Post(3, tempProfile, "Hello World", null, Timestamp.valueOf(LocalDateTime.now()));
-        Post check = postService.addNewPost(temp);
+        Post check = postService.addPost(temp);
         assertEquals(check, temp);
     }
 
     @Test
-    void testAddInvalidPost() {
-        Profile tempProfile = new Profile(23412341, "profile2", "22", "Two", "LastTwo", "Email2");
-        Post temp = new Post(3, tempProfile, "Hello World", null, Timestamp.valueOf(LocalDateTime.now()));
-
-        assertAll(
-                () -> assertNull(postService.addNewPost(null)), //add null
-                () -> assertNull(postService.addNewPost(new Post())), //add empty post
-                () -> assertNull(postService.addNewPost(temp)) //invalid profile
+    void testAddNullPost() {
+        assertAll (
+            () -> assertNull(postService.addPost(null)), //add null post
+            () -> assertNull(postService.addPost(new Post())), //add empty post
+            () -> assertNull(postService.addPost(new Post(13, null, null,
+                    null,Timestamp.valueOf(LocalDateTime.now())))), //add with null profile
+            () -> assertNull(postService.addPost(new Post(134, new Profile(), null,
+                    null, null))) //add with null time created
         );
     }
 }

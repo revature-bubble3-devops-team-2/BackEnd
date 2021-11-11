@@ -17,7 +17,7 @@ public class PostController {
 
     @PostMapping
     public ResponseEntity<Post> addPost(@RequestBody Post post) {
-        Post temp = postService.addNewPost(post);
+        Post temp = postService.addPost(post);
         if (temp == null) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         } else {
