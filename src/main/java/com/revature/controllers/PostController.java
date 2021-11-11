@@ -9,11 +9,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-<<<<<<< HEAD
+
 import java.util.List;
-=======
 import javax.servlet.http.HttpServletRequest;
->>>>>>> f5dcd467814e8794335623cd0bf377d573f3539b
+
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
