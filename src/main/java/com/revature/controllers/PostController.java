@@ -19,6 +19,7 @@ public class PostController {
 
     @Autowired
     public PostService postService;
+
     /**
      * addPost receives a request body that contains the Post to be added and a http servlet request that contains
      * a token. The AuthAspect takes the token and checks if it is valid. When it is, it will return a profile that
@@ -35,7 +36,7 @@ public class PostController {
     @PostMapping
     public ResponseEntity<Post> addPost(@RequestBody Post post, HttpServletRequest req) {
         Post temp = post;
-        //temp.setCreator((Profile) req.getAttribute("creator"));
+        temp.setCreator((Profile) req.getAttribute("creator"));
         temp.setPsid(SecurityUtil.getId());
         Post check = postService.addPost(temp);
         if (check == null) {

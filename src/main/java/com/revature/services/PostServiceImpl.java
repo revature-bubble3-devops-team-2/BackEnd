@@ -27,8 +27,6 @@ public class PostServiceImpl implements PostService{
 
         try {
             if (post.getDatePosted()==null || post.getCreator()==null) {
-                System.out.println(post.getDatePosted());
-                System.out.println(post.getCreator());
                 throw new NullPointerException();
             }
             postRepo.save(post);
