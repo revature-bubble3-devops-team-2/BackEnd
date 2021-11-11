@@ -19,6 +19,7 @@ public class Profile {
     @Column (name = "profile_id")
     private int pid;
 
+
     @Column (name= "username")
     private String username;
 
@@ -32,6 +33,21 @@ public class Profile {
     private String lastName;
 
     @Column(name="email")
+=======
+    @Column(name = "username")
+    private String username;
+
+    @Column(name = "passkey")
+    private String passkey;
+
+    @Column(name = "first_name")
+    private String firstName;
+
+    @Column(name = "last_name")
+    private String lastName;
+
+    @Column(name = "email")
+
     private String email;
 
     public Profile() {

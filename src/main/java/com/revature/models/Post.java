@@ -10,16 +10,16 @@ import java.sql.Timestamp;
 
 @Component
 @Entity @Table(name = "post")
-@Getter @Setter @AllArgsConstructor @ToString @EqualsAndHashCode
+@Data @AllArgsConstructor
 public class Post {
 
     @Id
-    @Column(name = "post_id")
+    @Column(name = "post_id", unique = true, nullable = false)
     private int psid;
 
     @Autowired
     @ManyToOne
-    @JoinColumn(name = "profile_id")
+    @JoinColumn(name = "profile_id", nullable = false)
     private Profile creator;
 
     @Column
@@ -28,10 +28,11 @@ public class Post {
     @Column(name = "image_url")
     private String imgURL;
 
-    @Column(name = "date_posted")
+    @Column(name = "date_posted", nullable = false)
     private Timestamp datePosted;
 
     public Post() {
+        super();
         psid = SecurityUtil.getId();
     }
 }

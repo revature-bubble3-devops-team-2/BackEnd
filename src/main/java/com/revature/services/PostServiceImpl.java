@@ -5,25 +5,41 @@ import com.revature.repositories.PostRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PostServiceImpl implements PostService{
 
     @Autowired
     public PostRepo postRepo;
 
+    /**
+     * @param post Post to be added into the database
+     * @return Post that was added or null if an error occurs
+     */
     @Override
-    public Post addNewPost(Post post) {
+    public Post addPost(Post post) {
         try {
+            if (post.getDatePosted()==null || post.getCreator()==null) {
+                throw new NullPointerException();
+            }
             postRepo.save(post);
-            //System.out.println(temp);
             return post;
         } catch (Exception e) {
             return null;
         }
     }
 
+<<<<<<< HEAD
     @Override
-    public int deletePost(Post post) {
-        return 0;
+    public List<Post> getAllPosts() {
+        return postRepo.findAll();
     }
+
+=======
+>>>>>>> f5dcd467814e8794335623cd0bf377d573f3539b
+//    @Override
+//    public int deletePost(Post post) {
+//        return 0;
+//    }
 }

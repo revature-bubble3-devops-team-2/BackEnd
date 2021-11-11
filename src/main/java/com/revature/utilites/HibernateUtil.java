@@ -16,6 +16,7 @@ public class HibernateUtil {
         if(sessionFactory == null) {
 
             Properties settings = new Properties();
+
             settings.put(Environment.DRIVER, System.getenv("DB_DRIVER"));
             settings.put(Environment.URL, System.getenv("DB_URL"));
             settings.put(Environment.USER, System.getenv("DB_User"));
