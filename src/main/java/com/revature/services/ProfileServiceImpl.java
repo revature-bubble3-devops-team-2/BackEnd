@@ -7,9 +7,12 @@ import org.springframework.stereotype.Service;
 public class ProfileServiceImpl {
 
 
-    Profile getProfileByCredential(String email, String password)
+    Profile getProfileByCredential(Profile profile)
     {
+        return null;
+    }
 
+    Profile login(String email, String password){
         return null;
     }
 
