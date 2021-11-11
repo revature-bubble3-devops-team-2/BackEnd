@@ -19,8 +19,11 @@ public class PostServiceImpl implements PostService{
      */
     @Override
     public Post addPost(Post post) {
+
         try {
             if (post.getDatePosted()==null || post.getCreator()==null) {
+                System.out.println(post.getDatePosted());
+                System.out.println(post.getCreator());
                 throw new NullPointerException();
             }
             postRepo.save(post);
@@ -30,13 +33,22 @@ public class PostServiceImpl implements PostService{
         }
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * @return list of all the Posts
+     */
+>>>>>>> c81adb3f5818a4cb73dd5e24f60bb63ad9d513e3
     @Override
     public List<Post> getAllPosts() {
         return postRepo.findAll();
     }
+<<<<<<< HEAD
 
 //    @Override
 //    public int deletePost(Post post) {
 //        return 0;
 //    }
+=======
+>>>>>>> c81adb3f5818a4cb73dd5e24f60bb63ad9d513e3
 }
