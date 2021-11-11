@@ -2,7 +2,9 @@ package com.revature.controllers;
 
 import com.revature.models.Profile;
 import com.revature.services.ProfileService;
+import com.revature.utilites.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -16,11 +18,20 @@ import javax.validation.Valid;
 public class ProfileController {
 
     @Autowired
-    public ProfileService profileService;
+    private ProfileService profileService;
 
     @PostMapping("/profiles")
     @ResponseBody
     public ResponseEntity<Profile> addNewProfile(@Valid @RequestBody Profile profile){
-        return new ResponseEntity<>(profileService.addNewProfile(profile), HttpStatus.CREATED);
+        Profile returnedUser = profileService.getProfileByEmail(profile);
+        if(returnedUser.getEmail() == profile.getEmail()){
+            return new ResponseEntity<>(HttpStatus.IM_USED);
+        }
+
+        HttpHeaders responseHeaders = new HttpHeaders();
+        String token = SecurityUtil.generateToken(profile);
+        responseHeaders.set("Authorization" , token);
+        responseHeaders.set("Access-Control-Expose-Headers", "Authorization");
+        return new ResponseEntity<>(profileService.addNewProfile(profile),responseHeaders, HttpStatus.CREATED);
     }
 }

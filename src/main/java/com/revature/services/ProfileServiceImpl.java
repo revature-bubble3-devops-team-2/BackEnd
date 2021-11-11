@@ -26,4 +26,15 @@ public class ProfileServiceImpl implements ProfileService {
             return null;
         }
     }
+
+    @Override
+    public Profile getProfileByEmail(Profile profile) {
+       try{
+           profileRepo.getProfileByEmail(profile.getEmail());
+           return profile;
+       }catch (Exception e)
+       {
+           return null;
+       }
+    }
 }

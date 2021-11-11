@@ -1,6 +1,5 @@
 package com.revature.services;
 
-
 import com.revature.models.Profile;
 import com.revature.repositories.ProfileRepo;
 import com.revature.utilites.HibernateUtil;
@@ -51,6 +50,15 @@ public class ProfileServiceTest {
 
         assertEquals(profile, test2);
 
+   }
+   @Test
+    public void getProfileByUser()
+   {
+       Profile profile = new Profile(1,"bob","pass","bob","bob","bob");
+
+       Profile test2 = profileService.getProfileByEmail(profile);
+
+       assertEquals(profile,test2);
    }
 
 }
