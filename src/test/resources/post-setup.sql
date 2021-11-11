@@ -11,9 +11,9 @@ create table profile (
 create table post (
 	post_id int primary key,
 	profile_id int references profile(profile_id),
-	body varchar not null,
+	body varchar,
 	date_posted timestamp not null,
-	image_url varchar not null
+	image_url varchar
 );
 create table likes (
 	post_id int references post(post_id),
