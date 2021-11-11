@@ -1,7 +1,9 @@
 package com.revature.models;
 
 import com.revature.utilites.SecurityUtil;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 import javax.persistence.*;
 import java.util.Objects;
@@ -10,6 +12,8 @@ import java.util.Objects;
 @Entity
 @Table(name = "profiles", schema = "bubble")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Profile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,20 +34,5 @@ public class Profile {
 
     @Column(name = "email")
     private String email;
-
-    public Profile() {
-        pid = SecurityUtil.getId();
-    }
-
-    public Profile(int pid, String username, String passkey, String firstName, String lastName, String email) {
-        this.pid = pid;
-        this.username = username;
-        this.passkey = passkey;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-    }
-
-
 
 }
