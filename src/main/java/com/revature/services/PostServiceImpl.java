@@ -28,8 +28,8 @@ public class PostServiceImpl implements PostService{
         }
     }
 
-    @Override
-    public int deletePost(Post post) {
-        return 0;
-    }
+//    @Override
+//    public int deletePost(Post post) {
+//        return 0;
+//    }
 }
