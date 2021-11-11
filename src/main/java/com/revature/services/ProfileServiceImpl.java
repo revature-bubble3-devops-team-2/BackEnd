@@ -11,7 +11,6 @@ public class ProfileServiceImpl implements ProfileService{
     @Autowired
     public ProfileRepo profileRepo;
 
-
     public Profile getProfileByCredential(Profile profile)
     {
         return null;
