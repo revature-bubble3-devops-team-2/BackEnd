@@ -9,8 +9,9 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Component
-@Entity @Table(name = "post")
+@Entity
 @Data @AllArgsConstructor
+@Getter @Setter
 public class Post {
 
     @Id
