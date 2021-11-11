@@ -41,13 +41,24 @@ public class ProfileServiceTest {
             e.printStackTrace();
         }
     }
+
     @Test
     public void addnewProfile()
    {
-        Profile profile = new Profile(1,"bob","pass","bob","bob","bob");
+        Profile profile = new Profile();
+        profile.setFirstName("Bob");
+        profile.setLastName("Square");
+        profile.setEmail("bikini@bottom.net");
+        profile.setUsername("SBob");
+        profile.setPasskey("secret");
 
         Profile test2 =profileService.addNewProfile(profile);
 
+        System.out.println("Profile output: ");
+        System.out.println(profile);
+
+        System.out.println("test2 output: ");
+        System.out.println(test2);
         assertEquals(profile, test2);
 
    }
