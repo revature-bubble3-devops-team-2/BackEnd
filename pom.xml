@@ -109,31 +109,6 @@
             <version>RELEASE</version>
             <scope>test</scope>
         </dependency>
-
-        <!-- Testing -->
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.7.0</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>4.0.0</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-junit-jupiter</artifactId>
-            <version>4.0.0</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>1.4.200</version>
-        </dependency>
     </dependencies>
 
     <build>
@@ -154,8 +129,8 @@
                 <configuration>
                     <environmentVariables>
                         <DB_URL>jdbc:h2:~/test</DB_URL>
-                        <DB_User></DB_User>
-                        <DB_Password></DB_Password>
+                        <DB_USER></DB_USER>
+                        <DB_PASS></DB_PASS>
                         <DB_DRIVER>org.h2.Driver</DB_DRIVER>
                         <DB_DIALECT>org.hibernate.dialect.H2Dialect</DB_DIALECT>
                     </environmentVariables>

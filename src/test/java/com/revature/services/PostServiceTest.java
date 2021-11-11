@@ -3,7 +3,6 @@ package com.revature.services;
 import com.revature.models.Post;
 import com.revature.models.Profile;
 import com.revature.repositories.PostRepo;
-import com.revature.repositories.PostRepoTest;
 import com.revature.utilites.HibernateUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class PostServiceTest {
 
-    private static final Logger logger = LogManager.getLogger(PostRepoTest.class);
+    private static final Logger logger = LogManager.getLogger(PostServiceTest.class);
 
     @Mock
     PostRepo postRepo;
@@ -87,7 +86,6 @@ public class PostServiceTest {
         postsListTemp.add(tempPost2);
         postsListTemp.add(tempPost3);
         int expected = 3;
-        System.out.println(postsListTemp);
 
         postService.addPost(tempPost1);
         postService.addPost(tempPost2);
@@ -96,6 +94,5 @@ public class PostServiceTest {
         int actual = postService.getAllPosts().size();
 
         assertEquals(expected, actual);
-
     }
 }

@@ -34,6 +34,7 @@ pipeline {
    post {
       failure {
         script {
+            statusComment = "*[${env.JOB_NAME}] <${env.BUILD_URL}|#${env.BUILD_NUMBER}>* Failed"
             def summary = junit testResults: '**/target/surefire-reports/*.xml'
             if (summary && summary.getFailCount > 0 ) {
                 statusComment = "*[${env.JOB_NAME}] <${env.BUILD_URL}|#${env.BUILD_NUMBER}>* failed to build on ${env.GIT_BRANCH} branch."

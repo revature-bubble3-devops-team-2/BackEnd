@@ -10,22 +10,29 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
-
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
-
+@CrossOrigin
 @RequestMapping("/posts")
 public class PostController {
 
     @Autowired
     public PostService postService;
 
+<<<<<<< HEAD
     @NoAuthIn
+=======
+    /**
+     * @param post Post to be added to the database
+     * @param req Authorized token of the profile
+     * @return HTTP created status and the original post when it is added,
+     *          HTTP bad request status and null otherwise
+     */
+>>>>>>> d3ca34a9995da4a605aba5e8e8d9f3406f1983df
     @PostMapping
+    @NoAuthIn
     public ResponseEntity<Post> addPost(@RequestBody Post post, HttpServletRequest req) {
         Post temp = post;
         System.out.println(temp);
@@ -39,6 +46,9 @@ public class PostController {
         }
     }
 
+    /**
+     * @return list of all the Posts
+     */
     @GetMapping
     @ResponseBody
     public List<Post> getAllPosts() {
