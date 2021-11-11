@@ -17,10 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 
 public class AuthAspect {
-<<<<<<< HEAD
 
-
-=======
     private static final Logger logger = LogManager.getLogger(AuthAspect.class);
 
     @Around("execution(* com.revature.controllers.*.*(..))" +
@@ -56,5 +53,5 @@ public class AuthAspect {
         }
         return response;
     }
->>>>>>> 30ac4dc759a3267a85a52f1f85eefd4de5ddd567
+
 }

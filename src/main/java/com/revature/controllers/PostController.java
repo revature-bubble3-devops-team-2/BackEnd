@@ -8,12 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-<<<<<<< HEAD
 import java.util.List;
-=======
+
 import javax.servlet.http.HttpServletRequest;
->>>>>>> f5dcd467814e8794335623cd0bf377d573f3539b
+
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -37,12 +35,9 @@ public class PostController {
         }
     }
 
-<<<<<<< HEAD
-=======
     @GetMapping
     @ResponseBody
     public List<Post> getAllPosts() {
         return postService.getAllPosts();
     }
->>>>>>> 30ac4dc759a3267a85a52f1f85eefd4de5ddd567
 }
