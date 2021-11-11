@@ -30,14 +30,10 @@ public class PostServiceImpl implements PostService{
         }
     }
 
-<<<<<<< HEAD
     @Override
     public List<Post> getAllPosts() {
         return postRepo.findAll();
     }
-
-=======
->>>>>>> f5dcd467814e8794335623cd0bf377d573f3539b
 //    @Override
 //    public int deletePost(Post post) {
 //        return 0;
