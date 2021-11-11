@@ -9,10 +9,4 @@ import java.util.List;
 
 public interface PostRepo extends JpaRepository<Post, Integer> {
 
-//    int deletePost(Post post);
-//    int updatePost(Post post);
-//    List<Post> getAllPosts();
-//    List<Post> getPostByProfile(Profile profile);
-//    List<Post> getPostByFollower(Profile profile);
-//    Post getPostById(int id);
 }
