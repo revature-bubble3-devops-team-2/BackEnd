@@ -22,4 +22,19 @@ public class ProfileServiceImpl implements ProfileService{
     public Profile getProfileByPid(Integer pid) {
         return profileData.getProfileByPid(pid);
     }
+
+    @Override
+    public Profile updateProfile(Profile profile) {
+        Profile targetProfile = profileData.getProfileByPid(profile.getPid());
+        if(profile.getEmail()!=null)
+            targetProfile.setEmail(profile.getEmail());
+        if(profile.getFirstName()!=null)
+            targetProfile.setFirstName(profile.getFirstName());
+        if(profile.getLastName()!=null)
+            targetProfile.setLastName(profile.getLastName());
+        if(profile.getPasskey()!=null)
+            targetProfile.setPasskey(profile.getPasskey());
+        return profileData.save(targetProfile);
+
+    }
 }

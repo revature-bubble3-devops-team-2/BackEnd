@@ -20,26 +20,26 @@ public class Profile {
     @Id
     private int pid;
 
-    @NotNull
+    //@NotNull
     @Column(unique = true)
     @Size(min=3, max = 50)
     private String username;
 
-    @NotNull
+   // @NotNull
     @Size(min=3, max = 50)
     private String passkey;
 
-    @NotNull
+    //@NotNull
     @Column(name = "firstname")
     @Size(min=3, max = 50)
     private String firstName;
 
-    @NotNull
+    //@NotNull
     @Column(name = "lastname")
     @Size(min=3, max = 50)
     private String lastName;
 
-    @NotNull
+    //@NotNull
     @Column(unique = true)
     @Size(min=3, max = 50)
     private String email;

@@ -31,4 +31,14 @@ public class ProfileController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    @PutMapping("/profiles/{id}")
+    public ResponseEntity<Profile> updateProfile(@RequestBody Profile profile){
+        Profile result = profileService.updateProfile(profile);
+        if(result!=null){
+            return new ResponseEntity<>(result, HttpStatus.ACCEPTED);
+        }else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 }
