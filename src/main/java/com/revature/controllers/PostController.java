@@ -1,5 +1,4 @@
 package com.revature.controllers;
-
 import com.revature.aspects.annotations.NoAuthIn;
 import com.revature.models.Post;
 import com.revature.models.Profile;
@@ -20,7 +19,6 @@ public class PostController {
     @Autowired
     public PostService postService;
 
-
     /**
      * @param post Post to be added to the database
      * @param req Authorized token of the profile
@@ -32,7 +30,6 @@ public class PostController {
     @NoAuthIn
     public ResponseEntity<Post> addPost(@RequestBody Post post, HttpServletRequest req) {
         Post temp = post;
-        System.out.println(temp);
         //temp.setCreator((Profile) req.getAttribute("creator"));
         temp.setPsid(SecurityUtil.getId());
         Post check = postService.addPost(temp);
