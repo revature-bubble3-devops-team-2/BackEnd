@@ -1,4 +1,4 @@
-package com.revature.aspects.annotaions;
+package com.revature.aspects.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
