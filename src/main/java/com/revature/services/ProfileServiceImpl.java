@@ -1,7 +1,8 @@
 package com.revature.services;
 
-import com.revature.data.ProfileData;
+
 import com.revature.models.Profile;
+import com.revature.repositories.ProfileRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +12,7 @@ import java.util.concurrent.ExecutionException;
 public class ProfileServiceImpl implements ProfileService {
 
     @Autowired
-    private ProfileData profileData;
+    private ProfileRepo profileRepo;
 
     public ProfileServiceImpl() {
     }
@@ -19,7 +20,7 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public Profile addNewProfile(Profile profile) {
         try {
-            profileData.save(profile);
+            profileRepo.save(profile);
             return profile;
         } catch (Exception e) {
             return null;

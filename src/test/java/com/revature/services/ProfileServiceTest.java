@@ -1,7 +1,8 @@
 package com.revature.services;
 
-import com.revature.data.ProfileData;
+
 import com.revature.models.Profile;
+import com.revature.repositories.ProfileRepo;
 import com.revature.utilites.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -18,7 +19,7 @@ import java.io.IOException;
 
 public class ProfileServiceTest {
     @Mock
-    ProfileData profileRepo;
+    ProfileRepo profileRepo;
     @InjectMocks
     private  ProfileService profileService = new ProfileServiceImpl();
 
