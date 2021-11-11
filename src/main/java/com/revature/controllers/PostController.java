@@ -20,22 +20,16 @@ public class PostController {
 
     @Autowired
     public PostService postService;
-
-<<<<<<< HEAD
-    @NoAuthIn
-=======
     /**
      * @param post Post to be added to the database
      * @param req Authorized token of the profile
      * @return HTTP created status and the original post when it is added,
      *          HTTP bad request status and null otherwise
      */
->>>>>>> d3ca34a9995da4a605aba5e8e8d9f3406f1983df
     @PostMapping
     @NoAuthIn
     public ResponseEntity<Post> addPost(@RequestBody Post post, HttpServletRequest req) {
         Post temp = post;
-        System.out.println(temp);
         //temp.setCreator((Profile) req.getAttribute("creator"));
         temp.setPsid(SecurityUtil.getId());
         Post check = postService.addPost(temp);
