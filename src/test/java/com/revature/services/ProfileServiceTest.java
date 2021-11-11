@@ -1,7 +1,7 @@
 package com.revature.services;
 
-import com.revature.data.ProfileData;
 import com.revature.models.Profile;
+import com.revature.repositories.ProfileRepo;
 import com.revature.utilites.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -18,7 +18,7 @@ import java.io.IOException;
 
 public class ProfileServiceTest {
     @Mock
-    ProfileData profileRepo;
+    ProfileRepo profileRepo;
     @InjectMocks
     private  ProfileService profileService = new ProfileServiceImpl();
 
@@ -61,6 +61,15 @@ public class ProfileServiceTest {
         System.out.println(test2);
         assertEquals(profile, test2);
 
+   }
+   @Test
+    public void getProfileByUser()
+   {
+       Profile profile = new Profile(1,"bob","pass","bob","bob","bob");
+
+       Profile test2 = profileService.getProfileByEmail(profile);
+
+       assertEquals(profile,test2);
    }
 
 }

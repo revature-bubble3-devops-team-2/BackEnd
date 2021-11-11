@@ -1,8 +1,9 @@
 package com.revature.controllers;
 
-import com.revature.data.PostData;
+
 import com.revature.models.Post;
 import com.revature.models.Profile;
+import com.revature.repositories.PostRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,7 @@ import java.util.List;
 public class PostController {
 
     @Autowired
-    PostData postData;
+    PostRepo postRepo;
     @Autowired
     Post post;
     @Autowired
@@ -24,7 +25,7 @@ public class PostController {
 
     @GetMapping("/post")
     public ResponseEntity<List<Post>> getAllPost() {
-        return new ResponseEntity<>(postData.getPost(post), HttpStatus.OK);
+        return new ResponseEntity<>(postRepo.getall(), HttpStatus.OK);
     }
 }
 
