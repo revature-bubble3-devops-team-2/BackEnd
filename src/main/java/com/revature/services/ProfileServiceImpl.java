@@ -17,4 +17,9 @@ public class ProfileServiceImpl implements ProfileService{
     public Profile addNewProfile(Profile profile) {
         return profileData.save(profile);
     }
+
+    @Override
+    public Profile getProfileByPid(Integer pid) {
+        return profileData.getProfileByPid(pid);
+    }
 }

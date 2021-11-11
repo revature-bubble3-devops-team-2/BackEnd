@@ -6,21 +6,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-@Controller
+@RestController
+@CrossOrigin
 public class ProfileController {
 
     @Autowired
     public ProfileService profileService;
 
     @PostMapping("/profiles")
-    @ResponseBody
     public ResponseEntity<Profile> addNewProfile(@Valid @RequestBody Profile profile){
         return new ResponseEntity<>(profileService.addNewProfile(profile), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/profiles/{id}")
+    public ResponseEntity<Profile> getProfileByPid(@PathVariable("id")int id){
+        Profile profile = profileService.getProfileByPid(id);
+        if(profile!=null){
+            return new ResponseEntity<>(profile, HttpStatus.ACCEPTED);
+        }else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 }
