@@ -2,7 +2,6 @@ package com.revature.repositories;
 
 import com.revature.models.Post;
 import com.revature.models.Profile;
-import com.revature.services.PostServiceImpl;
 import com.revature.utilites.HibernateUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,10 +10,8 @@ import org.hibernate.Transaction;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.FileReader;
 import java.io.IOException;
