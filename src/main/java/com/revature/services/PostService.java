@@ -2,7 +2,10 @@ package com.revature.services;
 
 import com.revature.models.Post;
 
+import java.util.List;
+
 public interface PostService {
     public Post addPost(Post post);
-    public int deletePost(Post post);
+    public List<Post> getAllPosts();
+    //public int deletePost(Post post);
 }

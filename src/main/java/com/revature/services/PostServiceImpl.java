@@ -5,6 +5,8 @@ import com.revature.repositories.PostRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PostServiceImpl implements PostService{
 
@@ -29,7 +31,12 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
-    public int deletePost(Post post) {
-        return 0;
+    public List<Post> getAllPosts() {
+        return postRepo.findAll();
     }
+
+//    @Override
+//    public int deletePost(Post post) {
+//        return 0;
+//    }
 }

@@ -8,8 +8,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:4200")
+
 @RequestMapping("/posts")
 public class PostController {
 
@@ -26,5 +29,11 @@ public class PostController {
         } else {
             return new ResponseEntity<>(check, HttpStatus.CREATED);
         }
+    }
+
+    @GetMapping
+    @ResponseBody
+    public List<Post> getAllPosts() {
+        return postService.getAllPosts();
     }
 }
