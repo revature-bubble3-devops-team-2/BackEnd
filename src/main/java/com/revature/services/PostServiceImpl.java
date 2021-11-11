@@ -17,10 +17,10 @@ public class PostServiceImpl implements PostService{
     public PostRepo postData;
 
 
-    @Override
-    public List<Post> getAllPost() {
-        return  postData.findAll();
-    }
+//    @Override
+//    public List<Post> getAllPost() {
+//        return  postData.findAll();
+//    }
 
 
 }

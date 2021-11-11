@@ -19,7 +19,7 @@ public class Post {
 
     @Autowired
     @ManyToOne
-    @JoinColumn(name = "profile_id", nullable = false)
+    @JoinColumn(name = "pid", nullable = false)
     private Profile creator;
 
     @Column

@@ -7,5 +7,7 @@ create table Profile (
 	firstName varchar(50) not null,
 	lastName varchar(50) not null,
 	email varchar(50) unique not null
-)
+);
+
+insert into Profile (pid,username,passkey,firstName,lastName,email) values (1,'user','123','f','l','em');
 

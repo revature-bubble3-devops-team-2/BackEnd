@@ -7,8 +7,6 @@ import com.revature.models.Profile;
 import java.util.List;
 
 public interface PostService {
-    public List<Post> getAllPost();
-
-
+//    public List<Post> getAllPost();
 
 }

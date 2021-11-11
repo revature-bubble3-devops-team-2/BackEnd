@@ -9,9 +9,11 @@ import org.junit.jupiter.api.*;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import static org.mockito.Mockito.when;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.awt.*;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -52,22 +54,19 @@ public class ProfileServiceTest {
         profile.setUsername("SBob");
         profile.setPasskey("secret");
 
-        Profile test2 =profileService.addNewProfile(profile);
-
-        System.out.println("Profile output: ");
-        System.out.println(profile);
-
-        System.out.println("test2 output: ");
-        System.out.println(test2);
-        assertEquals(profile, test2);
+        when(profileRepo.save(profile)).thenReturn(profile);
+        assertEquals(profile, profileService.addNewProfile(profile));
 
    }
    @Test
     public void getProfileByUser()
    {
-       Profile profile = new Profile(1,"bob","pass","bob","bob","bob");
-
+       Profile profile = new Profile(1,"user","1234","f","l","em");
+//       System.out.println("profile" + profile);
+//       when(profileRepo.getProfileByEmail("em")).thenReturn(profileService.getProfileByEmail(profile));
+//       when(profileService.getProfileByEmail(profile)).thenReturn(profileRepo.getProfileByEmail(profile.getEmail()));
        Profile test2 = profileService.getProfileByEmail(profile);
+       System.out.println("test"+test2);
 
        assertEquals(profile,test2);
    }

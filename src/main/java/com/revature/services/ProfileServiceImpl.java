@@ -16,22 +16,24 @@ public class ProfileServiceImpl implements ProfileService {
     public ProfileServiceImpl() {
     }
 
+    // Add User Profile into the Database
+
     @Override
     public Profile addNewProfile(Profile profile) {
         try {
-            profileRepo.save(profile);
-            return profile;
+            return profileRepo.save(profile);
         } catch (Exception e) {
             return null;
         }
 
     }
 
+    //Gets User Profile by Email in the Database
+
     @Override
     public Profile getProfileByEmail(Profile profile) {
        try{
-           profileRepo.getProfileByEmail(profile.getEmail());
-           return profile;
+           return profileRepo.getProfileByEmail(profile.getEmail());
        }catch (Exception e)
        {
            return null;
