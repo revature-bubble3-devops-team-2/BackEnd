@@ -1,6 +1,8 @@
+
 package com.revature.utilites;
 
 import com.revature.models.*;
+import org.apache.maven.model.Model;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -28,8 +30,7 @@ public class HibernateUtil {
             sessionFactory = new Configuration()
                     .setProperties(settings)
                     .addAnnotatedClass(Profile.class)
-                    .addAnnotatedClass(Post.class)
-                    .addAnnotatedClass(Comment.class)
+                    //      .addAnnotatedClass(AuthorizationSession.class)
                     .buildSessionFactory();
         }
         return sessionFactory;

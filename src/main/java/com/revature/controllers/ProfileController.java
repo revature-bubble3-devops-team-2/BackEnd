@@ -6,20 +6,36 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
 
-@RestController
-@CrossOrigin
+@Controller
 public class ProfileController {
 
     @Autowired
     public ProfileService profileService;
 
     @PostMapping("/profiles")
+    @ResponseBody
     public ResponseEntity<Profile> addNewProfile(@Valid @RequestBody Profile profile){
-        return new ResponseEntity<>(profileService.addNewProfile(profile), HttpStatus.CREATED);
+        System.out.println("profile" + profile);
+        Profile returnedUser = profileService.getProfileByEmail(profile);
+        System.out.println("returned" + returnedUser);
+        if(returnedUser == null){
+            HttpHeaders responseHeaders = new HttpHeaders();
+            String token = SecurityUtil.generateToken(profile);
+            responseHeaders.set("Authorization" , token);
+            responseHeaders.set("Access-Control-Expose-Headers", "Authorization");
+            return new ResponseEntity<>(profileService.addNewProfile(profile),responseHeaders, HttpStatus.CREATED);
+
+        }
+        else {
+            return new ResponseEntity<>(HttpStatus.IM_USED);
+        }
+
     }
 
     @GetMapping("/profiles/{id}")
