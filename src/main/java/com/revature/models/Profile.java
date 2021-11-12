@@ -3,7 +3,6 @@ package com.revature.models;
 import com.revature.utilites.SecurityUtil;
 import lombok.*;
 import org.springframework.stereotype.Component;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -32,10 +31,12 @@ public class Profile {
     private String lastName;
 
     @Column(name="email")
+
     private String email;
 
 
     public Profile() {
         pid = SecurityUtil.getId();
     }
+
 }
