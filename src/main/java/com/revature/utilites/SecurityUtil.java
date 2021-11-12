@@ -42,6 +42,7 @@ public class SecurityUtil {
      * Generates a string used to hash passwords
      * @return a base 64 encoded string
      */
+
     private static String generateSalt() {
         byte[] salt = new byte[SALT_LENGTH];
         SECURE_RANDOM.nextBytes(salt);

@@ -1,6 +1,6 @@
-drop table if exists Profile cascade;
+drop table if exists profile cascade;
 
-create table Profile (
+create table profile (
 	pid int primary key,
 	username varchar(50) unique not null,
 	passkey text not null,
@@ -9,5 +9,5 @@ create table Profile (
 	email varchar(50) unique not null
 );
 
-insert into Profile (pid,username,passkey,firstName,lastName,email) values (1,'user','123','f','l','em');
+insert into Profile (pid,username,passkey,firstName,lastName,email) values (1,'pepe','123','f','l','em');
 

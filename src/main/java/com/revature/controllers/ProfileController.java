@@ -17,7 +17,15 @@ import javax.validation.Valid;
 public class ProfileController {
 
     @Autowired
-    public ProfileService profileService;
+    private ProfileService profileService;
+    /**
+     * Post request that gets client profile registration info and then checks to see if information is not
+     *      a duplicate in the database. If info is not a duplicate, it sets Authorization headers
+     *      and calls profile service to add the request body profile to the database.
+     * @PARAM Profile
+     * @return aobject name profile, response header, Status code okay
+     */
+
 
     @PostMapping("/profiles")
     @ResponseBody
