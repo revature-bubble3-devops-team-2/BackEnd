@@ -68,7 +68,7 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.7.0</version>
+            <version>5.7.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -126,8 +126,8 @@
                 <configuration>
                     <environmentVariables>
                         <DB_URL>jdbc:h2:~/test</DB_URL>
-                        <DB_User></DB_User>
-                        <DB_Password></DB_Password>
+                        <DB_USER></DB_USER>
+                        <DB_PASS></DB_PASS>
                         <DB_DRIVER>org.h2.Driver</DB_DRIVER>
                         <DB_DIALECT>org.hibernate.dialect.H2Dialect</DB_DIALECT>
                     </environmentVariables>

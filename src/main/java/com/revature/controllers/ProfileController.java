@@ -40,7 +40,7 @@ public class ProfileController {
     }
 
     /**
-     * creates response from toekn and profile for response in login
+     * aggregtes response from token and profile for response in login
      */
     private class ReturnValues{
         String token;

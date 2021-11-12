@@ -26,9 +26,11 @@ public class ProfileServiceImpl implements ProfileService{
         return null;
     }
 
-    //currently unused
+    /*
+currently unused
     public Profile getProfileById(int pid)
     {
         return null;
     }
+*/
 }
