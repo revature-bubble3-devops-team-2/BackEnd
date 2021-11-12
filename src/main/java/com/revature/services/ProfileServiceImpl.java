@@ -55,11 +55,21 @@ public class ProfileServiceImpl implements ProfileService {
        }
     }
 
+    /**
+     * Gets User Profile by ID in database
+     * @param pid
+     * @return profile object from database.
+     */
     @Override
     public Profile getProfileByPid(Integer pid) {
         return profileRepo.getProfileByPid(pid);
     }
 
+    /**
+     *
+     * @param profile
+     * @return updated profile if it exists otherwise return null.
+     */
     @Override
     public Profile updateProfile(Profile profile) {
             Profile targetProfile = profileRepo.getProfileByPid(profile.getPid());

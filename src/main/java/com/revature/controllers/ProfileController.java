@@ -18,6 +18,7 @@ public class ProfileController {
 
     @Autowired
     private ProfileService profileService;
+
     /**
      * Post request that gets client profile registration info and then checks to see if information is not
      *      a duplicate in the database. If info is not a duplicate, it sets Authorization headers
@@ -26,9 +27,7 @@ public class ProfileController {
      * @return aobject name profile, response header, Status code okay
      */
 
-
     @PostMapping("/profiles")
-    @ResponseBody
     public ResponseEntity<Profile> addNewProfile(@Valid @RequestBody Profile profile){
         System.out.println("profile" + profile);
         Profile returnedUser = profileService.getProfileByEmail(profile);
@@ -47,6 +46,11 @@ public class ProfileController {
 
     }
 
+    /**
+     * Get Mapping that grabs the profile by the path variable id. It then returns the profile if it is valid.
+     * @param id
+     * @return Profile object with HttpStatusAccepted or HttpStatusBackRequest
+     */
     @GetMapping("/profiles/{id}")
     public ResponseEntity<Profile> getProfileByPid(@PathVariable("id")int id){
         Profile profile = profileService.getProfileByPid(id);
@@ -57,6 +61,11 @@ public class ProfileController {
         }
     }
 
+    /**
+     * Put mapping grabs the updated fields of profile and updates the profile in the database.
+     * @param profile
+     * @return Updated profile with HttpStatus.ACCEPTED otherwise if invalid returns HttpStatus.BAD_REQUEST
+     */
     @PutMapping("/profiles/{id}")
     public ResponseEntity<Profile> updateProfile(@RequestBody Profile profile){
         Profile result = profileService.updateProfile(profile);
