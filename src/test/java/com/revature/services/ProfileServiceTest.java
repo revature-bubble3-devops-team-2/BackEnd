@@ -31,8 +31,11 @@ public class ProfileServiceTest {
 
     private static final Logger logger = LogManager.getLogger(ProfileServiceTest.class);
 
+    //private  ProfileServiceImpl profileService;
+
     @Mock
     ProfileRepo profileRepo;
+
     @InjectMocks
     private  ProfileServiceImpl profileService;
 
@@ -41,23 +44,33 @@ public class ProfileServiceTest {
         MockitoAnnotations.openMocks(this);
     }
 
-    @BeforeAll
-    static void setup() {
-        try(Session session = HibernateUtil.getSession()) {
-            Transaction transaction = session.beginTransaction();
-            char[] buf = new char[1400];
-            int i = new FileReader("src/test/resources/profile_setup.sql").read(buf);
-            if (i==0) System.exit(i);
-            session.createSQLQuery(String.valueOf(buf).trim()).executeUpdate();
-            transaction.commit();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     @Test
     public void testGetExistingProfile(){
         Profile expected = new Profile(1,"test","1234","test","test","test@mail");
+        when(profileRepo.getProfileByPid(1)).thenReturn(expected);
         assertEquals(expected, profileService.getProfileByPid(1));
+    }
+
+    @Test
+    public void testGetInvalidProfile(){
+        when(profileRepo.getProfileByPid(1)).thenReturn(null);
+        assertEquals(null, profileService.getProfileByPid(1));
+    }
+
+    @Test
+    public void testUpdateExistingProfile(){
+        Profile expected = new Profile(1,"test","1234","updateTest","updateTest","test@mail");
+        Profile old = new Profile(1,"test","1234","test","test","test@mail");
+        when(profileRepo.getProfileByPid(1)).thenReturn(old);
+        when(profileRepo.save(old)).thenReturn(old);
+        assertEquals(expected, profileService.updateProfile(expected));
+    }
+
+    @Test
+    public void testUpdateInvalidProfile(){
+        Profile profile = new Profile(1,"test","1234","updateTest","updateTest","test@mail");
+        when(profileRepo.getProfileByPid(1)).thenReturn(null);
+        when(profileRepo.save(null)).thenReturn(null);
+        assertEquals(null, profileService.updateProfile(profile));
     }
 }
