@@ -30,20 +30,20 @@ public class ProfileServiceTest {
         MockitoAnnotations.openMocks(this);
     }
 
-//    @BeforeAll
-//    static void Hibernate() {
-//        try(Session session = HibernateUtil.getSession()) {
-//            Transaction transaction = session.beginTransaction();
-//            char[] buf = new char[1400];
-//            int i = new FileReader("src/test/resources/testdatabase.sql").read(buf);
-//            if (i==0) System.exit(i);
-//            session.createSQLQuery(String.valueOf(buf).trim()).executeUpdate();
-//            transaction.commit();
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    @BeforeAll
+    static void Hibernate() {
+        try(Session session = HibernateUtil.getSession()) {
+            Transaction transaction = session.beginTransaction();
+            char[] buf = new char[1400];
+            int i = new FileReader("src/test/resources/testdatabase.sql").read(buf);
+            if (i==0) System.exit(i);
+            session.createSQLQuery(String.valueOf(buf).trim()).executeUpdate();
+            transaction.commit();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Test
     public void addnewProfile()

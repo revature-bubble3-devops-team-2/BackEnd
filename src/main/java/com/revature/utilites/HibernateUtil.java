@@ -21,7 +21,7 @@ public class HibernateUtil {
             settings.put(Environment.DRIVER, System.getenv("DB_DRIVER"));
             settings.put(Environment.URL, System.getenv("DB_URL"));
             settings.put(Environment.USER, System.getenv("DB_User"));
-            settings.put(Environment.PASS, System.getenv("DB_Password"));
+            settings.put(Environment.PASS, System.getenv("DB_Pass"));
             settings.put(Environment.DIALECT, System.getenv("DB_DIALECT"));
 
             settings.put(Environment.SHOW_SQL, "true");
