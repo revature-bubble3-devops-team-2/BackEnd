@@ -111,7 +111,7 @@ public class ProfileServiceTest {
         Profile actual = pr.findProfileByEmail((null));
         assertNull(actual);
     }
-    
+
     @Test
     void testFindProfileByEmailSuccessBadEntry(){
         when(pr.findProfileByEmail("FloppyDisk")).thenReturn(null);

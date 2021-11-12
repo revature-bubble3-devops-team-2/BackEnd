@@ -2,9 +2,7 @@ package com.revature.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.revature.utilites.SecurityUtil;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.stereotype.Component;
 import javax.persistence.*;
 import java.util.Objects;
@@ -12,14 +10,13 @@ import java.util.Objects;
 @Component
 @Entity
 @Table(name = "profile")
+@Getter @Setter @AllArgsConstructor @ToString @EqualsAndHashCode
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class Profile {
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "profileId")
-    private int profileId;
+    @Column(name = "profile_id")
+    private int pid;
 
     @Column(name = "username",
             columnDefinition = "TEXT",
@@ -34,12 +31,12 @@ public class Profile {
     @JsonIgnore
     private String passkey;
 
-    @Column(name = "firstName",
+    @Column(name = "first_name",
             columnDefinition = "TEXT",
             nullable = false)
     private String firstName;
 
-    @Column(name = "lastName",
+    @Column(name = "last_name",
             columnDefinition = "TEXT",
             nullable = false)
     private String lastName;
@@ -50,4 +47,7 @@ public class Profile {
             unique = true)
     private String email;
 
+    public Profile() {
+        pid = SecurityUtil.getId();
+    }
 }
