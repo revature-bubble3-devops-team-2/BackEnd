@@ -1,9 +1,5 @@
 package com.revature.controllers;
-<<<<<<< HEAD
-import com.revature.aspects.annotations.NoAuthIn;
-=======
 
->>>>>>> 7caec053fd01ddef5bbc190c123085df0c4fb10a
 import com.revature.models.Post;
 import com.revature.models.Profile;
 import com.revature.services.PostService;
@@ -36,7 +32,6 @@ public class PostController {
      * @return HTTP created status and the original post when it is added,
      *          HTTP bad request status and null otherwise
      */
-
     @PostMapping
     public ResponseEntity<Post> addPost(@RequestBody Post post, HttpServletRequest req) {
         Post temp = post;

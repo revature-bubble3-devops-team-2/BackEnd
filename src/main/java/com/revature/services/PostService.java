@@ -7,7 +7,4 @@ import java.util.List;
 public interface PostService {
     public Post addPost(Post post);
     public List<Post> getAllPosts();
-
-    //public int deletePost(Post post);
-
 }
