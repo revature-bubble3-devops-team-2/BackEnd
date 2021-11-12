@@ -2,6 +2,8 @@ def discordurl = "https://discord.com/api/webhooks/908092496905637938/kTyL4F8Kdv
 pipeline {
    agent any
 
+    options disableConcurrentBuilds()
+
    stages {
       stage('checkout') {
           steps {
