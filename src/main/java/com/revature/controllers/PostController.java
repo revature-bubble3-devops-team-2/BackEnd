@@ -1,3 +1,4 @@
+package com.revature.controllers;
 
 import com.revature.models.Post;
 import com.revature.models.Profile;
