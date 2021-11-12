@@ -2,7 +2,6 @@
 package com.revature.utilites;
 
 import com.revature.models.*;
-import org.apache.maven.model.Model;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -20,8 +19,8 @@ public class HibernateUtil {
             Properties settings = new Properties();
             settings.put(Environment.DRIVER, System.getenv("DB_DRIVER"));
             settings.put(Environment.URL, System.getenv("DB_URL"));
-            settings.put(Environment.USER, System.getenv("DB_User"));
-            settings.put(Environment.PASS, System.getenv("DB_Password"));
+            settings.put(Environment.USER, System.getenv("DB_USER"));
+            settings.put(Environment.PASS, System.getenv("DB_PASS"));
             settings.put(Environment.DIALECT, System.getenv("DB_DIALECT"));
 
             settings.put(Environment.SHOW_SQL, "true");
@@ -30,7 +29,8 @@ public class HibernateUtil {
             sessionFactory = new Configuration()
                     .setProperties(settings)
                     .addAnnotatedClass(Profile.class)
-                    //      .addAnnotatedClass(AuthorizationSession.class)
+                    .addAnnotatedClass(Post.class)
+                    .addAnnotatedClass(Comment.class)
                     .buildSessionFactory();
         }
         return sessionFactory;

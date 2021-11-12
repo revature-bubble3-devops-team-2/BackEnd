@@ -42,12 +42,12 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     public Profile getProfileByPid(Integer pid) {
-        return profileData.getProfileByPid(pid);
+        return profileRepo.getProfileByPid(pid);
     }
 
     @Override
     public Profile updateProfile(Profile profile) {
-        Profile targetProfile = profileData.getProfileByPid(profile.getPid());
+        Profile targetProfile = profileRepo.getProfileByPid(profile.getPid());
         if(profile.getEmail()!=null)
             targetProfile.setEmail(profile.getEmail());
         if(profile.getFirstName()!=null)
@@ -56,7 +56,7 @@ public class ProfileServiceImpl implements ProfileService {
             targetProfile.setLastName(profile.getLastName());
         if(profile.getPasskey()!=null)
             targetProfile.setPasskey(profile.getPasskey());
-        return profileData.save(targetProfile);
+        return profileRepo.save(targetProfile);
 
     }
 }

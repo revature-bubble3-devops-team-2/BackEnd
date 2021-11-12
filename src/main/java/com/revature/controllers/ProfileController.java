@@ -2,17 +2,17 @@ package com.revature.controllers;
 
 import com.revature.models.Profile;
 import com.revature.services.ProfileService;
+import com.revature.utilites.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-@Controller
+@RestController
 public class ProfileController {
 
     @Autowired
