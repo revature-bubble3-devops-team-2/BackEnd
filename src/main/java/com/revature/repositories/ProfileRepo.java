@@ -1,4 +1,5 @@
 package com.revature.repositories;
 
-public class ProfileRepo {
+public class
+ProfileRepo {
 }
