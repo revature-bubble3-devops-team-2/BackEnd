@@ -16,7 +16,7 @@ public class ProfileServiceImpl implements ProfileService {
     public ProfileServiceImpl() {
     }
 
-    // Add User Profile into the Database
+    /** Add User Profile into the Database */
 
     @Override
     public Profile addNewProfile(Profile profile) {
@@ -28,7 +28,7 @@ public class ProfileServiceImpl implements ProfileService {
 
     }
 
-    //Gets User Profile by Email in the Database
+    /** Gets User Profile by Email in the Database */
 
     @Override
     public Profile getProfileByEmail(Profile profile) {
