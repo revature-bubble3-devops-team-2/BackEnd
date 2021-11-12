@@ -11,12 +11,5 @@ import java.util.List;
 @Repository
 public interface ProfileRepo extends JpaRepository<Profile, Integer> {
 
-    /**
-     * queries the database for profile using email as the input
-     *
-     * @param email
-     * @return a user profile
-     */
-    @Query("SELECT p FROM Profile p WHERE p.email = ?1")
-    Profile findProfileByEmail(String email);
+    public Profile getProfileByEmail(String email);
 }

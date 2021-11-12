@@ -1,5 +1,7 @@
 package com.revature.services;
 
+
+
 import com.revature.models.Post;
 import com.revature.repositories.PostRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,3 +48,4 @@ public class PostServiceImpl implements PostService{
         return postRepo.findAll();
     }
 }
+

@@ -9,4 +9,7 @@ public interface ProfileService {
 
 //    Profile getProfileById(int pid);
 
+
+    public Profile addNewProfile(Profile profile);
+    public Profile getProfileByEmail(Profile profile);
 }

@@ -19,7 +19,7 @@ public class ProfileServiceImpl implements ProfileService{
      * @return a user profile
      */
     public Profile login(String email, String password){
-        Profile profile = profileRepo.findProfileByEmail(email);
+        Profile profile = profileRepo.getProfileByEmail(email);
         if(profile != null && SecurityUtil.isPassword(password,profile.getPasskey())){
             return profile;
         }
@@ -33,4 +33,40 @@ currently unused
         return null;
     }
 */
+
+    public ProfileServiceImpl() {
+    }
+
+
+    /**
+     * Add User Profile into the Database
+     * @param profile
+     * @return a big fat load of object
+     *
+     */
+    @Override
+    public Profile addNewProfile(Profile profile) {
+        try {
+            return profileRepo.save(profile);
+        } catch (Exception e) {
+            return null;
+        }
+
+    }
+
+
+    /**
+     * Gets User Profile by Email in the Database
+     * @param profile
+     * @return a big fat load of profile object
+     */
+    @Override
+    public Profile getProfileByEmail(Profile profile) {
+       try{
+           return profileRepo.getProfileByEmail(profile.getEmail());
+       }catch (Exception e)
+       {
+           return null;
+       }
+    }
 }

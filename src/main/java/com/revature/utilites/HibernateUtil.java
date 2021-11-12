@@ -1,3 +1,4 @@
+
 package com.revature.utilites;
 
 import com.revature.models.*;
@@ -40,3 +41,4 @@ public class HibernateUtil {
         return getSessionFactory().openSession();
     }
 }
+
