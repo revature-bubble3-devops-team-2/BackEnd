@@ -35,7 +35,7 @@ public class PostController {
     @PostMapping
     public ResponseEntity<Post> addPost(@RequestBody Post post, HttpServletRequest req) {
         Post temp = post;
-        temp.setCreator((Profile) req.getAttribute("creator"));
+        temp.setCreator((Profile) req.getAttribute("profile"));
         temp.setPsid(SecurityUtil.getId());
         Post check = postService.addPost(temp);
         if (check == null) {
