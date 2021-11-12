@@ -16,8 +16,13 @@ public class ProfileServiceImpl implements ProfileService {
     public ProfileServiceImpl() {
     }
 
-    /** Add User Profile into the Database */
 
+    /**
+     * Add User Profile into the Database
+     * @param profile
+     * @return a big fat load of object
+     *
+     */
     @Override
     public Profile addNewProfile(Profile profile) {
         try {
@@ -28,8 +33,12 @@ public class ProfileServiceImpl implements ProfileService {
 
     }
 
-    /** Gets User Profile by Email in the Database */
 
+    /**
+     * Gets User Profile by Email in the Database
+     * @param profile
+     * @return a big fat load of profile object
+     */
     @Override
     public Profile getProfileByEmail(Profile profile) {
        try{
