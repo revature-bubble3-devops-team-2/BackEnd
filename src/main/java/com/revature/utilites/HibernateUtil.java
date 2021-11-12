@@ -2,6 +2,7 @@
 package com.revature.utilites;
 
 import com.revature.models.*;
+import org.apache.maven.model.Model;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -17,7 +18,6 @@ public class HibernateUtil {
         if(sessionFactory == null) {
 
             Properties settings = new Properties();
-
             settings.put(Environment.DRIVER, System.getenv("DB_DRIVER"));
             settings.put(Environment.URL, System.getenv("DB_URL"));
             settings.put(Environment.USER, System.getenv("DB_USER"));
@@ -41,4 +41,3 @@ public class HibernateUtil {
         return getSessionFactory().openSession();
     }
 }
-

@@ -1,5 +1,6 @@
 package com.revature.repositories;
 
+
 import com.revature.models.Profile;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -12,4 +13,7 @@ import java.util.List;
 public interface ProfileRepo extends JpaRepository<Profile, Integer> {
 
     public Profile getProfileByEmail(String email);
+    public Profile getProfileByPid(Integer pid);
+
+
 }

@@ -1,4 +1,4 @@
-package	com.revature.services;
+package com.revature.services;
 
 import	com.revature.models.Profile;
 import	com.revature.repositories.ProfileRepo;
@@ -33,7 +33,7 @@ public class ProfileServiceTest {
     ProfileRepo profileRepo;
 
     @InjectMocks
-    private ProfileServiceImpl profileService;
+    private  ProfileServiceImpl profileService;
 
     @BeforeEach
     void initMock() {
@@ -123,7 +123,7 @@ public class ProfileServiceTest {
 
     @Test
     public void addnewProfile()
-   {
+    {
         Profile profile = new Profile();
         profile.setFirstName("Bob");
         profile.setLastName("Square");
@@ -134,14 +134,45 @@ public class ProfileServiceTest {
         when(profileRepo.save(profile)).thenReturn(profile);
         assertEquals(profile, profileService.addNewProfile(profile));
 
-   }
-   @Test
+    }
+    @Test
     public void getProfileByUser()
-   {
-       Profile profile = new Profile(1,"user","1234","f","l","em");
-       when(profileRepo.getProfileByEmail(profile.getEmail())).thenReturn(profile);
-       Profile actual = profileService.getProfileByEmail(profile);
-       assertEquals(profile,actual);
-   }
+    {
+        Profile profile = new Profile(1,"user","1234","f","l","em");
+        when(profileRepo.getProfileByEmail(profile.getEmail())).thenReturn(profile);
+        Profile actual = profileService.getProfileByEmail(profile);
+        assertEquals(profile,actual);
+    }
 
+    @Test
+    public void testGetExistingProfile(){
+        Profile expected = new Profile(1,"test","1234","test","test","test@mail");
+        when(profileRepo.getProfileByPid(1)).thenReturn(expected);
+        assertEquals(expected, profileService.getProfileByPid(1));
+    }
+
+
+    @Test
+    public void testGetInvalidProfile(){
+        when(profileRepo.getProfileByPid(1)).thenReturn(null);
+        assertEquals(null, profileService.getProfileByPid(1));
+    }
+
+
+    @Test
+    public void testUpdateExistingProfile(){
+        Profile expected = new Profile(1,"test","1234","updateTest","updateTest","test@mail");
+        Profile old = new Profile(1,"test","1234","test","test","test@mail");
+        when(profileRepo.getProfileByPid(1)).thenReturn(old);
+        when(profileRepo.save(old)).thenReturn(old);
+        assertEquals(expected, profileService.updateProfile(expected));
+    }
+
+    @Test
+    public void testUpdateInvalidProfile(){
+        Profile profile = new Profile(1,"test","1234","updateTest","updateTest","test@mail");
+        when(profileRepo.getProfileByPid(1)).thenReturn(null);
+        when(profileRepo.save(null)).thenReturn(null);
+        assertEquals(null, profileService.updateProfile(profile));
+    }
 }
