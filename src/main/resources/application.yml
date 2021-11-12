@@ -1,3 +1,4 @@
+
 server:
   port: 8082
 spring:
@@ -8,3 +9,4 @@ spring:
   jpa:
     show-sql: true
     generate-ddl: false
+

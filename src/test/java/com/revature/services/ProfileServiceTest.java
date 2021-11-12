@@ -63,7 +63,7 @@ public class ProfileServiceTest {
     public void getProfileByUser()
    {
        Profile profile = new Profile(1,"user","1234","f","l","em");
-       when(profileService.getProfileByEmail(profile)).thenReturn(profile);
+       when(profileRepo.getProfileByEmail(profile.getEmail())).thenReturn(profile);
        Profile actual = profileService.getProfileByEmail(profile);
        assertEquals(profile,actual);
    }

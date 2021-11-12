@@ -3,45 +3,37 @@ package com.revature.models;
 import com.revature.utilites.SecurityUtil;
 import lombok.*;
 import org.springframework.stereotype.Component;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.persistence.Table;
 
 @Component
 @Entity
-@Data @AllArgsConstructor
-@Getter @Setter
+@Table(name = "profile")
+@Getter @Setter @AllArgsConstructor @ToString @EqualsAndHashCode
 public class Profile {
 
     @Id
+    @Column (name = "profile_id")
     private int pid;
 
-    @NotNull
-    @Column(unique = true)
-    @Size(min=3, max = 50)
+    @Column (name= "username")
     private String username;
 
-    @NotNull
-    @Size(min=3, max = 50)
+    @Column(name="passkey")
     private String passkey;
 
-    @NotNull
-    @Column(name = "firstname")
-    @Size(min=3, max = 50)
+    @Column(name="first_name")
     private String firstName;
 
-    @NotNull
-    @Column(name = "lastname")
-    @Size(min=3, max = 50)
+    @Column(name="last_name")
     private String lastName;
 
-    @NotNull
-    @Column(unique = true)
-    @Size(min=3, max = 50)
+    @Column(name="email")
+
     private String email;
+
 
     public Profile() {
         pid = SecurityUtil.getId();

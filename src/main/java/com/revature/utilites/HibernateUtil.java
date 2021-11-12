@@ -9,7 +9,6 @@ import org.hibernate.cfg.Environment;
 
 import java.util.Properties;
 
-
 public class HibernateUtil {
 
     private static SessionFactory sessionFactory;
@@ -18,10 +17,11 @@ public class HibernateUtil {
         if(sessionFactory == null) {
 
             Properties settings = new Properties();
+
             settings.put(Environment.DRIVER, System.getenv("DB_DRIVER"));
             settings.put(Environment.URL, System.getenv("DB_URL"));
-            settings.put(Environment.USER, System.getenv("DB_User"));
-            settings.put(Environment.PASS, System.getenv("DB_Pass"));
+            settings.put(Environment.USER, System.getenv("DB_USER"));
+            settings.put(Environment.PASS, System.getenv("DB_PASS"));
             settings.put(Environment.DIALECT, System.getenv("DB_DIALECT"));
 
             settings.put(Environment.SHOW_SQL, "true");
@@ -30,7 +30,8 @@ public class HibernateUtil {
             sessionFactory = new Configuration()
                     .setProperties(settings)
                     .addAnnotatedClass(Profile.class)
-                    //      .addAnnotatedClass(AuthorizationSession.class)
+                    .addAnnotatedClass(Post.class)
+                    .addAnnotatedClass(Comment.class)
                     .buildSessionFactory();
         }
         return sessionFactory;
@@ -40,3 +41,4 @@ public class HibernateUtil {
         return getSessionFactory().openSession();
     }
 }
+
