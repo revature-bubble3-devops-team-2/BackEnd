@@ -9,5 +9,5 @@ create table Profile (
 	email varchar(50) unique not null
 );
 
-insert into Profile (pid,username,passkey,firstName,lastName,email) values (1,'user','123','f','l','em');
+insert into Profile (pid,username,passkey,firstName,lastName,email) values (1,'pepe','123','f','l','em');
 

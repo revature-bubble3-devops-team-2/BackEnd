@@ -9,11 +9,11 @@ import org.junit.jupiter.api.*;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
 import static org.mockito.Mockito.when;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.awt.*;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -21,28 +21,29 @@ import java.io.IOException;
 public class ProfileServiceTest {
     @Mock
     ProfileRepo profileRepo;
+
     @InjectMocks
-    private  ProfileService profileService = new ProfileServiceImpl();
+    private  ProfileServiceImpl profileService;
 
     @BeforeEach
     void initMock() {
         MockitoAnnotations.openMocks(this);
     }
 
-    @BeforeAll
-    static void Hibernate() {
-        try(Session session = HibernateUtil.getSession()) {
-            Transaction transaction = session.beginTransaction();
-            char[] buf = new char[1400];
-            int i = new FileReader("src/test/resources/testdatabase.sql").read(buf);
-            if (i==0) System.exit(i);
-            session.createSQLQuery(String.valueOf(buf).trim()).executeUpdate();
-            transaction.commit();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+//    @BeforeAll
+//    static void Hibernate() {
+//        try(Session session = HibernateUtil.getSession()) {
+//            Transaction transaction = session.beginTransaction();
+//            char[] buf = new char[1400];
+//            int i = new FileReader("src/test/resources/testdatabase.sql").read(buf);
+//            if (i==0) System.exit(i);
+//            session.createSQLQuery(String.valueOf(buf).trim()).executeUpdate();
+//            transaction.commit();
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     @Test
     public void addnewProfile()
@@ -62,13 +63,9 @@ public class ProfileServiceTest {
     public void getProfileByUser()
    {
        Profile profile = new Profile(1,"user","1234","f","l","em");
-//       System.out.println("profile" + profile);
-//       when(profileRepo.getProfileByEmail("em")).thenReturn(profileService.getProfileByEmail(profile));
-//       when(profileService.getProfileByEmail(profile)).thenReturn(profileRepo.getProfileByEmail(profile.getEmail()));
-       Profile test2 = profileService.getProfileByEmail(profile);
-       System.out.println("test"+test2);
-
-       assertEquals(profile,test2);
+       when(profileService.getProfileByEmail(profile)).thenReturn(profile);
+       Profile actual = profileService.getProfileByEmail(profile);
+       assertEquals(profile,actual);
    }
 
 }
