@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 
 public interface ProfileService {
-    Profile login(String email, String password);
+    Profile login(String username, String password);
 
 //    Profile getProfileById(int pid);
 

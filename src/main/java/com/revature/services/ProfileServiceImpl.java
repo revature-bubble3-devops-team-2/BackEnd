@@ -22,12 +22,12 @@ public class ProfileServiceImpl implements ProfileService{
 
     /**
      * processes login request from profile controller
-     * @param email
+     * @param username
      * @param password
      * @return a user profile
      */
-    public Profile login(String email, String password){
-        Profile profile = profileRepo.getProfileByEmail(email);
+    public Profile login(String username, String password){
+        Profile profile = profileRepo.getProfileByUsername(username);
         if(profile != null && SecurityUtil.isPassword(password,profile.getPasskey())){
             return profile;
         }

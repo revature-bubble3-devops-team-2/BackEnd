@@ -63,8 +63,8 @@ public class ProfileServiceTest {
     @Test
     void testLoginSuccess(){
         Profile expected = new Profile(12, "joey", pass, "Joe", "Seph", "a@b.com");
-        when(profileRepo.getProfileByEmail("a@b.com")).thenReturn(expected);
-        Profile actual = profileService.login("a@b.com","abc123");
+        when(profileRepo.getProfileByUsername("joey")).thenReturn(expected);
+        Profile actual = profileService.login("joey","abc123");
         assertEquals(expected,actual);
     }
 
@@ -174,5 +174,10 @@ public class ProfileServiceTest {
         when(profileRepo.getProfileByPid(1)).thenReturn(null);
         when(profileRepo.save(null)).thenReturn(null);
         assertEquals(null, profileService.updateProfile(profile));
+    }
+
+    @Test
+    public void temp(){
+        System.out.println(SecurityUtil.hashPassword("asdf"));
     }
 }
