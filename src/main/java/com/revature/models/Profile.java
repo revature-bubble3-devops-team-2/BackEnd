@@ -18,7 +18,6 @@ import java.util.Objects;
 @Getter @Setter @AllArgsConstructor @ToString
 @Data
 public class Profile {
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "profile_id")
     private int pid;
@@ -33,6 +32,7 @@ public class Profile {
             columnDefinition = "TEXT",
             nullable = false,
             unique = true)
+
     @JsonIgnore
     private String passkey;
 

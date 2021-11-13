@@ -28,19 +28,11 @@ public class ProfileServiceImpl implements ProfileService{
      */
     public Profile login(String username, String password){
         Profile profile = profileRepo.getProfileByUsername(username);
-        if(profile != null && SecurityUtil.isPassword(password,profile.getPasskey())){
+        if (profile != null && SecurityUtil.isPassword(password, profile.getPasskey())) {
             return profile;
         }
         return null;
     }
-
-    /*
-currently unused
-    public Profile getProfileById(int pid)
-    {
-        return null;
-    }
-*/
 
     public ProfileServiceImpl() {
     }

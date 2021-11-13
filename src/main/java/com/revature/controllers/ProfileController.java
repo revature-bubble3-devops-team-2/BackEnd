@@ -34,15 +34,12 @@ public class ProfileController {
      * @return secure token and profile as json
      */
     @PostMapping
-    public ResponseEntity<Profile> login( String username, String password) {
-        System.out.println(username + " " + password);
-
+    @NoAuthIn
+    public ResponseEntity<Profile> login(String username, String password) {
         Profile profile = profileService.login(username,password);
         if(profile != null){
             HttpHeaders headers = new HttpHeaders();
             headers.set("Authorization", SecurityUtil.generateToken(profile));
-
-
             return new ResponseEntity<>(profile, headers, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
