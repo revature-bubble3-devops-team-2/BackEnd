@@ -2,7 +2,13 @@ def discordurl = "https://discord.com/api/webhooks/908092496905637938/kTyL4F8Kdv
 pipeline {
    agent any
 
-    options {disableConcurrentBuilds()}
+   options {disableConcurrentBuilds()}
+
+   environment {
+        DB_URL = "jdbc:postgresql://bubble.cvtq9j4axrge.us-east-1.rds.amazonaws.com:5432/postgres"
+        DB_USER = "postgres"
+        DB_PASS = "Password123!"
+   }
 
    stages {
       stage('checkout') {
@@ -29,7 +35,7 @@ pipeline {
             sh 'mvn -DskipTests package'
         }
       }
-      stage('docker') {
+      stage('docker info') {
         steps {
             sh 'docker info'
         }
