@@ -106,7 +106,7 @@
             <artifactId>cargo-maven3-plugin</artifactId>
             <version>1.9.8</version>
         </dependency>
-<<<<<<< HEAD
+
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
@@ -127,8 +127,7 @@
         </dependency>
 
 
-=======
->>>>>>> dev-create-post
+
     </dependencies>
 
 

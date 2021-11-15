@@ -31,6 +31,7 @@ public class HibernateUtil {
                     .addAnnotatedClass(Profile.class)
                     .addAnnotatedClass(Post.class)
                     .addAnnotatedClass(Comment.class)
+                    .addAnnotatedClass(Like.class)
                     .buildSessionFactory();
         }
         return sessionFactory;
