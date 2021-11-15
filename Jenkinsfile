@@ -48,8 +48,14 @@ pipeline {
       }
       stage('create docker image') {
         steps {
-            sh 'docker build -e fail! -t ${IMAGE_TAG} -f Dockerfile .'
+            sh 'docker build -t ${IMAGE_TAG} -f Dockerfile .'
             discordSend description: ":screwdriver: *Built New Docker Image*", result: currentBuild.currentResult, webhookURL: discordurl
+        }
+      }
+      stage('stop current running container') {
+        steps {
+            sh 'docker stop ${CONTAINER_NAME} || true'
+            discordSend description: ":stop_sign: *Stopped Previous Container*", result: currentBuild.currentResult, webhookURL: discordurl
         }
       }
    }
@@ -71,7 +77,7 @@ pipeline {
             }
         }
         success {
-            discordSend description: "Pipeline successful! All changes properly integrated!", result: currentBuild.currentResult, webhookURL: discordurl
+            discordSend description: ":potable_water: Pipeline successful!", result: currentBuild.currentResult, webhookURL: discordurl
         }
     }
 }
