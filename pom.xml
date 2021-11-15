@@ -34,8 +34,6 @@
             <artifactId>spring-aspects</artifactId>
             <version>5.3.11</version>
         </dependency>
-
-        <!-- Hibernate -->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
@@ -83,17 +81,6 @@
             <version>4.0.0</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>1.4.200</version>
-        </dependency>
-        <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>RELEASE</version>
-            <scope>test</scope>
-        </dependency>
 
         <!-- For Security Utility -->
         <dependency>
@@ -101,59 +88,17 @@
             <artifactId>oauth2-oidc-sdk</artifactId>
             <version>9.18</version>
         </dependency>
-        <dependency>
-            <groupId>org.codehaus.cargo</groupId>
-            <artifactId>cargo-maven3-plugin</artifactId>
-            <version>1.9.8</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>RELEASE</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
-            <version>1.18.8</version>
-        </dependency>
-
-
-
     </dependencies>
 
 
     <build>
         <finalName>Bubble</finalName>
         <plugins>
-            <!-- Allow Spring Boot -->
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-
             <!-- Allow Testing with Maven -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.0.0-M5</version>
-                <configuration>
-                    <environmentVariables>
-                        <DB_URL>jdbc:h2:~/test</DB_URL>
-                        <DB_USER></DB_USER>
-                        <DB_PASS></DB_PASS>
-                        <DB_DRIVER>org.h2.Driver</DB_DRIVER>
-                        <DB_DIALECT>org.hibernate.dialect.H2Dialect</DB_DIALECT>
-                    </environmentVariables>
-                </configuration>
             </plugin>
         </plugins>
     </build>

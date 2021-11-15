@@ -17,7 +17,8 @@ create table post (
 );
 create table likes (
 	post_id int references post(post_id),
-	profile_id int references profile(profile_id)
+    profile_id int references profile(profile_id),
+    primary key (post_id, profile_id)
 );
 
 insert into profile (profile_id, first_name, last_name, email, username, passkey) values

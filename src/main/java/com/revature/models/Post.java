@@ -4,13 +4,14 @@ import com.revature.utilites.SecurityUtil;
 import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import javax.persistence.*;
 import java.sql.Timestamp;
+
 
 @Component
 @Entity @Table(name = "post")
 @Data @AllArgsConstructor
+
 public class Post {
 
     @Id
@@ -35,4 +36,7 @@ public class Post {
         super();
         psid = SecurityUtil.getId();
     }
+
+
 }
+
