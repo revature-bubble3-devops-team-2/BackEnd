@@ -1,6 +1,7 @@
 package com.revature.services;
 
 import com.revature.models.Comment;
+import com.revature.models.Post;
 import com.revature.repositories.CommentRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,5 +26,12 @@ public class CommentServiceImpl implements CommentService {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    @Override
+    public List<Comment> getCommentByPostPsid(Integer psid) {
+        List<Comment> commentList = commentRepo.getCommentByPostPsid(psid);
+        System.out.println(commentList.toString());
+        return commentList;
     }
 }

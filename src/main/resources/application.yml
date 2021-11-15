@@ -1,5 +1,5 @@
 server:
-  port: 8082
+  port: 8090
 spring:
   datasource:
     url: "${DB_URL}"
@@ -7,4 +7,4 @@ spring:
     password: "${DB_PASS}"
   jpa:
     show-sql: false
-    generate-ddl: false
+    generate-ddl: true
