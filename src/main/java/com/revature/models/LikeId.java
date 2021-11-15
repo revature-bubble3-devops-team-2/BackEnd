@@ -3,9 +3,11 @@ package com.revature.models;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.hibernate.annotations.CollectionType;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import java.io.Serializable;
 
@@ -14,9 +16,11 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class LikeId implements Serializable {
 
-    @Column(name = "post_id")
+    @Autowired
+    @JoinColumn(name = "post_id")
     private Post post;
 
-    @Column(name = "profile_id")
+    @Autowired
+    @JoinColumn(name = "profile_id")
     private Profile profile;
 }

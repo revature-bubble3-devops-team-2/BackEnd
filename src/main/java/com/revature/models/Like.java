@@ -20,13 +20,14 @@ public class Like {
     })
     private LikeId likeId;
 
-//    @Autowired
-//    @OneToMany
-//    @JoinColumn(name = "post_id", nullable = false)
-//    private Post post;
-//
-//    @Autowired
-//    @OneToMany
-//    @JoinColumn(name = "profile_id", nullable = false)
-//    private Profile profile;
+    @Autowired
+    @MapsId("post")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "post_id", nullable = false)
+    private Post post;
+
+    @Autowired
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "profile_id", nullable = false)
+    private Profile profile;
 }
