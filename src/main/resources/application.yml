@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 server:
   port: 8082
 spring:
@@ -9,3 +10,15 @@ spring:
   jpa:
     show-sql: true
     generate-ddl: false
+=======
+server:
+  port: 8082
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: password
+  jpa:
+    show-sql: true
+    generate-ddl: false
+>>>>>>> dev-create-post
