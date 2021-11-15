@@ -93,7 +93,7 @@ public class ProfileController {
      * @param id
      * @return Profile object with HttpStatusAccepted or HttpStatusBackRequest
      */
-    @GetMapping("/profiles/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Profile> getProfileByPid(@PathVariable("id")int id){
         Profile profile = profileService.getProfileByPid(id);
         if(profile!=null){
@@ -108,7 +108,7 @@ public class ProfileController {
      * @param profile
      * @return Updated profile with HttpStatus.ACCEPTED otherwise if invalid returns HttpStatus.BAD_REQUEST
      */
-    @PutMapping("/profiles/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Profile> updateProfile(@RequestBody Profile profile){
         Profile result = profileService.updateProfile(profile);
         if(result!=null){

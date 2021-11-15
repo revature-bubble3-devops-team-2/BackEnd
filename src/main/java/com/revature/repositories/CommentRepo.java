@@ -1,4 +1,7 @@
 package com.revature.repositories;
 
-public class CommentRepo {
+import com.revature.models.Comment;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface CommentRepo extends JpaRepository<Comment,Integer> {
 }

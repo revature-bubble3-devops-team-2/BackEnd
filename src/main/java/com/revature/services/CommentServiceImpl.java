@@ -1,32 +1,29 @@
 package com.revature.services;
 
 import com.revature.models.Comment;
+import com.revature.repositories.CommentRepo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+
+@Service
 public class CommentServiceImpl implements CommentService {
-    @Override
-    public List<Comment> getCommentByPost(int postId) {
-        return null;
-    }
+
+    @Autowired
+    CommentRepo commentRepo;
 
     @Override
-    public List<Comment> getCommentByProfile(int profileId) {
-        return null;
-    }
-
-    @Override
-    public Comment createComment(Comment newComment) {
-        return null;
-    }
-
-    @Override
-    public Comment updateComment(Comment updateComment, int id) {
-        return null;
-    }
-
-    @Override
-    public Comment deleteComment(int id) {
-        return null;
+    public Comment addComment(Comment comment) {
+        try {
+            if (comment.getDateCreated()==null|| comment.getWriter()==null) {
+                throw new NullPointerException();
+            }
+           commentRepo.save(comment);
+            return comment;
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

@@ -1,19 +1,17 @@
 package com.revature.models;
 
 import com.revature.utilites.SecurityUtil;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 
 @Component
-@Entity
-@Data
+@Entity @Table(name = "comment")
+@Data @AllArgsConstructor
 public class Comment {
     @Id
     private int cid;
@@ -23,6 +21,9 @@ public class Comment {
 
     @ManyToOne
     private Post post;
+
+    private String cBody;
+
     private Timestamp dateCreated;
 
     @OneToOne
@@ -32,11 +33,4 @@ public class Comment {
         cid = SecurityUtil.getId();
     }
 
-    public Comment(int cid, Profile writer, Post post, Timestamp dateCreated, Comment previous) {
-        this.cid = cid;
-        this.writer = writer;
-        this.post = post;
-        this.dateCreated = dateCreated;
-        this.previous = previous;
-    }
 }
