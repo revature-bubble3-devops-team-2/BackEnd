@@ -8,6 +8,9 @@ pipeline {
         DB_URL = "jdbc:postgresql://bubble.cvtq9j4axrge.us-east-1.rds.amazonaws.com:5432/postgres"
         DB_USER = "postgres"
         DB_PASS = "Password123!"
+        PORT = 8082
+        IMAGE_TAG = "bubbleimg"
+        CONTAINER_TAG = "bubblemain"
    }
 
    stages {
@@ -35,9 +38,9 @@ pipeline {
             sh 'mvn -DskipTests package'
         }
       }
-      stage('docker info') {
+      stage('some more docker readying') {
         steps {
-            sh 'docker info'
+            sh 'env.list'
         }
       }
    }
