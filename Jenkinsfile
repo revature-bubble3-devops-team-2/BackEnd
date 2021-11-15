@@ -31,7 +31,7 @@ pipeline {
         steps {
             discordSend description: ":memo: *Testing ${env.JOB_NAME}*", result: currentBuild.currentResult, webhookURL: discordurl
             sh 'mvn test'
-            testfail = false
+            script {testfail = false}
         }
       }
       stage('package maven jar') {
