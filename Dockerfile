@@ -1,6 +1,5 @@
 FROM openjdk:8
-COPY . **/target/*.jar
-COPY . ../**/dist/*
+COPY **/target/*.jar /usr/src/bubble
 
 ENV DB_USER postgres
 ENV DB_PASS Password123!

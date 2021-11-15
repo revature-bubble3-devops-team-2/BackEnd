@@ -29,6 +29,11 @@ pipeline {
             sh 'mvn -DskipTests package'
         }
       }
+      stage('docker') {
+        steps {
+            sh 'docker info'
+        }
+      }
    }
    post {
       failure {
