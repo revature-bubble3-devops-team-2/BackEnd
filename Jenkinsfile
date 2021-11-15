@@ -11,7 +11,7 @@ pipeline {
         DB_PASS = "Password123!"
         PORT = 8082
         IMAGE_TAG = "bubbleimg"
-        CONTAINER_TAG = "bubblemain"
+        CONTAINER_NAME = "bubblemain"
     }
 
     stages {
@@ -43,19 +43,14 @@ pipeline {
         stage('remove previous docker image') {
             steps {
                 sh 'docker rmi ${IMAGE_TAG} || true'
-                discordSend description: ":axe: *Removed Previous Docker Image*", result: currentBuild.currentResult, webhookURL: discordurl
+                sh 'docker stop ${CONTAINER_NAME} || true'
+                discordSend description: ":axe: *Removed Previous Docker Artifacts*", result: currentBuild.currentResult, webhookURL: discordurl
             }
         }
         stage('create docker image') {
             steps {
                 sh 'docker build -t ${IMAGE_TAG} -f Dockerfile .'
                 discordSend description: ":screwdriver: *Built New Docker Image*", result: currentBuild.currentResult, webhookURL: discordurl
-            }
-        }
-        stage('stop current running container') {
-            steps {
-                sh 'docker stop ${CONTAINER_NAME} || true'
-                discordSend description: ":stop_sign: *Stopped Previous Container*", result: currentBuild.currentResult, webhookURL: discordurl
             }
         }
         stage('create container') {
