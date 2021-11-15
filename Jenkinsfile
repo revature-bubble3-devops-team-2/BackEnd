@@ -56,6 +56,7 @@ pipeline {
         stage('create container') {
             steps {
                 sh 'docker run --env DB_URL --env DB_USER --env DB_PASS -d --rm -p ${PORT}:${PORT} --name ${CONTAINER_NAME} ${IMAGE_TAG} '
+                discordSend description: "https://tenor.com/view/whale-docker-container-gif-12376852", result: currentBuild.currentResult, webhookURL: discordurl
             }
         }
     }
