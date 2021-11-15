@@ -40,7 +40,7 @@ pipeline {
       }
       stage('some more docker readying') {
         steps {
-            sh 'env.list'
+            sh 'echo env.list'
         }
       }
    }
