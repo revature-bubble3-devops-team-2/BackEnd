@@ -18,13 +18,13 @@ public class Like {
 
     @Autowired
     @MapsId("post")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "post_id", nullable = false)
     private Post post;
 
     @Autowired
     @MapsId("profile")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "profile_id", nullable = false)
     private Profile profile;
 

@@ -40,20 +40,6 @@ public class LikeServiceTest {
         MockitoAnnotations.openMocks(this);
     }
 
-    @BeforeAll
-    static void setup() {
-        try(Session session = HibernateUtil.getSession()) {
-            Transaction transaction = session.beginTransaction();
-            char[] buf = new char[1400];
-            int i = new FileReader("src/test/resources/post-setup.sql").read(buf);
-            if (i==0) System.exit(i);
-            session.createSQLQuery(String.valueOf(buf).trim()).executeUpdate();
-            transaction.commit();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     @Test
     void testLikePost(){
         Profile tempProfile = new Profile(2, "profile2", "22", "Two", "LastTwo", "Email2");
