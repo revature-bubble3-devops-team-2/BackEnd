@@ -38,7 +38,7 @@ public class LikeServiceTest {
     @Test
     void testLikePost(){
         Profile tempProfile = new Profile(2, "profile2", "22", "Two", "LastTwo", "Email2");
-        LikeId temp = new LikeId(new Post(3, tempProfile, "Hello World1", null, Timestamp.valueOf(LocalDateTime.now())));
+        LikeId temp = new LikeId(new Post(3, tempProfile, "Hello World1", null, Timestamp.valueOf(LocalDateTime.now())), tempProfile);
         Like expected = new Like(temp);
 
         when(likeRepo.save(expected)).thenReturn(expected);
@@ -50,7 +50,7 @@ public class LikeServiceTest {
     @Test
     void testLikeDelete(){
         Profile tempProfile = new Profile(2, "profile2", "22", "Two", "LastTwo", "Email2");
-        LikeId temp = new LikeId(new Post(3, tempProfile, "Hello World1", null, Timestamp.valueOf(LocalDateTime.now())));
+        LikeId temp = new LikeId(new Post(3, tempProfile, "Hello World1", null, Timestamp.valueOf(LocalDateTime.now())), tempProfile);
 
         likeService.likeDelete(temp);
         likeService.likeDelete(null);
@@ -62,8 +62,8 @@ public class LikeServiceTest {
     @Test
     void testLikeGet(){
         Profile tempProfile = new Profile(2, "profile2", "22", "Two", "LastTwo", "Email2");
-        LikeId temp = new LikeId(new Post(3, tempProfile, "Hello World1", null, Timestamp.valueOf(LocalDateTime.now())));
-        long expected = (long) 1;
+        LikeId temp = new LikeId(new Post(3, tempProfile, "Hello World1", null, Timestamp.valueOf(LocalDateTime.now())), tempProfile);
+        long expected = 1;
 
         when(likeRepo.countByPost(temp.getPost())).thenReturn(expected);
         long actual = likeService.likeDelete(temp);

@@ -29,9 +29,4 @@ public class LikeId implements Serializable {
     public LikeId () {
         super();
     }
-
-    public LikeId (Post post) {
-        this.post = post;
-        this.profile = post.getCreator();
-    }
 }

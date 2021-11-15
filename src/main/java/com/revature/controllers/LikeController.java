@@ -25,7 +25,8 @@ public class LikeController {
     @PostMapping
     @NoAuthIn
     public ResponseEntity<Like> addLike(@RequestBody Post post, HttpServletRequest req) {
-        LikeId likeId = new LikeId(post);
+        Profile temp = new Profile(2, "profile2", "22", "Two", "LastTwo", "Email2");
+        LikeId likeId = new LikeId(post, temp);
         Like check = likeService.likePost(likeId);
         if(check == null) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
@@ -37,7 +38,8 @@ public class LikeController {
     @DeleteMapping
     @NoAuthIn
     public ResponseEntity<Like> removeLike(@RequestBody Post post, HttpServletRequest req) {
-        LikeId likeId = new LikeId(post);
+        Profile temp = new Profile(2, "profile2", "22", "Two", "LastTwo", "Email2");
+        LikeId likeId = new LikeId(post, temp);
         int check = likeService.likeDelete(likeId);
         if (check == -1){
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
@@ -49,7 +51,8 @@ public class LikeController {
     @GetMapping
     @NoAuthIn
     public ResponseEntity<Integer> getLike(@RequestBody Post post, HttpServletRequest req) {
-        LikeId likeId = new LikeId(post);
+        Profile temp = new Profile(2, "profile2", "22", "Two", "LastTwo", "Email2");
+        LikeId likeId = new LikeId(post, temp);
         int result = (int) likeService.likeGet(likeId);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
