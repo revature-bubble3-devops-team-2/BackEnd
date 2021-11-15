@@ -60,7 +60,7 @@ pipeline {
         }
         stage('create container') {
             steps {
-                sh 'docker run -e DB_URL -e DB_USER -e DB_PASS -d --rm -p ${PORT}:${PORT} --name ${CONTAINER_NAME} ${IMAGE_TAG}'
+                sh 'docker run --env DB_URL --env DB_USER --env DB_PASS -d --rm -p ${PORT}:${PORT} --name ${CONTAINER_NAME} ${IMAGE_TAG}'
             }
         }
     }
