@@ -10,17 +10,21 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import java.sql.Timestamp;
 
+
 @Component
 @Entity
 @Data
 public class Comment {
     @Id
     private int cid;
+
     @ManyToOne
     private Profile writer;
+
     @ManyToOne
     private Post post;
     private Timestamp dateCreated;
+
     @OneToOne
     private Comment previous;
 
