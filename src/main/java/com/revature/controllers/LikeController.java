@@ -25,9 +25,8 @@ public class LikeController {
     @PostMapping
     @NoAuthIn
     public ResponseEntity<Like> addLike(@RequestBody Post post, HttpServletRequest req) {
-        Profile tempProfile = new Profile(2, "profile2", "22", "Two", "LastTwo", "Email2");
 
-        LikeId likeId = new LikeId(post, tempProfile);
+        LikeId likeId = new LikeId(post);
         //Like check = likeService.likePost(post, (Profile) req.getAttribute("creator"));
         Like check = likeService.likePost(likeId);
         if(check == null) {
