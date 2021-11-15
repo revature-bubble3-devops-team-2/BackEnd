@@ -64,7 +64,7 @@ pipeline {
                     statusComment += "\n\tFailed ${summary.getFailCount()}, Passed ${summary.getPassCount()}, Skipped ${summary.getSkipCount()}"
                     statusComment += "\nSeems you still have a ways to go hm? :face_with_monocle:"
                 } else {
-                    statusComment = "**${env.JOB_NAME} ended in ${env.currentResult}**"
+                    statusComment = "**${env.JOB_NAME} ended in ${currentBuild.currentResult}**"
                     statusComment += "\n\tCheck the stage that failed for more information"
                 }
                 discordSend description: statusComment, result: currentBuild.currentResult, webhookURL: discordurl
