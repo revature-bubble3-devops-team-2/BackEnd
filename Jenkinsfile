@@ -1,4 +1,4 @@
-def discordurl = "https://discord.com/api/webhooks/908092496905637938/kTyL4F8KdvJfbuOzTdV-u8foJbqRiltJUGYWSbJ65tT61W_AIGGhFva-iuMN-CbYINFH"
+def discordurl = "https://discord.com/api/webhooks/909933014174273566/vcoWU4gdhBvCgyFOSkiw3B0trzsDiaN-_QcyEUWu3q4tvQHLUHFbYomXJr1wL-v6hkPw"
 def testfail = true
 pipeline {
     agent any
@@ -40,7 +40,7 @@ pipeline {
                 discordSend description: ":package: *Packaged ${env.JOB_NAME}*", result: currentBuild.currentResult, webhookURL: discordurl
             }
         }
-        stage('remove previous docker image') {
+        stage('remove previous artifacts') {
             steps {
                 sh 'docker rmi ${IMAGE_TAG} || true'
                 sh 'docker stop ${CONTAINER_NAME} || true'
