@@ -78,7 +78,7 @@ pipeline {
             }
         }
         success {
-            discordSend description: ":potable_water: Pipeline successful!", result: currentBuild.currentResult, webhookURL: discordurl
+            discordSend description: ":potable_water: **Pipeline successful!**", result: currentBuild.currentResult, webhookURL: discordurl
         }
     }
 }
