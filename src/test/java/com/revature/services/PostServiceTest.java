@@ -66,7 +66,7 @@ public class PostServiceTest {
         postService.addPost(tempPost1);
         postService.addPost(tempPost2);
         postService.addPost(tempPost3);
-        when(postService.getAllPosts()).thenReturn(postsListTemp);
+        when(postRepo.findAll()).thenReturn(postsListTemp);
         int actual = postService.getAllPosts().size();
 
         assertEquals(expected, actual);
