@@ -38,9 +38,10 @@ pipeline {
             sh 'mvn -DskipTests package'
         }
       }
-      stage('some more docker readying') {
+      stage('remove previous docker image') {
         steps {
-            sh 'cat env.list'
+            discordSend description: ":axe: *Removing Previous Image*", result: currentBuild.currentResult, webhookURL: discordurl
+            sh 'docker rmi ${IMAGE_TAG} || true'
         }
       }
    }
