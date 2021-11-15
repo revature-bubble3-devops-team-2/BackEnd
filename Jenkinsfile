@@ -17,39 +17,39 @@ pipeline {
    stages {
       stage('checkout') {
           steps {
-            discordSend description: ":cyclone: *Cloning Repo*", result: currentBuild.currentResult, webhookURL: discordurl
             checkout scm
+            discordSend description: ":cyclone: *Cloned Repo*", result: currentBuild.currentResult, webhookURL: discordurl
           }
       }
       stage('clean maven project') {
         steps {
-        discordSend description: ":soap: *Cleaning ${env.JOB_NAME}*", result: currentBuild.currentResult, webhookURL: discordurl
             sh 'mvn clean'
+            discordSend description: ":soap: *Cleaned ${env.JOB_NAME}*", result: currentBuild.currentResult, webhookURL: discordurl
         }
       }
       stage('test maven project') {
         steps {
-            discordSend description: ":memo: *Testing ${env.JOB_NAME}*", result: currentBuild.currentResult, webhookURL: discordurl
             sh 'mvn test'
+            discordSend description: ":memo: *Tested ${env.JOB_NAME}*", result: currentBuild.currentResult, webhookURL: discordurl
             script {testfail = false}
         }
       }
       stage('package maven jar') {
         steps {
-            discordSend description: ":package: *Packaging ${env.JOB_NAME}*", result: currentBuild.currentResult, webhookURL: discordurl
             sh 'mvn -DskipTests package'
+            discordSend description: ":package: *Packaged ${env.JOB_NAME}*", result: currentBuild.currentResult, webhookURL: discordurl
         }
       }
       stage('remove previous docker image') {
         steps {
-            discordSend description: ":axe: *Removing Previous Image*", result: currentBuild.currentResult, webhookURL: discordurl
             sh 'docker rmi ${IMAGE_TAG} || true'
+            discordSend description: ":axe: *Removed Previous Docker Image*", result: currentBuild.currentResult, webhookURL: discordurl
         }
       }
       stage('create docker image') {
         steps {
-            discordSend description: ":screwdriver: *Building Docker Image*", result: currentBuild.currentResult, webhookURL: discordurl
             sh 'docker build -e fail! -t ${IMAGE_TAG} -f Dockerfile .'
+            discordSend description: ":screwdriver: *Built New Docker Image*", result: currentBuild.currentResult, webhookURL: discordurl
         }
       }
    }
