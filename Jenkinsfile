@@ -47,7 +47,7 @@ pipeline {
       stage('create docker image') {
         steps {
             discordSend description: ":screwdriver: *Building Docker Image*", result: currentBuild.currentResult, webhookURL: discordurl
-            sh 'docker build -e DB_URL -e DB_USER -e DB_PASS -t ${IMAGE_TAG} -f Dockerfile .'
+            sh 'docker build -t ${IMAGE_TAG} -f Dockerfile .'
         }
       }
    }
