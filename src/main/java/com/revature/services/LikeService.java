@@ -7,4 +7,5 @@ import com.revature.models.Profile;
 
 public interface LikeService {
     public Like likePost(LikeId likeId);
+    public int likeDelete(LikeId likeId);
 }

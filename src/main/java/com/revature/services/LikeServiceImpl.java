@@ -19,4 +19,14 @@ public class LikeServiceImpl implements LikeService{
         Like like = new Like(likeId);
         return likeRepo.save(like);
     }
+
+    @Override
+    public int likeDelete(LikeId likeId) {
+        try {
+            likeRepo.deleteById(likeId);
+            return 1;
+        } catch(Exception e) {
+            return -1;
+        }
+    }
 }
