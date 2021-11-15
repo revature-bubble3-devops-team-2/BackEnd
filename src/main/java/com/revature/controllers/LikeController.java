@@ -29,7 +29,7 @@ public class LikeController {
 
         LikeId likeId = new LikeId(post, tempProfile);
         //Like check = likeService.likePost(post, (Profile) req.getAttribute("creator"));
-        Like check = likeService.likePost(likeId, post, tempProfile);
+        Like check = likeService.likePost(likeId);
         if(check == null) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         } else {

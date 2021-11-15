@@ -6,5 +6,5 @@ import com.revature.models.Post;
 import com.revature.models.Profile;
 
 public interface LikeService {
-    public Like likePost(LikeId likeId, Post post, Profile profile);
+    public Like likePost(LikeId likeId);
 }

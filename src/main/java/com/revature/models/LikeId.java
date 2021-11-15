@@ -2,25 +2,31 @@ package com.revature.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.hibernate.annotations.CollectionType;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Embeddable
+@Component
 @Data
 @AllArgsConstructor
 public class LikeId implements Serializable {
 
     @Autowired
     @JoinColumn(name = "post_id")
+    @ManyToOne
     private Post post;
 
     @Autowired
+    @ManyToOne
     @JoinColumn(name = "profile_id")
     private Profile profile;
+
+    public LikeId () {
+        super();
+    }
 }

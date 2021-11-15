@@ -8,16 +8,12 @@ import org.springframework.stereotype.Component;
 import javax.persistence.*;
 
 @Component
-@Entity @Table(name = "like")
+@Entity @Table(name = "likes")
 @Data
 @AllArgsConstructor
 public class Like {
 
     @EmbeddedId
-    @AttributeOverrides({
-            @AttributeOverride(name = "post_id", column = @Column(name = "post_id", nullable = false)),
-            @AttributeOverride(name = "profile_id", column = @Column(name = "profile_id", nullable = false))
-    })
     private LikeId likeId;
 
     @Autowired
@@ -27,7 +23,18 @@ public class Like {
     private Post post;
 
     @Autowired
+    @MapsId("profile")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "profile_id", nullable = false)
     private Profile profile;
+
+    public Like () {
+        super();
+    }
+
+    public Like (LikeId likeId) {
+        this.likeId = likeId;
+        this.post = likeId.getPost();
+        this.profile = likeId.getProfile();
+    }
 }

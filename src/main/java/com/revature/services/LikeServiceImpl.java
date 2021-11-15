@@ -15,8 +15,9 @@ public class LikeServiceImpl implements LikeService{
     public LikeRepo likeRepo;
 
     @Override
-    public Like likePost(LikeId likeId, Post post, Profile profile) {
-        Like like = new Like(likeId, post, profile);
+    public Like likePost(LikeId likeId) {
+        Like like = new Like(likeId);
+        System.out.println(like);
         likeRepo.save(like);
         return like;
     }
