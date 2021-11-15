@@ -50,7 +50,7 @@ public class LikeController {
 
     @GetMapping
     @NoAuthIn
-    public ResponseEntity<Integer> getLike(@RequestBody Post post, HttpServletRequest req) {
+    public ResponseEntity<Integer> getLike(@RequestHeader Post post, HttpServletRequest req) {
         Profile temp = new Profile(2, "profile2", "22", "Two", "LastTwo", "Email2");
         LikeId likeId = new LikeId(post, temp);
         int result = (int) likeService.likeGet(likeId);
