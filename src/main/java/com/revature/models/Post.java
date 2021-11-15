@@ -35,17 +35,4 @@ public class Post {
         super();
         psid = SecurityUtil.getId();
     }
-<<<<<<< HEAD
-
-    public Post(int psid, Profile creator, String body, String imgURL, Timestamp datePosted) {
-        this.psid = psid;
-        this.creator = creator;
-        this.body = body;
-        this.imgURL = imgURL;
-        this.datePosted = datePosted;
-
-        //this is a comment
-    }
-=======
->>>>>>> dev-create-post
 }
