@@ -20,19 +20,19 @@ pipeline {
             checkout scm
           }
       }
-      stage('clean') {
+      stage('clean maven project') {
         steps {
         discordSend description: ":soap: *Cleaning ${env.JOB_NAME}*", result: currentBuild.currentResult, webhookURL: discordurl
             sh 'mvn clean'
         }
       }
-      stage('test') {
+      stage('test maven project') {
         steps {
             discordSend description: ":memo: *Testing ${env.JOB_NAME}*", result: currentBuild.currentResult, webhookURL: discordurl
             sh 'mvn test'
         }
       }
-      stage('package') {
+      stage('package maven jar') {
         steps {
             discordSend description: ":package: *Packaging ${env.JOB_NAME}*", result: currentBuild.currentResult, webhookURL: discordurl
             sh 'mvn -DskipTests package'
@@ -42,6 +42,12 @@ pipeline {
         steps {
             discordSend description: ":axe: *Removing Previous Image*", result: currentBuild.currentResult, webhookURL: discordurl
             sh 'docker rmi ${IMAGE_TAG} || true'
+        }
+      }
+      stage('create docker image') {
+        steps {
+            discordSend description: ":screwdriver: *Building Docker Image*", result: currentBuild.currentResult, webhookURL: discordurl
+            sh 'docker build -e DB_URL -e DB_USER -e DB_PASS -t ${IMAGE_TAG} -f Dockerfile .'
         }
       }
    }
