@@ -9,8 +9,7 @@ import com.nimbusds.jose.crypto.RSAEncrypter;
 import com.nimbusds.jwt.EncryptedJWT;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.revature.models.Profile;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
@@ -25,10 +24,11 @@ import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.Map;
 import java.util.UUID;
 
+@Log4j2
 public class SecurityUtil {
-    private static final Logger logger = LogManager.getLogger(SecurityUtil.class);
     private static final int SALT_LENGTH = 512;
     private static final SecureRandom SECURE_RANDOM = new SecureRandom();
     private static final int ITERATIONS = 65536;
@@ -65,7 +65,7 @@ public class SecurityUtil {
             byte[] securePassword = fac.generateSecret(spec).getEncoded();
             return Base64.getEncoder().encodeToString(securePassword);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            logger.error(e.getMessage());
+            log.error(e.getMessage());
         } finally {
             spec.clearPassword();
         }
@@ -79,11 +79,11 @@ public class SecurityUtil {
      */
     public static String hashPassword(String password) {
         if (password == null) {
-            logger.error("Cannot hash null values. Exiting method and returning null.");
+            log.error("Cannot hash null values. Exiting method and returning null.");
             return null;
         }
         if (password.isEmpty()) {
-            logger.error("Cannot hash an empty string. Exiting method and returning null.");
+            log.error("Cannot hash an empty string. Exiting method and returning null.");
             return null;
         }
         String salt = generateSalt();
@@ -99,18 +99,18 @@ public class SecurityUtil {
      */
     public static boolean isPassword(String password, String passKey) {
         if (password == null || passKey == null) {
-            logger.error("Cannot verify null password or pass key. Exiting method and returning false.");
+            log.error("Cannot verify null password or pass key. Exiting method and returning false.");
             return false;
         }
         if (password.isEmpty() || passKey.isEmpty()) {
-            logger.error("Cannot verify empty password or pass key. Exiting method and returning false.");
+            log.error("Cannot verify empty password or pass key. Exiting method and returning false.");
             return false;
         }
         if (passKey.length() < 88) return false;
 
         String encrypted = hashPassword(password, passKey.substring(88));
         if (encrypted == null) {
-            logger.error("Unable to verify password validity. Exiting method and returning false.");
+            log.error("Unable to verify password validity. Exiting method and returning false.");
             return false;
         }
         return encrypted.equals(passKey.substring(0,88));
@@ -153,7 +153,7 @@ public class SecurityUtil {
             // Create a decrypter with the specified private RSA key
             decrypter = new RSADecrypter(privateRsaKey);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            logger.error(e.getMessage());
+            log.error(e.getMessage());
         }
     }
 
@@ -164,7 +164,7 @@ public class SecurityUtil {
      */
     public static String generateToken(Profile profile) {
         if (profile == null) {
-            logger.error("Cannot generate token from null values. Exiting method and returning null.");
+            log.error("Cannot generate token from null values. Exiting method and returning null.");
             return null;
         }
 
@@ -192,7 +192,7 @@ public class SecurityUtil {
         try {
             jwt.encrypt(encrypter);
         } catch (JOSEException e) {
-            logger.error("Unable to encrypt token" + e.getMessage());
+            log.error("Unable to encrypt token" + e.getMessage());
         }
 
         return jwt.serialize();
@@ -205,15 +205,15 @@ public class SecurityUtil {
      */
     public static Profile validateToken(String token) {
         if (decrypter == null) {
-            logger.error("Decrypter never initialized!");
+            log.error("Decrypter never initialized!");
             return null;
         }
         if (token == null) {
-            logger.error("Cannot validate null token. Exiting method and returning null.");
+            log.error("Cannot validate null token. Exiting method and returning null.");
             return null;
         }
         if (token.isEmpty()) {
-            logger.error("Cannot validate empty token string. Exiting method and returning null.");
+            log.error("Cannot validate empty token string. Exiting method and returning null.");
             return null;
         }
         try {
@@ -222,7 +222,7 @@ public class SecurityUtil {
             try {
                 jwt.decrypt(decrypter);
             } catch (JOSEException e) {
-                logger.error("Unable to decrypt token " + e.getMessage());
+                log.error("Unable to decrypt token " + e.getMessage());
                 return null;
             }
             JWTClaimsSet claims = jwt.getJWTClaimsSet();
@@ -230,11 +230,18 @@ public class SecurityUtil {
             if (claims.getExpirationTime().before(Timestamp.valueOf(LocalDateTime.now()))) return null;
             if (Timestamp.valueOf(LocalDateTime.now()).before(claims.getNotBeforeTime())) return null;
 
-            
+            Map<String, Object> guts = claims.getJSONObjectClaim("chef");
 
-            return (Profile) claims.getClaim("profile");
+            int id = (int) (long) guts.get("pid");
+            String username = (String) guts.get("username");
+            String passkey = (String) guts.get("passkey");
+            String firstName = (String) guts.get("firstName");
+            String lastName = (String) guts.get("lastName");
+            String email = (String) guts.get("email");
+
+            return new Profile(id, username, passkey, firstName, lastName, email);
         } catch (ParseException e) {
-            logger.error("Unable to parse token " + e.getMessage());
+            log.error("Unable to parse token " + e.getMessage());
         }
         return null;
     }

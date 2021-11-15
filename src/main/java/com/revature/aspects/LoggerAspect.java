@@ -1,7 +1,6 @@
 package com.revature.aspects;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
@@ -12,23 +11,29 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 
+@Log4j2
 @Aspect
 @Component
 public class LoggerAspect {
-    private static final Logger logger = LogManager.getLogger(LoggerAspect.class);
+    public LoggerAspect() {
+    }
 
     @AfterReturning(pointcut = "within(com.revature.controllers.*)", returning = "response")
-    public void log(JoinPoint jp, ResponseEntity<?> response){
-        HttpServletRequest request =
+    public void log(final JoinPoint joinPoint, final ResponseEntity<?> response){
+        final HttpServletRequest request =
                 ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
         if (response.getStatusCodeValue() >= 400) {
-            logger.warn(jp.getSignature().getDeclaringTypeName().split("\\.")[3] +
-                    " resolved " + request.getMethod() +
-                    " returning status code " + response.getStatusCode());
+            if (log.isWarnEnabled()) {
+                log.warn(joinPoint.getSignature().getDeclaringTypeName().split("\\.")[3] +
+                        " resolved " + request.getMethod() +
+                        " returning status code " + response.getStatusCode());
+            }
         } else {
-            logger.info(jp.getSignature().getDeclaringTypeName().split("\\.")[3] +
-                    " successfully resolved " + request.getMethod() +
-                    " with status code " + response.getStatusCode());
+            if (log.isInfoEnabled()) {
+                log.info(joinPoint.getSignature().getDeclaringTypeName().split("\\.")[3] +
+                        " successfully resolved " + request.getMethod() +
+                        " with status code " + response.getStatusCode());
+            }
         }
     }
 
