@@ -42,6 +42,7 @@ public class SecurityUtil {
      * Generates a string used to hash passwords
      * @return a base 64 encoded string
      */
+
     private static String generateSalt() {
         byte[] salt = new byte[SALT_LENGTH];
         SECURE_RANDOM.nextBytes(salt);
@@ -176,9 +177,7 @@ public class SecurityUtil {
         claimsSet.issuer("potluck-system");
         claimsSet.subject("potluck-identity-token");
 
-        /*
-        TODO: Add profile
-         */
+        claimsSet.claim("profile", profile);
 
         claimsSet.expirationTime(Timestamp.valueOf(LocalDateTime.now().plusHours(4)));
         claimsSet.notBeforeTime(Timestamp.valueOf(LocalDateTime.now()));
@@ -232,16 +231,9 @@ public class SecurityUtil {
             if (claims.getExpirationTime().before(Timestamp.valueOf(LocalDateTime.now()))) return null;
             if (Timestamp.valueOf(LocalDateTime.now()).before(claims.getNotBeforeTime())) return null;
 
-            Map<String, Object> guts = claims.getJSONObjectClaim("chef");
+            
 
-            Integer id = claims.getIntegerClaim("id");
-            String username = (String) guts.get("username");
-            String passkey = claims.getStringClaim("passkey");
-            String firstName = (String) guts.get("firstName");
-            String lastName = (String) guts.get("lastName");
-            String email = (String) guts.get("email");
-
-            return new Profile(id, username, passkey, firstName, lastName, email);
+            return (Profile) claims.getClaim("profile");
         } catch (ParseException e) {
             logger.error("Unable to parse token " + e.getMessage());
         }
