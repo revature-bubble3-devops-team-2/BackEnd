@@ -58,4 +58,16 @@ public class LikeServiceTest {
         verify(likeRepo).deleteById(temp);
         verify(likeRepo).deleteById(null);
     }
+
+    @Test
+    void testLikeGet(){
+        Profile tempProfile = new Profile(2, "profile2", "22", "Two", "LastTwo", "Email2");
+        LikeId temp = new LikeId(new Post(3, tempProfile, "Hello World1", null, Timestamp.valueOf(LocalDateTime.now())));
+        long expected = (long) 1;
+
+        when(likeRepo.countByPost(temp.getPost())).thenReturn(expected);
+        long actual = likeService.likeDelete(temp);
+
+        assertEquals(expected, actual);
+    }
 }

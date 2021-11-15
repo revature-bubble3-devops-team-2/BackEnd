@@ -29,4 +29,10 @@ public class LikeServiceImpl implements LikeService{
             return -1;
         }
     }
+
+    @Override
+    public long likeGet(LikeId likeId) {
+        Post post = likeId.getPost();
+        return likeRepo.countByPost(post);
+    }
 }

@@ -26,7 +26,6 @@ public class LikeController {
     @NoAuthIn
     public ResponseEntity<Like> addLike(@RequestBody Post post, HttpServletRequest req) {
         LikeId likeId = new LikeId(post);
-        //Like check = likeService.likePost(post, (Profile) req.getAttribute("creator"));
         Like check = likeService.likePost(likeId);
         if(check == null) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
@@ -45,5 +44,13 @@ public class LikeController {
         } else {
             return new ResponseEntity<>(new Like(likeId), HttpStatus.OK);
         }
+    }
+
+    @GetMapping
+    @NoAuthIn
+    public ResponseEntity<Integer> getLike(@RequestBody Post post, HttpServletRequest req) {
+        LikeId likeId = new LikeId(post);
+        int result = (int) likeService.likeGet(likeId);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }
