@@ -47,13 +47,13 @@ public class ProfileServiceImpl implements ProfileService{
     @Override
     public Profile addNewProfile(Profile profile) {
         try {
+            String hashedPWD = SecurityUtil.hashPassword(profile.getPasskey());
+            profile.setPasskey(hashedPWD);
             return profileRepo.save(profile);
         } catch (Exception e) {
             return null;
         }
-
     }
-
 
     /**
      * Gets User Profile by Email in the Database
