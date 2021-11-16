@@ -9,4 +9,5 @@ public interface ProfileService {
     public Profile getProfileByEmail(Profile profile);
     public Profile getProfileByPid(Integer pid);
     public Profile updateProfile(Profile profile);
+    public boolean addFollowerByProfile(Profile profile);
 }
