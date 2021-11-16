@@ -139,9 +139,4 @@ public class ProfileServiceTest {
         when(profileRepo.save(null)).thenReturn(null);
         assertNull(profileService.updateProfile(profile));
     }
-
-    @Test
-    public void temp(){
-        System.out.println(SecurityUtil.hashPassword("asdf"));
-    }
 }
