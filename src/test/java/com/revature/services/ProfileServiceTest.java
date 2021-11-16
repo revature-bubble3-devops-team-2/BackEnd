@@ -2,6 +2,7 @@ package com.revature.services;
 
 import	com.revature.models.Profile;
 import	com.revature.repositories.ProfileRepo;
+import com.revature.utilites.SecurityUtil;
 import	org.junit.jupiter.api.*;
 import	org.mockito.InjectMocks;
 import	org.mockito.Mock;
