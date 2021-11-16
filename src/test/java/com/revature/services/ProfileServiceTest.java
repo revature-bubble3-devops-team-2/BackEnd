@@ -2,6 +2,7 @@ package com.revature.services;
 
 import	com.revature.models.Profile;
 import	com.revature.repositories.ProfileRepo;
+import com.revature.utilites.SecurityUtil;
 import	org.junit.jupiter.api.*;
 import	org.mockito.InjectMocks;
 import	org.mockito.Mock;
@@ -26,8 +27,8 @@ public class ProfileServiceTest {
     @Test
     void testLoginSuccess(){
         Profile expected = new Profile(12, "joey", pass, "Joe", "Seph", "a@b.com");
-        when(profileRepo.getProfileByEmail("a@b.com")).thenReturn(expected);
-        Profile actual = profileService.login("a@b.com","abc123");
+        when(profileRepo.getProfileByUsername("joey")).thenReturn(expected);
+        Profile actual = profileService.login("joey","abc123");
         assertEquals(expected,actual);
     }
 

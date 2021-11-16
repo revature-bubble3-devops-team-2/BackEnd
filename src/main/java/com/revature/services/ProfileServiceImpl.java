@@ -14,25 +14,17 @@ public class ProfileServiceImpl implements ProfileService{
 
     /**
      * processes login request from profile controller
-     * @param email
+     * @param username
      * @param password
      * @return a user profile
      */
-    public Profile login(String email, String password){
-        Profile profile = profileRepo.getProfileByEmail(email);
-        if(profile != null && SecurityUtil.isPassword(password,profile.getPasskey())){
+    public Profile login(String username, String password){
+        Profile profile = profileRepo.getProfileByUsername(username);
+        if (profile != null && SecurityUtil.isPassword(password, profile.getPasskey())) {
             return profile;
         }
         return null;
     }
-
-    /*
-currently unused
-    public Profile getProfileById(int pid)
-    {
-        return null;
-    }
-*/
 
     public ProfileServiceImpl() {
     }
@@ -47,13 +39,13 @@ currently unused
     @Override
     public Profile addNewProfile(Profile profile) {
         try {
+            String hashedPWD = SecurityUtil.hashPassword(profile.getPasskey());
+            profile.setPasskey(hashedPWD);
             return profileRepo.save(profile);
         } catch (Exception e) {
             return null;
         }
-
     }
-
 
     /**
      * Gets User Profile by Email in the Database

@@ -12,8 +12,8 @@ import java.util.List;
 @Repository
 public interface ProfileRepo extends JpaRepository<Profile, Integer> {
 
-    public Profile getProfileByEmail(String email);
-    public Profile getProfileByPid(Integer pid);
-
+    Profile getProfileByEmail(String email);
+    Profile getProfileByPid(Integer pid);
+    Profile getProfileByUsername(String username);
 
 }
