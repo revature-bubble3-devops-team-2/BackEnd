@@ -4,6 +4,7 @@ import com.revature.aspects.annotations.NoAuthIn;
 import com.revature.models.Profile;
 import com.revature.services.ProfileService;
 import com.revature.utilites.SecurityUtil;
+import jdk.nashorn.internal.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,16 +32,18 @@ public class ProfileController {
      * processes login attempt via http request from client
      * @param username
      * @param password
-     * @return secure token and profile as json
+     * @return secure token as json
      */
     @PostMapping
     @NoAuthIn
-    public ResponseEntity<Profile> login(String username, String password) {
+    public ResponseEntity<String> login(String username, String password) {
         Profile profile = profileService.login(username,password);
         if(profile != null){
             HttpHeaders headers = new HttpHeaders();
-            headers.set("Authorization", SecurityUtil.generateToken(profile));
-            return new ResponseEntity<>(profile, headers, HttpStatus.OK);
+            String body = "{\"Authorization\":\""+
+                    SecurityUtil.generateToken(profile)
+                    +"\"}";
+            return new ResponseEntity<>(body, headers, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
