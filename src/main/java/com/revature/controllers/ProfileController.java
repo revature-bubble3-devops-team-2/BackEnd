@@ -21,7 +21,6 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/profile")
-@Component
 @CrossOrigin
 public class ProfileController {
 

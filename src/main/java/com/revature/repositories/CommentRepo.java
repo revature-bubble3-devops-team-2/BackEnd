@@ -1,4 +1,7 @@
 package com.revature.repositories;
 
-public class CommentRepo {
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface CommentRepo {
 }

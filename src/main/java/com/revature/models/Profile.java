@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.revature.utilites.SecurityUtil;
 import lombok.*;
 import org.springframework.stereotype.Component;
-import javax.persistence.*;
-import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -17,7 +15,6 @@ import javax.persistence.Table;
 @Getter @Setter @AllArgsConstructor @ToString @EqualsAndHashCode
 @Data
 public class Profile {
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "profile_id")
     private int pid;
