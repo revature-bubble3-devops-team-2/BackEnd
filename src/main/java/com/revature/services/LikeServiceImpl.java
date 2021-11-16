@@ -8,6 +8,8 @@ import com.revature.repositories.LikeRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class LikeServiceImpl implements LikeService{
 
@@ -34,5 +36,10 @@ public class LikeServiceImpl implements LikeService{
     public long likeGet(LikeId likeId) {
         Post post = likeId.getPost();
         return likeRepo.countByPost(post);
+    }
+
+    @Override
+    public Like likeFindByID(LikeId likeId) {
+        return likeRepo.findById(likeId).orElse(null);
     }
 }
