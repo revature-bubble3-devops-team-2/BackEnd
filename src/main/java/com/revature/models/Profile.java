@@ -1,6 +1,7 @@
 package com.revature.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.revature.utilites.SecurityUtil;
 import lombok.*;
 import org.hibernate.Hibernate;
@@ -33,7 +34,7 @@ public class Profile {
             nullable = false,
             unique = true)
 
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String passkey;
 
     @Column(name = "first_name",

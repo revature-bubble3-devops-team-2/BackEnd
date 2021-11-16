@@ -57,7 +57,7 @@ public class ProfileController {
      */
 
 
-    @PostMapping("/profiles")
+    @PostMapping("/register")
     public ResponseEntity<Profile> addNewProfile(@Valid @RequestBody Profile profile){
         System.out.println("profile" + profile);
         Profile returnedUser = profileService.getProfileByEmail(profile);
