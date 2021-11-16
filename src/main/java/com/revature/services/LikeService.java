@@ -9,4 +9,5 @@ public interface LikeService {
     public Like likePost(LikeId likeId);
     public int likeDelete(LikeId likeId);
     public long likeGet(LikeId likeId);
+    public Like likeFindByID(LikeId likeId);
 }

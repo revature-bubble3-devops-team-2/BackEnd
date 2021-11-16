@@ -27,11 +27,16 @@ public class LikeController {
     public ResponseEntity<Like> addLike(@RequestBody Post post, HttpServletRequest req) {
         Profile temp = new Profile(2, "profile2", "22", "Two", "LastTwo", "Email2");
         LikeId likeId = new LikeId(post, temp);
-        Like check = likeService.likePost(likeId);
-        if(check == null) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        } else {
-            return new ResponseEntity<>(check, HttpStatus.CREATED);
+        Like exist = likeService.likeFindByID(likeId);
+        if (exist == null) { //like does not exist
+            Like check = likeService.likePost(likeId);
+            if (check == null) {
+                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            } else {
+                return new ResponseEntity<>(check, HttpStatus.CREATED);
+            }
+        } else { //like already exists
+            return new ResponseEntity<>(null, HttpStatus.FOUND);
         }
     }
 
