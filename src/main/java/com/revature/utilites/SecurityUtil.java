@@ -11,7 +11,6 @@ import com.nimbusds.jwt.JWTClaimsSet;
 import com.revature.models.Profile;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
@@ -26,9 +25,9 @@ import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.Map;
 import java.util.UUID;
 
-@Component
 public class SecurityUtil {
     private static final Logger logger = LogManager.getLogger(SecurityUtil.class);
     private static final int SALT_LENGTH = 512;
