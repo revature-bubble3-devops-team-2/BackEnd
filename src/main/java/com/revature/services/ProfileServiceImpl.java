@@ -104,4 +104,12 @@ currently unused
 
 
     }
+
+    @Override
+    public boolean addFollowerByProfile(Profile profile)
+    {
+        System.out.println(profile);
+
+        return false;
+    }
 }
