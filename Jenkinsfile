@@ -42,8 +42,8 @@ pipeline {
         }
         stage('remove previous artifacts') {
             steps {
-                sh 'docker rmi ${IMAGE_TAG} || true'
                 sh 'docker stop ${CONTAINER_NAME} || true'
+                sh 'docker rmi ${IMAGE_TAG} || true'
                 discordSend description: ":axe: *Removed Previous Docker Artifacts*", result: currentBuild.currentResult, webhookURL: discordurl
             }
         }
@@ -55,7 +55,7 @@ pipeline {
         }
         stage('create container') {
             steps {
-                sh 'docker run --env DB_URL --env DB_USER --env DB_PASS -d --rm -p ${PORT}:${PORT} --name ${CONTAINER_NAME} ${IMAGE_TAG} '
+                sh 'docker run -d --env DB_URL --env DB_USER --env DB_PASS --rm -p ${PORT}:${PORT} --name ${CONTAINER_NAME} ${IMAGE_TAG} '
                 discordSend description: ":whale: *Running Docker Container*", result: currentBuild.currentResult, webhookURL: discordurl
             }
         }
@@ -79,6 +79,7 @@ pipeline {
         }
         success {
             discordSend description: ":potable_water: **Pipeline successful!**", result: currentBuild.currentResult, webhookURL: discordurl
+            sh 'docker container ls'
         }
     }
 }

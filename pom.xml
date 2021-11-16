@@ -94,6 +94,12 @@
     <build>
         <finalName>Bubble</finalName>
         <plugins>
+            <!-- Allow Spring Boot -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
             <!-- Allow Testing with Maven -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
