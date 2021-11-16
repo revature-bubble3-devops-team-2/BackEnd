@@ -20,19 +20,20 @@ import javax.persistence.Table;
 @Data
 public class Profile {
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     @Id
     @Column(name = "profile_id")
     private int pid;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "followers", joinColumns = @JoinColumn(
-            name = "profile_id", referencedColumnName = "profile_id"),
-            inverseJoinColumns = @JoinColumn(
-                    name = "follower_id", referencedColumnName = "profile_id"))
-    private List<Profile> followers;
-
-    @ManyToMany(mappedBy = "followers")
-    private List<Profile> following;
+//    @ManyToMany(fetch = FetchType.LAZY)
+//    @JoinTable(name = "followers", joinColumns = @JoinColumn(
+//            name = "profile_id", referencedColumnName = "profile_id"),
+//            inverseJoinColumns = @JoinColumn(
+//                    name = "follower_id", referencedColumnName = "profile_id"))
+//    private List<Profile> followers;
+//
+//    @ManyToMany(mappedBy = "followers")
+//    private List<Profile> following;
 
 
     @Column(name = "username",
