@@ -10,4 +10,10 @@ public interface CommentService {
     public Comment addComment(Comment comment);
 
     public List<Comment> getCommentByPostPsid(Integer psid);
+
+    public Comment getCommentByCid(Integer cid);
+
+    public Comment updateComment(Comment comment);
+
+    public boolean deleteCommentByCid(Integer cid);
 }

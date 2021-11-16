@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.StyledEditorKit;
 import javax.websocket.server.PathParam;
 import java.util.List;
 
@@ -25,8 +26,26 @@ public class CommentController {
     }
 
     @GetMapping
-    public  ResponseEntity<List<Comment>> getCommentsByPost(@RequestParam(value = "psid") Integer id){
+    public ResponseEntity<List<Comment>> getCommentsByPost(@RequestParam(value = "psid") Integer id){
         return new ResponseEntity<>(commentService.getCommentByPostPsid(id), HttpStatus.ACCEPTED);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Comment> updateCommentByCid(@RequestBody Comment comment, @PathVariable("id")int id){
+        comment.setCid(id);
+        Comment updatedComment = commentService.updateComment(comment);
+        if(updatedComment!=null)
+            return new ResponseEntity<>(updatedComment, HttpStatus.CREATED);
+        else
+            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Boolean> deleteCommentByCid(@PathVariable("id")int id){
+        if(commentService.deleteCommentByCid(id))
+            return new ResponseEntity<>(true, HttpStatus.OK);
+        else
+            return new ResponseEntity<>(false, HttpStatus.NOT_ACCEPTABLE);
     }
 
 }

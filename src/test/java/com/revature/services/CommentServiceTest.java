@@ -56,4 +56,45 @@ public class CommentServiceTest {
         assertEquals(commentList, commentService.getCommentByPostPsid(24));
     }
 
+    @Test
+    void testGetInvalidCommentByPsid(){
+        when(commentRepo.getCommentByPostPsid(1000)).thenReturn(null);
+        assertEquals(null, commentService.getCommentByPostPsid(1000));
+    }
+
+    @Test
+    void testUpdateComment(){
+        Comment expected = new Comment(1, null, null, "Update to this comment body", Timestamp.valueOf(LocalDateTime.now()), null);
+        Comment old = new Comment(1, null, null, "Comment body", Timestamp.valueOf(LocalDateTime.now()), null);
+        when(commentRepo.getCommentByCid(1)).thenReturn(old);
+        when(commentRepo.save(old)).thenReturn(old);
+        assertEquals(expected, commentService.updateComment(expected));
+    }
+
+    @Test
+    void testDeleteComment(){
+        Comment comment = new Comment(1, null, null, "Update to this comment body", Timestamp.valueOf(LocalDateTime.now()), null);
+        when(commentRepo.getCommentByCid(1)).thenReturn(comment);
+        assertEquals(true, commentService.deleteCommentByCid(1));
+    }
+
+    @Test
+    void testDeleteInvalidComment(){
+        when(commentRepo.getCommentByCid(1)).thenReturn(null);
+        assertEquals(false, commentService.deleteCommentByCid(1));
+    }
+
+    @Test
+    void testGetCommentByCid(){
+        Comment comment = new Comment(1, null, null, "Update to this comment body", Timestamp.valueOf(LocalDateTime.now()), null);
+        when(commentRepo.getCommentByCid(1)).thenReturn(comment);
+        assertEquals(comment, commentService.getCommentByCid(1));
+    }
+
+    @Test
+    void testGetInvalidCommentByCid(){
+        when(commentRepo.getCommentByCid(1)).thenReturn(null);
+        assertEquals(null, commentService.getCommentByCid(1));
+    }
+
 }

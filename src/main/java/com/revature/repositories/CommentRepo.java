@@ -9,4 +9,6 @@ import java.util.List;
 public interface CommentRepo extends JpaRepository<Comment,Integer> {
 
     public List<Comment> getCommentByPostPsid(Integer psid);
+
+    public Comment getCommentByCid(Integer cid);
 }
