@@ -60,7 +60,7 @@ public class ProfileController {
     @PostMapping("/register")
     public ResponseEntity<Profile> addNewProfile(@Valid @RequestBody Profile profile){
         System.out.println("profile" + profile);
-        Profile returnedUser = profileService.getProfileByEmail(profile);
+        Profile returnedUser = profileService.getProfileByEmail(profile.getEmail());
         System.out.println("returned" + returnedUser);
         if(returnedUser == null){
             HttpHeaders responseHeaders = new HttpHeaders();
@@ -106,10 +106,15 @@ public class ProfileController {
         }
     }
 
-    @PostMapping("/profiles/{id}/follow")
-    public ResponseEntity<Profile> newFollower(@RequestBody String Authorization, @PathVariable("id")int id){
+    @PostMapping("/follow")
+    public ResponseEntity<Profile> newFollower(String Authorization, String FollowedEmail){
         System.out.println("Authorization: " + Authorization);
-        System.out.println("FollowingUsername: " + id);
+        System.out.println("FollowedEmail: " + FollowedEmail);
+
+        Profile followed = profileService.getProfileByEmail(FollowedEmail);
+        System.out.println("Followed: " + followed);
+        Profile creator = SecurityUtil.validateToken(Authorization);
+        System.out.println("Returned Profile from Token: " + creator);
 
         /*Profile followed = profileService.getProfileByUsername(id);
 
