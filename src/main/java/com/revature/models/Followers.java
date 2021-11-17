@@ -13,18 +13,18 @@ import javax.persistence.*;
 @Data
 public class Followers {
     @Id
-    @Column(name = "following_id")
+    @Column(name = "followers_id")
     private int following_id;
 
     @Autowired
-    @ManyToMany
+    @OneToOne
     @JoinColumn(name = "profile_id", nullable = false)
     private Profile creator;
 
     @Autowired
-    @ManyToMany
-    @JoinColumn(name = "follower_id", nullable = false)
-    private Profile follower;
+    @OneToOne
+    @JoinColumn(name = "followed_id", nullable = false)
+    private Profile followed;
 
     public Followers() {
         following_id = SecurityUtil.getId();
