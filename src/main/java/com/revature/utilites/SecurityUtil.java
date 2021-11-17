@@ -235,7 +235,7 @@ public class SecurityUtil {
             String firstName = (String) guts.get("firstName");
             String lastName = (String) guts.get("lastName");
             String email = (String) guts.get("email");
-            List<Integer> following = (List<Integer>) guts.get("following");
+            List<Profile> following = (List<Profile>) guts.get("following");
 
 
             return new Profile(id, username, passkey, firstName, lastName, email, following);
