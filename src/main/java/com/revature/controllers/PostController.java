@@ -1,6 +1,5 @@
 package com.revature.controllers;
 
-import com.revature.aspects.annotations.NoAuthIn;
 import com.revature.models.Post;
 import com.revature.models.Profile;
 import com.revature.services.PostService;
