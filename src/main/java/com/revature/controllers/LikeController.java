@@ -36,7 +36,7 @@ public class LikeController {
                 return new ResponseEntity<>(check, HttpStatus.CREATED);
             }
         } else { //like already exists
-            return new ResponseEntity<>(null, HttpStatus.FOUND);
+            return new ResponseEntity<>(exist, HttpStatus.FOUND);
         }
     }
 
@@ -44,6 +44,7 @@ public class LikeController {
     @NoAuthIn
     public ResponseEntity<Like> removeLike(@RequestBody Post post, HttpServletRequest req) {
         Profile temp = new Profile(2, "profile2", "22", "Two", "LastTwo", "Email2");
+        System.out.println(post);
         LikeId likeId = new LikeId(post, temp);
         int check = likeService.likeDelete(likeId);
         if (check == -1){
