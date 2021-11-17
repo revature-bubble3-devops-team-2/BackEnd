@@ -230,7 +230,7 @@ public class SecurityUtil {
             if (claims.getExpirationTime().before(Timestamp.valueOf(LocalDateTime.now()))) return null;
             if (Timestamp.valueOf(LocalDateTime.now()).before(claims.getNotBeforeTime())) return null;
 
-            Map<String, Object> guts = claims.getJSONObjectClaim("chef");
+            Map<String, Object> guts = claims.getJSONObjectClaim("profile");
 
             int id = (int) (long) guts.get("pid");
             String username = (String) guts.get("username");
