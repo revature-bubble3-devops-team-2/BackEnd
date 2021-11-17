@@ -124,11 +124,11 @@ public class ProfileController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    @DeleteMapping("/profiles/{id}/follow")
-    public ResponseEntity<Profile> deleteFollower(@RequestBody String Authorization, @PathVariable("id")int id){
-        System.out.println("Authorization: " + Authorization);
-        System.out.println("FollowingUsername: " + id);
 
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    @DeleteMapping("/follow/{id}")
+    public ResponseEntity<?> deleteFollowing(@PathVariable("id")int id){
+        System.out.println(id);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

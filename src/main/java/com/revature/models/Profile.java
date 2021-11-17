@@ -6,10 +6,9 @@ import com.revature.utilites.SecurityUtil;
 import lombok.*;
 import org.hibernate.Hibernate;
 import org.springframework.stereotype.Component;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+
+import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 @Component
@@ -51,6 +50,10 @@ public class Profile {
             nullable = false,
             unique = true)
     private String email;
+
+    @Column(name = "following")
+    @OneToMany
+    private List<Profile> following;
 
     public Profile() {
         pid = SecurityUtil.getId();

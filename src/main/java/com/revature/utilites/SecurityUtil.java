@@ -23,10 +23,7 @@ import java.security.spec.RSAPublicKeySpec;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Base64;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class SecurityUtil {
     private static final Logger logger = LogManager.getLogger(SecurityUtil.class);
@@ -238,8 +235,10 @@ public class SecurityUtil {
             String firstName = (String) guts.get("firstName");
             String lastName = (String) guts.get("lastName");
             String email = (String) guts.get("email");
+            List<Profile> following = (List<Profile>) guts.get("following");
 
-            return new Profile(id, username, passkey, firstName, lastName, email);
+
+            return new Profile(id, username, passkey, firstName, lastName, email, following);
         } catch (ParseException e) {
             logger.error("Unable to parse token " + e.getMessage());
         }
