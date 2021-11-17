@@ -67,6 +67,10 @@ public class ProfileServiceImpl implements ProfileService {
         return profileRepo.getProfileByPid(pid);
     }
 
+    public Profile getProfileByUsername(String username) {
+        return profileRepo.getProfileByUsername(username);
+    }
+
     /**
      *
      * @param profile

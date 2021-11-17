@@ -24,6 +24,7 @@ public class FollowController {
 
     @Autowired
     private ProfileService profileService;
+    private SecurityUtil securityUtil;
 
     /**
      * Put mapping grabs the updated fields of profile and updates the profile in the database.
@@ -32,10 +33,20 @@ public class FollowController {
      * @return Updated profile with HttpStatus.ACCEPTED otherwise if invalid returns HttpStatus.BAD_REQUEST
      */
     @PostMapping
-    @NoAuthIn
     public ResponseEntity<Profile> newFollower(String Authorization, String FollowingUsername){
         System.out.println("Authorization: " + Authorization);
         System.out.println("FollowingUsername: " + FollowingUsername);
+
+        Profile creator = SecurityUtil.validateToken(Authorization);
+        Profile followed = profileService.getProfileByUsername(FollowingUsername);
+
+        System.out.println("Creator: " + creator);
+        System.out.println("Followed: " + followed);
+
+        String token = SecurityUtil.generateToken(followed);
+        System.out.println("Token: " + token);
+        Profile Test = SecurityUtil.validateToken(token);
+        System.out.println("Returned Profile from Token: " + Test);
 
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
