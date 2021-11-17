@@ -19,12 +19,11 @@ public class Followers {
     @Autowired
     @ManyToMany
     @JoinColumn(name = "profile_id", nullable = false)
-    private Profile creator;
+    private Profile[] creator;
 
-    @Autowired
     @ManyToMany
-    @JoinColumn(name = "follower_id", nullable = false)
-    private Profile follower;
+    @JoinColumn(name = "followed_id", nullable = false)
+    private Profile[] followed;
 
     public Followers() {
         following_id = SecurityUtil.getId();
