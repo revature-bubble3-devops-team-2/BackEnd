@@ -106,18 +106,28 @@ public class ProfileController {
         }
     }
 
-    @PostMapping("/follow")
-    public ResponseEntity<Profile> newFollower(@RequestBody String userToken, String followingUsername){
-        System.out.println("Authorization: " + userToken);
-        System.out.println("FollowingUsername: " + followingUsername);
+    @PostMapping("/profiles/{id}/follow")
+    public ResponseEntity<Profile> newFollower(@RequestBody String Authorization, @PathVariable("id")int id){
+        System.out.println("Authorization: " + Authorization);
+        System.out.println("FollowingUsername: " + id);
+
+        /*Profile followed = profileService.getProfileByUsername(id);
+
+        System.out.println("Followed: " + followed);
+
+        String token = SecurityUtil.generateToken(followed);
+        System.out.println("Token: " + token);
+
+        Profile Test = SecurityUtil.validateToken(token);
+        System.out.println("Returned Profile from Token: " + Test);*/
 
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    @DeleteMapping("/follow")
-    public ResponseEntity<Profile> deleteFollower(@RequestBody String userToken, String followingUsername){
-        System.out.println("Authorization: " + userToken);
-        System.out.println("FollowingUsername: " + followingUsername);
+    @DeleteMapping("/profiles/{id}/follow")
+    public ResponseEntity<Profile> deleteFollower(@RequestBody String Authorization, @PathVariable("id")int id){
+        System.out.println("Authorization: " + Authorization);
+        System.out.println("FollowingUsername: " + id);
 
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
