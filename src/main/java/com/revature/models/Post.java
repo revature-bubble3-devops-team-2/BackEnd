@@ -2,6 +2,7 @@ package com.revature.models;
 
 import com.revature.utilites.SecurityUtil;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import javax.persistence.*;
