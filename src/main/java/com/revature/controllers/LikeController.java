@@ -49,7 +49,7 @@ public class LikeController {
         if (check == -1){
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         } else {
-            return new ResponseEntity<>(new Like(likeId), HttpStatus.OK);
+            return new ResponseEntity<>(null, HttpStatus.OK);
         }
     }
 
