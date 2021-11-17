@@ -23,7 +23,7 @@ public class Followers {
 
     @Autowired
     @ManyToMany
-    @JoinColumn(name = "profile_id", nullable = false)
+    @JoinColumn(name = "follower_id", nullable = false)
     private Profile follower;
 
     public Followers() {
