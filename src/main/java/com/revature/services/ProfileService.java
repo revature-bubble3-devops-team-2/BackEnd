@@ -9,5 +9,4 @@ public interface ProfileService {
     public Profile getProfileByPid(Integer pid);
     public Profile getProfileByUsername(String username);
     public Profile updateProfile(Profile profile);
-    public boolean addFollowerByProfile(Profile profile);
 }

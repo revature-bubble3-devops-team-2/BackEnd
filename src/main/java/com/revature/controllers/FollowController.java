@@ -37,14 +37,13 @@ public class FollowController {
         System.out.println("Authorization: " + Authorization);
         System.out.println("FollowingUsername: " + FollowingUsername);
 
-        Profile creator = SecurityUtil.validateToken(Authorization);
         Profile followed = profileService.getProfileByUsername(FollowingUsername);
 
-        System.out.println("Creator: " + creator);
         System.out.println("Followed: " + followed);
 
         String token = SecurityUtil.generateToken(followed);
         System.out.println("Token: " + token);
+
         Profile Test = SecurityUtil.validateToken(token);
         System.out.println("Returned Profile from Token: " + Test);
 
