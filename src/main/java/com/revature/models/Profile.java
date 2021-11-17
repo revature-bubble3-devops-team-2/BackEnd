@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.List;
 import java.util.Objects;
 
 @Component
@@ -50,6 +51,12 @@ public class Profile {
             nullable = false,
             unique = true)
     private String email;
+
+    @Column(name = "following",
+            columnDefinition = "TEXT",
+            nullable = true,
+            unique = true)
+    private List<Integer> following;
 
     public Profile() {
         pid = SecurityUtil.getId();
