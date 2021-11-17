@@ -70,4 +70,15 @@ public class LikeServiceTest {
 
         assertEquals(expected, actual);
     }
+
+    @Test
+    void testLikeFindByID(){
+        Profile tempProfile = new Profile(2, "profile2", "22", "Two", "LastTwo", "Email2");
+        LikeId temp = new LikeId(new Post(3, tempProfile, "Hello World1", null, Timestamp.valueOf(LocalDateTime.now())), tempProfile);
+
+        likeService.likeFindByID(temp);
+
+        verify(likeRepo).findById(temp);
+
+    }
 }
