@@ -3,14 +3,17 @@ package com.revature.services;
 import com.revature.models.Profile;
 import com.revature.repositories.ProfileRepo;
 import com.revature.utilites.SecurityUtil;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+@Log4j2
 @Service
 public class ProfileServiceImpl implements ProfileService{
 
     @Autowired
     public ProfileRepo profileRepo;
+    public ProfileService profileService;
 
     /**
      * processes login request from profile controller
@@ -101,4 +104,30 @@ public class ProfileServiceImpl implements ProfileService{
 
     }
 
+    @Override
+    public Profile removeFollowByEmail(Profile profile, String email) {
+        Profile targetProfile = profileRepo.getProfileByPid(profile.getPid());
+        log.info("target acquired: "+targetProfile);
+        Profile unfollow = profileRepo.getProfileByEmail(email);
+        if(targetProfile!=null){
+            targetProfile.getFollowing().remove(unfollow);
+            return profileRepo.save(targetProfile);
+        }else{
+            return null;
+        }
+    }
+
+    @Override
+    public Profile addFollowerByEmail(Profile profile, String email) {
+        Profile followed = profileService.getProfileByEmail(email);
+        System.out.println("Followed: " + followed);
+
+        System.out.println("Before adding Followers: "+ profile.getFollowing());
+
+        profile.getFollowing().add(followed);
+
+        System.out.println("After adding Followers: "+ profile.getFollowing());
+
+        return null;
+    }
 }
