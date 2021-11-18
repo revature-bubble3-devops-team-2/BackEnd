@@ -116,6 +116,8 @@ public class ProfileController {
         Profile creator = SecurityUtil.validateToken(Authorization);
         System.out.println("Returned Profile from Token: " + creator);
 
+        //creator.
+
         /*Profile followed = profileService.getProfileByUsername(id);
 
         System.out.println("Followed: " + followed);
