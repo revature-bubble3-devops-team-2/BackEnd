@@ -9,12 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class PostServiceImpl implements PostService{
 
     @Autowired
     public PostRepo postRepo;
+
+    @Autowired
+    public ProfileService profileService;
 
     /**
      * addPost will receive a post to be added and return a potential post. Within a try block, it will catch any
@@ -49,42 +53,71 @@ public class PostServiceImpl implements PostService{
         return postRepo.findAll();
     }
 
+    /**
+     * @param profile
+     * @param post
+     * @return
+     */
     @Override
-    public Post likePost(Profile profile, Post post) {
-        List<Profile> likes = postRepo.findById(post.getPsid()).get().getLikes();
-        if (likes.contains(profile)) {
+    public Profile likePost(Profile profile, Post post) {
+        Post tempPost = postRepo.findById(post.getPsid()).orElse(null);
+        if (tempPost == null) {
             return null;
-        } else {
-            likes.add(profile);
-            postRepo.updateLikes(post.getPsid(), likes);
-            return post;
         }
+        Boolean checkPost = tempPost.getLikes().add(profile);
+        if (checkPost) {
+            postRepo.save(tempPost);
+            return profile;
+        }
+        return null;
     }
 
+    /**
+     * @param profile
+     * @param post
+     * @return
+     */
     @Override
     public int likeDelete(Profile profile, Post post) {
-        List<Profile> likes = postRepo.findById(post.getPsid()).get().getLikes();
-        if (!likes.contains(profile)) {
+        Post tempPost = postRepo.findById(post.getPsid()).orElse(null);
+        if (tempPost == null) {
             return -1;
-        } else {
-            likes.remove(profile);
-            postRepo.updateLikes(post.getPsid(), likes);
+        }
+        Boolean checkPost = tempPost.getLikes().remove(profile);
+        if (checkPost) {
+            postRepo.save(tempPost);
             return 1;
         }
+        return -1;
     }
 
+    /**
+     * @param profile
+     * @param post
+     * @return
+     */
     @Override
     public int likeGet(Profile profile, Post post) {
-        List<Profile> likes = postRepo.findById(post.getPsid()).get().getLikes();
+        Set<Profile> likes = postRepo.findById(post.getPsid()).get().getLikes();
         return likes.size();
     }
 
+    /**
+     * @param profile
+     * @param post
+     * @return
+     */
     @Override
-    public Post likeFindByID(Profile profile, Post post) {
-        List<Profile> likes = postRepo.findById(post.getPsid()).get().getLikes();
-        if (likes.contains(profile)) {
-            return post;
-        } else {
+    public Profile likeFindByID(Profile profile, Post post) {
+        try {
+           Post tempPost = postRepo.findById(post.getPsid()).orElse(null);
+           System.out.println("tempPost: "+tempPost);
+            if (tempPost.getLikes().contains(profile)) {
+                return profile;
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
             return null;
         }
     }

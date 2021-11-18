@@ -13,7 +13,5 @@ import java.util.List;
 
 @Repository
 public interface PostRepo extends JpaRepository<Post, Integer> {
-    @Modifying
-    @Query("update post u set u.likes = :likes where u.post_id = :id")
-    void updateLikes(@Param(value = "id") int psid, @Param(value = "likes") List<Profile> likes);
+    List<Profile> findByLikes_Email(String email);
 }

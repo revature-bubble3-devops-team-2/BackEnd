@@ -16,4 +16,6 @@ public interface ProfileService {
     public Profile getProfileByPid(Integer pid);
 
     public Profile updateProfile(Profile profile);
+
+    //public Profile save(Profile profile);
 }
