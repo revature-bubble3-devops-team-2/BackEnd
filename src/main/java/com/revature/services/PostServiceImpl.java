@@ -1,7 +1,5 @@
 package com.revature.services;
 
-
-
 import com.revature.models.Post;
 import com.revature.repositories.PostRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class PostServiceImpl implements PostService{
+public class PostServiceImpl implements PostService {
 
     @Autowired
     public PostRepo postRepo;
@@ -26,7 +24,6 @@ public class PostServiceImpl implements PostService{
      */
     @Override
     public Post addPost(Post post) {
-
         try {
             if (post.getDatePosted()==null || post.getCreator()==null) {
                 throw new NullPointerException();

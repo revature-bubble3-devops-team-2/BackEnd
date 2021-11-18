@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ProfileServiceImpl implements ProfileService{
+public class ProfileServiceImpl implements ProfileService {
 
     @Autowired
     public ProfileRepo profileRepo;
@@ -74,21 +74,15 @@ public class ProfileServiceImpl implements ProfileService{
      */
     @Override
     public Profile updateProfile(Profile profile) {
-            Profile targetProfile = profileRepo.getProfileByPid(profile.getPid());
-            if(targetProfile!=null){
-                if(profile.getEmail()!=null)
-                    targetProfile.setEmail(profile.getEmail());
-                if(profile.getFirstName()!=null)
-                    targetProfile.setFirstName(profile.getFirstName());
-                if(profile.getLastName()!=null)
-                    targetProfile.setLastName(profile.getLastName());
-                if(profile.getPasskey()!=null)
-                    targetProfile.setPasskey(profile.getPasskey());
-                return profileRepo.save(targetProfile);
-            }else{
-                return null;
-            }
-
-
+        Profile targetProfile = profileRepo.getProfileByPid(profile.getPid());
+        if (targetProfile!=null) {
+            if (profile.getEmail()!=null) targetProfile.setEmail(profile.getEmail());
+            if (profile.getFirstName()!=null) targetProfile.setFirstName(profile.getFirstName());
+            if (profile.getLastName()!=null) targetProfile.setLastName(profile.getLastName());
+            if (profile.getPasskey()!=null) targetProfile.setPasskey(profile.getPasskey());
+            return profileRepo.save(targetProfile);
+        }else{
+            return null;
+        }
     }
 }
