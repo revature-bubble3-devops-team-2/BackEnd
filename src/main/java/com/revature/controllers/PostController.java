@@ -53,10 +53,11 @@ public class PostController {
      *
      * @return list of all the Posts
      */
-    @GetMapping
+    @GetMapping("/page/{id}")
     @ResponseBody
-    public List<Post> getAllPosts() {
-        return postService.getAllPosts();
+    public List<Post> getAllPostsbypage(@PathVariable ("id") int pageNumber) {
+        return postService.getAllPostsbyid(pageNumber);
     }
+
 }
 

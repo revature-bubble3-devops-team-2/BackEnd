@@ -5,6 +5,10 @@ package com.revature.services;
 import com.revature.models.Post;
 import com.revature.repositories.PostRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -44,8 +48,20 @@ public class PostServiceImpl implements PostService{
      * @return list of all the Posts
      */
     @Override
-    public List<Post> getAllPosts() {
-        return postRepo.findAll();
+    public List<Post> getAllPostsbyid(int page) {
+//        if(page <= 0)
+//        {
+//            page = 1;
+//        }
+        Pageable pageable = PageRequest.of(page - 1,3, Sort.by("datePosted").descending());
+        Page<Post> resultPage = postRepo.findAll(pageable);
+        if(resultPage.hasContent())
+        {
+            return resultPage.getContent();
+
+        }
+        return null;
     }
+    public List<Post> getAllPosts() {return postRepo.findAll();}
 }
 
