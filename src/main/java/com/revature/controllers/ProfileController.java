@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
@@ -35,14 +36,14 @@ public class ProfileController {
      */
     @PostMapping
     @NoAuthIn
-    public ResponseEntity<String> login(String username, String password) {
+    public ResponseEntity<Profile> login(String username, String password) {
         Profile profile = profileService.login(username,password);
         if(profile != null){
             HttpHeaders headers = new HttpHeaders();
-            String body = "{\"Authorization\":\""+
-                    SecurityUtil.generateToken(profile)
-                    +"\"}";
-            return new ResponseEntity<>(body, headers, HttpStatus.OK);
+            String body = SecurityUtil.generateToken(profile);
+            headers.set("Authorization" , body);
+            headers.set("Access-Control-Expose-Headers", "Authorization");
+            return new ResponseEntity<>(profile, headers, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
@@ -58,6 +59,7 @@ public class ProfileController {
 
 
     @PostMapping("/register")
+    @NoAuthIn
     public ResponseEntity<Profile> addNewProfile(@Valid @RequestBody Profile profile){
         System.out.println("profile" + profile);
         Profile returnedUser = profileService.getProfileByEmail(profile);
@@ -74,24 +76,6 @@ public class ProfileController {
             return new ResponseEntity<>(HttpStatus.IM_USED);
         }
 
-    }
-
-    /**
-     * Gets the user profile from token using SecurityUtil.validate(token)
-     * Which passes a profile then it returns the profile with ACCEPTED if valid
-     * or BAD_REQUEST if invalid.
-     * @param token
-     * @return
-     */
-    @PostMapping("/token")
-    public  ResponseEntity<Profile> getProfileByToken(String token) {
-        token = token.replace("\"", "");
-        Profile profile = SecurityUtil.validateToken(token);
-        if (profile != null) {
-            return new ResponseEntity<>(profile, HttpStatus.ACCEPTED);
-        } else{
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
     }
 
 
@@ -116,7 +100,8 @@ public class ProfileController {
      * @return Updated profile with HttpStatus.ACCEPTED otherwise if invalid returns HttpStatus.BAD_REQUEST
      */
     @PutMapping("/profiles/{id}")
-    public ResponseEntity<Profile> updateProfile(@RequestBody Profile profile){
+    public ResponseEntity<Profile> updateProfile(@RequestBody Profile profile, HttpServletRequest req){
+        req.getAttribute("profile");
         Profile result = profileService.updateProfile(profile);
         if(result!=null){
             return new ResponseEntity<>(result, HttpStatus.ACCEPTED);
