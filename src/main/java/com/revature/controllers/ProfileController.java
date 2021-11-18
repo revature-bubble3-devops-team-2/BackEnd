@@ -7,15 +7,9 @@ import com.revature.utilites.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -58,7 +52,7 @@ public class ProfileController {
 
 
     @PostMapping("/register")
-    public ResponseEntity<Profile> addNewProfile(@Valid @RequestBody Profile profile){
+    public ResponseEntity<Profile> addNewProfile(@Valid @RequestBody Profile profile) {
         System.out.println("profile" + profile);
         Profile returnedUser = profileService.getProfileByEmail(profile);
         System.out.println("returned" + returnedUser);
@@ -82,7 +76,7 @@ public class ProfileController {
      * @return Profile object with HttpStatusAccepted or HttpStatusBackRequest
      */
     @GetMapping("/profiles/{id}")
-    public ResponseEntity<Profile> getProfileByPid(@PathVariable("id")int id){
+    public ResponseEntity<Profile> getProfileByPid(@PathVariable("id")int id) {
         Profile profile = profileService.getProfileByPid(id);
         if(profile!=null){
             return new ResponseEntity<>(profile, HttpStatus.ACCEPTED);
@@ -97,11 +91,11 @@ public class ProfileController {
      * @return Updated profile with HttpStatus.ACCEPTED otherwise if invalid returns HttpStatus.BAD_REQUEST
      */
     @PutMapping("/profiles/{id}")
-    public ResponseEntity<Profile> updateProfile(@RequestBody Profile profile){
+    public ResponseEntity<Profile> updateProfile(@RequestBody Profile profile) {
         Profile result = profileService.updateProfile(profile);
-        if(result!=null){
+        if (result!=null) {
             return new ResponseEntity<>(result, HttpStatus.ACCEPTED);
-        }else{
+        } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
