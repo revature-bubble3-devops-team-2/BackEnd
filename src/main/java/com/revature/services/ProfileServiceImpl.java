@@ -13,7 +13,6 @@ public class ProfileServiceImpl implements ProfileService{
 
     @Autowired
     public ProfileRepo profileRepo;
-    public ProfileService profileService;
 
     /**
      * processes login request from profile controller
@@ -115,15 +114,12 @@ public class ProfileServiceImpl implements ProfileService{
 
     @Override
     public Profile addFollowerByEmail(Profile profile, String email) {
-        Profile followed = profileService.getProfileByEmail(email);
-        System.out.println("Followed: " + followed);
 
-        System.out.println("Before adding Followers: "+ profile.getFollowing());
+        Profile followed = profileRepo.getProfileByEmail(email);
 
         profile.getFollowing().add(followed);
+        profileRepo.save(profile);
 
-        System.out.println("After adding Followers: "+ profile.getFollowing());
-
-        return null;
+        return profile;
     }
 }

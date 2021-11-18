@@ -37,9 +37,13 @@ public class ProfileController {
      * @param password
      * @return secure token as json
      */
+    @NoAuthIn
     @PostMapping
     public ResponseEntity<String> login(String username, String password) {
+
         Profile profile = profileService.login(username,password);
+
+        System.out.println("Username" + username);
         if(profile != null){
             HttpHeaders headers = new HttpHeaders();
             String token = SecurityUtil.generateToken(profile);
@@ -60,7 +64,7 @@ public class ProfileController {
      * @return aobject name profile, response header, Status code okay
      */
 
-
+    @NoAuthIn
     @PostMapping("/register")
     public ResponseEntity<Profile> addNewProfile(@Valid @RequestBody Profile profile){
         System.out.println("profile" + profile);
@@ -111,28 +115,23 @@ public class ProfileController {
     }
 
     @PostMapping("/follow")
-    public ResponseEntity<Profile> newFollower(String Authorization, String FollowedEmail){
-        System.out.println("Authorization: " + Authorization);
-        System.out.println("FollowedEmail: " + FollowedEmail);
+    public ResponseEntity<String> newFollower(String email, HttpServletRequest req){
 
-        //Profile followed = profileService.getProfileByEmail(FollowedEmail);
-        //System.out.println("Followed: " + followed);
-        Profile creator = SecurityUtil.validateToken(Authorization);
-        System.out.println("Returned Profile from Token: " + creator);
+        String token = req.getHeader("Authorization");
 
-        //creator.
-        profileService.addFollowerByEmail(creator, FollowedEmail);
+        Profile creator = SecurityUtil.validateToken(token);
 
+        Profile newProfile = profileService.addFollowerByEmail(creator, email);
 
-        /*Profile followed = profileService.getProfileByUsername(id);
-
-        System.out.println("Followed: " + followed);
-
-        String token = SecurityUtil.generateToken(followed);
-        System.out.println("Token: " + token);
-
-        Profile Test = SecurityUtil.validateToken(token);
-        System.out.println("Returned Profile from Token: " + Test);*/
+        if (newProfile != null)
+        {
+            HttpHeaders headers = new HttpHeaders();
+            String newToken = SecurityUtil.generateToken(newProfile);
+            String body = "{\"Authorization\":\""+
+                    newToken
+                    +"\"}";
+            return new ResponseEntity<>(body, headers, HttpStatus.ACCEPTED);
+        }
 
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
