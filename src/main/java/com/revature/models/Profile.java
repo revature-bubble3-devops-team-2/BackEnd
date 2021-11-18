@@ -52,7 +52,7 @@ public class Profile {
     private String email;
 
     @Column(name = "following")
-    @OneToMany
+    @ManyToMany
     private List<Profile> following;
 
     public Profile() {

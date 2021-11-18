@@ -2,6 +2,7 @@ package com.revature.aspects;
 
 import com.revature.models.Profile;
 import com.revature.utilites.SecurityUtil;
+import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -17,6 +18,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 
+@Log4j2
 @Aspect
 public class AuthAspect {
 
@@ -26,15 +28,18 @@ public class AuthAspect {
             "&& !@annotation(com.revature.aspects.annotations.NoAuthIn)" +
             "&& !@target(com.revature.aspects.annotations.NoAuthIn)")
     public ResponseEntity<?> authenticateToken(ProceedingJoinPoint pjp) throws Throwable {
+        log.info("Aspect triggered");
         HttpServletRequest request =
                 ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
         String token = request.getHeader("Authorization");
         if (token == null) {
+            log.info("null token");
             logger.warn("No Authorization Token Received");
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         } else {
             Profile profile = SecurityUtil.validateToken(token);
             if (profile == null) {
+                log.info("null profile");
                 logger.warn("Received Invalid Token");
                 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             } else {
