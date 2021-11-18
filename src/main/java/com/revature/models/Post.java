@@ -35,7 +35,5 @@ public class Post {
         super();
         psid = SecurityUtil.getId();
     }
-
-
 }
 

@@ -7,5 +7,4 @@ import java.util.List;
 public interface PostService {
     Post addPost(Post post);
     List<Post> getAllPosts();
-
 }

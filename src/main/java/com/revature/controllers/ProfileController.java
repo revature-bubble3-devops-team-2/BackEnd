@@ -36,7 +36,7 @@ public class ProfileController {
      */
     @PostMapping
     @NoAuthIn
-    public ResponseEntity<Profile> login(String username, String password) {
+    public ResponseEntity<String> login(String username, String password) {
         Profile profile = profileService.login(username,password);
         if(profile != null){
             HttpHeaders headers = new HttpHeaders();
@@ -78,14 +78,13 @@ public class ProfileController {
 
     }
 
-
     /**
      * Get Mapping that grabs the profile by the path variable id. It then returns the profile if it is valid.
      * @param id
      * @return Profile object with HttpStatusAccepted or HttpStatusBackRequest
      */
     @GetMapping("/profiles/{id}")
-    public ResponseEntity<Profile> getProfileByPid(@PathVariable("id")int id){
+    public ResponseEntity<Profile> getProfileByPid(@PathVariable("id")int id) {
         Profile profile = profileService.getProfileByPid(id);
         if(profile!=null){
             return new ResponseEntity<>(profile, HttpStatus.ACCEPTED);
@@ -103,9 +102,9 @@ public class ProfileController {
     public ResponseEntity<Profile> updateProfile(@RequestBody Profile profile, HttpServletRequest req){
         req.getAttribute("profile");
         Profile result = profileService.updateProfile(profile);
-        if(result!=null){
+        if (result!=null) {
             return new ResponseEntity<>(result, HttpStatus.ACCEPTED);
-        }else{
+        } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
