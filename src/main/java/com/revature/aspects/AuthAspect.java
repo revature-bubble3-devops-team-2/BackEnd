@@ -10,6 +10,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 
 @Aspect
 @Log4j2
+@Component
 public class AuthAspect {
     public AuthAspect() {
     }
@@ -47,7 +49,9 @@ public class AuthAspect {
 
     @AfterReturning(pointcut = "within(com.revature.controllers.*)", returning = "response")
     public ResponseEntity<?> exposeHeaders(final ResponseEntity<?> response) throws Throwable {
-
+        if (response == null) {
+            log.error("No Response Sent.");
+        }
         if (response != null && !response.getHeaders().keySet().isEmpty()) {
             final HttpHeaders headers = HttpHeaders.writableHttpHeaders(response.getHeaders());
             headers.setAccessControlExposeHeaders(new ArrayList<>(response.getHeaders().keySet()));

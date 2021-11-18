@@ -4,7 +4,9 @@ import lombok.extern.log4j.Log4j2;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -12,8 +14,14 @@ import javax.servlet.http.HttpServletRequest;
 
 @Log4j2
 @Aspect
+@Component
 public class LoggerAspect {
     public LoggerAspect() {
+    }
+
+    @Before("within(com.revature.controllers.*)")
+    public void logHit(final JoinPoint joinPoint) {
+        log.info(joinPoint.getSignature() + " successfully hit.");
     }
 
     @AfterReturning(pointcut = "within(com.revature.controllers.*)", returning = "response")

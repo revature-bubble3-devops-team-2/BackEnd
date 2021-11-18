@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
-import javax.servlet.http.HttpServletRequest;
-
 @RestController
 @CrossOrigin
 @RequestMapping("/posts")
@@ -56,8 +54,8 @@ public class PostController {
      */
     @GetMapping
     @ResponseBody
-    public List<Post> getAllPosts() {
-        return postService.getAllPosts();
+    public ResponseEntity<List<Post>> getAllPosts() {
+        return new ResponseEntity<>(postService.getAllPosts(), HttpStatus.OK) ;
     }
 }
 
