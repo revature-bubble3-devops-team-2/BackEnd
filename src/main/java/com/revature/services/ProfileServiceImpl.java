@@ -26,10 +26,6 @@ public class ProfileServiceImpl implements ProfileService{
         return null;
     }
 
-    public ProfileServiceImpl() {
-    }
-
-
     /**
      * Add User Profile into the Database
      * @param profile
@@ -56,8 +52,7 @@ public class ProfileServiceImpl implements ProfileService{
     public Profile getProfileByEmail(Profile profile) {
        try{
            return profileRepo.getProfileByEmail(profile.getEmail());
-       }catch (Exception e)
-       {
+       } catch (Exception e) {
            return null;
        }
     }
