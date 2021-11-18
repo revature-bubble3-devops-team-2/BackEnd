@@ -37,8 +37,10 @@ public class ProfileController {
      * @param password
      * @return secure token as json
      */
+    @NoAuthIn
     @PostMapping
     public ResponseEntity<String> login(String username, String password) {
+        System.out.println("login hit");
         Profile profile = profileService.login(username,password);
         if(profile != null){
             HttpHeaders headers = new HttpHeaders();
@@ -60,7 +62,7 @@ public class ProfileController {
      * @return aobject name profile, response header, Status code okay
      */
 
-
+    @NoAuthIn
     @PostMapping("/register")
     public ResponseEntity<Profile> addNewProfile(@Valid @RequestBody Profile profile){
         System.out.println("profile" + profile);
@@ -116,10 +118,8 @@ public class ProfileController {
 //        Profile follower = SecurityUtil.validateToken(token);
 //        log.info("token: "+token);
         Profile follower = (Profile)req.getAttribute("profile");
-        log.info("email: "+email);
-        log.info("follower: "+follower);
         if(follower != null && profileService.removeFollowByEmail(follower, email) != null){
-            log.info("Success");
+            log.info("Profile successfully unfollowed");
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
