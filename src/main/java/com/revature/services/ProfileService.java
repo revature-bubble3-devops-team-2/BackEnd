@@ -1,7 +1,6 @@
 package com.revature.services;
 
 import com.revature.models.Profile;
-import org.springframework.stereotype.Service;
 
 public interface ProfileService {
     public Profile login(String username, String password);

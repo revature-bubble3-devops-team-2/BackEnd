@@ -29,10 +29,6 @@ public class ProfileServiceImpl implements ProfileService{
         return null;
     }
 
-    public ProfileServiceImpl() {
-    }
-
-
     /**
      * Add User Profile into the Database
      * @param profile
