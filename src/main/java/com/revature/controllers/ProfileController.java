@@ -40,7 +40,6 @@ public class ProfileController {
     @NoAuthIn
     @PostMapping
     public ResponseEntity<String> login(String username, String password) {
-        System.out.println("login hit");
         Profile profile = profileService.login(username,password);
         if(profile != null){
             HttpHeaders headers = new HttpHeaders();
@@ -66,7 +65,7 @@ public class ProfileController {
     @PostMapping("/register")
     public ResponseEntity<Profile> addNewProfile(@Valid @RequestBody Profile profile){
         System.out.println("profile" + profile);
-        Profile returnedUser = profileService.getProfileByEmail(profile);
+        Profile returnedUser = profileService.getProfileByEmail(profile.getEmail());
         System.out.println("returned" + returnedUser);
         if(returnedUser == null){
             HttpHeaders responseHeaders = new HttpHeaders();
@@ -110,6 +109,28 @@ public class ProfileController {
         }else{
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @PostMapping("/follow")
+    public ResponseEntity<String> newFollower(String email, HttpServletRequest req){
+
+        String token = req.getHeader("Authorization");
+
+        Profile creator = SecurityUtil.validateToken(token);
+
+        Profile newProfile = profileService.addFollowerByEmail(creator, email);
+
+        if (newProfile != null)
+        {
+            HttpHeaders headers = new HttpHeaders();
+            String newToken = SecurityUtil.generateToken(newProfile);
+            String body = "{\"Authorization\":\""+
+                    newToken
+                    +"\"}";
+            return new ResponseEntity<>(body, headers, HttpStatus.ACCEPTED);
+        }
+
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping("/unfollow")
