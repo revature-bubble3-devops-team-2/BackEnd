@@ -134,11 +134,12 @@ public class ProfileController {
     }
 
     @PostMapping("/unfollow")
-    public ResponseEntity<Profile> unfollow(@RequestBody String email, HttpServletRequest req){
+    public ResponseEntity<Profile> unfollow(String email, HttpServletRequest req){
 //        String token = req.getHeader("Authorization");
 //        Profile follower = SecurityUtil.validateToken(token);
 //        log.info("token: "+token);
         Profile follower = (Profile)req.getAttribute("profile");
+        follower = profileService.getProfileByEmail(follower.getEmail());
         if(follower != null && profileService.removeFollowByEmail(follower, email) != null){
             log.info("Profile successfully unfollowed");
             return new ResponseEntity<>(HttpStatus.OK);
