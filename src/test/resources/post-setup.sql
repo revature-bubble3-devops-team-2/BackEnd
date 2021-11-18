@@ -1,4 +1,4 @@
-drop table if exists profile, post, likes cascade;
+drop table if exists profile, post, comment_section, followers, likes;
 
 create table profile (
 	profile_id int primary key,
@@ -15,10 +15,22 @@ create table post (
 	date_posted timestamp not null,
 	image_url varchar
 );
+create table comment_section (
+	comment_id int primary key,
+	body varchar not null,
+	date_commented timestamp not null,
+	previous_comment int references comment_section(comment_id),
+	post_id int references post(post_id),
+	profile_id int references profile(profile_id)
+);
+create table followers (
+	follower_id int primary key,
+	profile_id int references profile(profile_id)
+);
 create table likes (
 	post_id int references post(post_id),
-    profile_id int references profile(profile_id),
-    primary key (post_id, profile_id)
+	profile_id int references profile(profile_id),
+	primary key (post_id, profile_id)
 );
 
 insert into profile (profile_id, first_name, last_name, email, username, passkey) values
@@ -28,3 +40,4 @@ insert into profile (profile_id, first_name, last_name, email, username, passkey
 insert into post (post_id, profile_id, body, date_posted, image_url) values
           (1, 1, 'Hello', current_date, 'image_url1'),
           (2, 1, 'World', current_date, 'image_url2');
+
