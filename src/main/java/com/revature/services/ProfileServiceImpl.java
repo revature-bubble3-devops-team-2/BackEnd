@@ -103,12 +103,12 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public Profile removeFollowByEmail(Profile profile, String email) {
         Profile targetProfile = profileRepo.getProfileByPid(profile.getPid());
-        log.info("target acquired: "+targetProfile);
+        System.out.println(targetProfile);
         Profile unfollow = profileRepo.getProfileByEmail(email);
-        if(targetProfile!=null){
-            targetProfile.getFollowing().remove(unfollow);
+        if(targetProfile!=null && targetProfile.getFollowing().remove(unfollow)){
             return profileRepo.save(targetProfile);
         }else{
+            log.info("Unable to remove follow");
             return null;
         }
     }
