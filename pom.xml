@@ -33,8 +33,6 @@
             <artifactId>spring-aspects</artifactId>
             <version>5.3.11</version>
         </dependency>
-
-        <!-- Hibernate -->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>

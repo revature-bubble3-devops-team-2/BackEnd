@@ -107,7 +107,6 @@ public class SecurityUtil {
             return false;
         }
         if (passKey.length() < 88) return false;
-
         String encrypted = hashPassword(password, passKey.substring(88));
         if (encrypted == null) {
             log.error("Unable to verify password validity. Exiting method and returning false.");
@@ -173,8 +172,8 @@ public class SecurityUtil {
         }
 
         JWTClaimsSet.Builder claimsSet = new JWTClaimsSet.Builder();
-        claimsSet.issuer("potluck-system");
-        claimsSet.subject("potluck-identity-token");
+        claimsSet.issuer("bubble-system");
+        claimsSet.subject("bubble-identity-token");
 
         claimsSet.claim("profile", profile);
 
@@ -226,11 +225,11 @@ public class SecurityUtil {
                 return null;
             }
             JWTClaimsSet claims = jwt.getJWTClaimsSet();
-            if (!claims.getIssuer().equals("potluck-system")) return null;
+            if (!claims.getIssuer().equals("bubble-system")) return null;
             if (claims.getExpirationTime().before(Timestamp.valueOf(LocalDateTime.now()))) return null;
             if (Timestamp.valueOf(LocalDateTime.now()).before(claims.getNotBeforeTime())) return null;
 
-            Map<String, Object> guts = claims.getJSONObjectClaim("chef");
+            Map<String, Object> guts = claims.getJSONObjectClaim("profile");
 
             int id = (int) (long) guts.get("pid");
             String username = (String) guts.get("username");

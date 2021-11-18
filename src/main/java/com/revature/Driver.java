@@ -9,6 +9,7 @@ import org.springframework.core.env.Environment;
 
 @Log4j2
 @SpringBootApplication
+@EnableAutoConfiguration
 public class Driver {
 
     public static void main(String[] args) {

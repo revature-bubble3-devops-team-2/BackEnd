@@ -11,7 +11,6 @@ import java.sql.Timestamp;
 @Component
 @Entity @Table(name = "post")
 @Data @AllArgsConstructor
-
 public class Post {
 
     @Id
