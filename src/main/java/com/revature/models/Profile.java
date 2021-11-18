@@ -1,6 +1,5 @@
 package com.revature.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.revature.utilites.SecurityUtil;
 import lombok.*;
