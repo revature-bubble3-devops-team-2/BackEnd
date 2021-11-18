@@ -7,7 +7,6 @@ public interface ProfileService {
     public Profile addNewProfile(Profile profile);
     public Profile getProfileByEmail(Profile profile);
     public Profile getProfileByPid(Integer pid);
-    public Profile getProfileByUsername(String username);
     public Profile updateProfile(Profile profile);
     public Profile removeFollowByEmail(Profile profile, String email);
 }
