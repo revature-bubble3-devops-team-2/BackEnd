@@ -77,6 +77,25 @@ public class ProfileController {
     }
 
     /**
+     * Gets the user profile from token using SecurityUtil.validate(token)
+     * Which passes a profile then it returns the profile with ACCEPTED if valid
+     * or BAD_REQUEST if invalid.
+     * @param token
+     * @return
+     */
+    @PostMapping("/token")
+    public  ResponseEntity<Profile> getProfileByToken(String token) {
+        token = token.replace("\"", "");
+        Profile profile = SecurityUtil.validateToken(token);
+        if (profile != null) {
+            return new ResponseEntity<>(profile, HttpStatus.ACCEPTED);
+        } else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
+    /**
      * Get Mapping that grabs the profile by the path variable id. It then returns the profile if it is valid.
      * @param id
      * @return Profile object with HttpStatusAccepted or HttpStatusBackRequest
