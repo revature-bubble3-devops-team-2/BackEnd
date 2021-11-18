@@ -128,17 +128,7 @@ public class ProfileServiceImpl implements ProfileService{
         List<Profile> pList = new ArrayList<>(profile.getFollowing());
         Profile followed = profileRepo.getProfileByEmail(email);
         pList.add(followed);
-        System.out.println("List 1 after add");
-        for(Object p : pList){
-            System.out.println("Profile:");
-            System.out.println(p);
-        }
         profile.setFollowing(pList);
-//        System.out.println("List 2");
-//        for(Object p : pList2){
-//            System.out.println("Profile:");
-//            System.out.println(p);
-//        }
         profileRepo.save(profile);
         return profile;
     }
