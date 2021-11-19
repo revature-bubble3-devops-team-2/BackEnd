@@ -5,9 +5,6 @@ pipeline {
     options {disableConcurrentBuilds()}
 
     environment {
-        DB_URL = "jdbc:postgresql://bubble.cvtq9j4axrge.us-east-1.rds.amazonaws.com:5432/postgres"
-        DB_USER = "postgres"
-        DB_PASS = "Password123!"
         PORT = 8082
         IMAGE_TAG = "bubbleimg"
         CONTAINER_NAME = "bubblemain"

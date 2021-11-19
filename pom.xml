@@ -109,7 +109,6 @@
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.7</version>
                 <configuration>
-                    <append>true</append>
                     <excludes>
                         <exclude>**/*Aspect.*</exclude>
                         <exclude>**/*Test.*</exclude>
