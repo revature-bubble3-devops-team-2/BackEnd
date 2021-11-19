@@ -22,6 +22,7 @@ import java.util.ArrayList;
 @Component
 public class AuthAspect {
     public AuthAspect() {
+        super();
     }
 
     @Around("execution(* com.revature.controllers.*.*(..))" +
