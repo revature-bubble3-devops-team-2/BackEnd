@@ -109,12 +109,14 @@ public class ProfileController {
 
     @PostMapping("/follow")
     public ResponseEntity<String> newFollower(String email, HttpServletRequest req){
-
+        System.out.println("incoming email: "+email);
         String token = req.getHeader("Authorization");
 
         Profile creator = SecurityUtil.validateToken(token);
         creator = profileService.getProfileByEmail(creator.getEmail());
         Profile newProfile = profileService.addFollowerByEmail(creator, email);
+
+        System.out.println(creator);
 
         if (newProfile != null)
         {
@@ -135,7 +137,7 @@ public class ProfileController {
         follower = profileService.getProfileByEmail(follower.getEmail());
         if(follower != null && profileService.removeFollowByEmail(follower, email) != null){
             log.info("Profile successfully unfollowed");
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
