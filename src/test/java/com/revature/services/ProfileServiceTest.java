@@ -118,10 +118,9 @@ public class ProfileServiceTest {
 
     @Test
     public void testUpdateExistingProfile() {
-        Profile old = new Profile("test","1234","test","test","test@mail");
-        when(profileRepo.getProfileByPid(old.getPid())).thenReturn(old);
-        when(profileRepo.save(old)).thenReturn(old);
-        assertEquals(expected, profileService.updateProfile(expected));
+        when(profileRepo.getProfileByPid(expected.getPid())).thenReturn(expected);
+        when(profileRepo.save(expected)).thenReturn(expected);
+        assertEquals(this.expected, profileService.updateProfile(this.expected));
     }
 
     @Test
