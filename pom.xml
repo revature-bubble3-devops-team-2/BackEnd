@@ -110,8 +110,7 @@
                 <version>0.8.7</version>
                 <configuration>
                     <excludes>
-                        <exclude>**/*Aspect.*</exclude>
-                        <exclude>**/*Test.*</exclude>
+                        <exclude>**/test/*</exclude>
                     </excludes>
                 </configuration>
                 <executions>
