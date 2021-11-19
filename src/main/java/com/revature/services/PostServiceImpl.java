@@ -8,12 +8,16 @@ import com.revature.models.Profile;
 import com.revature.repositories.FollowerRepo;
 import com.revature.repositories.PostRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PagedListHolder;
+import org.springframework.beans.support.SortDefinition;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PostServiceImpl implements PostService{
@@ -80,16 +84,16 @@ public class PostServiceImpl implements PostService{
             List<Post> followerPosts = postRepo.findTop3ByCreator(followers1.getFollower(), Sort.by("datePosted").descending());
             resultPosts.addAll(followerPosts);
         }
-        System.out.println(resultPosts);
 
-        PagedListHolder pageable = new PagedListHolder(resultPosts);
+        List<Post> sortedPosts = resultPosts.stream().sorted(Comparator.comparing(Post::getDatePosted).reversed()).collect(Collectors.toList());
+
+        PagedListHolder pageable = new PagedListHolder(sortedPosts);
         pageable.setPageSize(5);
         pageable.setPage(page - 1);
-        System.out.println(pageable.getPageCount());
-        System.out.println(pageable.getPageSize());
         if(pageable.getPageCount() < page){
             return null;
         }
+        System.out.println(pageable.getPageList());
         return pageable.getPageList();
     }
 

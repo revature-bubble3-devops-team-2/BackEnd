@@ -63,11 +63,11 @@ public class PostController {
         return postService.getAllPostsbyid(pageNumber);
     }
 
-    @GetMapping("/profile/{id}/{pageNumber}")
+    @GetMapping("/profile/{pid}/{pageNumber}")
     @ResponseBody
-    public List<Post> getFollowerPostsById(@PathVariable ("id") int pid,@PathVariable ("pageNumber") int page) {
+    public List<Post> getFollowerPostsById(@PathVariable ("pid") int pid,@PathVariable ("pageNumber") int page) {
         Profile profile = profileService.getProfileByPid(pid);
-
+        System.out.println(profile);
         return postService.getFollowerPostsByProfile(profile, page);
     }
 }
