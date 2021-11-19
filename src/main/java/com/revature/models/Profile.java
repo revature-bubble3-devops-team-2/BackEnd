@@ -69,6 +69,15 @@ public class Profile {
         this.email = email;
     }
 
+    public Profile(String username, String passkey, String firstName, String lastName, String email) {
+        super();
+        this.username = username;
+        this.passkey = passkey;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

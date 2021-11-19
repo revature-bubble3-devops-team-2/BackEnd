@@ -6,10 +6,10 @@ import com.revature.models.Profile;
 import java.util.List;
 
 public interface PostService {
-    public Post addPost(Post post);
-    public List<Post> getAllPosts();
-    public Profile likePost(Profile profile, Post post);
-    public int likeDelete(Profile profile, Post post);
-    public int likeGet(Profile profile, Post post);
-    public Profile likeFindByID(Profile profile, Post post);
+    Post addPost(Post post);
+    List<Post> getAllPosts();
+    Profile likePost(Profile profile, Post post);
+    int likeDelete(Profile profile, Post post);
+    int likeGet(Profile profile, Post post);
+    Profile likeFindByID(Profile profile, Post post);
 }
