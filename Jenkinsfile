@@ -15,21 +15,6 @@ pipeline {
     }
 
     stages {
-        stage('SonarCloud') {
-            environment {
-                SCANNER_HOME = tool 'sonar'
-                ORGANIZATION = "revature-bubble"
-                PROJECT_NAME = "Revature-Bubble_BackEnd"
-            }
-            steps {
-                withSonarQubeEnv('CloudScan') {
-                    sh '''$SCANNER_HOME/bin/sonar-scanner -Dsonar.organization=$ORGANIZATION \
-                        -Dsonar.java.binaries=build/classes/java/ \
-                        -Dsonar.projectKey=$PROJECT_NAME \
-                        -Dsonar.sources=.'''
-                }
-            }
-        }
         stage('Clean Directory') {
             steps {
                 sh 'mvn clean'
@@ -48,6 +33,28 @@ pipeline {
                 sh 'mvn -DskipTests package'
                 discordSend description: ":package: *Packaged ${env.JOB_NAME}*", result: currentBuild.currentResult, webhookURL: discordurl
             }
+        }
+        stage('SonarCloud') {
+            environment {
+                SCANNER_HOME = tool 'sonar'
+                ORGANIZATION = "revature-bubble"
+                PROJECT_NAME = "Revature-Bubble_BackEnd"
+            }
+            steps {
+                withSonarQubeEnv('CloudScan') {
+                    sh '''$SCANNER_HOME/bin/sonar-scanner -Dsonar.organization=$ORGANIZATION \
+                        -Dsonar.java.binaries=target/classes/com/revature/ \
+                        -Dsonar.projectKey=$PROJECT_NAME \
+                        -Dsonar.sources=.'''
+                }
+            }
+        }
+        stage("Quality Gate") {
+          steps {
+            timeout(time: 1, unit: 'MINUTES') {
+                waitForQualityGate abortPipeline: true
+            }
+          }
         }
         stage('Remove Previous Artifacts') {
             steps {
