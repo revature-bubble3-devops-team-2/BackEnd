@@ -96,45 +96,13 @@ public class ProfileServiceImpl implements ProfileService {
         }
     }
 
-    @Override
-    public boolean addFollowerByProfile(Profile profile)
-    {
-        System.out.println(profile);
-
-        return false;
-    }
-
-    @Override
-    public Profile removeFollowByEmail(Profile profile, String email) {
-        Profile unfollow = profileRepo.getProfileByEmail(email);
-        if(profile!=null){
-            List<Profile> pList = profile.getFollowing();
-            if(pList.contains(unfollow)){
-                pList.remove(unfollow);
-                profile.setFollowing(pList);
-            }
-                return profileRepo.save(profile);
-            }else{
-                log.info("Unable to remove follow");
-            }
-        return null;
-        }
-
-    @Override
-    public Profile addFollowerByEmail(Profile profile, String email) {
-        List<Profile> pList = new ArrayList<>(profile.getFollowing());
-        Profile followed = profileRepo.getProfileByEmail(email);
-        if (followed != null )
-        {
-            if(!pList.contains(followed)) {
-                pList.add(followed);
-            }
-            profile.setFollowing(pList);
-            profileRepo.save(profile);
-            return profile;
-        }
-        return null;
-    }
+//    @Override
+//    public boolean addFollowerByProfile(Profile profile)
+//    {
+//        System.out.println(profile);
+//
+//        return false;
+//    }
 
     @Override
     public Profile removeFollowByEmail(Profile profile, String email) {
