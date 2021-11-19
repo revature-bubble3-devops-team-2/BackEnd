@@ -110,6 +110,8 @@
                 <version>0.8.7</version>
                 <configuration>
                     <excludes>
+                        <exclude>**/aspects/*</exclude>
+                        <exclude>**/controllers/*</exclude>
                         <exclude>**/test/*</exclude>
                     </excludes>
                 </configuration>
