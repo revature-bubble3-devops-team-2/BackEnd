@@ -34,8 +34,9 @@ public class ProfileController {
     @NoAuthIn
     @PostMapping
     public ResponseEntity<String> login(String username, String password) {
-        System.out.println("login hit");
         Profile profile = profileService.login(username,password);
+
+        System.out.println("Username" + username);
         if(profile != null){
             HttpHeaders headers = new HttpHeaders();
             String token = SecurityUtil.generateToken(profile);
@@ -107,26 +108,23 @@ public class ProfileController {
     }
 
     @PostMapping("/follow")
-    public ResponseEntity<Profile> newFollower(String Authorization, String FollowedEmail){
-        System.out.println("Authorization: " + Authorization);
-        System.out.println("FollowedEmail: " + FollowedEmail);
+    public ResponseEntity<String> newFollower(String email, HttpServletRequest req){
 
-        Profile followed = profileService.getProfileByEmail(FollowedEmail);
-        System.out.println("Followed: " + followed);
-        Profile creator = SecurityUtil.validateToken(Authorization);
-        System.out.println("Returned Profile from Token: " + creator);
+        String token = req.getHeader("Authorization");
 
-        //creator.
+        Profile creator = SecurityUtil.validateToken(token);
 
-        /*Profile followed = profileService.getProfileByUsername(id);
+        Profile newProfile = profileService.addFollowerByEmail(creator, email);
 
-        System.out.println("Followed: " + followed);
-
-        String token = SecurityUtil.generateToken(followed);
-        System.out.println("Token: " + token);
-
-        Profile Test = SecurityUtil.validateToken(token);
-        System.out.println("Returned Profile from Token: " + Test);*/
+        if (newProfile != null)
+        {
+            HttpHeaders headers = new HttpHeaders();
+            String newToken = SecurityUtil.generateToken(newProfile);
+            String body = "{\"Authorization\":\""+
+                    newToken
+                    +"\"}";
+            return new ResponseEntity<>(body, headers, HttpStatus.ACCEPTED);
+        }
 
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }

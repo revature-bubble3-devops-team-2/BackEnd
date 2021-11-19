@@ -113,4 +113,18 @@ public class ProfileServiceImpl implements ProfileService {
             return null;
         }
     }
+<<<<<<< HEAD
+=======
+
+    @Override
+    public Profile addFollowerByEmail(Profile profile, String email) {
+
+        Profile followed = profileRepo.getProfileByEmail(email);
+
+        profile.getFollowing().add(followed);
+        profileRepo.save(profile);
+
+        return profile;
+    }
+>>>>>>> e67b513 (confirm add followed working with postman)
 }
