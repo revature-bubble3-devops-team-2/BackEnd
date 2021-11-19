@@ -34,12 +34,12 @@ public class PostController {
      *          HTTP bad request status and null otherwise
      */
     @PostMapping
-    @NoAuthIn
+
     public ResponseEntity<Post> addPost(@RequestBody Post post, HttpServletRequest req) {
         Post temp = post;
-        //temp.setCreator((Profile) req.getAttribute("profile"));
-        Profile tempProfile = new Profile(2, "profile2", "22", "Two", "LastTwo", "Email2");
-        temp.setCreator(tempProfile);
+        temp.setCreator((Profile) req.getAttribute("profile"));
+        //Profile tempProfile = new Profile(2, "profile2", "22", "Two", "LastTwo", "Email2");
+        //temp.setCreator(tempProfile);
         temp.setPsid(SecurityUtil.getId());
         Post check = postService.addPost(temp);
         if (check == null) {

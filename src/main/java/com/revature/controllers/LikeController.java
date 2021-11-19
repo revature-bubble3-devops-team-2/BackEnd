@@ -36,10 +36,10 @@ public class LikeController {
      *          HTTP bad request response and null otherwise
      */
     @PostMapping
-    @NoAuthIn
+
     public ResponseEntity<Profile> addLike(@RequestBody Post post, HttpServletRequest req) {
-        //Profile temp = (Profile) req.getAttribute("profile");
-        Profile temp = new Profile(2, "profile2", "22", "Two", "LastTwo", "Email2");
+        Profile temp = (Profile) req.getAttribute("profile");
+        //Profile temp = new Profile(2, "profile2", "22", "Two", "LastTwo", "Email2");
         Profile existProfile = postService.likeFindByID(temp, post);
         if (existProfile == null) { //like does not exist
             Profile check = postService.likePost(temp, post);
@@ -65,10 +65,10 @@ public class LikeController {
      *          HTTP bad request status and null otherwise
      */
     @DeleteMapping
-    @NoAuthIn
+
     public ResponseEntity<Profile> removeLike(@RequestBody Post post, HttpServletRequest req) {
-        //Profile temp = (Profile) req.getAttribute("profile");
-        Profile temp = new Profile(2, "profile2", "22", "Two", "LastTwo", "Email2");
+        Profile temp = (Profile) req.getAttribute("profile");
+        //Profile temp = new Profile(2, "profile2", "22", "Two", "LastTwo", "Email2");
         int check = postService.likeDelete(temp, post);
         if (check == -1){
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
@@ -95,12 +95,12 @@ public class LikeController {
      *          HTTP ok request status and 1 when the Like has not been found
      */
     @GetMapping
-    @NoAuthIn
+
     public ResponseEntity<Integer> getLike(@RequestHeader Post post,
                                            @RequestHeader Boolean find,
                                            HttpServletRequest req) {
-        //Profile temp = (Profile) req.getAttribute("profile");
-        Profile temp = new Profile(2, "profile2", "22", "Two", "LastTwo", "Email2");
+        Profile temp = (Profile) req.getAttribute("profile");
+        //Profile temp = new Profile(2, "profile2", "22", "Two", "LastTwo", "Email2");
         if (!find) {
             int result = (int) postService.likeGet(temp, post);
             return new ResponseEntity<>(result, HttpStatus.OK);
