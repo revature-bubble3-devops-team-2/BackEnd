@@ -129,11 +129,14 @@ public class ProfileController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    @DeleteMapping("/profiles/{id}/follow")
-    public ResponseEntity<Profile> deleteFollower(@RequestBody String Authorization, @PathVariable("id")int id){
-        System.out.println("Authorization: " + Authorization);
-        System.out.println("FollowingUsername: " + id);
-
+    @PostMapping("/unfollow")
+    public ResponseEntity<Profile> unfollow(String email, HttpServletRequest req){
+        Profile follower = (Profile)req.getAttribute("profile");
+        follower = profileService.getProfileByEmail(follower.getEmail());
+        if(follower != null && profileService.removeFollowByEmail(follower, email) != null){
+            log.info("Profile successfully unfollowed");
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }
