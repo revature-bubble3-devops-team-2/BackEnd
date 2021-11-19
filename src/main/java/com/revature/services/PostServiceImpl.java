@@ -2,15 +2,17 @@ package com.revature.services;
 
 
 
+import com.revature.models.Followers;
 import com.revature.models.Post;
+import com.revature.models.Profile;
+import com.revature.repositories.FollowerRepo;
 import com.revature.repositories.PostRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.beans.support.PagedListHolder;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,6 +20,9 @@ public class PostServiceImpl implements PostService{
 
     @Autowired
     public PostRepo postRepo;
+
+    @Autowired
+    FollowerRepo followerRepo;
 
     /**
      * addPost will receive a post to be added and return a potential post. Within a try block, it will catch any
@@ -62,6 +67,32 @@ public class PostServiceImpl implements PostService{
         }
         return null;
     }
+
     public List<Post> getAllPosts() {return postRepo.findAll();}
+
+    public List<Post> getFollowerPostsByProfile(Profile profile, int page){
+        if(page <= 0){
+            return null;
+        }
+        List<Followers> followers = followerRepo.getFollowersByProfile(profile);
+        List<Post> resultPosts = new ArrayList<>();
+        for(Followers followers1: followers){
+            List<Post> followerPosts = postRepo.findTop3ByCreator(followers1.getFollower(), Sort.by("datePosted").descending());
+            resultPosts.addAll(followerPosts);
+        }
+        System.out.println(resultPosts);
+
+        PagedListHolder pageable = new PagedListHolder(resultPosts);
+        pageable.setPageSize(5);
+        pageable.setPage(page - 1);
+        System.out.println(pageable.getPageCount());
+        System.out.println(pageable.getPageSize());
+        if(pageable.getPageCount() < page){
+            return null;
+        }
+        return pageable.getPageList();
+    }
+
+
 }
 

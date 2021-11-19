@@ -3,6 +3,7 @@ package com.revature.controllers;
 import com.revature.models.Post;
 import com.revature.models.Profile;
 import com.revature.services.PostService;
+import com.revature.services.ProfileService;
 import com.revature.utilites.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,9 @@ public class PostController {
 
     @Autowired
     public PostService postService;
+
+    @Autowired
+    public ProfileService profileService;
 
     /**
      * addPost receives a request body that contains the Post to be added and a http servlet request that contains
@@ -59,5 +63,12 @@ public class PostController {
         return postService.getAllPostsbyid(pageNumber);
     }
 
+    @GetMapping("/profile/{id}/{pageNumber}")
+    @ResponseBody
+    public List<Post> getFollowerPostsById(@PathVariable ("id") int pid,@PathVariable ("pageNumber") int page) {
+        Profile profile = profileService.getProfileByPid(pid);
+
+        return postService.getFollowerPostsByProfile(profile, page);
+    }
 }
 
