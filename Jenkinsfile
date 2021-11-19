@@ -88,7 +88,7 @@ pipeline {
                 def statusComment = ""
                 if (testfail) {
                     def summary = junit testResults: '**/target/surefire-reports/*.xml'
-                    statusComment = "*[${env.JOB_NAME}] <${env.BUILD_URL}|#${env.BUILD_NUMBER}>* failed to build on ${env.GIT_BRANCH} branch."
+                    statusComment = "*[${env.JOB_NAME}] <#${env.BUILD_NUMBER}>* failed to build on ${env.GIT_BRANCH} branch."
                     statusComment += "\nRan ${summary.getTotalCount()} total tests."
                     statusComment += "\n\tFailed ${summary.getFailCount()}, Passed ${summary.getPassCount()}, Skipped ${summary.getSkipCount()}"
                     statusComment += "\nSeems you still have a ways to go hm? :face_with_monocle:"
