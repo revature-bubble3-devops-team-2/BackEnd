@@ -21,15 +21,6 @@ public class Followers {
     @JoinColumn(name = "profile_id", nullable = false)
     private Profile creator;
 
-    @Autowired
-    @ManyToMany
-<<<<<<< HEAD
-    @JoinColumn(name = "follower_id", nullable = false)
-=======
-    @JoinColumn(name = "profile_id", nullable = false)
->>>>>>> 53b5aa8 (Started but not finish adding followers)
-    private Profile follower;
-
     public Followers() {
         following_id = SecurityUtil.getId();
     }
