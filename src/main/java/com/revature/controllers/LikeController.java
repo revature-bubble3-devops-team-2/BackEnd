@@ -1,6 +1,5 @@
 package com.revature.controllers;
 
-import com.revature.aspects.annotations.NoAuthIn;
 import com.revature.models.Post;
 import com.revature.models.Profile;
 import com.revature.services.PostService;
@@ -29,17 +28,15 @@ public class LikeController {
      * HTTP found status when it does. Otherwise, it posts a like into the database with the Post and Profile. If it
      * is posted, it sends the HTTP ok status and HTTP bad request otherwise.
      *
-     * @param post Post that is being liked
+     * @param post Profile that liked the Post
      * @param req Authorized token of the profile
-     * @return HTTP ok status and the like when it is added,
-     *          HTTP found request status and the like when the like already exists,
+     * @return HTTP ok status and the profile that liked the post,
+     *          HTTP found request status and the profile when the like already exists,
      *          HTTP bad request response and null otherwise
      */
     @PostMapping
-
     public ResponseEntity<Profile> addLike(@RequestBody Post post, HttpServletRequest req) {
         Profile temp = (Profile) req.getAttribute("profile");
-        //Profile temp = new Profile(2, "profile2", "22", "Two", "LastTwo", "Email2");
         Profile existProfile = postService.likeFindByID(temp, post);
         if (existProfile == null) { //like does not exist
             Profile check = postService.likePost(temp, post);
@@ -59,16 +56,14 @@ public class LikeController {
      * back an integer whether the Like has been deleted. When it is a 1, it sends an HTTP ok status request.
      * Otherwise, it is a 0 and sends an HTTP bad request status.
      *
-     * @param post Post that is being unliked
+     * @param post Profile that liked the Post
      * @param req Authorized token of the profile
      * @return HTTP ok status and null when the like has been deleted and
      *          HTTP bad request status and null otherwise
      */
     @DeleteMapping
-
     public ResponseEntity<Profile> removeLike(@RequestBody Post post, HttpServletRequest req) {
         Profile temp = (Profile) req.getAttribute("profile");
-        //Profile temp = new Profile(2, "profile2", "22", "Two", "LastTwo", "Email2");
         int check = postService.likeDelete(temp, post);
         if (check == -1){
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
@@ -95,14 +90,12 @@ public class LikeController {
      *          HTTP ok request status and 1 when the Like has not been found
      */
     @GetMapping
-
     public ResponseEntity<Integer> getLike(@RequestHeader Post post,
                                            @RequestHeader Boolean find,
                                            HttpServletRequest req) {
         Profile temp = (Profile) req.getAttribute("profile");
-        //Profile temp = new Profile(2, "profile2", "22", "Two", "LastTwo", "Email2");
         if (!find) {
-            int result = (int) postService.likeGet(temp, post);
+            int result = postService.likeGet(temp, post);
             return new ResponseEntity<>(result, HttpStatus.OK);
         } else {
             Profile exist = postService.likeFindByID(temp, post);

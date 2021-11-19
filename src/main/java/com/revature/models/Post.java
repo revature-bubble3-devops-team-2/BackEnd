@@ -1,9 +1,6 @@
 package com.revature.models;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.revature.utilites.SecurityUtil;
 import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;

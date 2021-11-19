@@ -9,7 +9,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -80,7 +79,6 @@ public class PostServiceTest {
         Post tempPost = new Post(3, creatorProfile, "Hello World1", null, Timestamp.valueOf(LocalDateTime.now()));
 
         when(postRepo.findById(tempPost.getPsid())).thenReturn(Optional.of(tempPost));
-        //verify(postRepo).save(tempPost);
         Profile actual = postService.likePost(likerProfile, tempPost);
 
         assertEquals(likerProfile, actual);
