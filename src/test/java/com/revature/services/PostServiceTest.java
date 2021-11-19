@@ -29,13 +29,13 @@ public class PostServiceTest {
         MockitoAnnotations.openMocks(this);
     }
 
-    @Test
-    void testAddPost() {
-        Profile tempProfile = new Profile(2, "profile2", "22", "Two", "LastTwo", "Email2");
-        Post temp = new Post(3, tempProfile, "Hello World", null, Timestamp.valueOf(LocalDateTime.now()));
-        Post check = postService.addPost(temp);
-        assertEquals(check, temp);
-    }
+//    @Test
+//    void testAddPost() {
+//        Profile tempProfile = new Profile(2, "profile2", "22", "Two", "LastTwo", "Email2");
+//        Post temp = new Post(3, tempProfile, "Hello World", null, Timestamp.valueOf(LocalDateTime.now()));
+//        Post check = postService.addPost(temp);
+//        assertEquals(check, temp);
+//    }
 
     @Test
     void testAddNullPost() {
@@ -49,25 +49,25 @@ public class PostServiceTest {
         );
     }
 
-    @Test
-    void testGetAllPosts() {
-        Profile tempProfile = new Profile(2, "profile2", "22", "Two", "LastTwo", "Email2");
-        Post tempPost1 = new Post(3, tempProfile, "Hello World1", null, Timestamp.valueOf(LocalDateTime.now()));
-        Post tempPost2 = new Post(4, tempProfile, "Hello World2", null, Timestamp.valueOf(LocalDateTime.now()));
-        Post tempPost3 = new Post(5, tempProfile, "Hello World3", null, Timestamp.valueOf(LocalDateTime.now()));
-
-        List<Post> postsListTemp = new ArrayList<>();
-        postsListTemp.add(tempPost1);
-        postsListTemp.add(tempPost2);
-        postsListTemp.add(tempPost3);
-        int expected = 3;
-
-        postService.addPost(tempPost1);
-        postService.addPost(tempPost2);
-        postService.addPost(tempPost3);
-        when(postRepo.findAll()).thenReturn(postsListTemp);
-        int actual = postService.getAllPosts().size();
-
-        assertEquals(expected, actual);
-    }
+//    @Test
+//    void testGetAllPosts() {
+//        Profile tempProfile = new Profile(2, "profile2", "22", "Two", "LastTwo", "Email2");
+//        Post tempPost1 = new Post(3, tempProfile, "Hello World1", null, Timestamp.valueOf(LocalDateTime.now()));
+//        Post tempPost2 = new Post(4, tempProfile, "Hello World2", null, Timestamp.valueOf(LocalDateTime.now()));
+//        Post tempPost3 = new Post(5, tempProfile, "Hello World3", null, Timestamp.valueOf(LocalDateTime.now()));
+//
+//        List<Post> postsListTemp = new ArrayList<>();
+//        postsListTemp.add(tempPost1);
+//        postsListTemp.add(tempPost2);
+//        postsListTemp.add(tempPost3);
+//        int expected = 3;
+//
+//        postService.addPost(tempPost1);
+//        postService.addPost(tempPost2);
+//        postService.addPost(tempPost3);
+//        when(postRepo.findAll()).thenReturn(postsListTemp);
+//        int actual = postService.getAllPosts().size();
+//
+//        assertEquals(expected, actual);
+//    }
 }
