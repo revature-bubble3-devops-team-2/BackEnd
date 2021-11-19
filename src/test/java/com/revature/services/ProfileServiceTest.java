@@ -10,15 +10,15 @@ import	static	org.junit.jupiter.api.Assertions.*;
 import	static	org.mockito.Mockito.when;
 
 public class ProfileServiceTest {
-    private final String username = "dummyUsername";
-    private final String email = "dummy@email.com";
+    private static final String username = "dummyUsername";
+    private static final String email = "dummy@email.com";
     private Profile expected = new Profile();
 
     @Mock
     ProfileRepo profileRepo;
 
     @InjectMocks
-    private  ProfileServiceImpl profileService;
+    private ProfileServiceImpl profileService;
 
     @BeforeEach
     void initMock() {
