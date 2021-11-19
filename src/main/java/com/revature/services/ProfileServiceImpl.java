@@ -47,14 +47,15 @@ public class ProfileServiceImpl implements ProfileService {
 
     /**
      * Gets User Profile by Email in the Database
-     * @param profile
+     * @param email
      * @return a big fat load of profile object
      */
     @Override
-    public Profile getProfileByEmail(Profile profile) {
+    public Profile getProfileByEmail(String email) {
        try{
-           return profileRepo.getProfileByEmail(profile.getEmail());
-       } catch (Exception e) {
+           return profileRepo.getProfileByEmail(email);
+       }catch (Exception e)
+       {
            return null;
        }
     }
