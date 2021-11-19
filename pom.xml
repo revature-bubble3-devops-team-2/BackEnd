@@ -111,7 +111,7 @@
                 <configuration>
                     <append>true</append>
                     <excludes>
-                        <exclude>**/**Aspect.*</exclude>
+                        <exclude>**/*Aspect.*</exclude>
                         <exclude>**/*Test.*</exclude>
                     </excludes>
                 </configuration>
