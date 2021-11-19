@@ -3,6 +3,11 @@ package com.revature.aspects;
 import com.revature.models.Profile;
 import com.revature.utilites.SecurityUtil;
 import lombok.extern.log4j.Log4j2;
+<<<<<<< HEAD
+=======
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+>>>>>>> 9640c0d (unfollow working, unable to test without follow working)
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Around;
@@ -17,6 +22,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 
+@Log4j2
 @Aspect
 @Log4j2
 @Component
@@ -27,16 +33,19 @@ public class AuthAspect {
     @Around("execution(* com.revature.controllers.*.*(..))" +
             "&& !@annotation(com.revature.aspects.annotations.NoAuthIn)" +
             "&& !@target(com.revature.aspects.annotations.NoAuthIn)")
-    public ResponseEntity<?> authenticateToken(final ProceedingJoinPoint pjp) throws Throwable {
-        final HttpServletRequest request =
+    public ResponseEntity<?> authenticateToken(ProceedingJoinPoint pjp) throws Throwable {
+        log.info("Aspect triggered");
+        HttpServletRequest request =
                 ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
         final String token = request.getHeader("Authorization");
         if (token == null) {
+            log.info("null token");
             log.warn("No Authorization Token Received");
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         } else {
             final Profile profile = SecurityUtil.validateToken(token);
             if (profile == null) {
+                log.info("null profile");
                 log.warn("Received Invalid Token");
                 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             } else {

@@ -197,7 +197,7 @@ public class SecurityUtil {
     /**
      * Decrypts token, checks for correct com.revature.com.revature.data, and returns the id and access level within
      * @param token string of the encrypted token
-     * @return id of token, null if token invalid
+     * @return a profile from the token, null if token invalid
      */
     public static Profile validateToken(String token) {
         if (decrypter == null) {

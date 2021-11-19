@@ -3,9 +3,11 @@ package com.revature.services;
 import com.revature.models.Profile;
 import com.revature.repositories.ProfileRepo;
 import com.revature.utilites.SecurityUtil;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+@Log4j2
 @Service
 public class ProfileServiceImpl implements ProfileService {
 
@@ -98,4 +100,16 @@ public class ProfileServiceImpl implements ProfileService {
         return false;
     }
 
+    @Override
+    public Profile removeFollowByEmail(Profile profile, String email) {
+        Profile targetProfile = profileRepo.getProfileByPid(profile.getPid());
+        log.info("target acquired: "+targetProfile);
+        Profile unfollow = profileRepo.getProfileByEmail(email);
+        if(targetProfile!=null){
+            targetProfile.getFollowing().remove(unfollow);
+            return profileRepo.save(targetProfile);
+        }else{
+            return null;
+        }
+    }
 }

@@ -4,6 +4,8 @@ import com.revature.aspects.annotations.NoAuthIn;
 import com.revature.models.Profile;
 import com.revature.services.ProfileService;
 import com.revature.utilites.SecurityUtil;
+import lombok.extern.log4j.Log4j2;
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,8 +13,10 @@ import org.springframework.web.bind.annotation.*;
 
 import org.springframework.http.HttpHeaders;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+@Log4j2
 @RestController
 @RequestMapping("/profile")
 @CrossOrigin
@@ -28,13 +32,13 @@ public class ProfileController {
      * @return secure token as json
      */
     @PostMapping
-    @NoAuthIn
     public ResponseEntity<String> login(String username, String password) {
         Profile profile = profileService.login(username,password);
         if(profile != null){
             HttpHeaders headers = new HttpHeaders();
+            String token = SecurityUtil.generateToken(profile);
             String body = "{\"Authorization\":\""+
-                    SecurityUtil.generateToken(profile)
+                    token
                     +"\"}";
             return new ResponseEntity<>(body, headers, HttpStatus.OK);
         }
@@ -100,10 +104,18 @@ public class ProfileController {
         }
     }
 
-    @DeleteMapping("/follow/{id}")
-    public ResponseEntity<?> deleteFollowing(@PathVariable("id")int id){
-        System.out.println(id);
-
-        return new ResponseEntity<>(HttpStatus.OK);
+    @PostMapping("/unfollow")
+    public ResponseEntity<Profile> unfollow(@RequestBody String email, HttpServletRequest req){
+        String token = req.getHeader("Authorization");
+        Profile follower = SecurityUtil.validateToken(token);
+        log.info("token: "+token);
+//        Profile follower = (Profile)req.getAttribute("profile");
+        log.info("email: "+email);
+        log.info("follower: "+follower);
+        if(follower != null && profileService.removeFollowByEmail(follower, email) != null){
+            log.info("Success");
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }
