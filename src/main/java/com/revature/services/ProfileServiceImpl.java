@@ -7,6 +7,9 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Log4j2
 @Service
 public class ProfileServiceImpl implements ProfileService {
@@ -103,28 +106,37 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     public Profile removeFollowByEmail(Profile profile, String email) {
-        Profile targetProfile = profileRepo.getProfileByPid(profile.getPid());
-        System.out.println(targetProfile);
         Profile unfollow = profileRepo.getProfileByEmail(email);
-        if(targetProfile!=null && targetProfile.getFollowing().remove(unfollow)){
-            return profileRepo.save(targetProfile);
-        }else{
-            log.info("Unable to remove follow");
-            return null;
+        List<Profile> pList = new ArrayList<>(profile.getFollowing());
+        for(Object p : pList){
+            System.out.println(p);
         }
-    }
-<<<<<<< HEAD
-=======
+//        int profileId = profile.getPid();
+//        for(Object p : profile.getFollowing()){
+//            System.out.println(p.toString());
+//            System.out.println("found one");
+//        }
+//        if(profile!=null && profile.getFollowing().remove(unfollow)){
+            if(profile!=null && pList.remove(unfollow)){
+                return profileRepo.save(profile);
+            }else{
+                log.info("Unable to remove follow");
+                return null;
+            }
+        }
 
     @Override
     public Profile addFollowerByEmail(Profile profile, String email) {
-
+        List<Profile> pList = new ArrayList<>(profile.getFollowing());
         Profile followed = profileRepo.getProfileByEmail(email);
-
-        profile.getFollowing().add(followed);
+        pList.add(followed);
+        System.out.println("List 1 after add");
+        for(Object p : pList){
+            System.out.println("Profile:");
+            System.out.println(p);
+        }
+        profile.setFollowing(pList);
         profileRepo.save(profile);
-
         return profile;
     }
->>>>>>> e67b513 (confirm add followed working with postman)
 }

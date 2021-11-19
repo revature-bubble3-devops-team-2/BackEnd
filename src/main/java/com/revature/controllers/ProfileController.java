@@ -113,7 +113,7 @@ public class ProfileController {
         String token = req.getHeader("Authorization");
 
         Profile creator = SecurityUtil.validateToken(token);
-
+        creator = profileService.getProfileByEmail(creator.getEmail());
         Profile newProfile = profileService.addFollowerByEmail(creator, email);
 
         if (newProfile != null)
