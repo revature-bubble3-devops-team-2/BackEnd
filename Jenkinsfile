@@ -18,20 +18,20 @@ pipeline {
             steps {
                 sh 'mvn clean'
                 discordSend description: ":soap: *Cleaned ${env.JOB_NAME}*", result: currentBuild.currentResult,
-                webhookURL: '${env.WEBHO_BE}'
+                webhookURL: env.WEBHO_BE
             }
         }
         stage('Run Tests') {
             steps {
                 sh 'mvn test'
-                discordSend description: ":memo: *Tested ${env.JOB_NAME}*", result: currentBuild.currentResult, webhookURL: '${env.WEBHO_BE}'
+                discordSend description: ":memo: *Tested ${env.JOB_NAME}*", result: currentBuild.currentResult, webhookURL: env.WEBHO_BE
                 script {testfail = false}
             }
         }
         stage('Package Jar') {
             steps {
                 sh 'mvn -DskipTests package'
-                discordSend description: ":package: *Packaged ${env.JOB_NAME}*", result: currentBuild.currentResult, webhookURL: '${env.WEBHO_BE}'
+                discordSend description: ":package: *Packaged ${env.JOB_NAME}*", result: currentBuild.currentResult, webhookURL: env.WEBHO_BE
             }
         }
         stage('SonarCloud') {
@@ -57,7 +57,7 @@ pipeline {
                         discordSend description: ":no_entry_sign: **Quality Gate Failure: ${qg.status}**", result:
                         currentBuild
                         .currentResult,
-                        webhookURL: '${env.WEBHO_BE}'
+                        webhookURL: env.WEBHO_BE
                     }
                 }
                 script {
@@ -71,19 +71,19 @@ pipeline {
             steps {
                 sh 'docker stop ${CONTAINER_NAME} || true'
                 sh 'docker rmi ${IMAGE_TAG} || true'
-                discordSend description: ":axe: *Removed Previous Docker Artifacts*", result: currentBuild.currentResult, webhookURL: '${env.WEBHO_BE}'
+                discordSend description: ":axe: *Removed Previous Docker Artifacts*", result: currentBuild.currentResult, webhookURL: env.WEBHO_BE
             }
         }
         stage('Create Image') {
             steps {
                 sh 'docker build -t ${IMAGE_TAG} -f Dockerfile .'
-                discordSend description: ":screwdriver: *Built New Docker Image*", result: currentBuild.currentResult, webhookURL: '${env.WEBHO_BE}'
+                discordSend description: ":screwdriver: *Built New Docker Image*", result: currentBuild.currentResult, webhookURL: env.WEBHO_BE
             }
         }
         stage('Run Container') {
             steps {
                 sh 'docker run -d --env DB_URL --env DB_USER --env DB_PASS --rm -p ${PORT}:${PORT} --name ${CONTAINER_NAME} ${IMAGE_TAG} '
-                discordSend description: ":whale: *Running Docker Container*", result: currentBuild.currentResult, webhookURL: '${env.WEBHO_BE}'
+                discordSend description: ":whale: *Running Docker Container*", result: currentBuild.currentResult, webhookURL: env.WEBHO_BE
             }
         }
     }
@@ -101,11 +101,11 @@ pipeline {
                     statusComment = "**${env.JOB_NAME} ended in ${currentBuild.currentResult}**"
                     statusComment += "\n\tCheck the stage that failed for more information"
                 }
-                discordSend description: statusComment, result: currentBuild.currentResult, webhookURL: '${env.WEBHO_BE}'
+                discordSend description: statusComment, result: currentBuild.currentResult, webhookURL: env.WEBHO_BE
             }
         }
         success {
-            discordSend description: ":potable_water: **Pipeline successful!**", result: currentBuild.currentResult, webhookURL: '${env.WEBHO_BE}'
+            discordSend description: ":potable_water: **Pipeline successful!**", result: currentBuild.currentResult, webhookURL: env.WEBHO_BE
             sh 'docker container ls'
         }
     }
