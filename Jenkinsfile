@@ -15,6 +15,21 @@ pipeline {
     }
 
     stages {
+        stage('SonarCloud') {
+            environment {
+                SCANNER_HOME = tool 'sonar'
+                ORGANIZATION = "revature-bubble"
+                PROJECT_NAME = "Revature-Bubble_BackEnd"
+            }
+            steps {
+                withSonarQubeEnv('CloudScan') {
+                    sh '''$SCANNER_HOME/bin/sonar-scanner -Dsonar.organization=$ORGANIZATION \
+                        -Dsonar.java.binaries=build/classes/java/ \
+                        -Dsonar.projectKey=$PROJECT_NAME \
+                        -Dsonar.sources=.'''
+                }
+            }
+        }
         stage('Clean Directory') {
             steps {
                 sh 'mvn clean'
