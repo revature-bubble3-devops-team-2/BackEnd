@@ -7,21 +7,14 @@ import com.revature.utilites.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/profile")
-@Component
 @CrossOrigin
 public class ProfileController {
 
@@ -30,35 +23,24 @@ public class ProfileController {
 
     /**
      * processes login attempt via http request from client
-     * @param email
+     * @param username
      * @param password
-     * @return secure token and profile as json
+     * @return secure token as json
      */
     @PostMapping
     @NoAuthIn
-    public ResponseEntity<?> login(String email, String password) {
-        Profile profile = profileService.login(email,password);
+    public ResponseEntity<String> login(String username, String password) {
+        Profile profile = profileService.login(username,password);
         if(profile != null){
-            ReturnValues rv = new ReturnValues();
-            rv.setProfile(profile);
-            rv.setToken(SecurityUtil.generateToken(profile));
-            return new ResponseEntity<ReturnValues>(rv,HttpStatus.OK);
+            HttpHeaders headers = new HttpHeaders();
+            String body = "{\"Authorization\":\""+
+                    SecurityUtil.generateToken(profile)
+                    +"\"}";
+            return new ResponseEntity<>(body, headers, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
-    /**
-     * aggregtes response from token and profile for response in login
-     */
-    private class ReturnValues{
-        String token;
-        Profile profile;
-        ReturnValues(){}
-        public void setToken(String token){this.token = token;}
-        public void setProfile(Profile profile){this.profile = profile;}
-        public String getToken(){return this.token;}
-        public Profile getProfile(){return this.profile;}
-    }
 
     /**
      * Post request that gets client profile registration info and then checks to see if information is not
@@ -69,8 +51,8 @@ public class ProfileController {
      */
 
 
-    @PostMapping("/profiles")
-    public ResponseEntity<Profile> addNewProfile(@Valid @RequestBody Profile profile){
+    @PostMapping("/register")
+    public ResponseEntity<Profile> addNewProfile(@Valid @RequestBody Profile profile) {
         System.out.println("profile" + profile);
         Profile returnedUser = profileService.getProfileByEmail(profile);
         System.out.println("returned" + returnedUser);
@@ -94,7 +76,7 @@ public class ProfileController {
      * @return Profile object with HttpStatusAccepted or HttpStatusBackRequest
      */
     @GetMapping("/profiles/{id}")
-    public ResponseEntity<Profile> getProfileByPid(@PathVariable("id")int id){
+    public ResponseEntity<Profile> getProfileByPid(@PathVariable("id")int id) {
         Profile profile = profileService.getProfileByPid(id);
         if(profile!=null){
             return new ResponseEntity<>(profile, HttpStatus.ACCEPTED);
@@ -109,11 +91,11 @@ public class ProfileController {
      * @return Updated profile with HttpStatus.ACCEPTED otherwise if invalid returns HttpStatus.BAD_REQUEST
      */
     @PutMapping("/profiles/{id}")
-    public ResponseEntity<Profile> updateProfile(@RequestBody Profile profile){
+    public ResponseEntity<Profile> updateProfile(@RequestBody Profile profile) {
         Profile result = profileService.updateProfile(profile);
-        if(result!=null){
+        if (result!=null) {
             return new ResponseEntity<>(result, HttpStatus.ACCEPTED);
-        }else{
+        } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }

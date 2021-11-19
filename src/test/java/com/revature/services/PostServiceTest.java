@@ -29,7 +29,6 @@ public class PostServiceTest {
         MockitoAnnotations.openMocks(this);
     }
 
-
     @Test
     void testAddPost() {
         Profile tempProfile = new Profile(2, "profile2", "22", "Two", "LastTwo", "Email2");
