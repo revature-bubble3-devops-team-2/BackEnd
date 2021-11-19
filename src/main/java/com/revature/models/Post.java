@@ -40,6 +40,7 @@ public class Post {
             name = "likes",
             joinColumns = @JoinColumn(name = "post_id"),
             inverseJoinColumns = @JoinColumn(name = "profile_id"))
+    @JsonIgnore
     private Set<Profile> likes = new LinkedHashSet<>();
 
     public Post() {
