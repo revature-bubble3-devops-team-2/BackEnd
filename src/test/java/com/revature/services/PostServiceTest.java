@@ -25,14 +25,6 @@ public class PostServiceTest {
     private PostServiceImpl postService;
 
     @BeforeEach
-    void initMock() {
-        MockitoAnnotations.openMocks(this);
-    }
-
-<<<<<<< HEAD
-=======
-
->>>>>>> 4161c9537f5057c89edc963669dffb607607079e
 //    @Test
 //    void testAddPost() {
 //        Profile tempProfile = new Profile(2, "profile2", "22", "Two", "LastTwo", "Email2");

@@ -27,6 +27,7 @@ public class ProfileController {
 
     /**
      * processes login attempt via http request from client
+     *
      * @param username
      * @param password
      * @return secure token as json
@@ -34,15 +35,15 @@ public class ProfileController {
     @NoAuthIn
     @PostMapping
     public ResponseEntity<String> login(String username, String password) {
-        Profile profile = profileService.login(username,password);
+        Profile profile = profileService.login(username, password);
 
         System.out.println("Username" + username);
-        if(profile != null){
+        if (profile != null) {
             HttpHeaders headers = new HttpHeaders();
             String token = SecurityUtil.generateToken(profile);
-            String body = "{\"Authorization\":\""+
+            String body = "{\"Authorization\":\"" +
                     token
-                    +"\"}";
+                    + "\"}";
             return new ResponseEntity<>(body, headers, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -51,10 +52,11 @@ public class ProfileController {
 
     /**
      * Post request that gets client profile registration info and then checks to see if information is not
-     *      a duplicate in the database. If info is not a duplicate, it sets Authorization headers
-     *      and calls profile service to add the request body profile to the database.
-     * @PARAM Profile
+     * a duplicate in the database. If info is not a duplicate, it sets Authorization headers
+     * and calls profile service to add the request body profile to the database.
+     *
      * @return aobject name profile, response header, Status code okay
+     * @PARAM Profile
      */
 
     @NoAuthIn
@@ -63,15 +65,14 @@ public class ProfileController {
         System.out.println("profile" + profile);
         Profile returnedUser = profileService.getProfileByEmail(profile.getEmail());
         System.out.println("returned" + returnedUser);
-        if(returnedUser == null){
+        if (returnedUser == null) {
             HttpHeaders responseHeaders = new HttpHeaders();
             String token = SecurityUtil.generateToken(profile);
-            responseHeaders.set("Authorization" , token);
+            responseHeaders.set("Authorization", token);
             responseHeaders.set("Access-Control-Expose-Headers", "Authorization");
-            return new ResponseEntity<>(profileService.addNewProfile(profile),responseHeaders, HttpStatus.CREATED);
+            return new ResponseEntity<>(profileService.addNewProfile(profile), responseHeaders, HttpStatus.CREATED);
 
-        }
-        else {
+        } else {
             return new ResponseEntity<>(HttpStatus.IM_USED);
         }
 
@@ -79,28 +80,30 @@ public class ProfileController {
 
     /**
      * Get Mapping that grabs the profile by the path variable id. It then returns the profile if it is valid.
+     *
      * @param id
      * @return Profile object with HttpStatusAccepted or HttpStatusBackRequest
      */
     @GetMapping("/profiles/{id}")
-    public ResponseEntity<Profile> getProfileByPid(@PathVariable("id")int id) {
+    public ResponseEntity<Profile> getProfileByPid(@PathVariable("id") int id) {
         Profile profile = profileService.getProfileByPid(id);
-        if(profile!=null){
+        if (profile != null) {
             return new ResponseEntity<>(profile, HttpStatus.ACCEPTED);
-        }else{
+        } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
     /**
      * Put mapping grabs the updated fields of profile and updates the profile in the database.
+     *
      * @param profile
      * @return Updated profile with HttpStatus.ACCEPTED otherwise if invalid returns HttpStatus.BAD_REQUEST
      */
     @PutMapping("/profiles/{id}")
     public ResponseEntity<Profile> updateProfile(@RequestBody Profile profile) {
         Profile result = profileService.updateProfile(profile);
-        if (result!=null) {
+        if (result != null) {
             return new ResponseEntity<>(result, HttpStatus.ACCEPTED);
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -108,23 +111,19 @@ public class ProfileController {
     }
 
     @PostMapping("/follow")
-    public ResponseEntity<String> newFollower(String email, HttpServletRequest req){
-        System.out.println("incoming email: "+email);
+    public ResponseEntity<String> newFollower(String email, HttpServletRequest req) {
+        System.out.println("incoming email: " + email);
         String token = req.getHeader("Authorization");
 
         Profile creator = SecurityUtil.validateToken(token);
         creator = profileService.getProfileByEmail(creator.getEmail());
         Profile newProfile = profileService.addFollowerByEmail(creator, email);
-
-        System.out.println(creator);
-
-        if (newProfile != null)
-        {
+        if (newProfile != null) {
             HttpHeaders headers = new HttpHeaders();
             String newToken = SecurityUtil.generateToken(newProfile);
-            String body = "{\"Authorization\":\""+
+            String body = "{\"Authorization\":\"" +
                     newToken
-                    +"\"}";
+                    + "\"}";
             return new ResponseEntity<>(body, headers, HttpStatus.ACCEPTED);
         }
 
@@ -132,12 +131,21 @@ public class ProfileController {
     }
 
     @PostMapping("/unfollow")
-    public ResponseEntity<Profile> unfollow(String email, HttpServletRequest req){
-        Profile follower = (Profile)req.getAttribute("profile");
+    public ResponseEntity<String> unfollow(String email, HttpServletRequest req) {
+        Profile follower = (Profile) req.getAttribute("profile");
         follower = profileService.getProfileByEmail(follower.getEmail());
-        if(follower != null && profileService.removeFollowByEmail(follower, email) != null){
-            log.info("Profile successfully unfollowed");
-            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        if (follower != null) {
+            follower = profileService.removeFollowByEmail(follower, email);
+            if (follower != null) {
+                log.info("Profile successfully unfollowed");
+                HttpHeaders headers = new HttpHeaders();
+                String newToken = SecurityUtil.generateToken(follower);
+                String body = "{\"Authorization\":\"" +
+                        newToken
+                        + "\"}";
+                return new ResponseEntity<>(body, headers, HttpStatus.ACCEPTED);
+            }
+
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
