@@ -51,8 +51,14 @@ pipeline {
         }
         stage("Quality Gate") {
           steps {
-            timeout(time: 4, unit: 'MINUTES') {
-                waitForQualityGate abortPipeline: true
+            timeout(time: 5, unit: 'MINUTES') {
+                script {
+                    def qg = waitForQualityGate abortPipeline: true
+                    discordSend description: ":no_entry_sign: **Quality Gate Failure: ${qg.status}**", result:
+                    currentBuild
+                    .currentResult,
+                    webhookURL: discordurl
+                }
             }
           }
         }
