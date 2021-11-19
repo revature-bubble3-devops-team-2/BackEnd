@@ -105,4 +105,12 @@ public class ProfileServiceImpl implements ProfileService {
 
         return false;
     }
+
+    @Override
+    public boolean addFollowerByProfile(Profile profile)
+    {
+        System.out.println(profile);
+
+        return false;
+    }
 }
