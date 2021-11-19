@@ -123,7 +123,7 @@ public class SecurityUtil {
         UUID id = UUID.randomUUID();
         int uid = (""+id).hashCode();
         String filterStr = "" + uid;
-        String str = filterStr.replaceAll("-", "");
+        String str = filterStr.replace("-", "");
         return Integer.parseInt(str);
     }
 
