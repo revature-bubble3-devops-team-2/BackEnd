@@ -10,8 +10,8 @@ import	static	org.junit.jupiter.api.Assertions.*;
 import	static	org.mockito.Mockito.when;
 
 public class ProfileServiceTest {
-    private static final String username = "dummyUsername";
-    private static final String email = "dummy@email.com";
+    private static final String USERNAME = "dummyUsername";
+    private static final String EMAIL = "dummy@email.com";
     private Profile expected = new Profile();
 
     @Mock
@@ -32,13 +32,13 @@ public class ProfileServiceTest {
                 "mUkq1nQxux1rgxllacVb+AT4bS+Xbw8DyUwGepmTCiw4t75krGyCSBArcmfiFBtgDkVZTFIJ+GMFhFbpWv2darLcxKlgSdur/z9Y" +
                 "CYoZcKm9vrrH+CaFykfIUdjnln5jhLoRmjeBIHgYWITG5J5/NCzAM+a3k4Y92/hbgDDE15GD1ud1EU8GHY4eb5LU1pAb2O7zbcW9" +
                 "pQbtVcbqyJGNRFA6OAGcWb1R0+04d0+1DA6BjTDsxkltgsvUpLrVFBo4VaFAT6Jf4ZI2Pg39WjFY1an8=";
-        expected = new Profile(username, passkey, name, name, email);
+        expected = new Profile(USERNAME, passkey, name, name, EMAIL);
     }
 
     @Test
     void testLoginSuccess(){
-        when(profileRepo.getProfileByUsername(username)).thenReturn(expected);
-        Profile actual = profileService.login(username,"abc123");
+        when(profileRepo.getProfileByUsername(USERNAME)).thenReturn(expected);
+        Profile actual = profileService.login(USERNAME,"abc123");
         assertEquals(expected,actual);
     }
 
@@ -51,8 +51,8 @@ public class ProfileServiceTest {
 
     @Test
     void testLoginNullPass(){
-        when(profileRepo.getProfileByEmail(email)).thenReturn(expected);
-        Profile actual = profileService.login(email,null);
+        when(profileRepo.getProfileByEmail(EMAIL)).thenReturn(expected);
+        Profile actual = profileService.login(EMAIL,null);
         assertNull(actual);
     }
 
@@ -65,15 +65,15 @@ public class ProfileServiceTest {
 
     @Test
     void testLoginBadPass(){
-        when(profileRepo.getProfileByEmail(email)).thenReturn(expected);
-        Profile actual = profileService.login(email,"tomato");
+        when(profileRepo.getProfileByEmail(EMAIL)).thenReturn(expected);
+        Profile actual = profileService.login(EMAIL,"tomato");
         assertNull(actual);
     }
 
     @Test
     void testFindProfileByEmailSuccess(){
-        when(profileRepo.getProfileByEmail(email)).thenReturn(expected);
-        Profile actual = profileRepo.getProfileByEmail(email);
+        when(profileRepo.getProfileByEmail(EMAIL)).thenReturn(expected);
+        Profile actual = profileRepo.getProfileByEmail(EMAIL);
         assertEquals(actual,expected);
     }
 

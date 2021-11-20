@@ -17,6 +17,7 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PostServiceTest {
+    private Profile expected = new Profile();
 
     @Mock
     PostRepo postRepo;
@@ -27,6 +28,7 @@ public class PostServiceTest {
     @BeforeEach
     void initMock() {
         MockitoAnnotations.openMocks(this);
+        expected = new Profile();
     }
 
     @Test
