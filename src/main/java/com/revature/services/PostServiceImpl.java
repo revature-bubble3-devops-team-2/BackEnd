@@ -64,7 +64,7 @@ public class PostServiceImpl implements PostService {
         if (tempPost == null) {
             return null;
         }
-        Boolean checkPost = tempPost.getLikes().add(profile);
+        boolean checkPost = tempPost.getLikes().add(profile);
         if (checkPost) {
             postRepo.save(tempPost);
             return profile;
@@ -86,7 +86,7 @@ public class PostServiceImpl implements PostService {
         if (tempPost == null) {
             return -1;
         }
-        Boolean checkPost = tempPost.getLikes().remove(profile);
+        boolean checkPost = tempPost.getLikes().remove(profile);
         if (checkPost) {
             postRepo.save(tempPost);
             return 1;
@@ -118,8 +118,8 @@ public class PostServiceImpl implements PostService {
     @Override
     public Profile likeFindByID(Profile profile, Post post) {
         try {
-           Post tempPost = postRepo.findById(post.getPsid()).orElse(null);
-           System.out.println("tempPost: "+tempPost);
+            Post tempPost = postRepo.findById(post.getPsid()).orElse(null);
+            assert tempPost != null;
             if (tempPost.getLikes().contains(profile)) {
                 return profile;
             } else {
