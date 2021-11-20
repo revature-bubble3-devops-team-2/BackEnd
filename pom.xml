@@ -111,7 +111,6 @@
                 <configuration>
                     <excludes>
                         <exclude>**/aspects/*</exclude>
-                        <exclude>**/controllers/*</exclude>
                         <exclude>**/test/*</exclude>
                     </excludes>
                 </configuration>
