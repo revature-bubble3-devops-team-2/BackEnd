@@ -48,7 +48,7 @@ public class ProfileServiceImpl implements ProfileService {
     /**
      * Gets User Profile by Email in the Database
      * @param profile
-     * @return a big fat load of profile object
+     * @return profile object
      */
     @Override
     public Profile getProfileByEmail(Profile profile) {

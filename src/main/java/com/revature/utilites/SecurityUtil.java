@@ -170,6 +170,10 @@ public class SecurityUtil {
             return null;
         }
 
+        if (profile.isIncomplete()) {
+            return null;
+        }
+
         if (encrypter == null || decrypter == null) {
             generateEncryptionObjects();
         }
