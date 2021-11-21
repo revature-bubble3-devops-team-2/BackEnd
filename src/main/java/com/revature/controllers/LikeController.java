@@ -91,7 +91,7 @@ public class LikeController {
      *          HTTP ok request status and 1 when the Like has not been found
      */
     @GetMapping
-    public ResponseEntity<Integer> getLike(@RequestHeader Post post, @RequestHeader Boolean find,
+    public ResponseEntity<Integer> getLike(@RequestHeader Post post, @RequestHeader boolean find,
                                            HttpServletRequest req) {
         Profile temp = (Profile) req.getAttribute(PROFILE);
         if (!find) {
