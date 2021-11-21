@@ -53,11 +53,11 @@ public class SecurityUtilTest {
     void generateFromIncomplete() {
         assertAll(
                 () -> assertNull(SecurityUtil.generateToken(new Profile(867851386, null, null, null, null, null))),
-                () -> assertNull(SecurityUtil.generateToken(new Profile(487351838, null, null, null, null, "e"))),
-                () -> assertNull(SecurityUtil.generateToken(new Profile(487351838, null, null, null, "ln", "e"))),
-                () -> assertNull(SecurityUtil.generateToken(new Profile(487351838, null, null, "fn", "ln", "e"))),
-                () -> assertNull(SecurityUtil.generateToken(new Profile(487351838, null, "pk", "fn", "ln", "e"))),
-                () -> assertNull(SecurityUtil.generateToken(new Profile(0, "", "", "", "", "")))
+                () -> assertNull(SecurityUtil.generateToken(new Profile(487351838, null, null, null, null, ""))),
+                () -> assertNull(SecurityUtil.generateToken(new Profile(487351838, null, null, null, "", ""))),
+                () -> assertNull(SecurityUtil.generateToken(new Profile(487351838, null, null, "", "", ""))),
+                () -> assertNull(SecurityUtil.generateToken(new Profile(487351838, null, "", "", "", ""))),
+                () -> assertNull(SecurityUtil.generateToken(new Profile(314587685, "", "", "", "", "")))
         );
     }
 
