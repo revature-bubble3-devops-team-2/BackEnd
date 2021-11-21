@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 @CrossOrigin
 @RequestMapping("/like")
 public class LikeController {
+    private static final String PROFILE = "profile";
 
     @Autowired
     public PostService postService;
@@ -36,7 +37,7 @@ public class LikeController {
      */
     @PostMapping
     public ResponseEntity<Profile> addLike(@RequestBody Post post, HttpServletRequest req) {
-        Profile temp = (Profile) req.getAttribute("profile");
+        Profile temp = (Profile) req.getAttribute(PROFILE);
         Profile existProfile = postService.likeFindByID(temp, post);
         if (existProfile == null) { //like does not exist
             Profile check = postService.likePost(temp, post);
@@ -63,7 +64,7 @@ public class LikeController {
      */
     @DeleteMapping
     public ResponseEntity<Profile> removeLike(@RequestBody Post post, HttpServletRequest req) {
-        Profile temp = (Profile) req.getAttribute("profile");
+        Profile temp = (Profile) req.getAttribute(PROFILE);
         int check = postService.likeDelete(temp, post);
         if (check == -1){
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
@@ -90,10 +91,9 @@ public class LikeController {
      *          HTTP ok request status and 1 when the Like has not been found
      */
     @GetMapping
-    public ResponseEntity<Integer> getLike(@RequestHeader Post post,
-                                           @RequestHeader Boolean find,
+    public ResponseEntity<Integer> getLike(@RequestHeader Post post, @RequestHeader Boolean find,
                                            HttpServletRequest req) {
-        Profile temp = (Profile) req.getAttribute("profile");
+        Profile temp = (Profile) req.getAttribute(PROFILE);
         if (!find) {
             int result = postService.likeGet(temp, post);
             return new ResponseEntity<>(result, HttpStatus.OK);

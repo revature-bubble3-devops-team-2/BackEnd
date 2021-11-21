@@ -34,15 +34,32 @@ public class Post {
 
     @ManyToMany (fetch = FetchType.LAZY)
     @JoinTable(
-            name = "likes",
-            joinColumns = @JoinColumn(name = "post_id"),
-            inverseJoinColumns = @JoinColumn(name = "profile_id"))
+                name = "likes",
+                joinColumns = @JoinColumn(name = "post_id"),
+                inverseJoinColumns = @JoinColumn(name = "profile_id"))
     @JsonIgnore
     private Set<Profile> likes = new LinkedHashSet<>();
 
     public Post() {
         super();
-        psid = SecurityUtil.getId();
+        this.psid = SecurityUtil.getId();
+    }
+
+    public Post(Profile creator, String body, String imgURL, Timestamp datePosted) {
+        super();
+        this.creator = creator;
+        this.body = body;
+        this.imgURL = imgURL;
+        this.datePosted = datePosted;
+    }
+
+    public Post(Profile creator, String body, String imgURL, Timestamp datePosted, Set<Profile> likes) {
+        super();
+        this.creator = creator;
+        this.body = body;
+        this.imgURL = imgURL;
+        this.datePosted = datePosted;
+        this.likes = likes;
     }
 
     public Post(int psid, Profile creator, String body, String imgURL, Timestamp dateposted) {
@@ -57,8 +74,15 @@ public class Post {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         Post post = (Post) o;
-        return psid == post.psid && creator.equals(post.creator) && Objects.equals(body, post.body) && Objects.equals(imgURL, post.imgURL) && datePosted.equals(post.datePosted);
+
+        if (psid != post.psid) return false;
+        if (!creator.equals(post.creator)) return false;
+        if (!Objects.equals(body, post.body)) return false;
+        if (!Objects.equals(imgURL, post.imgURL)) return false;
+        if (!datePosted.equals(post.datePosted)) return false;
+        return Objects.equals(likes, post.likes);
     }
 
     @Override
@@ -74,6 +98,7 @@ public class Post {
                 ", body='" + body + '\'' +
                 ", imgURL='" + imgURL + '\'' +
                 ", datePosted=" + datePosted +
+                ", likes=" + likes +
                 '}';
     }
 }
