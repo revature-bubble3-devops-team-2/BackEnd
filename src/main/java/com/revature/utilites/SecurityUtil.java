@@ -200,10 +200,20 @@ public class SecurityUtil {
         return jwt.serialize();
     }
 
+    private static EncryptedJWT decryptToken(EncryptedJWT jwt) {
+        try {
+            jwt.decrypt(decrypter);
+            return jwt;
+        } catch (JOSEException e) {
+            log.error("Unable to decrypt token " + e.getMessage());
+        }
+        return null;
+    }
+
     /**
-     * Decrypts token, checks for correct com.revature.com.revature.data, and returns the id and access level within
+     * Decrypts token, checks for correct data, and returns the profile within
      * @param token string of the encrypted token
-     * @return id of token, null if token invalid
+     * @return the decrypted profile, null if invalid
      */
     public static Profile validateToken(String token) {
         if (decrypter == null) {
@@ -221,12 +231,9 @@ public class SecurityUtil {
         try {
             EncryptedJWT jwt = EncryptedJWT.parse(token);
 
-            try {
-                jwt.decrypt(decrypter);
-            } catch (JOSEException e) {
-                log.error("Unable to decrypt token " + e.getMessage());
-                return null;
-            }
+            jwt = decryptToken(jwt);
+            if (jwt == null) return null;
+
             JWTClaimsSet claims = jwt.getJWTClaimsSet();
             if (!claims.getIssuer().equals("bubble-system")) return null;
             if (claims.getExpirationTime().before(Timestamp.valueOf(LocalDateTime.now()))) return null;
