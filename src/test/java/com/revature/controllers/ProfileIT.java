@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 
 public class ProfileIT {
+
     private Profile profile = new Profile("username", "passkey", "name", "name", "email");
     private HttpHeaders STANDARD_HEADER = new HttpHeaders();
 
@@ -17,7 +18,7 @@ public class ProfileIT {
     }
 
     @Test
-    void validLogin() {
+    void validRegister() {
 
     }
 }
