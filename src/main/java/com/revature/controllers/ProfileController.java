@@ -22,6 +22,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/profile")
+@Component
 @CrossOrigin
 public class ProfileController {
 
@@ -69,6 +70,7 @@ public class ProfileController {
             HttpHeaders responseHeaders = new HttpHeaders();
             String token = SecurityUtil.generateToken(profile);
             responseHeaders.set("Authorization" , token);
+            responseHeaders.set("Access-Control-Expose-Headers", "Authorization");
             return new ResponseEntity<>(profileService.addNewProfile(profile),responseHeaders, HttpStatus.CREATED);
 
         }
