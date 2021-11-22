@@ -5,19 +5,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.revature.utilites.SecurityUtil;
 import lombok.*;
 import org.springframework.stereotype.Component;
-<<<<<<< HEAD
 
 import javax.persistence.*;
+import java.util.LinkedHashSet;
 import java.util.List;
-=======
-import javax.persistence.*;
-import java.util.*;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
->>>>>>> main
 import java.util.Objects;
+import java.util.Set;
 
 @Component
 @Entity
@@ -58,15 +51,13 @@ public class Profile {
             unique = true)
     private String email;
 
-<<<<<<< HEAD
     @Column(name = "following")
     @ManyToMany
     private List<Profile> following;
-=======
+
     @ManyToMany (mappedBy = "likes")
     @JsonIgnore
     private Set<Post> likedPosts = new LinkedHashSet<>();
->>>>>>> main
 
     public Profile() {
         this.pid = SecurityUtil.getId();
