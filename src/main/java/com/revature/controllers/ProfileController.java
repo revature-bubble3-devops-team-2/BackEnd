@@ -33,14 +33,14 @@ public class ProfileController {
         Profile profile = profileService.login(username, password);
         if(profile != null){
             HttpHeaders headers = new HttpHeaders();
-            String body = "{\"Authorization\":\""+
-                    SecurityUtil.generateToken(profile)
-                    +"\"}";
+            String token = SecurityUtil.generateToken(profile);
+            String body = "{\"Authorization\":\"" +
+                    token
+                    + "\"}";
             return new ResponseEntity<>(body, headers, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
-
 
     /**
      * Post request that gets client profile registration info and then checks to see if information is not
@@ -52,6 +52,7 @@ public class ProfileController {
 
 
     @PostMapping("/register")
+    @NoAuthIn
     public ResponseEntity<Profile> addNewProfile(@Valid @RequestBody Profile profile) {
         Profile returnedUser = profileService.getProfileByEmail(profile);
         if(returnedUser == null){
@@ -74,6 +75,7 @@ public class ProfileController {
      * @return Profile object with HttpStatusAccepted or HttpStatusBackRequest
      */
     @GetMapping("/profiles/{id}")
+    @NoAuthIn
     public ResponseEntity<Profile> getProfileByPid(@PathVariable("id")int id) {
         Profile profile = profileService.getProfileByPid(id);
         if(profile!=null){

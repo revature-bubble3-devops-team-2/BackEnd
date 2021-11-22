@@ -119,7 +119,6 @@ public class PostServiceImpl implements PostService {
     public Profile likeFindByID(Profile profile, Post post) {
         try {
             Post tempPost = postRepo.findById(post.getPsid()).orElse(null);
-            assert tempPost != null;
             if (tempPost.getLikes().contains(profile)) {
                 return profile;
             } else {

@@ -27,6 +27,7 @@ public class PostServiceTest {
     private static final String BODY = "This is some body text. \n With some various characters. $%^Z&*())()@!!#";
     private static final String IMG = "https://this.is.a.url.supposedly.net.com.edu.gov";
     private Post post = new Post();
+    private Post badPost = new Post();
 
     private static Timestamp getTime() {
         return Timestamp.valueOf(LocalDateTime.now());
@@ -88,10 +89,18 @@ public class PostServiceTest {
 
     @Test
     void testLikePost() {
+        Set<Profile> tempLikesSet = new LinkedHashSet<>();
+        tempLikesSet.add(creator);
+        post.setLikes(tempLikesSet);
+
         when(postRepo.findById(post.getPsid())).thenReturn(Optional.of(post));
         Profile actual = postService.likePost(liker, post);
+        Profile actual2 = postService.likePost(liker, badPost);
+        Profile actual3 = postService.likePost(creator, post);
 
         assertEquals(liker, actual);
+        assertNull(actual2);
+        assertNull(actual3);
     }
 
     @Test
@@ -102,8 +111,12 @@ public class PostServiceTest {
 
         when(postRepo.findById(post.getPsid())).thenReturn(Optional.of(post));
         int actual = postService.likeDelete(liker, post);
+        int actual2 = postService.likeDelete(creator, post);
+        int actual3 = postService.likeDelete(liker, badPost);
 
         assertEquals(1, actual);
+        assertEquals(-1, actual2);
+        assertEquals(-1, actual3);
     }
 
     @Test
@@ -128,7 +141,11 @@ public class PostServiceTest {
 
         when(postRepo.findById(post.getPsid())).thenReturn(Optional.of(post));
         Profile actual = postService.likeFindByID(liker, post);
+        Profile actual2 = postService.likeFindByID(creator, post);
+        Profile actual3 = postService.likeFindByID(liker, badPost);
 
         assertEquals(liker, actual);
+        assertNull(actual2);
+        assertNull(actual3);
     }
 }

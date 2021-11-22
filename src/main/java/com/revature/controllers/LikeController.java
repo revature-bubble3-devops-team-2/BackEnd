@@ -29,11 +29,12 @@ public class LikeController {
      * HTTP found status when it does. Otherwise, it posts a like into the database with the Post and Profile. If it
      * is posted, it sends the HTTP ok status and HTTP bad request otherwise.
      *
-     * @param post Profile that liked the Post
-     * @param req Authorized token of the profile
-     * @return HTTP ok status and the profile that liked the post,
-     *          HTTP found request status and the profile when the like already exists,
-     *          HTTP bad request response and null otherwise
+     * @param post  the profile that liked the post
+     * @param req  the authorized token of the profile; see {@link com.revature.aspects.AuthAspect} for how the token
+     *             is defined
+     * @return a http response with a profile through a {@link ResponseEntity} that contains a null and bad request if
+     *          like and post does not exist; a profile and created request if the like does not exist but the post
+     *          does; a profile and found request if the like already exists
      */
     @PostMapping
     public ResponseEntity<Profile> addLike(@RequestBody Post post, HttpServletRequest req) {
@@ -57,8 +58,9 @@ public class LikeController {
      * back an integer whether the Like has been deleted. When it is a 1, it sends an HTTP ok status request.
      * Otherwise, it is a 0 and sends an HTTP bad request status.
      *
-     * @param post Profile that liked the Post
-     * @param req Authorized token of the profile
+     * @param post  Profile that liked the Post
+     * @param req  the authorized token of the profile; see {@link com.revature.aspects.AuthAspect} for how the token
+     *      *             is defined
      * @return HTTP ok status and null when the like has been deleted and
      *          HTTP bad request status and null otherwise
      */
@@ -82,10 +84,11 @@ public class LikeController {
      * likeService.likeFindById() that returns a Like if exists and null if it doesn't. If it returns a Like, the
      * getLike method sends HTTP ok status with a 1, and HTTP ok status with a 0 if null.
      *
-     * @param post Post where the Likes are being counted and found on
-     * @param find Boolean whether a certain Like is be found (true) or getting the count of all the Likes
+     * @param post  Post where the Likes are being counted and found on
+     * @param find  Boolean whether a certain Like is be found (true) or getting the count of all the Likes
      *             within the Post (false)
-     * @param req Authorized token of the profile
+     * @param req  the authorized token of the profile; see {@link com.revature.aspects.AuthAspect} for how the token
+     *      *             is defined
      * @return HTTP ok status and count of the likes,
      *          HTTP ok request status and 0 when the Like has been found, and
      *          HTTP ok request status and 1 when the Like has not been found
