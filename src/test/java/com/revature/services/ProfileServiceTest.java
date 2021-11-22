@@ -8,6 +8,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
+import java.util.ArrayList;
 
 public class ProfileServiceTest {
     private static final String USERNAME = "dummyUsername";
@@ -133,8 +134,9 @@ public class ProfileServiceTest {
 
     @Test
     public void testAddFollowerByEmail(){
-        Profile profile = new Profile(1,"test","1234","updateTest","updateTest","test@mail", pList);
-        Profile profile2 = new Profile(2,"test2","1234","updateTest2","updateTest2","test2@mail", pList);
+        ArrayList<Profile> empty = new ArrayList<Profile>();
+        Profile profile = new Profile(1,"test","1234","updateTest","updateTest","test@mail", empty);
+        Profile profile2 = new Profile(2,"test2","1234","updateTest2","updateTest2","test2@mail", empty);
 
         ArrayList<Profile> followed = new ArrayList<Profile>();
         followed.add(profile2);
@@ -148,11 +150,12 @@ public class ProfileServiceTest {
 
     @Test
     public void testDeleteFollowerByEmail(){
-        Profile profile = new Profile(1,"test","1234","updateTest","updateTest","test@mail", pList);
-        Profile profile2 = new Profile(2,"test2","1234","updateTest2","updateTest2","test2@mail", pList);
+        ArrayList<Profile> empty = new ArrayList<Profile>();
+        Profile profile = new Profile(1,"test","1234","updateTest","updateTest","test@mail", empty);
+        Profile profile2 = new Profile(2,"test2","1234","updateTest2","updateTest2","test2@mail", empty);
 
-        ArrayList<Profile> followed = new ArrayList<Profile>();
-        Profile expected = new Profile(1, "test", "1234", "updateTest", "updateTest", "test@mail", followed);
+
+        Profile expected = new Profile(1, "test", "1234", "updateTest", "updateTest", "test@mail", empty);
 
         when(profileRepo.getProfileByEmail("tes2@mail")).thenReturn(profile);
         when(profileRepo.getProfileByEmail("test2@mail")).thenReturn(profile2);
