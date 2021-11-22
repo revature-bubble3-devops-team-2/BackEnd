@@ -36,7 +36,7 @@ public class ProfileController {
      */
     @PostMapping
     @NoAuthIn
-    public ResponseEntity<String> login(String username, String password) {
+    public ResponseEntity<Profile> login(String username, String password) {
         Profile profile = profileService.login(username,password);
         if(profile != null){
             HttpHeaders headers = new HttpHeaders();
@@ -56,7 +56,6 @@ public class ProfileController {
      * @PARAM Profile
      * @return aobject name profile, response header, Status code okay
      */
-
 
     @PostMapping("/register")
     @NoAuthIn
@@ -95,12 +94,12 @@ public class ProfileController {
 
     /**
      * Put mapping grabs the updated fields of profile and updates the profile in the database.
+     * If no token is sent in the token it fails the Auth and doesn't update the profile.
      * @param profile
      * @return Updated profile with HttpStatus.ACCEPTED otherwise if invalid returns HttpStatus.BAD_REQUEST
      */
     @PutMapping("/profiles/{id}")
     public ResponseEntity<Profile> updateProfile(@RequestBody Profile profile, HttpServletRequest req){
-        req.getAttribute("profile");
         Profile result = profileService.updateProfile(profile);
         if (result!=null) {
             return new ResponseEntity<>(result, HttpStatus.ACCEPTED);
