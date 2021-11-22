@@ -63,6 +63,16 @@ public class Profile {
         this.pid = SecurityUtil.getId();
     }
 
+    public Profile(int pid, String username, String passkey, String firstName, String lastName, String email, List<Profile> following) {
+        this.pid = pid;
+        this.username = username;
+        this.passkey = passkey;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.following = following;
+    }
+
     public Profile(int pid, String username, String passkey, String firstName, String lastName, String email) {
         this.pid = pid;
         this.username = username;
