@@ -171,6 +171,7 @@ public class SecurityUtil {
         }
 
         if (profile.isIncomplete()) {
+            log.error("Profile was incomplete.");
             return null;
         }
 

@@ -39,6 +39,25 @@ public class SecurityUtilTest {
     }
 
     @Test
+    void decryptInvalidToken() {
+        String falseToken = "eyJlbmMiOiJBMTI4R0NNIiwiYWxnIjoiUlNBLU9BRVAtMjU2In0." +
+                "f5zMU3Nwa5UbuxByikNyGraLXEo78izNqstQarVPotZt0RovvI79nZXYMrvvNZTLRXYlmnrUDoso86o4IF9j4gVRl83nfCgF0G65" +
+                "mUQ4-By1fGjDDtR9yvLztFBHhAackVlcj5kwCrQlxVCwIqvw8dLEVmbWEM3npGo1z6k1QR8OVzS9vYS58k1uQMcQm3-5qmp8ftee" +
+                "7DNSfmDoN40pVutQRupH-H1tyMZaHBRyA6meG1jl1GwIjmOZh8AKWcpjjxUQh7_njpgfj9AsN0TVJOCH-KGMs2PogKuw2O7-4mFe" +
+                "T-qUXTlSrf87KZKunvLBkKP1fnBDTCxoYnA3pDL90Q.3R1CK_7QCxAq8iSk.mnJMOJxog_3FEHMHPyoY5IT6W-36xh-Co4LxAybp" +
+                "KE1geanNyx9VuHPd5XZVTgudm6lb_eYGXZV2TUTyfCs_Z_-gK8i6yPzElexPXMom0ZGQEx9-sNgqtropSJGWhj0Byj30ipqKS9b9" +
+                "2DHXfKMVTiI-yUBWmXH-hMYEBwxmKXw0OjPGdl2eWXM7T22NuJnSOqOVkXcDa8a-Sefbj_wPBdYuJxMHM_YvW5XB0xdmlTQZ6hz6" +
+                "BCTeLpJNHBD0wakFLDs9CPXMEqjzcksEVBjlCSWyM8XENEUZCz1fZ8dbhcLl70WWkZ1bANvY5E4rWQFZIq_M5RKfuSDC0mxaTiOZ" +
+                "uDNEfE8G9fhV5vFJsgKY637ZTg.dPx02Asj2IZ-nfx0ctsVoQ";
+        assertAll(
+                () -> assertNull(SecurityUtil.validateToken(null)),
+                () -> assertNull(SecurityUtil.validateToken("")),
+                () -> assertNull(SecurityUtil.validateToken("aninvalidtooshorttoken.thathassomecorrectparts")),
+                () -> assertNull(SecurityUtil.validateToken(falseToken))
+        );
+    }
+
+    @Test
     @Order(2)
     void generateValidToken() {
         assertNotNull(SecurityUtil.generateToken(PROFILE));
@@ -51,13 +70,20 @@ public class SecurityUtilTest {
 
     @Test
     void generateFromIncomplete() {
+        String val = "testdata";
         assertAll(
-                () -> assertNull(SecurityUtil.generateToken(new Profile(867851386, null, null, null, null, null))),
-                () -> assertNull(SecurityUtil.generateToken(new Profile(487351838, null, null, null, null, ""))),
-                () -> assertNull(SecurityUtil.generateToken(new Profile(487351838, null, null, null, "", ""))),
-                () -> assertNull(SecurityUtil.generateToken(new Profile(487351838, null, null, "", "", ""))),
-                () -> assertNull(SecurityUtil.generateToken(new Profile(487351838, null, "", "", "", ""))),
-                () -> assertNull(SecurityUtil.generateToken(new Profile(314587685, "", "", "", "", "")))
+                () -> assertNull(SecurityUtil.generateToken(new Profile(0, val, val, val, val, val))),
+                () -> assertNull(SecurityUtil.generateToken(new Profile(867851386, null, val, val, val, val))),
+                () -> assertNull(SecurityUtil.generateToken(new Profile(867851386, val, null, val, val, val))),
+                () -> assertNull(SecurityUtil.generateToken(new Profile(867851386, val, val, null, val, val))),
+                () -> assertNull(SecurityUtil.generateToken(new Profile(867851386, val, val, val, null, val))),
+                () -> assertNull(SecurityUtil.generateToken(new Profile(867851386, val, val, val, val, null))),
+                () -> assertNull(SecurityUtil.generateToken(new Profile(867851386, val, val, val, val, val, null))),
+                () -> assertNull(SecurityUtil.generateToken(new Profile(867851386, "", val, val, val, val))),
+                () -> assertNull(SecurityUtil.generateToken(new Profile(867851386, val, "", val, val, val))),
+                () -> assertNull(SecurityUtil.generateToken(new Profile(867851386, val, val, "", val, val))),
+                () -> assertNull(SecurityUtil.generateToken(new Profile(867851386, val, val, val, "", val))),
+                () -> assertNull(SecurityUtil.generateToken(new Profile(867851386, val, val, val, val, "")))
         );
     }
 
@@ -82,10 +108,19 @@ public class SecurityUtilTest {
     @Test
     void idUniqueness() {
         ArrayList<Integer> ids = new ArrayList<>();
-        for (int i = 0; i < 10000; i++){
+        for (int i = 0; i < 100; i++){
             ids.add(SecurityUtil.getId());
         }
         List<Integer> distinctIds = ids.stream().distinct().collect(Collectors.toList());
         assertEquals(ids.size(), distinctIds.size());
+    }
+
+    @Test
+    void checkInvalidPassword() {
+        assertAll(
+                () -> assertFalse(SecurityUtil.isPassword("password", "passkey")),
+                () -> assertFalse(SecurityUtil.isPassword(PASSWORD+"1234567890", PASSKEY)),
+                () -> assertFalse(SecurityUtil.isPassword(PASSWORD, PASSKEY+"io;uadanoiay"))
+        );
     }
 }

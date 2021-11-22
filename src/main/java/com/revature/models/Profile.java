@@ -57,7 +57,7 @@ public class Profile {
     private Set<Post> likedPosts = new LinkedHashSet<>();
 
     public Profile() {
-        pid = SecurityUtil.getId();
+        this.pid = SecurityUtil.getId();
     }
 
     public Profile(int pid, String username, String passkey, String firstName, String lastName, String email) {
@@ -70,7 +70,7 @@ public class Profile {
     }
 
     public Profile(String username, String passkey, String firstName, String lastName, String email) {
-        super();
+        this();
         this.username = username;
         this.passkey = passkey;
         this.firstName = firstName;
