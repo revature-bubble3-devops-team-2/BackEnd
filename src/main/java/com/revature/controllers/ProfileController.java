@@ -42,7 +42,6 @@ public class ProfileController {
             HttpHeaders headers = new HttpHeaders();
             String body = SecurityUtil.generateToken(profile);
             headers.set("Authorization" , body);
-            headers.set("Access-Control-Expose-Headers", "Authorization");
             return new ResponseEntity<>(profile, headers, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
