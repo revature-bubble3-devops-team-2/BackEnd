@@ -37,11 +37,14 @@ public class SecurityUtil {
     private static RSAEncrypter encrypter;
     private static RSADecrypter decrypter;
 
+    private SecurityUtil() {
+        super();
+    }
+
     /**
      * Generates a string used to hash passwords
      * @return a base 64 encoded string
      */
-
     private static String generateSalt() {
         byte[] salt = new byte[SALT_LENGTH];
         SECURE_RANDOM.nextBytes(salt);
@@ -123,7 +126,7 @@ public class SecurityUtil {
         UUID id = UUID.randomUUID();
         int uid = (""+id).hashCode();
         String filterStr = "" + uid;
-        String str = filterStr.replaceAll("-", "");
+        String str = filterStr.replace("-", "");
         return Integer.parseInt(str);
     }
 
@@ -167,7 +170,12 @@ public class SecurityUtil {
             return null;
         }
 
-        if (encrypter == null || decrypter == null) {
+        if (profile.isIncomplete()) {
+            log.error("Profile was incomplete.");
+            return null;
+        }
+
+        if (decrypter == null) {
             generateEncryptionObjects();
         }
 
@@ -197,10 +205,20 @@ public class SecurityUtil {
         return jwt.serialize();
     }
 
+    private static EncryptedJWT decryptToken(EncryptedJWT jwt) {
+        try {
+            jwt.decrypt(decrypter);
+            return jwt;
+        } catch (JOSEException e) {
+            log.error("Unable to decrypt token " + e.getMessage());
+        }
+        return null;
+    }
+
     /**
-     * Decrypts token, checks for correct com.revature.com.revature.data, and returns the id and access level within
+     * Decrypts token, checks for correct data, and returns the profile within
      * @param token string of the encrypted token
-     * @return id of token, null if token invalid
+     * @return the decrypted profile, null if invalid
      */
     public static Profile validateToken(String token) {
         if (decrypter == null) {
@@ -218,12 +236,9 @@ public class SecurityUtil {
         try {
             EncryptedJWT jwt = EncryptedJWT.parse(token);
 
-            try {
-                jwt.decrypt(decrypter);
-            } catch (JOSEException e) {
-                log.error("Unable to decrypt token " + e.getMessage());
-                return null;
-            }
+            jwt = decryptToken(jwt);
+            if (jwt == null) return null;
+
             JWTClaimsSet claims = jwt.getJWTClaimsSet();
             if (!claims.getIssuer().equals("bubble-system")) return null;
             if (claims.getExpirationTime().before(Timestamp.valueOf(LocalDateTime.now()))) return null;
