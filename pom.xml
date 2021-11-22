@@ -80,6 +80,12 @@
             <version>4.0.0</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.200</version>
+            <scope>runtime</scope>
+        </dependency>
 
         <!-- For Security Utility -->
         <dependency>
@@ -153,6 +159,11 @@
                                 <!-- Include integration tests within integration-test phase. -->
                                 <include>**/*IT.java</include>
                             </includes>
+                            <environmentVariables>
+                                <DB_URL>jdbc:h2:~/test</DB_URL>
+                                <DB_USER></DB_USER>
+                                <DB_PASS></DB_PASS>
+                            </environmentVariables>
                         </configuration>
                     </execution>
                 </executions>

@@ -2,7 +2,10 @@ def testfail = true
 pipeline {
     agent any
 
-    options {disableConcurrentBuilds()}
+    options {
+        buildDiscarder(logRotator(daysToKeepStr: '7', numToKeepStr: '1'))
+        disableConcurrentBuilds()
+    }
 
     environment {
         PORT = 8082

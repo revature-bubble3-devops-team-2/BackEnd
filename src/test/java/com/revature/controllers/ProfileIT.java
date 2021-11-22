@@ -4,10 +4,16 @@ import com.revature.models.Profile;
 import com.revature.utilites.SecurityUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ProfileIT {
-
+    private static final String BASE_URL = "http://localhost:8082/profile";
+    private static final RestTemplate restTemplate = new RestTemplate();
     private Profile profile = new Profile("username", "passkey", "name", "name", "email");
     private HttpHeaders STANDARD_HEADER = new HttpHeaders();
 
@@ -19,6 +25,13 @@ public class ProfileIT {
 
     @Test
     void validRegister() {
-
+        HttpEntity<Profile> req = new HttpEntity<>(profile);
+        ResponseEntity<Profile> response = restTemplate.postForEntity(BASE_URL+"/register", req, Profile.class);
+        assertAll(
+                () -> assertNotNull(response),
+                () -> assertNotNull(response.getBody()),
+                () -> assertNotNull(response.getHeaders()),
+                () -> assertNotNull(SecurityUtil.validateToken(response.getHeaders().get("Authorization").get(0)))
+        );
     }
 }

@@ -53,7 +53,8 @@ public class ProfileController {
             HttpHeaders responseHeaders = new HttpHeaders();
             String token = SecurityUtil.generateToken(profile);
             responseHeaders.set("Authorization", token);
-            return new ResponseEntity<>(profileService.addNewProfile(profile),responseHeaders, HttpStatus.CREATED);
+            Profile newProfile = profileService.addNewProfile(profile);
+            return new ResponseEntity<>(newProfile,responseHeaders, HttpStatus.CREATED);
 
         } else {
             return new ResponseEntity<>(HttpStatus.IM_USED);
