@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface PostRepo extends JpaRepository<Post, Integer> {
     Page<Post> findAll(Pageable pageable);
-    List<Post> getPostsByCreator(Profile profile);
+    Page<Post> getPostsByCreator(Pageable pageable, int profileID );
     List<Post>findTop3ByCreator(Profile profile, Sort sort);
 
 }
