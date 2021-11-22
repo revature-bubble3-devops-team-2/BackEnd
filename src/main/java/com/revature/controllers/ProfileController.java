@@ -4,6 +4,7 @@ import com.revature.aspects.annotations.NoAuthIn;
 import com.revature.models.Profile;
 import com.revature.services.ProfileService;
 import com.revature.utilites.SecurityUtil;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/profile")
 @CrossOrigin
+@Log4j2
 public class ProfileController {
 
     @Autowired
@@ -47,14 +49,17 @@ public class ProfileController {
      */
     @PostMapping("/register")
     @NoAuthIn
-    public ResponseEntity<Profile> addNewProfile(@Valid @RequestBody Profile profile) {
+    public ResponseEntity<Profile> addNewProfile(@Valid Profile profile) {
         Profile returnedUser = profileService.getProfileByEmail(profile);
         if(returnedUser == null){
             HttpHeaders responseHeaders = new HttpHeaders();
             String token = SecurityUtil.generateToken(profile);
             responseHeaders.set("Authorization", token);
             Profile newProfile = profileService.addNewProfile(profile);
-            return new ResponseEntity<>(newProfile,responseHeaders, HttpStatus.CREATED);
+            if (newProfile == null || newProfile.isIncomplete()) {
+                return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+            return new ResponseEntity<>(newProfile, responseHeaders, HttpStatus.CREATED);
 
         } else {
             return new ResponseEntity<>(HttpStatus.IM_USED);
