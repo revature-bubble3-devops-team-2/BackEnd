@@ -54,12 +54,7 @@ pipeline {
                 timeout(time: 5, unit: 'MINUTES') {
                     script {
                         def qg = waitForQualityGate abortPipeline: true
-                        discordSend description: ":no_entry_sign: **Quality Gate Failure: ${qg.status}**", result: currentBuild.currentResult, webhookURL: env.WEBHO_BE
-                    }
-                }
-                script {
-                    if ($env.GIT_BRANCH != 'main') {
-                        currentBuild.currentResult = 'SUCCESS'
+                        discordSend description: ":no_entry_sign: **Quality Gate: ${qg.status}**", result: currentBuild.currentResult, webhookURL: env.WEBHO_BE
                     }
                 }
             }
@@ -79,7 +74,7 @@ pipeline {
         }
         stage('Run Container') {
             steps {
-                sh 'docker run -d --env DB_URL --env DB_USER --env DB_PASS --rm -p ${PORT}:${PORT} --name ${CONTAINER_NAME} ${IMAGE_TAG} '
+                sh 'docker run -d --env DB_URL --env DB_USER --env DB_PASS --rm -p ${PORT}:${PORT} --name ${CONTAINER_NAME} ${IMAGE_TAG}'
                 discordSend description: ":whale: *Running Docker Container*", result: currentBuild.currentResult, webhookURL: env.WEBHO_BE
             }
         }
@@ -90,6 +85,7 @@ pipeline {
                           docker.image(IMAGE_TAG).push()
                     }
                 }
+                discordSend description: ":face_in_clouds: *Pushed Latest to DockerHub", result: currentBuild.currentResult, webhookURL: env.WEBHO_BE
             }
         }
     }
