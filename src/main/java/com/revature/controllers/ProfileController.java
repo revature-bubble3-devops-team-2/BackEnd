@@ -27,7 +27,7 @@ public class ProfileController {
      * @param password
      * @return secure token as json
      */
-    @PostMapping
+    @PostMapping("/login")
     @NoAuthIn
     public ResponseEntity<String> login(String username, String password) {
         Profile profile = profileService.login(username, password);
@@ -41,7 +41,6 @@ public class ProfileController {
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
-
     /**
      * Post request that gets client profile registration info and then checks to see if information is not
      *      a duplicate in the database. If info is not a duplicate, it sets Authorization headers
@@ -49,9 +48,8 @@ public class ProfileController {
      * @param profile
      * @return a response with the new profile and status created
      */
-
-
     @PostMapping("/register")
+    @NoAuthIn
     public ResponseEntity<Profile> addNewProfile(@Valid @RequestBody Profile profile) {
         Profile returnedUser = profileService.getProfileByEmail(profile);
         if(returnedUser == null){
@@ -72,7 +70,7 @@ public class ProfileController {
      * @param id
      * @return Profile object with HttpStatusAccepted or HttpStatusBackRequest
      */
-    @GetMapping("/profiles/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<Profile> getProfileByPid(@PathVariable("id")int id) {
         Profile profile = profileService.getProfileByPid(id);
         if(profile!=null){
@@ -87,7 +85,7 @@ public class ProfileController {
      * @param profile
      * @return Updated profile with HttpStatus.ACCEPTED otherwise if invalid returns HttpStatus.BAD_REQUEST
      */
-    @PutMapping("/profiles/{id}")
+    @PutMapping
     public ResponseEntity<Profile> updateProfile(@RequestBody Profile profile) {
         Profile result = profileService.updateProfile(profile);
         if (result != null) {
