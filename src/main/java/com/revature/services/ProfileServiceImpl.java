@@ -113,7 +113,8 @@ public class ProfileServiceImpl implements ProfileService {
                 pList.remove(unfollow);
                 profile.setFollowing(pList);
             }
-                return profileRepo.save(profile);
+                profileRepo.save(profile);
+                return profile;
             }else{
                 log.info("Unable to remove follow");
             }

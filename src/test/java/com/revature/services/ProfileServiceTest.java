@@ -152,7 +152,7 @@ public class ProfileServiceTest {
     }
 
     @Test
-    public void testaddFollowerByEmail(){
+    public void testAddFollowerByEmail(){
         Profile profile = new Profile(1,"test","1234","updateTest","updateTest","test@mail", pList);
         Profile profile2 = new Profile(2,"test2","1234","updateTest2","updateTest2","test2@mail", pList);
 
@@ -162,6 +162,24 @@ public class ProfileServiceTest {
 
         when(profileRepo.getProfileByEmail("test2@mail")).thenReturn(profile2);
         Profile result = profileService.addFollowerByEmail(profile, profile2.getEmail());
+
+        assertEquals(expected, result);
+    }
+
+    @Test
+    public void testDeleteFollowerByEmail(){
+        Profile profile = new Profile(1,"test","1234","updateTest","updateTest","test@mail", pList);
+        Profile profile2 = new Profile(2,"test2","1234","updateTest2","updateTest2","test2@mail", pList);
+
+        ArrayList<Profile> followed = new ArrayList<Profile>();
+        Profile expected = new Profile(1, "test", "1234", "updateTest", "updateTest", "test@mail", followed);
+
+        when(profileRepo.getProfileByEmail("tes2@mail")).thenReturn(profile);
+        when(profileRepo.getProfileByEmail("test2@mail")).thenReturn(profile2);
+
+        profile = profileService.addFollowerByEmail(profile, profile2.getEmail());
+
+        Profile result = profileService.removeFollowByEmail(profile, profile2.getEmail());
 
         assertEquals(expected, result);
     }
