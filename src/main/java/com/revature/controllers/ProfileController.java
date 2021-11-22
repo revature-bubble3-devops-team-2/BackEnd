@@ -9,9 +9,15 @@ import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -33,18 +39,13 @@ public class ProfileController {
      * @return secure token as json
      */
     @NoAuthIn
-    @PostMapping
-    public ResponseEntity<String> login(String username, String password) {
-        Profile profile = profileService.login(username, password);
-
-        System.out.println("Username" + username);
-        if (profile != null) {
+    public ResponseEntity<Profile> login(String username, String password) {
+        Profile profile = profileService.login(username,password);
+        if(profile != null){
             HttpHeaders headers = new HttpHeaders();
-            String token = SecurityUtil.generateToken(profile);
-            String body = "{\"Authorization\":\"" +
-                    token
-                    + "\"}";
-            return new ResponseEntity<>(body, headers, HttpStatus.OK);
+            String body = SecurityUtil.generateToken(profile);
+            headers.set("Authorization" , body);
+            return new ResponseEntity<>(profile, headers, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
@@ -58,19 +59,17 @@ public class ProfileController {
      * @return aobject name profile, response header, Status code okay
      * @PARAM Profile
      */
-
-    @NoAuthIn
     @PostMapping("/register")
-    public ResponseEntity<Profile> addNewProfile(@Valid @RequestBody Profile profile) {
+    @NoAuthIn
+    public ResponseEntity<Profile> addNewProfile(@Valid @RequestBody Profile profile){
         System.out.println("profile" + profile);
         Profile returnedUser = profileService.getProfileByEmail(profile.getEmail());
         System.out.println("returned" + returnedUser);
-        if (returnedUser == null) {
+        if(returnedUser == null){
             HttpHeaders responseHeaders = new HttpHeaders();
             String token = SecurityUtil.generateToken(profile);
-            responseHeaders.set("Authorization", token);
-            responseHeaders.set("Access-Control-Expose-Headers", "Authorization");
-            return new ResponseEntity<>(profileService.addNewProfile(profile), responseHeaders, HttpStatus.CREATED);
+            responseHeaders.set("Authorization" , token);
+            return new ResponseEntity<>(profileService.addNewProfile(profile),responseHeaders, HttpStatus.CREATED);
 
         } else {
             return new ResponseEntity<>(HttpStatus.IM_USED);
@@ -96,12 +95,12 @@ public class ProfileController {
 
     /**
      * Put mapping grabs the updated fields of profile and updates the profile in the database.
-     *
+     * If no token is sent in the token it fails the Auth and doesn't update the profile.
      * @param profile
      * @return Updated profile with HttpStatus.ACCEPTED otherwise if invalid returns HttpStatus.BAD_REQUEST
      */
     @PutMapping("/profiles/{id}")
-    public ResponseEntity<Profile> updateProfile(@RequestBody Profile profile) {
+    public ResponseEntity<Profile> updateProfile(@RequestBody Profile profile, HttpServletRequest req){
         Profile result = profileService.updateProfile(profile);
         if (result != null) {
             return new ResponseEntity<>(result, HttpStatus.ACCEPTED);
@@ -110,6 +109,12 @@ public class ProfileController {
         }
     }
 
+    /**
+     * Adds profile to list of profiles being followed by user
+     * @param email email of profile to follow
+     * @param req http request including the user's authorization token in the "Authroization" header
+     * @return
+     */
     @PostMapping("/follow")
     public ResponseEntity<String> newFollower(String email, HttpServletRequest req) {
         System.out.println("incoming email: " + email);
@@ -130,6 +135,12 @@ public class ProfileController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * Removed profile from list of profiles being followed by the user
+     * @param email email of the profile to be unfollowed
+     * @param req http request including the user's authorization token in the "Authroization" header
+     * @return OK response with new authorization token, bad request response if unsuccessful
+     */
     @PostMapping("/unfollow")
     public ResponseEntity<String> unfollow(String email, HttpServletRequest req) {
         Profile follower = (Profile) req.getAttribute("profile");

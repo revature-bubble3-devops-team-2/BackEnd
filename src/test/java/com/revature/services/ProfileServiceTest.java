@@ -1,84 +1,80 @@
 package com.revature.services;
 
-import	com.revature.models.Profile;
-import	com.revature.repositories.ProfileRepo;
-import	org.junit.jupiter.api.*;
-import	org.mockito.InjectMocks;
-import	org.mockito.Mock;
-import	org.mockito.MockitoAnnotations;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import	static	org.junit.jupiter.api.Assertions.*;
-import	static	org.mockito.Mockito.when;
+import com.revature.models.Profile;
+import com.revature.repositories.ProfileRepo;
+import org.junit.jupiter.api.*;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
 public class ProfileServiceTest {
-    private final String pass = "c8ZLBnfDh3YsvZ2dW1KDWY6ZTak8+v+/L74e8Vfoydk1IfySsVCAZVKTZfrtPKodzUXEiR+69yjOz1qqf7U4" +
-            "rA==jnW2sIxW7inUlQqGJCNrNa7Eavj5uMGQAYZ0S6xNz65p79QaOk8eZpOChJlFPvIadohhOuHg5PFGeewM2YmkVR260YPhJwK/GUR3" +
-            "YXsUH0+KjOQKuHAHY8CyLwpBsNV0DsPO56jn2As1CfBMJc9VSNsx37W4Vo5MCaOTisZwBWjUsTG9i+HecqcK9C0tIWC2Jn44oX5BAS31" +
-            "Huev/ZIWf2OE3FjHSMLyJs0TmJAPxBg6IllwEhv75+ffGbZENZVkkHV3LRxUWKtGdQa5tSOt6pdzIZtdSO6o81zXD6BBDfEZo22qCVCR" +
-            "2C2DQbsmaMJhInHwxEZ3RS3/1N+rz85STq/h+nKvqBcoPOFfq0o5tRRnOlRVFpWuONhiY7IUSqtTZCJmqHnALSRFJwMGFPjmUkq1nQxu" +
-            "x1rgxllacVb+AT4bS+Xbw8DyUwGepmTCiw4t75krGyCSBArcmfiFBtgDkVZTFIJ+GMFhFbpWv2darLcxKlgSdur/z9YCYoZcKm9vrrH+" +
-            "CaFykfIUdjnln5jhLoRmjeBIHgYWITG5J5/NCzAM+a3k4Y92/hbgDDE15GD1ud1EU8GHY4eb5LU1pAb2O7zbcW9pQbtVcbqyJGNRFA6O" +
-            "AGcWb1R0+04d0+1DA6BjTDsxkltgsvUpLrVFBo4VaFAT6Jf4ZI2Pg39WjFY1an8=";
-    List<Profile> pList = new ArrayList<>();
+    private static final String USERNAME = "dummyUsername";
+    private static final String PASSWORD = "abc123";
+    private static final String EMAIL = "dummy@email.com";
+    private Profile expected = new Profile();
 
     @Mock
     ProfileRepo profileRepo;
 
     @InjectMocks
-    private  ProfileServiceImpl profileService;
+    private ProfileServiceImpl profileService;
 
     @BeforeEach
     void initMock() {
         MockitoAnnotations.openMocks(this);
+        String name = "dummyName";
+        String passkey = "c8ZLBnfDh3YsvZ2dW1KDWY6ZTak8+v+/L74e8Vfoydk1IfySsVCAZVKTZfrtPKodzUXEiR+69yjOz1qqf7U4rA==jnW" +
+                "2sIxW7inUlQqGJCNrNa7Eavj5uMGQAYZ0S6xNz65p79QaOk8eZpOChJlFPvIadohhOuHg5PFGeewM2YmkVR260YPhJwK/GUR3YXs" +
+                "UH0+KjOQKuHAHY8CyLwpBsNV0DsPO56jn2As1CfBMJc9VSNsx37W4Vo5MCaOTisZwBWjUsTG9i+HecqcK9C0tIWC2Jn44oX5BAS3" +
+                "1Huev/ZIWf2OE3FjHSMLyJs0TmJAPxBg6IllwEhv75+ffGbZENZVkkHV3LRxUWKtGdQa5tSOt6pdzIZtdSO6o81zXD6BBDfEZo22" +
+                "qCVCR2C2DQbsmaMJhInHwxEZ3RS3/1N+rz85STq/h+nKvqBcoPOFfq0o5tRRnOlRVFpWuONhiY7IUSqtTZCJmqHnALSRFJwMGFPj" +
+                "mUkq1nQxux1rgxllacVb+AT4bS+Xbw8DyUwGepmTCiw4t75krGyCSBArcmfiFBtgDkVZTFIJ+GMFhFbpWv2darLcxKlgSdur/z9Y" +
+                "CYoZcKm9vrrH+CaFykfIUdjnln5jhLoRmjeBIHgYWITG5J5/NCzAM+a3k4Y92/hbgDDE15GD1ud1EU8GHY4eb5LU1pAb2O7zbcW9" +
+                "pQbtVcbqyJGNRFA6OAGcWb1R0+04d0+1DA6BjTDsxkltgsvUpLrVFBo4VaFAT6Jf4ZI2Pg39WjFY1an8=";
+        expected = new Profile(USERNAME, passkey, name, name, EMAIL);
     }
 
     @Test
     void testLoginSuccess(){
-        Profile expected = new Profile(12, "joey", pass, "Joe", "Seph", "a@b.com", pList);
-        when(profileRepo.getProfileByUsername("joey")).thenReturn(expected);
-        Profile actual = profileService.login("joey","abc123");
+        when(profileRepo.getProfileByUsername(USERNAME)).thenReturn(expected);
+        Profile actual = profileService.login(USERNAME, PASSWORD);
         assertEquals(expected,actual);
     }
 
     @Test
-    void testLoginNullUsername(){
-        when(profileRepo.getProfileByUsername(null)).thenReturn(null);
-        Profile actual = profileService.login(null,"abc123");
+    void testLoginNullEmail(){
+        when(profileRepo.getProfileByEmail(null)).thenReturn(null);
+        Profile actual = profileService.login(null, PASSWORD);
         assertNull(actual);
     }
 
     @Test
     void testLoginNullPass(){
-        Profile expected = new Profile(12, "joey", pass, "Joe", "Seph", "a@b.com", pList);
-        when(profileRepo.getProfileByUsername("joey")).thenReturn(expected);
-        Profile actual = profileService.login("a@b.com",null);
+        when(profileRepo.getProfileByEmail(EMAIL)).thenReturn(expected);
+        Profile actual = profileService.login(EMAIL,null);
         assertNull(actual);
     }
 
     @Test
-    void testLoginBadUsername(){
-        Profile expected = new Profile(12, "joey", pass, "Joe", "Seph", "a@b.com", pList);
-        when(profileRepo.getProfileByUsername("banana")).thenReturn(null);
+    void testLoginBadEmail(){
+        when(profileRepo.getProfileByEmail("banana")).thenReturn(null);
         Profile actual = profileService.login("banana","tomato");
         assertNull(actual);
     }
 
     @Test
     void testLoginBadPass(){
-        Profile expected = new Profile(12, "joey", pass, "Joe", "Seph", "a@b.com", pList);
-        when(profileRepo.getProfileByUsername("a@b.com")).thenReturn(expected);
-        Profile actual = profileService.login("a@b.com","tomato");
+        when(profileRepo.getProfileByEmail(EMAIL)).thenReturn(expected);
+        Profile actual = profileService.login(EMAIL,"tomato");
         assertNull(actual);
     }
 
     @Test
-    void testFindProfileByUsernameSuccess(){
-        Profile expected = new Profile(12, "joey", pass, "Joe", "Seph", "a@b.com", pList);
-        when(profileRepo.getProfileByUsername("joey")).thenReturn(expected);
-        Profile actual = profileRepo.getProfileByUsername("joey");
+    void testFindProfileByEmailSuccess(){
+        when(profileRepo.getProfileByEmail(EMAIL)).thenReturn(expected);
+        Profile actual = profileRepo.getProfileByEmail(EMAIL);
         assertEquals(actual,expected);
     }
 
@@ -97,58 +93,42 @@ public class ProfileServiceTest {
     }
 
     @Test
-    public void addnewProfile()
-    {
-        Profile profile = new Profile();
-        profile.setFirstName("Bob");
-        profile.setLastName("Square");
-        profile.setEmail("bikini@bottom.net");
-        profile.setUsername("SBob");
-        profile.setPasskey("secret");
-
-        when(profileRepo.save(profile)).thenReturn(profile);
-        assertEquals(profile, profileService.addNewProfile(profile));
-
+    void addNewProfile() {
+        when(profileRepo.save(expected)).thenReturn(expected);
+        assertEquals(expected, profileService.addNewProfile(expected));
     }
 
     @Test
-    public void getProfileByUser()
-    {
-        Profile profile = new Profile(1,"user","1234","f","l","em", pList);
-        when(profileRepo.getProfileByEmail(profile.getEmail())).thenReturn(profile);
-        Profile actual = profileService.getProfileByEmail(profile.getEmail());
-        assertEquals(profile,actual);
+    void getProfileByUser() {
+        when(profileRepo.getProfileByEmail(expected.getEmail())).thenReturn(expected);
+        Profile actual = profileService.getProfileByEmail(expected.getEmail());
+        assertEquals(expected,actual);
     }
 
     @Test
-    public void testGetExistingProfile(){
-        Profile expected = new Profile(1,"test","1234","test","test","test@mail", pList);
+    void testGetExistingProfile() {
         when(profileRepo.getProfileByPid(1)).thenReturn(expected);
         assertEquals(expected, profileService.getProfileByPid(1));
     }
 
-
     @Test
-    public void testGetInvalidProfile(){
+    void testGetInvalidProfile() {
         when(profileRepo.getProfileByPid(1)).thenReturn(null);
         assertNull(profileService.getProfileByPid(1));
     }
 
     @Test
-    public void testUpdateExistingProfile(){
-        Profile expected = new Profile(1,"test","1234","updateTest","updateTest","test@mail", pList);
-        Profile old = new Profile(1,"test","1234","test","test","test@mail", pList);
-        when(profileRepo.getProfileByPid(1)).thenReturn(old);
-        when(profileRepo.save(old)).thenReturn(old);
-        assertEquals(expected, profileService.updateProfile(expected));
+    void testUpdateExistingProfile() {
+        when(profileRepo.getProfileByPid(expected.getPid())).thenReturn(expected);
+        when(profileRepo.save(expected)).thenReturn(expected);
+        assertEquals(this.expected, profileService.updateProfile(this.expected));
     }
 
     @Test
-    public void testUpdateInvalidProfile(){
-        Profile profile = new Profile(1,"test","1234","updateTest","updateTest","test@mail", pList);
-        when(profileRepo.getProfileByPid(1)).thenReturn(null);
+    void testUpdateInvalidProfile() {
+        when(profileRepo.getProfileByPid(expected.getPid())).thenReturn(null);
         when(profileRepo.save(null)).thenReturn(null);
-        assertNull(profileService.updateProfile(profile));
+        assertNull(profileService.updateProfile(expected));
     }
 
     @Test

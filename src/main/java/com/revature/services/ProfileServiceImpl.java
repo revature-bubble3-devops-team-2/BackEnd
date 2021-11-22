@@ -23,7 +23,10 @@ public class ProfileServiceImpl implements ProfileService {
      * @param password
      * @return a user profile
      */
-    public Profile login(String username, String password){
+    public Profile login(String username, String password) {
+        if (username == null || password == null || username.isEmpty() || password.isEmpty()) {
+            return null;
+        }
         Profile profile = profileRepo.getProfileByUsername(username);
         if (profile != null && SecurityUtil.isPassword(password, profile.getPasskey())) {
             return profile;
@@ -40,8 +43,7 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public Profile addNewProfile(Profile profile) {
         try {
-            String hashedPWD = SecurityUtil.hashPassword(profile.getPasskey());
-            profile.setPasskey(hashedPWD);
+            profile.setPasskey(SecurityUtil.hashPassword(profile.getPasskey()));
             return profileRepo.save(profile);
         } catch (Exception e) {
             return null;
@@ -73,6 +75,11 @@ public class ProfileServiceImpl implements ProfileService {
         return profileRepo.getProfileByPid(pid);
     }
 
+    /**
+     * initiates a profile lookup by username in ProfileRepo
+     * @param username
+     * @return
+     */
     public Profile getProfileByUsername(String username) {
         return profileRepo.getProfileByUsername(username);
     }
@@ -96,14 +103,12 @@ public class ProfileServiceImpl implements ProfileService {
         }
     }
 
-//    @Override
-//    public boolean addFollowerByProfile(Profile profile)
-//    {
-//        System.out.println(profile);
-//
-//        return false;
-//    }
-
+    /**
+     * Calls ProfileRepo to remove a profile from following by email
+     * @param profile profile of user initiating request
+     * @param email email of profile to be removed
+     * @return profile, null if unsuccessful
+     */
     @Override
     public Profile removeFollowByEmail(Profile profile, String email) {
         Profile unfollow = profileRepo.getProfileByEmail(email);
@@ -121,6 +126,12 @@ public class ProfileServiceImpl implements ProfileService {
         return null;
         }
 
+    /**
+     * Calls ProfileRepo to add a profile o following by email
+     * @param profile profile of user initiating request
+     * @param email email of profile to be removed
+     * @return profile, null if unsuccessful
+     */
     @Override
     public Profile addFollowerByEmail(Profile profile, String email) {
         List<Profile> pList = new ArrayList<>(profile.getFollowing());

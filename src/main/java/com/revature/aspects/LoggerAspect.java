@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 @Component
 public class LoggerAspect {
     public LoggerAspect() {
+        super();
     }
 
     @Before("within(com.revature.controllers.*)")

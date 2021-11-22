@@ -22,36 +22,42 @@ import java.util.ArrayList;
 @Component
 public class AuthAspect {
     public AuthAspect() {
+        super();
     }
 
     @Around("execution(* com.revature.controllers.*.*(..))" +
             "&& !@annotation(com.revature.aspects.annotations.NoAuthIn)" +
             "&& !@target(com.revature.aspects.annotations.NoAuthIn)")
-    public ResponseEntity<?> authenticateToken(ProceedingJoinPoint pjp) throws Throwable {
-        log.info("Aspect triggered");
-        HttpServletRequest request =
+    public ResponseEntity<?> authenticateToken(final ProceedingJoinPoint pjp) {
+        final HttpServletRequest request =
                 ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
         final String token = request.getHeader("Authorization");
+        ResponseEntity<?> response = null;
         if (token == null) {
             log.info("null token");
             log.warn("No Authorization Token Received");
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            response = new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         } else {
             final Profile profile = SecurityUtil.validateToken(token);
             if (profile == null) {
                 log.info("null profile");
                 log.warn("Received Invalid Token");
-                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+                response = new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             } else {
                 log.info("Received Valid Token");
                 request.setAttribute("profile", profile);
-                return (ResponseEntity<?>) pjp.proceed();
+                try {
+                    response = (ResponseEntity<?>) pjp.proceed();
+                } catch (Throwable e) {
+                    log.error("Unable to Proceed from Previous Join Point");
+                }
             }
         }
+        return response;
     }
 
     @AfterReturning(pointcut = "within(com.revature.controllers.*)", returning = "response")
-    public ResponseEntity<?> exposeHeaders(final ResponseEntity<?> response) throws Throwable {
+    public ResponseEntity<?> exposeHeaders(final ResponseEntity<?> response) {
         if (response == null) {
             log.error("No Response Sent.");
         }
