@@ -175,7 +175,7 @@ public class SecurityUtil {
             return null;
         }
 
-        if (encrypter == null || decrypter == null) {
+        if (decrypter == null) {
             generateEncryptionObjects();
         }
 

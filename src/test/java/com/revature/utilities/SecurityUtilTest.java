@@ -118,9 +118,12 @@ public class SecurityUtilTest {
     @Test
     void checkInvalidPassword() {
         assertAll(
-                () -> assertFalse(SecurityUtil.isPassword("password", "passkey")),
-                () -> assertFalse(SecurityUtil.isPassword(PASSWORD+"1234567890", PASSKEY)),
-                () -> assertFalse(SecurityUtil.isPassword(PASSWORD, PASSKEY+"io;uadanoiay"))
+                () -> assertFalse(SecurityUtil.isPassword("password", null)),
+                () -> assertFalse(SecurityUtil.isPassword("password", "")),
+                () -> assertFalse(SecurityUtil.isPassword(null, PASSKEY)),
+                () -> assertFalse(SecurityUtil.isPassword("", PASSKEY)),
+                () -> assertFalse(SecurityUtil.isPassword(PASSWORD+"4", PASSKEY)),
+                () -> assertFalse(SecurityUtil.isPassword(PASSWORD, PASSKEY+"y"))
         );
     }
 }
