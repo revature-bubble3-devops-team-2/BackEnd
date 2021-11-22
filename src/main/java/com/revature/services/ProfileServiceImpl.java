@@ -26,9 +26,10 @@ public class ProfileServiceImpl implements ProfileService{
      * @param password
      * @return a user profile
      */
-    public Profile login(String email, String password){
-        Profile profile = profileRepo.getProfileByEmail(email);
-        if(profile != null && SecurityUtil.isPassword(password,profile.getPasskey())){
+    public Profile login(String username, String password){
+        Profile profile = profileRepo.getProfileByUsername(username);
+
+        if (profile != null && SecurityUtil.isPassword(password, profile.getPasskey())) {
             return profile;
         }
         return null;

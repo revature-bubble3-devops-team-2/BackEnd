@@ -8,4 +8,7 @@ spring:
   jpa:
     show-sql: false
     generate-ddl: false
+  output:
+    ansi:
+      enabled: ALWAYS
 

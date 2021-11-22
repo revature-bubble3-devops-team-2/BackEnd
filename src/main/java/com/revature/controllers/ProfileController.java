@@ -35,14 +35,13 @@ public class ProfileController {
      * @return secure token and profile as json
      */
     @PostMapping
-    @NoAuthIn
-    public ResponseEntity<?> login(String email, String password) {
-        Profile profile = profileService.login(email,password);
+    public ResponseEntity<Profile> login( String username, String password) {
+
+        Profile profile = profileService.login(username,password);
         if(profile != null){
-            ReturnValues rv = new ReturnValues();
-            rv.setProfile(profile);
-            rv.setToken(SecurityUtil.generateToken(profile));
-            return new ResponseEntity<ReturnValues>(rv,HttpStatus.OK);
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("Authorization", SecurityUtil.generateToken(profile));
+            return new ResponseEntity<>(profile, headers, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
@@ -50,15 +49,15 @@ public class ProfileController {
     /**
      * aggregtes response from token and profile for response in login
      */
-    private class ReturnValues{
-        String token;
-        Profile profile;
-        ReturnValues(){}
-        public void setToken(String token){this.token = token;}
-        public void setProfile(Profile profile){this.profile = profile;}
-        public String getToken(){return this.token;}
-        public Profile getProfile(){return this.profile;}
-    }
+//    private class ReturnValues{
+//        String token;
+//        Profile profile;
+//        ReturnValues(){}
+//        public void setToken(String token){this.token = token;}
+//        public void setProfile(Profile profile){this.profile = profile;}
+//        public String getToken(){return this.token;}
+//        public Profile getProfile(){return this.profile;}
+//    }
 
     /**
      * Post request that gets client profile registration info and then checks to see if information is not
