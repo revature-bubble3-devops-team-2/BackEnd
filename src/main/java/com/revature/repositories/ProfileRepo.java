@@ -15,5 +15,5 @@ public interface ProfileRepo extends JpaRepository<Profile, Integer> {
     Profile getProfileByEmail(String email);
     Profile getProfileByPid(Integer pid);
     Profile getProfileByUsername(String username);
-    
+
 }

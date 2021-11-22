@@ -1,5 +1,6 @@
 package com.revature.controllers;
 
+import com.revature.aspects.annotations.NoAuthIn;
 import com.revature.models.Post;
 import com.revature.models.Profile;
 import com.revature.services.PostService;
@@ -37,7 +38,8 @@ public class LikeController {
      */
     @PostMapping
     public ResponseEntity<Profile> addLike(@RequestBody Post post, HttpServletRequest req) {
-        Profile temp = (Profile) req.getAttribute(PROFILE);
+       // Profile temp = (Profile) req.getAttribute(PROFILE);
+        Profile temp = profileService.getProfileByPid(1);
         Profile existProfile = postService.likeFindByID(temp, post);
         if (existProfile == null) { //like does not exist
             Profile check = postService.likePost(temp, post);
@@ -64,7 +66,8 @@ public class LikeController {
      */
     @DeleteMapping
     public ResponseEntity<Profile> removeLike(@RequestBody Post post, HttpServletRequest req) {
-        Profile temp = (Profile) req.getAttribute(PROFILE);
+      //  Profile temp = (Profile) req.getAttribute(PROFILE);
+        Profile temp = profileService.getProfileByPid(1);
         int check = postService.likeDelete(temp, post);
         if (check == -1){
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);

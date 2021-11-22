@@ -1,5 +1,6 @@
 package com.revature.controllers;
 
+import com.revature.aspects.annotations.NoAuthIn;
 import com.revature.models.Post;
 import com.revature.models.Profile;
 import com.revature.services.PostService;
@@ -38,11 +39,12 @@ public class PostController {
      */
     @PostMapping
     public ResponseEntity<Post> addPost(@RequestBody Post post, HttpServletRequest req) {
-        Post temp = post;
-        System.out.println(post);
-        temp.setCreator((Profile) req.getAttribute("creator"));
-        temp.setPsid(SecurityUtil.getId());
-        Post check = postService.addPost(temp);
+//        Post temp = post;
+//        System.out.println(post);
+//        temp.setCreator((Profile) req.getAttribute("creator"));
+//        temp.setPsid(SecurityUtil.getId());
+
+        Post check = postService.addPost(post);
         if (check == null) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         } else {
@@ -65,9 +67,9 @@ public class PostController {
 
     @GetMapping("/profile/{pid}/{pageNumber}")
     @ResponseBody
-    public ResponseEntity<List<Post>> getAllPosts() {
-        return new ResponseEntity<>(postService.getAllPosts(), HttpStatus.OK) ;
-
+    public ResponseEntity<List<Post>> getFollowerPostsById(@PathVariable ("pid") int pid,@PathVariable ("pageNumber") int page, HttpServletRequest req) {
+        Profile profile = profileService.getProfileByPid(pid);
+        return new ResponseEntity<> (postService.getFollowerPostsByProfile(profile, page), HttpStatus.OK);
     }
 }
 
