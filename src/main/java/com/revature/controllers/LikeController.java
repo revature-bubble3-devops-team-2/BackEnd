@@ -24,17 +24,16 @@ public class LikeController {
     public ProfileService profileService;
 
     /**
-     * addLike receives a request body that contains the Post that is being liked and a http servlet request that
-     * contains a token, which contains the Profile liking the Post. It checks if the Like already exists and returns
-     * HTTP found status when it does. Otherwise, it posts a like into the database with the Post and Profile. If it
-     * is posted, it sends the HTTP ok status and HTTP bad request otherwise.
+     * Adds a like into the database.
+     *
+     * The request body must contain a post and a header with the token of the profile.
      *
      * @param post  the profile that liked the post
      * @param req  the authorized token of the profile; see {@link com.revature.aspects.AuthAspect} for how the token
      *             is defined
-     * @return a http response with a profile through a {@link ResponseEntity} that contains a null and bad request if
-     *          like and post does not exist; a profile and created request if the like does not exist but the post
-     *          does; a profile and found request if the like already exists
+     * @return a http response with a profile in a {@link ResponseEntity} that contains a null and bad request if
+     *          like and post does not exist; a profile and created response if the like was added; a profile and
+     *          found response if the like already exists
      */
     @PostMapping
     public ResponseEntity<Profile> addLike(@RequestBody Post post, HttpServletRequest req) {
@@ -53,16 +52,15 @@ public class LikeController {
     }
 
     /**
-     * removeLike receives a request body that contains the Post that is being unliked and a http servlet request that
-     * contains a token, which contains the Profile unliking the Post. When the likeService deletes a post it sends
-     * back an integer whether the Like has been deleted. When it is a 1, it sends an HTTP ok status request.
-     * Otherwise, it is a 0 and sends an HTTP bad request status.
+     * Removes a like from the database.
      *
-     * @param post  Profile that liked the Post
+     * The request body must contain a post and a header with the token of the profile.
+     *
+     * @param post  the profile that unliked the post
      * @param req  the authorized token of the profile; see {@link com.revature.aspects.AuthAspect} for how the token
-     *      *             is defined
-     * @return HTTP ok status and null when the like has been deleted and
-     *          HTTP bad request status and null otherwise
+     *             is defined
+     * @return a http response with a profile in a {@link ResponseEntity} that contains a null and bad request if
+     *          like was not deleted or a null and ok request if the like was deleted
      */
     @DeleteMapping
     public ResponseEntity<Profile> removeLike(@RequestBody Post post, HttpServletRequest req) {
@@ -76,29 +74,24 @@ public class LikeController {
     }
 
     /**
-     * getLike receives a Post that will be checked for Likes, a Boolean to let the method know to count all the Like
-     * or check for one Like, and a http servlet request that contains a token, which contains the Profile unliking
-     * the Post. First, the method will check if it will be counting the Likes (false) or finding a particular Like
-     * (true). When counting for all the Likes, it sends a likeId to likeService.likeGet() and receives an int,
-     * type-casted from long. and returns it with HTTP ok status. For finding a Like, it uses the likeID in
-     * likeService.likeFindById() that returns a Like if exists and null if it doesn't. If it returns a Like, the
-     * getLike method sends HTTP ok status with a 1, and HTTP ok status with a 0 if null.
+     * Counts the total number of liked within a post or find if a like exists in the post.
      *
-     * @param post  Post where the Likes are being counted and found on
-     * @param find  Boolean whether a certain Like is be found (true) or getting the count of all the Likes
-     *             within the Post (false)
+     * The request body must contain a post and a boolean, and the header must contain the token of the profile.
+     *
+     * @param post  a post that the likes will come from
+     * @param find  a boolean that dictates whether to return the total number of likes (false) or to find a
+     *              specific like (true)
      * @param req  the authorized token of the profile; see {@link com.revature.aspects.AuthAspect} for how the token
-     *      *             is defined
-     * @return HTTP ok status and count of the likes,
-     *          HTTP ok request status and 0 when the Like has been found, and
-     *          HTTP ok request status and 1 when the Like has not been found
+     *              is defined
+     * @return a http response with an integer in a {@link ResponseEntity} that contains a 0 and bad request if
+     *              like was not deleted or a null and ok request if the like was deleted
      */
     @GetMapping
     public ResponseEntity<Integer> getLike(@RequestHeader Post post, @RequestHeader boolean find,
                                            HttpServletRequest req) {
         Profile temp = (Profile) req.getAttribute(PROFILE);
         if (!find) {
-            int result = postService.likeGet(temp, post);
+            int result = postService.likeGet(post);
             return new ResponseEntity<>(result, HttpStatus.OK);
         } else {
             Profile exist = postService.likeFindByID(temp, post);

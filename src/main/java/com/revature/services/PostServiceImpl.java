@@ -15,17 +15,13 @@ public class PostServiceImpl implements PostService {
     @Autowired
     public PostRepo postRepo;
 
-    @Autowired
-    public ProfileService profileService;
-
     /**
-     * addPost will receive a post to be added and return a potential post. Within a try block, it will catch any
-     * exception thrown and return null as the post. It will also check whether the post has a profile and date. If
-     * not, an exception is thrown a null post is returned. The repository's save method is called to add the post and
-     * returns the original past afterwards.
+     * Adds a new post to the database. The date and the creator of the post cannot be null.
      *
-     * @param post Post to be added into the database
-     * @return Post that was added or null if an error occurs
+     * If the date or creator is null, a null will be returned.
+     *
+     * @param post  the post to be added into the database
+     * @return the post that was added, or null otherwise
      */
     @Override
     public Post addPost(Post post) {
@@ -41,9 +37,9 @@ public class PostServiceImpl implements PostService {
     }
 
     /**
-     * getAllPosts calls upon the repository's findAll method to return a list of all the posts.
+     * Returns a list of all the posts within the database.
      *
-     * @return list of all the Posts
+     * @return a list containing all the posts
      */
     @Override
     public List<Post> getAllPosts() {
@@ -51,12 +47,13 @@ public class PostServiceImpl implements PostService {
     }
 
     /**
-     * likePost utilizes the repository's findById method to return a post that is to be liked by a profile. It
-     * will check if the post passed through the repository is empty or not, then adds the profile that liked the
-     * post to the post's set of likes.
-     * @param profile that liked the post
-     * @param post that has been liked
-     * @return profile that liked the post
+     * Adds a new like into a post.
+     *
+     * If the profile already liked the post or the post does not exist, a null will be returned.
+     *
+     * @param profile  that liked the post
+     * @param post  that has been liked
+     * @return the profile that liked the post
      */
     @Override
     public Profile likePost(Profile profile, Post post) {
@@ -73,12 +70,13 @@ public class PostServiceImpl implements PostService {
     }
 
     /**
-     * likeDelete utilizes the repository's findById method to return a post that is to be unliked by a profile. It
-     * will check if the post passed through the repository is empty or not, then removes the profile that unliked the
-     * post from the post's set of likes.
-     * @param profile that unliked the post
-     * @param post that has been unlike
-     * @return 1 if post was unliked, -1 if unlike was unsuccessful
+     * Deletes a like on a post.
+     *
+     * If the like does not exist or the post does not exist, a -1 will be returned.
+     *
+     * @param profile  that unliked the post
+     * @param post  that has been unlike
+     * @return 1 if like was deleted, -1 otherwise
      */
     @Override
     public int likeDelete(Profile profile, Post post) {
@@ -95,25 +93,25 @@ public class PostServiceImpl implements PostService {
     }
 
     /**
-     * likeGet uses the repository's findById method that returns a set of likes the post has. Then it returns the
-     * size of the likes set.
-     * @param profile of the currently logged-in user
-     * @param post that has requested its number of likes
-     * @return number of likes the post has
+     * Returns the total number likes on a post.
+     *
+     * @param post  the post to be searched for likes
+     * @return total integer number of likes
      */
     @Override
-    public int likeGet(Profile profile, Post post) {
+    public int likeGet(Post post) {
         Set<Profile> likes = postRepo.findById(post.getPsid()).get().getLikes();
         return likes.size();
     }
 
     /**
-     * likeFindById uses the repository's findById method that returns the post that is being searched through. Then it checks
-     * if the profile that is being searched for is in the post's set of likes. If the profile is found then that profile is returned,
-     * null if not
-     * @param profile that is to be searched for in the post's likes
-     * @param post that is to search through
-     * @return profile that has been found in the post's likes
+     * Find out if the profile has liked the post or not.
+     *
+     * If the profile has not liked the post or the post does not exist, a null will be returned
+     *
+     * @param profile  the profile to search in the post's likes
+     * @param post  the post to search for the like
+     * @return a profile that has been found in the post's likes, null otherwise
      */
     @Override
     public Profile likeFindByID(Profile profile, Post post) {

@@ -128,7 +128,7 @@ public class PostServiceTest {
         int expected = tempLikesSet.size();
 
         when(postRepo.findById(post.getPsid())).thenReturn(Optional.of(post));
-        int actual = postService.likeGet(liker, post);
+        int actual = postService.likeGet(post);
 
         assertEquals(expected, actual);
     }
