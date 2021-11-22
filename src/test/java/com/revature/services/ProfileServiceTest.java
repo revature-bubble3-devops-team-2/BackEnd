@@ -150,4 +150,19 @@ public class ProfileServiceTest {
         when(profileRepo.save(null)).thenReturn(null);
         assertNull(profileService.updateProfile(profile));
     }
+
+    @Test
+    public void testaddFollowerByEmail(){
+        Profile profile = new Profile(1,"test","1234","updateTest","updateTest","test@mail", pList);
+        Profile profile2 = new Profile(2,"test2","1234","updateTest2","updateTest2","test2@mail", pList);
+
+        ArrayList<Profile> followed = new ArrayList<Profile>();
+        followed.add(profile2);
+        Profile expected = new Profile(1, "test", "1234", "updateTest", "updateTest", "test@mail", followed);
+
+        when(profileRepo.getProfileByEmail("test2@mail")).thenReturn(profile2);
+        Profile result = profileService.addFollowerByEmail(profile, profile2.getEmail());
+
+        assertEquals(expected, result);
+    }
 }
