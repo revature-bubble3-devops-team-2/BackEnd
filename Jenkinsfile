@@ -11,6 +11,7 @@ pipeline {
         PORT = 8082
         IMAGE_TAG = "cpete22/revature-bubble:be"
         CONTAINER_NAME = "bubblemain"
+        CRED = "dockerhub"
     }
 
     stages {
@@ -62,7 +63,7 @@ pipeline {
         stage('Remove Previous Artifacts') {
             steps {
                 sh 'docker stop ${CONTAINER_NAME} || true'
-                sh 'docker rmi ${IMAGE_TAG} || true'
+                sh 'docker rmi bubbleimg || true'
                 discordSend description: ":axe: *Removed Previous Docker Artifacts*", result: currentBuild.currentResult, webhookURL: env.WEBHO_BE
             }
         }
@@ -85,7 +86,7 @@ pipeline {
                           docker.image(IMAGE_TAG).push()
                     }
                 }
-                discordSend description: ":face_in_clouds: *Pushed Latest to DockerHub", result: currentBuild.currentResult, webhookURL: env.WEBHO_BE
+                discordSend description: ":face_in_clouds: *Pushed Latest to DockerHub*", result: currentBuild.currentResult, webhookURL: env.WEBHO_BE
             }
         }
     }
