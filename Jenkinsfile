@@ -54,10 +54,7 @@ pipeline {
                 timeout(time: 5, unit: 'MINUTES') {
                     script {
                         def qg = waitForQualityGate abortPipeline: true
-                        discordSend description: ":no_entry_sign: **Quality Gate Failure: ${qg.status}**", result:
-                        currentBuild
-                        .currentResult,
-                        webhookURL: env.WEBHO_BE
+                        discordSend description: ":no_entry_sign: **Quality Gate Failure: ${qg.status}**", result: currentBuild.currentResult, webhookURL: env.WEBHO_BE
                     }
                 }
                 script {
