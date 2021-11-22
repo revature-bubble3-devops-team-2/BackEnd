@@ -36,9 +36,13 @@ public class ProfileController {
     @PostMapping
     public ResponseEntity<String> login(String username, String password) {
         Profile profile = profileService.login(username, password);
+<<<<<<< HEAD
 
         System.out.println("Username" + username);
         if (profile != null) {
+=======
+        if(profile != null){
+>>>>>>> main
             HttpHeaders headers = new HttpHeaders();
             String token = SecurityUtil.generateToken(profile);
             String body = "{\"Authorization\":\"" +
@@ -62,10 +66,15 @@ public class ProfileController {
     @NoAuthIn
     @PostMapping("/register")
     public ResponseEntity<Profile> addNewProfile(@Valid @RequestBody Profile profile) {
+<<<<<<< HEAD
         System.out.println("profile" + profile);
         Profile returnedUser = profileService.getProfileByEmail(profile.getEmail());
         System.out.println("returned" + returnedUser);
         if (returnedUser == null) {
+=======
+        Profile returnedUser = profileService.getProfileByEmail(profile);
+        if(returnedUser == null){
+>>>>>>> main
             HttpHeaders responseHeaders = new HttpHeaders();
             String token = SecurityUtil.generateToken(profile);
             responseHeaders.set("Authorization", token);

@@ -23,7 +23,10 @@ public class ProfileServiceImpl implements ProfileService {
      * @param password
      * @return a user profile
      */
-    public Profile login(String username, String password){
+    public Profile login(String username, String password) {
+        if (username == null || password == null || username.isEmpty() || password.isEmpty()) {
+            return null;
+        }
         Profile profile = profileRepo.getProfileByUsername(username);
         if (profile != null && SecurityUtil.isPassword(password, profile.getPasskey())) {
             return profile;
@@ -40,8 +43,7 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public Profile addNewProfile(Profile profile) {
         try {
-            String hashedPWD = SecurityUtil.hashPassword(profile.getPasskey());
-            profile.setPasskey(hashedPWD);
+            profile.setPasskey(SecurityUtil.hashPassword(profile.getPasskey()));
             return profileRepo.save(profile);
         } catch (Exception e) {
             return null;
@@ -50,8 +52,13 @@ public class ProfileServiceImpl implements ProfileService {
 
     /**
      * Gets User Profile by Email in the Database
+<<<<<<< HEAD
      * @param email
      * @return a big fat load of profile object
+=======
+     * @param profile
+     * @return profile object
+>>>>>>> main
      */
     @Override
     public Profile getProfileByEmail(String email) {
