@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 
 @Component
 public class Comment {
-    private int cid;
+    private final int cid;
     private Profile writer;
     private Post post;
     private Timestamp dateCreated;

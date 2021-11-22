@@ -52,7 +52,7 @@ public class Profile {
             unique = true)
     private String email;
 
-    @ManyToMany (mappedBy = "likes")
+    @ManyToMany(mappedBy = "likes")
     @JsonIgnore
     private Set<Post> likedPosts = new LinkedHashSet<>();
 

@@ -46,8 +46,8 @@ public class ProfileController {
      * Post request that gets client profile registration info and then checks to see if information is not
      *      a duplicate in the database. If info is not a duplicate, it sets Authorization headers
      *      and calls profile service to add the request body profile to the database.
-     * @PARAM Profile
-     * @return aobject name profile, response header, Status code okay
+     * @param profile
+     * @return a response with the new profile and status created
      */
 
 
@@ -58,7 +58,6 @@ public class ProfileController {
             HttpHeaders responseHeaders = new HttpHeaders();
             String token = SecurityUtil.generateToken(profile);
             responseHeaders.set("Authorization" , token);
-            responseHeaders.set("Access-Control-Expose-Headers", "Authorization");
             return new ResponseEntity<>(profileService.addNewProfile(profile),responseHeaders, HttpStatus.CREATED);
 
         }
@@ -91,7 +90,7 @@ public class ProfileController {
     @PutMapping("/profiles/{id}")
     public ResponseEntity<Profile> updateProfile(@RequestBody Profile profile) {
         Profile result = profileService.updateProfile(profile);
-        if (result!=null) {
+        if (result != null) {
             return new ResponseEntity<>(result, HttpStatus.ACCEPTED);
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
