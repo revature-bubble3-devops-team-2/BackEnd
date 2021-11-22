@@ -9,7 +9,7 @@ pipeline {
 
     environment {
         PORT = 8082
-        IMAGE_TAG = "bubbleimg"
+        IMAGE_TAG = "cpete22/revature-bubble:be"
         CONTAINER_NAME = "bubblemain"
     }
 
@@ -84,6 +84,15 @@ pipeline {
             steps {
                 sh 'docker run -d --env DB_URL --env DB_USER --env DB_PASS --rm -p ${PORT}:${PORT} --name ${CONTAINER_NAME} ${IMAGE_TAG} '
                 discordSend description: ":whale: *Running Docker Container*", result: currentBuild.currentResult, webhookURL: env.WEBHO_BE
+            }
+        }
+        stage('Push to DockerHub') {
+            steps {
+                script {
+                    docker.withRegistry('', CRED) {
+                          docker.image(IMAGE_TAG).push()
+                    }
+                }
             }
         }
     }

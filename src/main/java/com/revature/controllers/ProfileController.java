@@ -49,7 +49,7 @@ public class ProfileController {
      */
     @PostMapping("/register")
     @NoAuthIn
-    public ResponseEntity<Profile> addNewProfile(@Valid Profile profile) {
+    public ResponseEntity<Profile> addNewProfile(@Valid @RequestBody Profile profile) {
         Profile returnedUser = profileService.getProfileByEmail(profile);
         if(returnedUser == null){
             HttpHeaders responseHeaders = new HttpHeaders();
