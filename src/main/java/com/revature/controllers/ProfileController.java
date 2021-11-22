@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.http.HttpHeaders;
-
 import javax.validation.Valid;
 
 @RestController
@@ -29,14 +28,12 @@ public class ProfileController {
      */
     @PostMapping("/login")
     @NoAuthIn
-    public ResponseEntity<String> login(String username, String password) {
-        Profile profile = profileService.login(username, password);
+    public ResponseEntity<Profile> login(String username, String password) {
+        Profile profile = profileService.login(username,password);
         if(profile != null){
             HttpHeaders headers = new HttpHeaders();
-            String body = "{\"Authorization\":\""+
-                    SecurityUtil.generateToken(profile)
-                    +"\"}";
-            return new ResponseEntity<>(body, headers, HttpStatus.OK);
+            headers.set("Authorization", SecurityUtil.generateToken(profile));
+            return new ResponseEntity<>(profile, headers, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
@@ -55,14 +52,12 @@ public class ProfileController {
         if(returnedUser == null){
             HttpHeaders responseHeaders = new HttpHeaders();
             String token = SecurityUtil.generateToken(profile);
-            responseHeaders.set("Authorization" , token);
+            responseHeaders.set("Authorization", token);
             return new ResponseEntity<>(profileService.addNewProfile(profile),responseHeaders, HttpStatus.CREATED);
 
-        }
-        else {
+        } else {
             return new ResponseEntity<>(HttpStatus.IM_USED);
         }
-
     }
 
     /**
@@ -82,6 +77,7 @@ public class ProfileController {
 
     /**
      * Put mapping grabs the updated fields of profile and updates the profile in the database.
+     * If no token is sent in the token it fails the Auth and doesn't update the profile.
      * @param profile
      * @return Updated profile with HttpStatus.ACCEPTED otherwise if invalid returns HttpStatus.BAD_REQUEST
      */
