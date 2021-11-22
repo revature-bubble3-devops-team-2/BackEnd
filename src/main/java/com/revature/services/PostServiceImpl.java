@@ -5,6 +5,7 @@ import com.revature.models.Followers;
 import com.revature.models.Post;
 import com.revature.models.Profile;
 import com.revature.repositories.FollowerRepo;
+
 import com.revature.repositories.PostRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
@@ -17,14 +18,20 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+
+
 @Service
-public class PostServiceImpl implements PostService{
+public class PostServiceImpl implements PostService {
 
     @Autowired
     public PostRepo postRepo;
 
     @Autowired
+
     FollowerRepo followerRepo;
+
+    public ProfileService profileService;
+
 
     /**
      * addPost will receive a post to be added and return a potential post. Within a try block, it will catch any
@@ -37,9 +44,8 @@ public class PostServiceImpl implements PostService{
      */
     @Override
     public Post addPost(Post post) {
-
         try {
-            if (post.getDatePosted()==null || post.getCreator()==null) {
+            if (post.getDatePosted() == null || post.getCreator() == null) {
                 throw new NullPointerException();
             }
             postRepo.save(post);
@@ -56,30 +62,31 @@ public class PostServiceImpl implements PostService{
      */
     @Override
     public List<Post> getAllPostsPaginated(int page) {
-        Pageable pageable = PageRequest.of(page - 1,3, Sort.by("datePosted").descending());
+        Pageable pageable = PageRequest.of(page - 1, 3, Sort.by("datePosted").descending());
         Page<Post> resultPage = postRepo.findAll(pageable);
-        if(resultPage.hasContent())
-        {
+        if (resultPage.hasContent()) {
             return resultPage.getContent();
 
         }
         return null;
     }
 
-    public List<Post> getAllPosts() {return postRepo.findAll();}
+    public List<Post> getAllPosts() {
+        return postRepo.findAll();
+    }
 
     @Override
     public List<Post> getAllPostByUser(int pageNumber, int profileId) {
         return null;
     }
 
-    public List<Post> getFollowerPostsByProfile(Profile profile, int page){
-        if(page <= 0){
+    public List<Post> getFollowerPostsByProfile(Profile profile, int page) {
+        if (page <= 0) {
             return null;
         }
         List<Followers> followers = followerRepo.getFollowersByProfile(profile);
         List<Post> resultPosts = new ArrayList<>();
-        for(Followers followers1: followers){
+        for (Followers followers1 : followers) {
             List<Post> followerPosts = postRepo.findTop3ByCreator(followers1.getFollower(), Sort.by("datePosted").descending());
             resultPosts.addAll(followerPosts);
         }
@@ -89,17 +96,19 @@ public class PostServiceImpl implements PostService{
         PagedListHolder pageable = new PagedListHolder(sortedPosts);
         pageable.setPageSize(5);
         pageable.setPage(page - 1);
-        if(pageable.getPageCount() < page){
+        if (pageable.getPageCount() < page) {
             return null;
         }
         return pageable.getPageList();
     }
+
     /**
      * likePost utilizes the repository's findById method to return a post that is to be liked by a profile. It
-            * will check if the post passed through the repository is empty or not, then adds the profile that liked the
+     * will check if the post passed through the repository is empty or not, then adds the profile that liked the
      * post to the post's set of likes.
-            * @param profile that liked the post
-     * @param post that has been liked
+     *
+     * @param profile that liked the post
+     * @param post    that has been liked
      * @return profile that liked the post
      */
     @Override
@@ -120,8 +129,9 @@ public class PostServiceImpl implements PostService{
      * likeDelete utilizes the repository's findById method to return a post that is to be unliked by a profile. It
      * will check if the post passed through the repository is empty or not, then removes the profile that unliked the
      * post from the post's set of likes.
+     *
      * @param profile that unliked the post
-     * @param post that has been unlike
+     * @param post    that has been unlike
      * @return 1 if post was unliked, -1 if unlike was unsuccessful
      */
     @Override
@@ -141,8 +151,9 @@ public class PostServiceImpl implements PostService{
     /**
      * likeGet uses the repository's findById method that returns a set of likes the post has. Then it returns the
      * size of the likes set.
+     *
      * @param profile of the currently logged-in user
-     * @param post that has requested its number of likes
+     * @param post    that has requested its number of likes
      * @return number of likes the post has
      */
     @Override
@@ -155,8 +166,9 @@ public class PostServiceImpl implements PostService{
      * likeFindById uses the repository's findById method that returns the post that is being searched through. Then it checks
      * if the profile that is being searched for is in the post's set of likes. If the profile is found then that profile is returned,
      * null if not
+     *
      * @param profile that is to be searched for in the post's likes
-     * @param post that is to search through
+     * @param post    that is to search through
      * @return profile that has been found in the post's likes
      */
     @Override
@@ -173,5 +185,5 @@ public class PostServiceImpl implements PostService{
             return null;
         }
     }
-}
 
+}

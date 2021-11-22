@@ -65,9 +65,9 @@ public class PostController {
 
     @GetMapping("/profile/{pid}/{pageNumber}")
     @ResponseBody
-    public List<Post> getFollowerPostsById(@PathVariable ("pid") int pid,@PathVariable ("pageNumber") int page) {
-        Profile profile = profileService.getProfileByPid(pid);
-        return postService.getFollowerPostsByProfile(profile, page);
+    public ResponseEntity<List<Post>> getAllPosts() {
+        return new ResponseEntity<>(postService.getAllPosts(), HttpStatus.OK) ;
+
     }
 }
 

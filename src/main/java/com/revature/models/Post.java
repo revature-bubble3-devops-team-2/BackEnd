@@ -34,15 +34,18 @@ public class Post {
 
     @ManyToMany (fetch = FetchType.LAZY)
     @JoinTable(
-            name = "likes",
-            joinColumns = @JoinColumn(name = "post_id"),
-            inverseJoinColumns = @JoinColumn(name = "profile_id"))
+
+                name = "likes",
+                joinColumns = @JoinColumn(name = "post_id"),
+                inverseJoinColumns = @JoinColumn(name = "profile_id"))
+
     @JsonIgnore
     private Set<Profile> likes = new LinkedHashSet<>();
 
     public Post() {
         super();
         this.psid = SecurityUtil.getId();
+
     }
 
     public Post(Profile creator, String body, String imgURL, Timestamp datePosted) {
@@ -77,6 +80,7 @@ public class Post {
 
         Post post = (Post) o;
 
+
         if (psid != post.psid) return false;
         if (!creator.equals(post.creator)) return false;
         if (!Objects.equals(body, post.body)) return false;
@@ -89,6 +93,8 @@ public class Post {
     public int hashCode() {
         return Objects.hash(psid, creator, body, imgURL, datePosted);
     }
+
+
 
     @Override
     public String toString() {
