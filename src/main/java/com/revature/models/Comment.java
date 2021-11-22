@@ -33,4 +33,11 @@ public class Comment {
         cid = SecurityUtil.getId();
     }
 
+    public Comment(int cid, Profile writer, Post post, Timestamp dateCreated, Comment previous) {
+        this.cid = cid;
+        this.writer = writer;
+        this.post = post;
+        this.dateCreated = dateCreated;
+        this.previous = previous;
+    }
 }
