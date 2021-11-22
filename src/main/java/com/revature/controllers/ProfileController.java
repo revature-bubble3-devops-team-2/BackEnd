@@ -59,7 +59,6 @@ public class ProfileController {
      * @return aobject name profile, response header, Status code okay
      * @PARAM Profile
      */
-
     @PostMapping("/register")
     @NoAuthIn
     public ResponseEntity<Profile> addNewProfile(@Valid @RequestBody Profile profile){
@@ -96,11 +95,7 @@ public class ProfileController {
 
     /**
      * Put mapping grabs the updated fields of profile and updates the profile in the database.
-<<<<<<< HEAD
-     *
-=======
      * If no token is sent in the token it fails the Auth and doesn't update the profile.
->>>>>>> main
      * @param profile
      * @return Updated profile with HttpStatus.ACCEPTED otherwise if invalid returns HttpStatus.BAD_REQUEST
      */
@@ -114,6 +109,12 @@ public class ProfileController {
         }
     }
 
+    /**
+     * Adds profile to list of profiles being followed by user
+     * @param email email of profile to follow
+     * @param req http request including the user's authorization token in the "Authroization" header
+     * @return
+     */
     @PostMapping("/follow")
     public ResponseEntity<String> newFollower(String email, HttpServletRequest req) {
         System.out.println("incoming email: " + email);
@@ -134,6 +135,12 @@ public class ProfileController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * Removed profile from list of profiles being followed by the user
+     * @param email email of the profile to be unfollowed
+     * @param req http request including the user's authorization token in the "Authroization" header
+     * @return OK response with new authorization token, bad request response if unsuccessful
+     */
     @PostMapping("/unfollow")
     public ResponseEntity<String> unfollow(String email, HttpServletRequest req) {
         Profile follower = (Profile) req.getAttribute("profile");

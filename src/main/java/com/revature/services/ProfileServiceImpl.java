@@ -52,13 +52,8 @@ public class ProfileServiceImpl implements ProfileService {
 
     /**
      * Gets User Profile by Email in the Database
-<<<<<<< HEAD
      * @param email
      * @return a big fat load of profile object
-=======
-     * @param profile
-     * @return profile object
->>>>>>> main
      */
     @Override
     public Profile getProfileByEmail(String email) {
@@ -80,6 +75,11 @@ public class ProfileServiceImpl implements ProfileService {
         return profileRepo.getProfileByPid(pid);
     }
 
+    /**
+     * initiates a profile lookup by username in ProfileRepo
+     * @param username
+     * @return
+     */
     public Profile getProfileByUsername(String username) {
         return profileRepo.getProfileByUsername(username);
     }
@@ -103,14 +103,12 @@ public class ProfileServiceImpl implements ProfileService {
         }
     }
 
-//    @Override
-//    public boolean addFollowerByProfile(Profile profile)
-//    {
-//        System.out.println(profile);
-//
-//        return false;
-//    }
-
+    /**
+     * Calls ProfileRepo to remove a profile from following by email
+     * @param profile profile of user initiating request
+     * @param email email of profile to be removed
+     * @return profile, null if unsuccessful
+     */
     @Override
     public Profile removeFollowByEmail(Profile profile, String email) {
         Profile unfollow = profileRepo.getProfileByEmail(email);
@@ -127,6 +125,12 @@ public class ProfileServiceImpl implements ProfileService {
         return null;
         }
 
+    /**
+     * Calls ProfileRepo to add a profile o following by email
+     * @param profile profile of user initiating request
+     * @param email email of profile to be removed
+     * @return profile, null if unsuccessful
+     */
     @Override
     public Profile addFollowerByEmail(Profile profile, String email) {
         List<Profile> pList = new ArrayList<>(profile.getFollowing());
