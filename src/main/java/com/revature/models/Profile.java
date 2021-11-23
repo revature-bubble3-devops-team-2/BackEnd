@@ -5,18 +5,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.revature.utilites.SecurityUtil;
 import lombok.*;
 import org.springframework.stereotype.Component;
+
 import javax.persistence.*;
-import java.util.*;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+
+
 
 @Component
 @Entity
 @Table(name = "profile")
-@Getter @Setter @AllArgsConstructor
+@Getter @Setter @AllArgsConstructor @NoArgsConstructor
 public class Profile {
     @Id
     @Column(name = "profile_id")
@@ -56,12 +57,23 @@ public class Profile {
     @ManyToMany
     private List<Profile> following;
 
-    @ManyToMany(mappedBy = "likes")
+    @ManyToMany (mappedBy = "likes")
     @JsonIgnore
     private Set<Post> likedPosts = new LinkedHashSet<>();
 
-    public Profile() {
-        this.pid = SecurityUtil.getId();
+    @Column(name = "friends")
+    @ManyToMany
+    private List<Profile> friends;
+
+    public Profile(int pid, String username, String passkey, String firstName, String lastName, String email, List<Profile> following, List<Profile> firends) {
+        this.pid = pid;
+        this.username = username;
+        this.passkey = passkey;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.following = following;
+        this.friends = friends;
     }
 
     public Profile(int pid, String username, String passkey, String firstName, String lastName, String email, List<Profile> following) {
@@ -84,7 +96,6 @@ public class Profile {
     }
 
     public Profile(String username, String passkey, String firstName, String lastName, String email) {
-        this();
         this.username = username;
         this.passkey = passkey;
         this.firstName = firstName;

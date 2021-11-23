@@ -52,7 +52,8 @@ public class ProfileServiceImpl implements ProfileService {
 
     /**
      * Gets User Profile by Email in the Database
-     * @return profile object
+     * @param email
+     * @return a big fat load of profile object
      */
     @Override
     public Profile getProfileByEmail(String email) {
@@ -74,6 +75,11 @@ public class ProfileServiceImpl implements ProfileService {
         return profileRepo.getProfileByPid(pid);
     }
 
+    /**
+     * initiates a profile lookup by username in ProfileRepo
+     * @param username
+     * @return
+     */
     public Profile getProfileByUsername(String username) {
         return profileRepo.getProfileByUsername(username);
     }
@@ -97,14 +103,12 @@ public class ProfileServiceImpl implements ProfileService {
         }
     }
 
-//    @Override
-//    public boolean addFollowerByProfile(Profile profile)
-//    {
-//        System.out.println(profile);
-//
-//        return false;
-//    }
-
+    /**
+     * Calls ProfileRepo to remove a profile from following by email
+     * @param profile profile of user initiating request
+     * @param email email of profile to be removed
+     * @return profile, null if unsuccessful
+     */
     @Override
     public Profile removeFollowByEmail(Profile profile, String email) {
         Profile unfollow = profileRepo.getProfileByEmail(email);
@@ -122,6 +126,12 @@ public class ProfileServiceImpl implements ProfileService {
         return null;
         }
 
+    /**
+     * Calls ProfileRepo to add a profile o following by email
+     * @param profile profile of user initiating request
+     * @param email email of profile to be removed
+     * @return profile, null if unsuccessful
+     */
     @Override
     public Profile addFollowerByEmail(Profile profile, String email) {
         List<Profile> pList = new ArrayList<>(profile.getFollowing());
@@ -130,12 +140,66 @@ public class ProfileServiceImpl implements ProfileService {
         {
             if(!pList.contains(followed)) {
                 pList.add(followed);
+                if(TargetFollowingUser(profile, followed)){
+                    addFriend(profile, followed);
+                }
             }
             profile.setFollowing(pList);
             profileRepo.save(profile);
             return profile;
         }
         return null;
+    }
+
+    /**
+     * Tests if newly followed profile is also following user
+     * @param user user submitting request
+     * @param target profile now being followed
+     * @return true if user is being followed by target
+     */
+    private boolean TargetFollowingUser(Profile user, Profile target){
+        List<Profile> pList = new ArrayList<>(target.getFollowing());
+        return pList.contains(user);
+    }
+
+    /**
+     * adds profile to friend lists of both profiles
+     * @param user user submitting request
+     * @param followed profile user now following
+     */
+    private void addFriend(Profile user, Profile followed){
+        List<Profile> userFriends = new ArrayList<>(user.getFollowing());
+        List<Profile> followedFriends = new ArrayList<>(user.getFollowing());
+        if(!userFriends.contains(followed)){
+            userFriends.add(followed);
+            user.setFollowing(userFriends);
+            profileRepo.save(user);
+        }
+        if(!followedFriends.contains(followed)){
+            followedFriends.add(followed);
+            user.setFollowing(followedFriends);
+            profileRepo.save(user);
+        }
+    }
+
+    /**
+     * removes profile from friend lists of both profiles
+     * @param user user submitting request
+     * @param followed profile user no longer following
+     */
+    private void removeFriend(Profile user, Profile followed){
+        List<Profile> userFriends = new ArrayList<>(user.getFollowing());
+        List<Profile> followedFriends = new ArrayList<>(user.getFollowing());
+        if(!userFriends.contains(followed)){
+            userFriends.add(followed);
+            user.setFollowing(userFriends);
+            profileRepo.save(user);
+        }
+        if(!followedFriends.contains(followed)){
+            followedFriends.add(followed);
+            user.setFollowing(followedFriends);
+            profileRepo.save(user);
+        }
     }
 }
 

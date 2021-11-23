@@ -54,15 +54,12 @@ public class ProfileController {
     @NoAuthIn
     public ResponseEntity<Profile> addNewProfile(@Valid @RequestBody Profile profile) {
         Profile returnedUser = profileService.getProfileByEmail(profile.getEmail());
+        System.out.println("returned" + returnedUser);
         if(returnedUser == null){
             HttpHeaders responseHeaders = new HttpHeaders();
             String token = SecurityUtil.generateToken(profile);
-            responseHeaders.set("Authorization", token);
-            Profile newProfile = profileService.addNewProfile(profile);
-            if (newProfile == null || newProfile.isIncomplete()) {
-                return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-            return new ResponseEntity<>(newProfile, responseHeaders, HttpStatus.CREATED);
+            responseHeaders.set("Authorization" , token);
+            return new ResponseEntity<>(profileService.addNewProfile(profile),responseHeaders, HttpStatus.CREATED);
 
         } else {
             return new ResponseEntity<>(HttpStatus.IM_USED);
@@ -101,6 +98,12 @@ public class ProfileController {
         }
     }
 
+    /**
+     * Adds profile to list of profiles being followed by user
+     * @param email email of profile to follow
+     * @param req http request including the user's authorization token in the "Authroization" header
+     * @return
+     */
     @PostMapping("/follow")
     public ResponseEntity<String> newFollower(String email, HttpServletRequest req) {
         System.out.println("incoming email: " + email);
@@ -121,6 +124,12 @@ public class ProfileController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * Removed profile from list of profiles being followed by the user
+     * @param email email of the profile to be unfollowed
+     * @param req http request including the user's authorization token in the "Authroization" header
+     * @return OK response with new authorization token, bad request response if unsuccessful
+     */
     @PostMapping("/unfollow")
     public ResponseEntity<String> unfollow(String email, HttpServletRequest req) {
         Profile follower = (Profile) req.getAttribute("profile");
