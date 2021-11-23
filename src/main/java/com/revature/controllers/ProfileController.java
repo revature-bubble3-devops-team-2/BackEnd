@@ -50,7 +50,7 @@ public class ProfileController {
     @PostMapping("/register")
     public ResponseEntity<Profile> addNewProfile(@Valid @RequestBody Profile profile) {
         Profile returnedUser = profileService.getProfileByEmail(profile);
-        if(returnedUser == null){
+        if (returnedUser == null) {
             HttpHeaders responseHeaders = new HttpHeaders();
             String token = SecurityUtil.generateToken(profile);
             responseHeaders.set("Authorization", token);
