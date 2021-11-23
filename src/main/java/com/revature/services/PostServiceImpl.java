@@ -29,6 +29,9 @@ public class PostServiceImpl implements PostService {
     @Autowired
     public ProfileService profileService;
 
+    @Autowired
+    public FollowerRepo followerRepo;
+
     /**
      * Adds a new post to the database. The date and the creator of the post cannot be null.
      *
@@ -145,7 +148,6 @@ public class PostServiceImpl implements PostService {
     /**
      * likeGet uses the repository's findById method that returns a set of likes the post has. Then it returns the
      * size of the likes set.
-     * @param profile of the currently logged-in user
      * @param post that has requested its number of likes
      * @return number of likes the post has
      */
