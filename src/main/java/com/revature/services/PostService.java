@@ -16,6 +16,6 @@ public interface PostService {
 
     Profile likePost(Profile profile, Post post);
     int likeDelete(Profile profile, Post post);
-    int likeGet(Profile profile, Post post);
+    int likeGet(Post post);
     Profile likeFindByID(Profile profile, Post post);
 }

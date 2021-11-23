@@ -104,7 +104,6 @@ public class Post {
                 ", body='" + body + '\'' +
                 ", imgURL='" + imgURL + '\'' +
                 ", datePosted=" + datePosted +
-                ", likes=" + likes +
                 '}';
     }
 }
