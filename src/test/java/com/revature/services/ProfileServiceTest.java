@@ -6,9 +6,7 @@ import org.junit.jupiter.api.*;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
 import java.util.ArrayList;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 import java.util.ArrayList;
@@ -83,14 +81,14 @@ public class ProfileServiceTest {
     }
 
     @Test
-    void testFindProfileByUsernameNullEntry(){
+    void testFindProfileByEmailNullEntry(){
         when(profileRepo.getProfileByEmail(null)).thenReturn(null);
         Profile actual = profileRepo.getProfileByEmail((null));
         assertNull(actual);
     }
 
     @Test
-    void testFindProfileByUsernameBadEntry(){
+    void testFindProfileByEmailBadEntry(){
         when(profileRepo.getProfileByEmail("FloppyDisk")).thenReturn(null);
         Profile actual = profileRepo.getProfileByEmail(("FloppyDisk"));
         assertNull(actual);
@@ -102,13 +100,13 @@ public class ProfileServiceTest {
         assertEquals(expected, profileService.addNewProfile(expected));
     }
 
-//    @Test
-//    void getProfileByUser() {
-//        when(profileRepo.getProfileByEmail(expected.getEmail())).thenReturn(expected);
-//        Profile actual = profileService.getProfileByEmail(expected.getEmail());
-//        assertEquals(expected,actual);
-//    }
-//
+    @Test
+    void getProfileByUser() {
+        when(profileRepo.getProfileByEmail(expected.getEmail())).thenReturn(expected);
+        Profile actual = profileService.getProfileByEmail(expected);
+        assertEquals(expected,actual);
+    }
+
     @Test
     void testGetExistingProfile() {
         when(profileRepo.getProfileByPid(1)).thenReturn(expected);
