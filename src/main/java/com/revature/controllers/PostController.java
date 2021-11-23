@@ -58,11 +58,5 @@ public class PostController {
         return postService.getAllPostsPaginated(pageNumber);
     }
 
-    @GetMapping("/profile/{pid}/{pageNumber}")
-    @ResponseBody
-    public ResponseEntity<List<Post>> getFollowerPostsById(@PathVariable ("pid") int pid,@PathVariable ("pageNumber") int page, HttpServletRequest req) {
-        Profile profile = profileService.getProfileByPid(pid);
-        return new ResponseEntity<> (postService.getFollowerPostsByProfile(profile, page), HttpStatus.OK);
-    }
 }
 

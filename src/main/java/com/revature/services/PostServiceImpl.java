@@ -1,23 +1,16 @@
 package com.revature.services;
 
 
-import com.revature.models.Followers;
 import com.revature.models.Post;
 import com.revature.models.Profile;
-import com.revature.repositories.FollowerRepo;
 
 import com.revature.repositories.PostRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.support.PagedListHolder;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
-
 
 
 @Service
@@ -26,8 +19,6 @@ public class PostServiceImpl implements PostService {
     @Autowired
     public PostRepo postRepo;
 
-    @Autowired
-    public FollowerRepo followerRepo;
 
     /**
      * Adds a new post to the database. The date and the creator of the post cannot be null.
@@ -70,28 +61,6 @@ public class PostServiceImpl implements PostService {
         return postRepo.findAll();
     }
 
-    @Override
-    public List<Post> getFollowerPostsByProfile(Profile profile, int page) {
-        if (page <= 0) {
-            return null;
-        }
-        List<Followers> followers = followerRepo.getFollowersByProfile(profile);
-        List<Post> resultPosts = new ArrayList<>();
-        for (Followers followers1 : followers) {
-            List<Post> followerPosts = postRepo.findTop3ByCreator(followers1.getFollower(), Sort.by("datePosted").descending());
-            resultPosts.addAll(followerPosts);
-        }
-
-        List<Post> sortedPosts = resultPosts.stream().sorted(Comparator.comparing(Post::getDatePosted).reversed()).collect(Collectors.toList());
-
-        PagedListHolder pageable = new PagedListHolder(sortedPosts);
-        pageable.setPageSize(5);
-        pageable.setPage(page - 1);
-        if (pageable.getPageCount() < page) {
-            return null;
-        }
-        return pageable.getPageList();
-    }
 
     /**
      * likePost utilizes the repository's findById method to return a post that is to be liked by a profile. It
