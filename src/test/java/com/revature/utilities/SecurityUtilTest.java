@@ -1,5 +1,6 @@
 package com.revature.utilities;
 
+import com.revature.models.Post;
 import com.revature.models.Profile;
 import com.revature.utilites.SecurityUtil;
 import org.junit.jupiter.api.Order;
@@ -7,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -78,7 +80,8 @@ public class SecurityUtilTest {
                 () -> assertNull(SecurityUtil.generateToken(new Profile(867851386, val, val, null, val, val))),
                 () -> assertNull(SecurityUtil.generateToken(new Profile(867851386, val, val, val, null, val))),
                 () -> assertNull(SecurityUtil.generateToken(new Profile(867851386, val, val, val, val, null))),
-                () -> assertNull(SecurityUtil.generateToken(new Profile(867851386, val, val, val, val, val, null))),
+                () -> assertNull(SecurityUtil.generateToken(new Profile(867851386, val, val, val, val, val, (Set<Post>)null))),
+                () -> assertNull(SecurityUtil.generateToken(new Profile(867851386, val, val, val, val, val, (List<Profile>)null))),
                 () -> assertNull(SecurityUtil.generateToken(new Profile(867851386, "", val, val, val, val))),
                 () -> assertNull(SecurityUtil.generateToken(new Profile(867851386, val, "", val, val, val))),
                 () -> assertNull(SecurityUtil.generateToken(new Profile(867851386, val, val, "", val, val))),
