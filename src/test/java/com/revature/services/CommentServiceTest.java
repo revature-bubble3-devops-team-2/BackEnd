@@ -30,7 +30,7 @@ public class CommentServiceTest {
     void initMock() {
         MockitoAnnotations.openMocks(this);
     }
-
+    
     @Test
     void testAddComment() {
         Profile tempProfile = new Profile(2, "profile2", "22", "Two", "LastTwo", "Email2");
