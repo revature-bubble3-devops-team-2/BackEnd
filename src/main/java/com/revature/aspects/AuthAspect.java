@@ -17,8 +17,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 
-@Log4j2
 @Aspect
+@Log4j2
 @Component
 public class AuthAspect {
     public AuthAspect() {
@@ -34,17 +34,14 @@ public class AuthAspect {
         final String token = request.getHeader("Authorization");
         ResponseEntity<?> response = null;
         if (token == null) {
-            log.info("null token");
             log.warn("No Authorization Token Received");
             response = new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         } else {
             final Profile profile = SecurityUtil.validateToken(token);
             if (profile == null) {
-                log.info("null profile");
                 log.warn("Received Invalid Token");
                 response = new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             } else {
-                log.info("Received Valid Token");
                 request.setAttribute("profile", profile);
                 try {
                     response = (ResponseEntity<?>) pjp.proceed();
