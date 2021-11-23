@@ -42,6 +42,7 @@ public class AuthAspect {
                 log.warn("Received Invalid Token");
                 response = new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             } else {
+                log.info("Received Valid Token");
                 request.setAttribute("profile", profile);
                 try {
                     response = (ResponseEntity<?>) pjp.proceed();
