@@ -22,7 +22,10 @@ import java.security.spec.RSAPublicKeySpec;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Base64;
+import java.util.Map;
+import java.util.UUID;
 
 @Log4j2
 public class SecurityUtil {
@@ -215,11 +218,7 @@ public class SecurityUtil {
     /**
      * Decrypts token, checks for correct data, and returns the profile within
      * @param token string of the encrypted token
-<<<<<<< HEAD
-     * @return a profile from the token, null if token invalid
-=======
      * @return the decrypted profile, null if invalid
->>>>>>> main
      */
     public static Profile validateToken(String token) {
         if (decrypter == null) {
@@ -253,10 +252,8 @@ public class SecurityUtil {
             String firstName = (String) guts.get("firstName");
             String lastName = (String) guts.get("lastName");
             String email = (String) guts.get("email");
-            List<Profile> following = (List<Profile>) guts.get("following");
 
-
-            return new Profile(id, username, passkey, firstName, lastName, email, following);
+            return new Profile(id, username, passkey, firstName, lastName, email);
         } catch (ParseException e) {
             log.error("Unable to parse token " + e.getMessage());
         }
