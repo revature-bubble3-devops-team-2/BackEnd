@@ -108,9 +108,7 @@ public class ProfileController {
      */
     @PostMapping("/follow")
     public ResponseEntity<String> newFollower(String email, HttpServletRequest req) {
-        System.out.println("incoming email: " + email);
         String token = req.getHeader("Authorization");
-
         Profile creator = SecurityUtil.validateToken(token);
         creator = profileService.getProfileByEmail(creator);
         Profile newProfile = profileService.addFollowerByEmail(creator, email);
