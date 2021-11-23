@@ -23,7 +23,7 @@ public class Post {
     @JoinColumn(name = "profile_id", nullable = false)
     private Profile creator;
 
-    @Column
+    @Column(name = "body")
     private String body;
 
     @Column(name = "image_url")

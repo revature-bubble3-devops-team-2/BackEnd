@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/posts")
+@RequestMapping("/post")
 public class PostController {
 
     @Autowired

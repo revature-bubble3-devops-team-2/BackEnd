@@ -10,7 +10,8 @@ pipeline {
     environment {
         PORT = 8082
         IMAGE_TAG = "cpete22/revature-bubble:be"
-        CONTAINER_NAME = "bubblemain"
+        CONTAINER_NAME = "bubblebe"
+        CRED = "dockerhub"
     }
 
     stages {
@@ -54,12 +55,7 @@ pipeline {
                 timeout(time: 5, unit: 'MINUTES') {
                     script {
                         def qg = waitForQualityGate abortPipeline: true
-                        discordSend description: ":no_entry_sign: **Quality Gate Failure: ${qg.status}**", result: currentBuild.currentResult, webhookURL: env.WEBHO_BE
-                    }
-                }
-                script {
-                    if ($env.GIT_BRANCH != 'main') {
-                        currentBuild.currentResult = 'SUCCESS'
+                        discordSend description: ":closed_lock_with_key: **Quality Gate: ${qg.status}**", result: currentBuild.currentResult, webhookURL: env.WEBHO_BE
                     }
                 }
             }
@@ -67,7 +63,6 @@ pipeline {
         stage('Remove Previous Artifacts') {
             steps {
                 sh 'docker stop ${CONTAINER_NAME} || true'
-                sh 'docker rmi ${IMAGE_TAG} || true'
                 discordSend description: ":axe: *Removed Previous Docker Artifacts*", result: currentBuild.currentResult, webhookURL: env.WEBHO_BE
             }
         }
@@ -79,7 +74,7 @@ pipeline {
         }
         stage('Run Container') {
             steps {
-                sh 'docker run -d --env DB_URL --env DB_USER --env DB_PASS --rm -p ${PORT}:${PORT} --name ${CONTAINER_NAME} ${IMAGE_TAG} '
+                sh 'docker run -d --env DB_URL --env DB_USER --env DB_PASS --rm -p ${PORT}:${PORT} --name ${CONTAINER_NAME} ${IMAGE_TAG}'
                 discordSend description: ":whale: *Running Docker Container*", result: currentBuild.currentResult, webhookURL: env.WEBHO_BE
             }
         }
@@ -90,6 +85,7 @@ pipeline {
                           docker.image(IMAGE_TAG).push()
                     }
                 }
+                discordSend description: ":face_in_clouds: *Pushed Latest to DockerHub*", result: currentBuild.currentResult, webhookURL: env.WEBHO_BE
             }
         }
     }
