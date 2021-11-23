@@ -31,8 +31,13 @@ public class Comment {
     @OneToOne
     private Comment previous;
 
-    public Comment(int cid, Profile writer, Post post, String cBody, Timestamp dateCreated, Comment previous) {
+    public Comment() {
+        super();
         this.cid = SecurityUtil.getId();
+    }
+
+    public Comment(Profile writer, Post post, String cBody, Timestamp dateCreated, Comment previous) {
+        this();
         this.writer = writer;
         this.post = post;
         this.cBody = cBody;

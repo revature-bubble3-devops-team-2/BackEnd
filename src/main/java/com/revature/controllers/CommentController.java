@@ -38,42 +38,4 @@ public class CommentController {
     public ResponseEntity<List<Comment>> getCommentsByPost(@RequestParam(value = "psid") Integer id){
         return new ResponseEntity<>(commentService.getCommentByPostPsid(id), HttpStatus.ACCEPTED);
     }
-
-    /**
-     * updateCommentByCid receives a request body that contains the new comment to be updated.
-     * It also receives a path variable that contains the id of the comment at hand. We set the
-     * comment id before updating to ensure a new id is not generated.
-     *
-     * @param comment Comment to be updated by user
-     * @param id id identifier to get original comment.
-     * @return HTTP created status and the updated comment if the updated comment is not null.
-     *         Http not acceptable status and null if it is.
-     */
-    @PutMapping("/{id}")
-    public ResponseEntity<Comment> updateCommentByCid(@RequestBody Comment comment, @PathVariable("id")int id){
-        comment.setCid(id);
-        Comment updatedComment = commentService.updateComment(comment);
-        if(updatedComment!=null)
-            return new ResponseEntity<>(updatedComment, HttpStatus.CREATED);
-        else
-            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
-    }
-
-    /**
-     * deleteCommentByCid receives a path variable that contains the id of the comment at hand.
-     * Invokes Spring Data's abstracted delete method. If delete comment was successful, returns
-     * true, false otherwise.
-     *
-     * @param id id identifier to get original comment
-     * @return HTTP ok status and true if delete was successful.
-     *         HTTP not acceptable status and false if otherwise.
-     */
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Boolean> deleteCommentByCid(@PathVariable("id")int id){
-        if(commentService.deleteCommentByCid(id))
-            return new ResponseEntity<>(true, HttpStatus.OK);
-        else
-            return new ResponseEntity<>(false, HttpStatus.NOT_ACCEPTABLE);
-    }
-
 }
