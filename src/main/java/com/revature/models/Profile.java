@@ -1,23 +1,19 @@
 package com.revature.models;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.revature.utilites.SecurityUtil;
 import lombok.*;
 import org.springframework.stereotype.Component;
-
 import javax.persistence.*;
+import java.util.*;
 import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
 
 
 
 @Component
 @Entity
 @Table(name = "profile")
-@Getter @Setter @AllArgsConstructor @NoArgsConstructor
+@Getter @Setter @AllArgsConstructor
 public class Profile {
     @Id
     @Column(name = "profile_id")
@@ -61,9 +57,9 @@ public class Profile {
     @JsonIgnore
     private Set<Post> likedPosts = new LinkedHashSet<>();
 
-//    @Column(name = "friends")
-//    @ManyToMany
-//    private List<Profile> friends;
+    public Profile() {
+        this.pid = SecurityUtil.getId();
+    }
 
     public Profile(int pid, String username, String passkey, String firstName, String lastName, String email, List<Profile> following) {
         this.pid = pid;
@@ -85,6 +81,7 @@ public class Profile {
     }
 
     public Profile(String username, String passkey, String firstName, String lastName, String email) {
+        this();
         this.username = username;
         this.passkey = passkey;
         this.firstName = firstName;

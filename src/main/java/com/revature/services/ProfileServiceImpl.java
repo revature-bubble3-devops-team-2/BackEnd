@@ -6,7 +6,6 @@ import com.revature.utilites.SecurityUtil;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,17 +51,16 @@ public class ProfileServiceImpl implements ProfileService {
 
     /**
      * Gets User Profile by Email in the Database
-     * @param email
-     * @return a big fat load of profile object
+     * @param profile
+     * @return profile object
      */
     @Override
-    public Profile getProfileByEmail(String email) {
-       try{
-           return profileRepo.getProfileByEmail(email);
-       }catch (Exception e)
-       {
-           return null;
-       }
+    public Profile getProfileByEmail(Profile profile) {
+        try{
+            return profileRepo.getProfileByEmail(profile.getEmail());
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     /**
@@ -147,56 +145,4 @@ public class ProfileServiceImpl implements ProfileService {
         }
         return null;
     }
-//    Code misbehaving, this will need to be added in future sprint
-//    /**
-//     * Tests if newly followed profile is also following user
-//     * @param user user submitting request
-//     * @param target profile now being followed
-//     * @return true if user is being followed by target
-//     */
-//    private boolean TargetFollowingUser(Profile user, Profile target){
-//        List<Profile> pList = new ArrayList<>(target.getFollowing());
-//        return pList.contains(user);
-//    }
-//
-//    /**
-//     * adds profile to friend lists of both profiles
-//     * @param user user submitting request
-//     * @param followed profile user now following
-//     */
-//    private void addFriend(Profile user, Profile followed){
-//        List<Profile> userFriends = new ArrayList<>(user.getFollowing());
-//        List<Profile> followedFriends = new ArrayList<>(user.getFollowing());
-//        if(!userFriends.contains(followed)){
-//            userFriends.add(followed);
-//            user.setFollowing(userFriends);
-//            profileRepo.save(user);
-//        }
-//        if(!followedFriends.contains(followed)){
-//            followedFriends.add(followed);
-//            user.setFollowing(followedFriends);
-//            profileRepo.save(user);
-//        }
-//    }
-//
-//    /**
-//     * removes profile from friend lists of both profiles
-//     * @param user user submitting request
-//     * @param followed profile user no longer following
-//     */
-//    private void removeFriend(Profile user, Profile followed){
-//        List<Profile> userFriends = new ArrayList<>(user.getFollowing());
-//        List<Profile> followedFriends = new ArrayList<>(user.getFollowing());
-//        if(!userFriends.contains(followed)){
-//            userFriends.add(followed);
-//            user.setFollowing(userFriends);
-//            profileRepo.save(user);
-//        }
-//        if(!followedFriends.contains(followed)){
-//            followedFriends.add(followed);
-//            user.setFollowing(followedFriends);
-//            profileRepo.save(user);
-//        }
-//    }
 }
-

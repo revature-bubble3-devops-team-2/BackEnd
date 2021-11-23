@@ -102,13 +102,13 @@ public class ProfileServiceTest {
         assertEquals(expected, profileService.addNewProfile(expected));
     }
 
-    @Test
-    void getProfileByUser() {
-        when(profileRepo.getProfileByEmail(expected.getEmail())).thenReturn(expected);
-        Profile actual = profileService.getProfileByEmail(expected.getEmail());
-        assertEquals(expected,actual);
-    }
-
+//    @Test
+//    void getProfileByUser() {
+//        when(profileRepo.getProfileByEmail(expected.getEmail())).thenReturn(expected);
+//        Profile actual = profileService.getProfileByEmail(expected.getEmail());
+//        assertEquals(expected,actual);
+//    }
+//
     @Test
     void testGetExistingProfile() {
         when(profileRepo.getProfileByPid(1)).thenReturn(expected);

@@ -53,19 +53,22 @@ public class ProfileController {
     @PostMapping("/register")
     @NoAuthIn
     public ResponseEntity<Profile> addNewProfile(@Valid @RequestBody Profile profile) {
-        Profile returnedUser = profileService.getProfileByEmail(profile.getEmail());
-        System.out.println("returned" + returnedUser);
+        Profile returnedUser = profileService.getProfileByEmail(profile);
         if(returnedUser == null){
             HttpHeaders responseHeaders = new HttpHeaders();
             String token = SecurityUtil.generateToken(profile);
-            responseHeaders.set("Authorization" , token);
-            return new ResponseEntity<>(profileService.addNewProfile(profile),responseHeaders, HttpStatus.CREATED);
+            responseHeaders.set("Authorization", token);
+            Profile newProfile = profileService.addNewProfile(profile);
+            if (newProfile == null || newProfile.isIncomplete()) {
+                return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+            return new ResponseEntity<>(newProfile, responseHeaders, HttpStatus.CREATED);
+
 
         } else {
             return new ResponseEntity<>(HttpStatus.IM_USED);
         }
     }
-
     /**
      * Get Mapping that grabs the profile by the path variable id. It then returns the profile if it is valid.
      *
@@ -75,9 +78,9 @@ public class ProfileController {
     @GetMapping("{id}")
     public ResponseEntity<Profile> getProfileByPid(@PathVariable("id")int id) {
         Profile profile = profileService.getProfileByPid(id);
-        if (profile != null) {
+        if (profile!=null) {
             return new ResponseEntity<>(profile, HttpStatus.ACCEPTED);
-        } else {
+        }else{
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -110,7 +113,7 @@ public class ProfileController {
         String token = req.getHeader("Authorization");
 
         Profile creator = SecurityUtil.validateToken(token);
-        creator = profileService.getProfileByEmail(creator.getEmail());
+        creator = profileService.getProfileByEmail(creator);
         Profile newProfile = profileService.addFollowerByEmail(creator, email);
         if (newProfile != null) {
             HttpHeaders headers = new HttpHeaders();
@@ -133,7 +136,7 @@ public class ProfileController {
     @PostMapping("/unfollow")
     public ResponseEntity<String> unfollow(String email, HttpServletRequest req) {
         Profile follower = (Profile) req.getAttribute("profile");
-        follower = profileService.getProfileByEmail(follower.getEmail());
+        follower = profileService.getProfileByEmail(follower);
         if (follower != null) {
             follower = profileService.removeFollowByEmail(follower, email);
             if (follower != null) {
