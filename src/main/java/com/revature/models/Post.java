@@ -34,7 +34,6 @@ public class Post {
 
     @ManyToMany (fetch = FetchType.LAZY)
     @JoinTable(
-
                 name = "likes",
                 joinColumns = @JoinColumn(name = "post_id"),
                 inverseJoinColumns = @JoinColumn(name = "profile_id"))

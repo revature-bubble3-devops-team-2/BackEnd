@@ -11,15 +11,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
 import org.springframework.http.HttpHeaders;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/profile")
-@Component
 @CrossOrigin
 @Log4j2
 public class ProfileController {
@@ -53,7 +50,6 @@ public class ProfileController {
      * @return a response with the new profile and status created
      */
     @PostMapping("/register")
-    @NoAuthIn
     public ResponseEntity<Profile> addNewProfile(@Valid @RequestBody Profile profile) {
         Profile returnedUser = profileService.getProfileByEmail(profile);
         if(returnedUser == null){

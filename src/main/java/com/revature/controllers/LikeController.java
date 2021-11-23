@@ -21,7 +21,6 @@ public class LikeController {
     @Autowired
     public PostService postService;
 
-
     /**
      * Adds a like into the database.
      *
