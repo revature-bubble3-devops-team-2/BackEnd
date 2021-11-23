@@ -27,9 +27,6 @@ public class PostServiceImpl implements PostService {
     public PostRepo postRepo;
 
     @Autowired
-    public ProfileService profileService;
-
-    @Autowired
     public FollowerRepo followerRepo;
 
     /**
@@ -74,10 +71,6 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<Post> getAllPostByUser(int pageNumber, int profileId) {
-        return null;
-    }
-
     public List<Post> getFollowerPostsByProfile(Profile profile, int page) {
         if (page <= 0) {
             return null;
@@ -169,7 +162,6 @@ public class PostServiceImpl implements PostService {
     public Profile likeFindByID(Profile profile, Post post) {
         try {
             Post tempPost = postRepo.findById(post.getPsid()).orElse(null);
-            assert tempPost != null;
             if (tempPost.getLikes().contains(profile)) {
                 return profile;
             } else {

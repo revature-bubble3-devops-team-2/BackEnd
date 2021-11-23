@@ -24,8 +24,6 @@ public class ProfileServiceImpl implements ProfileService {
             return null;
         }
         Profile profile = profileRepo.getProfileByUsername(username);
-        System.out.println(profile);
-        System.out.println(SecurityUtil.isPassword(password, profile.getPasskey()));
         if (profile != null && SecurityUtil.isPassword(password, profile.getPasskey())) {
             return profile;
         }

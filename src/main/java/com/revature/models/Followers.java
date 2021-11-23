@@ -16,9 +16,6 @@ import java.io.Serializable;
 @Data
 public class Followers implements Serializable {
 
-//    @EmbeddedId
-//    private FollowId followId;
-
     @Id
     @Autowired
     @ManyToOne

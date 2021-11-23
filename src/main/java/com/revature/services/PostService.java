@@ -11,7 +11,7 @@ public interface PostService {
     List<Post> getAllPostsPaginated(int pageNumber);
     List<Post> getAllPosts();
     List<Post> getFollowerPostsByProfile(Profile profile, int page);
-    List<Post> getAllPostByUser(int pageNumber, int profileId);
+
 
 
     Profile likePost(Profile profile, Post post);
