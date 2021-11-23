@@ -35,14 +35,14 @@ public class CommentServiceTest {
     void testAddComment() {
         Profile tempProfile = new Profile(2, "profile2", "22", "Two", "LastTwo", "Email2");
         Post tempPost = new Post(3, tempProfile, "Hello World", null, Timestamp.valueOf(LocalDateTime.now()));
-        Comment comment = new Comment(2, tempProfile, tempPost, "Comment body", Timestamp.valueOf(LocalDateTime.now()), null);
+        Comment comment = new Comment(2, tempProfile, tempPost, "Test", Timestamp.valueOf(LocalDateTime.now()), null);
         when(commentRepo.save(comment)).thenReturn(comment);
         assertEquals(comment, commentService.addComment(comment));
     }
 
     @Test
     void testAddInvalidComment(){
-        Comment comment = new Comment(2, null, null, "Comment body", Timestamp.valueOf(LocalDateTime.now()), null);
+        Comment comment = new Comment(2, null, null, "Testing 2", Timestamp.valueOf(LocalDateTime.now()), null);
         when(commentRepo.save(comment)).thenReturn(null);
         assertEquals(null, commentService.addComment(comment));
     }
@@ -50,7 +50,7 @@ public class CommentServiceTest {
     @Test
     void testGetComments(){
         List<Comment> commentList = new ArrayList<>();
-        Comment comment = new Comment(2, null, null, "Comment body", Timestamp.valueOf(LocalDateTime.now()), null);
+        Comment comment = new Comment(2, null, null, "Testing 4", Timestamp.valueOf(LocalDateTime.now()), null);
         commentList.add(comment);
         when(commentRepo.getCommentByPostPsid(24)).thenReturn(commentList);
         assertEquals(commentList, commentService.getCommentByPostPsid(24));
@@ -65,8 +65,8 @@ public class CommentServiceTest {
     @Test
     void testUpdateComment(){
         Timestamp timestamp = Timestamp.valueOf(LocalDateTime.now());
-        Comment expected = new Comment(1, null, null, "Update to this comment body", timestamp, null);
-        Comment old = new Comment(1, null, null, "Comment body", timestamp, null);
+        Comment expected = new Comment(1, null, null, "Update to this comment body test update", timestamp, null);
+        Comment old = new Comment(1, null, null, "Test comment", timestamp, null);
         when(commentRepo.getCommentByCid(1)).thenReturn(old);
         when(commentRepo.save(old)).thenReturn(old);
         assertEquals(expected, commentService.updateComment(expected));
@@ -74,7 +74,7 @@ public class CommentServiceTest {
 
     @Test
     void testDeleteComment(){
-        Comment comment = new Comment(1, null, null, "Update to this comment body", Timestamp.valueOf(LocalDateTime.now()), null);
+        Comment comment = new Comment(1, null, null, "Update to test delete", Timestamp.valueOf(LocalDateTime.now()), null);
         when(commentRepo.getCommentByCid(1)).thenReturn(comment);
         assertEquals(true, commentService.deleteCommentByCid(1));
     }
@@ -87,7 +87,7 @@ public class CommentServiceTest {
 
     @Test
     void testGetCommentByCid(){
-        Comment comment = new Comment(1, null, null, "Update to this comment body", Timestamp.valueOf(LocalDateTime.now()), null);
+        Comment comment = new Comment(1, null, null, "Update test comment by cid", Timestamp.valueOf(LocalDateTime.now()), null);
         when(commentRepo.getCommentByCid(1)).thenReturn(comment);
         assertEquals(comment, commentService.getCommentByCid(1));
     }

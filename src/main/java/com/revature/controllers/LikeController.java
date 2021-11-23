@@ -66,7 +66,6 @@ public class LikeController {
     @DeleteMapping
     public ResponseEntity<Profile> removeLike(@RequestBody Post post, HttpServletRequest req) {
         Profile temp = (Profile) req.getAttribute(PROFILE);
-        System.out.println(req.getAttribute(PROFILE));
         int check = postService.likeDelete(temp, post);
         if (check == -1){
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
@@ -91,7 +90,6 @@ public class LikeController {
     @GetMapping
     public ResponseEntity<Integer> getLike(@RequestHeader Post post, @RequestHeader boolean find, HttpServletRequest req) {
         Profile temp = (Profile) req.getAttribute(PROFILE);
-        System.out.println(req.getAttribute(PROFILE));
         if (!find) {
             int result = postService.likeGet(post);
             return new ResponseEntity<>(result, HttpStatus.OK);

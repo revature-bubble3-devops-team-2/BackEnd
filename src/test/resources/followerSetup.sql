@@ -21,13 +21,6 @@ create table followers(
 	primary key(profile_id, follower_id)
 )
 
-insert into post (post_id, profile_id, body, image_url, date_posted) values (1,241747610,'text1','https://source.unsplash.com/random/300x300',current_date)
-insert into post (post_id, profile_id, body, image_url, date_posted) values (2,1555506227,'text1','https://source.unsplash.com/random/300x300',current_date)
-insert into post (post_id, profile_id, body, image_url, date_posted) values (3,1833197514,'text1','https://source.unsplash.com/random/300x300',current_date)
-insert into post (post_id, profile_id, body, image_url, date_posted) values (4,2008162393,'text1','https://source.unsplash.com/random/300x300',current_date)
-insert into post (post_id, profile_id, body, image_url, date_posted) values (5,1732049713,'text1','https://source.unsplash.com/random/300x300',current_date)
-insert into post (post_id, profile_id, body, image_url, date_posted) values (6,1931464143,'text1','https://source.unsplash.com/random/300x300',current_date)
-insert into post (post_id, profile_id, body, image_url, date_posted) values (7,2007304758,'text1','https://source.unsplash.com/random/300x300',current_date)
 
 
 ALTER TABLE public.profile ADD username text NOT NULL;
