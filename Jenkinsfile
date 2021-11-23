@@ -10,7 +10,7 @@ pipeline {
     environment {
         PORT = 8082
         IMAGE_TAG = "cpete22/revature-bubble:be"
-        CONTAINER_NAME = "bubblemain"
+        CONTAINER_NAME = "bubblebe"
         CRED = "dockerhub"
     }
 

@@ -21,12 +21,13 @@ public class ProfileIT {
     @BeforeEach
     void createHttpRequestTemplate() {
         stdHeader.clear();
-        stdHeader.set("Authorization",
-                restTemplate.postForEntity("http://localhost:8082/test", profile, String.class).getBody());
+        stdHeader.set("Authorization", restTemplate.postForEntity("http://localhost:8082/test", profile, String.class).getBody());
     }
 
     @Test
     void validRegister() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("password", profile.getPasskey());
         HttpEntity<Profile> req = new HttpEntity<>(profile);
         ResponseEntity<Profile> response = restTemplate.postForEntity(BASE_URL+"/register", req, Profile.class);
         assertAll(
