@@ -1,9 +1,7 @@
 package com.revature.controllers;
 
 import com.revature.models.Post;
-import com.revature.models.Profile;
 import com.revature.services.PostService;
-import com.revature.utilites.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +17,7 @@ public class PostController {
     @Autowired
     public PostService postService;
 
+
     /**
      * Adds a post to the database.
      *
@@ -32,10 +31,7 @@ public class PostController {
      */
     @PostMapping
     public ResponseEntity<Post> addPost(@RequestBody Post post, HttpServletRequest req) {
-        Post temp = post;
-        temp.setCreator((Profile) req.getAttribute("profile"));
-        temp.setPsid(SecurityUtil.getId());
-        Post check = postService.addPost(temp);
+        Post check = postService.addPost(post);
         if (check == null) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         } else {
@@ -50,10 +46,11 @@ public class PostController {
      *
      * @return a http response with a list of posts in a {@link ResponseEntity} that contains an ok response
      */
-    @GetMapping
+    @GetMapping("/page/{pageNumber}")
     @ResponseBody
-    public ResponseEntity<List<Post>> getAllPosts() {
-        return new ResponseEntity<>(postService.getAllPosts(), HttpStatus.OK) ;
+    public List<Post> getAllPostsbyPage(@PathVariable ("pageNumber") int pageNumber) {
+        return postService.getAllPostsPaginated(pageNumber);
     }
+
 }
 

@@ -18,6 +18,7 @@ public class ProfileServiceImpl implements ProfileService {
      * @param password
      * @return a user profile
      */
+
     public Profile login(String username, String password) {
         if (username == null || password == null || username.isEmpty() || password.isEmpty()) {
             return null;

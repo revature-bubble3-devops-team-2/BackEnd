@@ -108,4 +108,6 @@ public class Profile {
                 this.email == null || this.likedPosts == null || this.username.isEmpty() || this.passkey.isEmpty() ||
                 this.firstName.isEmpty() || this.lastName.isEmpty() || this.email.isEmpty() || this.pid < 100;
     }
+
 }
+

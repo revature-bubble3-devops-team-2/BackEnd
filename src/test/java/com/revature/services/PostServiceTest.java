@@ -56,12 +56,12 @@ public class PostServiceTest {
     @Test
     void testAddNullPost() {
         assertAll (
+
             () -> assertNull(postService.addPost(null)),
             () -> assertNull(postService.addPost(new Post())),
-            () -> assertNull(postService.addPost(new Post(13, null, null,
-                    null,Timestamp.valueOf(LocalDateTime.now())))),
-            () -> assertNull(postService.addPost(new Post(134, new Profile(), null,
-                    null, null)))
+            () -> assertNull(postService.addPost(new Post(13, null, null, null,Timestamp.valueOf(LocalDateTime.now())))),
+            () -> assertNull(postService.addPost(new Post(134, new Profile(), null, null, null)))
+
         );
     }
 
@@ -149,3 +149,6 @@ public class PostServiceTest {
         assertNull(actual3);
     }
 }
+
+
+

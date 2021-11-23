@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import org.springframework.http.HttpHeaders;
-
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
@@ -49,8 +46,8 @@ public class ProfileController {
      * @param profile
      * @return a response with the new profile and status created
      */
-    @PostMapping("/register")
     @NoAuthIn
+    @PostMapping("/register")
     public ResponseEntity<Profile> addNewProfile(@Valid @RequestBody Profile profile) {
         Profile returnedUser = profileService.getProfileByEmail(profile);
         if(returnedUser == null){
