@@ -16,12 +16,12 @@ public class ProfileIT {
     private static final String BASE_URL = "http://localhost:8082/profile";
     private static final RestTemplate restTemplate = new RestTemplate();
     private Profile profile = new Profile("username", SecurityUtil.hashPassword("passkey"), "name", "name", "email");
-    private HttpHeaders STANDARD_HEADER = new HttpHeaders();
+    private HttpHeaders stdHeader = new HttpHeaders();
 
     @BeforeEach
     void createHttpRequestTemplate() {
-        STANDARD_HEADER.clear();
-        STANDARD_HEADER.set("Authorization",
+        stdHeader.clear();
+        stdHeader.set("Authorization",
                 restTemplate.postForEntity("http://localhost:8082/test", profile, String.class).getBody());
     }
 
