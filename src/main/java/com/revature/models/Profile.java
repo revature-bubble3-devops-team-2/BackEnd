@@ -51,7 +51,7 @@ public class Profile {
 
     @Column(name = "following")
     @ManyToMany
-    private List<Profile> following;
+    private List<Profile> following = new LinkedList<>();
 
     @ManyToMany (mappedBy = "likes")
     @JsonIgnore
