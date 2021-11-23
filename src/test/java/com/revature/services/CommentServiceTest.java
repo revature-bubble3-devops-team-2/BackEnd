@@ -64,8 +64,9 @@ public class CommentServiceTest {
 
     @Test
     void testUpdateComment(){
-        Comment expected = new Comment(1, null, null, "Update to this comment body", Timestamp.valueOf(LocalDateTime.now()), null);
-        Comment old = new Comment(1, null, null, "Comment body", Timestamp.valueOf(LocalDateTime.now()), null);
+        Timestamp timestamp = Timestamp.valueOf(LocalDateTime.now());
+        Comment expected = new Comment(1, null, null, "Update to this comment body", timestamp, null);
+        Comment old = new Comment(1, null, null, "Comment body", timestamp, null);
         when(commentRepo.getCommentByCid(1)).thenReturn(old);
         when(commentRepo.save(old)).thenReturn(old);
         assertEquals(expected, commentService.updateComment(expected));
