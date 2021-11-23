@@ -136,13 +136,10 @@ public class ProfileServiceImpl implements ProfileService {
     public Profile addFollowerByEmail(Profile profile, String email) {
         List<Profile> pList = new ArrayList<>(profile.getFollowing());
         Profile followed = profileRepo.getProfileByEmail(email);
-        if (followed != null )
+        if (followed != null && !followed.equals(profile))
         {
             if(!pList.contains(followed)) {
                 pList.add(followed);
-                if(TargetFollowingUser(profile, followed)){
-                    addFriend(profile, followed);
-                }
             }
             profile.setFollowing(pList);
             profileRepo.save(profile);
@@ -150,56 +147,56 @@ public class ProfileServiceImpl implements ProfileService {
         }
         return null;
     }
-
-    /**
-     * Tests if newly followed profile is also following user
-     * @param user user submitting request
-     * @param target profile now being followed
-     * @return true if user is being followed by target
-     */
-    private boolean TargetFollowingUser(Profile user, Profile target){
-        List<Profile> pList = new ArrayList<>(target.getFollowing());
-        return pList.contains(user);
-    }
-
-    /**
-     * adds profile to friend lists of both profiles
-     * @param user user submitting request
-     * @param followed profile user now following
-     */
-    private void addFriend(Profile user, Profile followed){
-        List<Profile> userFriends = new ArrayList<>(user.getFollowing());
-        List<Profile> followedFriends = new ArrayList<>(user.getFollowing());
-        if(!userFriends.contains(followed)){
-            userFriends.add(followed);
-            user.setFollowing(userFriends);
-            profileRepo.save(user);
-        }
-        if(!followedFriends.contains(followed)){
-            followedFriends.add(followed);
-            user.setFollowing(followedFriends);
-            profileRepo.save(user);
-        }
-    }
-
-    /**
-     * removes profile from friend lists of both profiles
-     * @param user user submitting request
-     * @param followed profile user no longer following
-     */
-    private void removeFriend(Profile user, Profile followed){
-        List<Profile> userFriends = new ArrayList<>(user.getFollowing());
-        List<Profile> followedFriends = new ArrayList<>(user.getFollowing());
-        if(!userFriends.contains(followed)){
-            userFriends.add(followed);
-            user.setFollowing(userFriends);
-            profileRepo.save(user);
-        }
-        if(!followedFriends.contains(followed)){
-            followedFriends.add(followed);
-            user.setFollowing(followedFriends);
-            profileRepo.save(user);
-        }
-    }
+//    Code misbehaving, this will need to be added in future sprint
+//    /**
+//     * Tests if newly followed profile is also following user
+//     * @param user user submitting request
+//     * @param target profile now being followed
+//     * @return true if user is being followed by target
+//     */
+//    private boolean TargetFollowingUser(Profile user, Profile target){
+//        List<Profile> pList = new ArrayList<>(target.getFollowing());
+//        return pList.contains(user);
+//    }
+//
+//    /**
+//     * adds profile to friend lists of both profiles
+//     * @param user user submitting request
+//     * @param followed profile user now following
+//     */
+//    private void addFriend(Profile user, Profile followed){
+//        List<Profile> userFriends = new ArrayList<>(user.getFollowing());
+//        List<Profile> followedFriends = new ArrayList<>(user.getFollowing());
+//        if(!userFriends.contains(followed)){
+//            userFriends.add(followed);
+//            user.setFollowing(userFriends);
+//            profileRepo.save(user);
+//        }
+//        if(!followedFriends.contains(followed)){
+//            followedFriends.add(followed);
+//            user.setFollowing(followedFriends);
+//            profileRepo.save(user);
+//        }
+//    }
+//
+//    /**
+//     * removes profile from friend lists of both profiles
+//     * @param user user submitting request
+//     * @param followed profile user no longer following
+//     */
+//    private void removeFriend(Profile user, Profile followed){
+//        List<Profile> userFriends = new ArrayList<>(user.getFollowing());
+//        List<Profile> followedFriends = new ArrayList<>(user.getFollowing());
+//        if(!userFriends.contains(followed)){
+//            userFriends.add(followed);
+//            user.setFollowing(userFriends);
+//            profileRepo.save(user);
+//        }
+//        if(!followedFriends.contains(followed)){
+//            followedFriends.add(followed);
+//            user.setFollowing(followedFriends);
+//            profileRepo.save(user);
+//        }
+//    }
 }
 

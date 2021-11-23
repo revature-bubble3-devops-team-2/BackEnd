@@ -61,20 +61,9 @@ public class Profile {
     @JsonIgnore
     private Set<Post> likedPosts = new LinkedHashSet<>();
 
-    @Column(name = "friends")
-    @ManyToMany
-    private List<Profile> friends;
-
-    public Profile(int pid, String username, String passkey, String firstName, String lastName, String email, List<Profile> following, List<Profile> firends) {
-        this.pid = pid;
-        this.username = username;
-        this.passkey = passkey;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.following = following;
-        this.friends = friends;
-    }
+//    @Column(name = "friends")
+//    @ManyToMany
+//    private List<Profile> friends;
 
     public Profile(int pid, String username, String passkey, String firstName, String lastName, String email, List<Profile> following) {
         this.pid = pid;
