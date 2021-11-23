@@ -21,8 +21,6 @@ public class LikeController {
     @Autowired
     public PostService postService;
 
-    @Autowired
-    public ProfileService profileService;
 
     /**
      * Adds a like into the database.
@@ -38,17 +36,16 @@ public class LikeController {
      */
     @PostMapping
     public ResponseEntity<Profile> addLike(@RequestBody Post post, HttpServletRequest req) {
-       // Profile temp = (Profile) req.getAttribute(PROFILE);
-        Profile temp = profileService.getProfileByPid(1);
+        Profile temp = (Profile) req.getAttribute(PROFILE);
         Profile existProfile = postService.likeFindByID(temp, post);
-        if (existProfile == null) { //like does not exist
+        if (existProfile == null) {
             Profile check = postService.likePost(temp, post);
             if (check == null) {
                 return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
             } else {
                 return new ResponseEntity<>(check, HttpStatus.CREATED);
             }
-        } else { //like already exists
+        } else {
             return new ResponseEntity<>(existProfile, HttpStatus.FOUND);
         }
     }
@@ -66,8 +63,7 @@ public class LikeController {
      */
     @DeleteMapping
     public ResponseEntity<Profile> removeLike(@RequestBody Post post, HttpServletRequest req) {
-      //  Profile temp = (Profile) req.getAttribute(PROFILE);
-        Profile temp = profileService.getProfileByPid(1);
+        Profile temp = (Profile) req.getAttribute(PROFILE);
         int check = postService.likeDelete(temp, post);
         if (check == -1){
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
@@ -90,8 +86,7 @@ public class LikeController {
      *              like was not deleted or a null and ok request if the like was deleted
      */
     @GetMapping
-    public ResponseEntity<Integer> getLike(@RequestHeader Post post, @RequestHeader boolean find,
-                                           HttpServletRequest req) {
+    public ResponseEntity<Integer> getLike(@RequestHeader Post post, @RequestHeader boolean find, HttpServletRequest req) {
         Profile temp = (Profile) req.getAttribute(PROFILE);
         if (!find) {
             int result = postService.likeGet(post);

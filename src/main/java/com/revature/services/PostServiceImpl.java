@@ -27,9 +27,6 @@ public class PostServiceImpl implements PostService {
     public PostRepo postRepo;
 
     @Autowired
-    public ProfileService profileService;
-
-    @Autowired
     public FollowerRepo followerRepo;
 
     /**
