@@ -10,12 +10,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpHeaders;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+@Log4j2
 @RestController
 @RequestMapping("/profile")
 @CrossOrigin
-@Log4j2
 public class ProfileController {
 
     @Autowired
@@ -23,11 +25,12 @@ public class ProfileController {
 
     /**
      * processes login attempt via http request from client
+     *
      * @param username
      * @param password
      * @return secure token as json
      */
-    @PostMapping("/login")
+    @PostMapping
     @NoAuthIn
     public ResponseEntity<Profile> login(String username, String password) {
         Profile profile = profileService.login(username,password);
@@ -60,20 +63,21 @@ public class ProfileController {
             }
             return new ResponseEntity<>(newProfile, responseHeaders, HttpStatus.CREATED);
 
+
         } else {
             return new ResponseEntity<>(HttpStatus.IM_USED);
         }
     }
-
     /**
      * Get Mapping that grabs the profile by the path variable id. It then returns the profile if it is valid.
+     *
      * @param id
      * @return Profile object with HttpStatusAccepted or HttpStatusBackRequest
      */
     @GetMapping("{id}")
     public ResponseEntity<Profile> getProfileByPid(@PathVariable("id")int id) {
         Profile profile = profileService.getProfileByPid(id);
-        if(profile!=null){
+        if (profile!=null) {
             return new ResponseEntity<>(profile, HttpStatus.ACCEPTED);
         }else{
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -94,5 +98,57 @@ public class ProfileController {
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+    }
+
+    /**
+     * Adds profile to list of profiles being followed by user
+     * @param email email of profile to follow
+     * @param req http request including the user's authorization token in the "Authroization" header
+     * @return
+     */
+    @PostMapping("/follow")
+    public ResponseEntity<String> newFollower(String email, HttpServletRequest req) {
+        System.out.println("incoming email: " + email);
+        String token = req.getHeader("Authorization");
+
+        Profile creator = SecurityUtil.validateToken(token);
+        creator = profileService.getProfileByEmail(creator);
+        Profile newProfile = profileService.addFollowerByEmail(creator, email);
+        if (newProfile != null) {
+            HttpHeaders headers = new HttpHeaders();
+            String newToken = SecurityUtil.generateToken(newProfile);
+            String body = "{\"Authorization\":\"" +
+                    newToken
+                    + "\"}";
+            return new ResponseEntity<>(body, headers, HttpStatus.ACCEPTED);
+        }
+
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    /**
+     * Removed profile from list of profiles being followed by the user
+     * @param email email of the profile to be unfollowed
+     * @param req http request including the user's authorization token in the "Authroization" header
+     * @return OK response with new authorization token, bad request response if unsuccessful
+     */
+    @PostMapping("/unfollow")
+    public ResponseEntity<String> unfollow(String email, HttpServletRequest req) {
+        Profile follower = (Profile) req.getAttribute("profile");
+        follower = profileService.getProfileByEmail(follower);
+        if (follower != null) {
+            follower = profileService.removeFollowByEmail(follower, email);
+            if (follower != null) {
+                log.info("Profile successfully unfollowed");
+                HttpHeaders headers = new HttpHeaders();
+                String newToken = SecurityUtil.generateToken(follower);
+                String body = "{\"Authorization\":\"" +
+                        newToken
+                        + "\"}";
+                return new ResponseEntity<>(body, headers, HttpStatus.ACCEPTED);
+            }
+
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }
