@@ -1,11 +1,7 @@
 package com.revature.controllers;
 
-import com.revature.aspects.annotations.NoAuthIn;
 import com.revature.models.Post;
-import com.revature.models.Profile;
 import com.revature.services.PostService;
-import com.revature.services.ProfileService;
-import com.revature.utilites.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +17,6 @@ public class PostController {
     @Autowired
     public PostService postService;
 
-    @Autowired
-    public ProfileService profileService;
 
     /**
      * Adds a post to the database.
