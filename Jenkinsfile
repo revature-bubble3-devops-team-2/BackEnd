@@ -55,7 +55,7 @@ pipeline {
                 timeout(time: 5, unit: 'MINUTES') {
                     script {
                         def qg = waitForQualityGate abortPipeline: true
-                        discordSend description: ":no_entry_sign: **Quality Gate: ${qg.status}**", result: currentBuild.currentResult, webhookURL: env.WEBHO_BE
+                        discordSend description: ":closed_lock_with_key: **Quality Gate: ${qg.status}**", result: currentBuild.currentResult, webhookURL: env.WEBHO_BE
                     }
                 }
             }
@@ -63,7 +63,6 @@ pipeline {
         stage('Remove Previous Artifacts') {
             steps {
                 sh 'docker stop ${CONTAINER_NAME} || true'
-                sh 'docker rmi bubbleimg || true'
                 discordSend description: ":axe: *Removed Previous Docker Artifacts*", result: currentBuild.currentResult, webhookURL: env.WEBHO_BE
             }
         }
