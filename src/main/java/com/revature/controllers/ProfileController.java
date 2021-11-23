@@ -5,7 +5,6 @@ import com.revature.models.Profile;
 import com.revature.services.ProfileService;
 import com.revature.utilites.SecurityUtil;
 import lombok.extern.log4j.Log4j2;
-import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +15,10 @@ import org.springframework.http.HttpHeaders;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-@Log4j2
 @RestController
 @RequestMapping("/profile")
 @CrossOrigin
+@Log4j2
 public class ProfileController {
 
     @Autowired
@@ -32,50 +31,42 @@ public class ProfileController {
      * @param password
      * @return secure token as json
      */
+    @PostMapping("/login")
     @NoAuthIn
-    @PostMapping
-    public ResponseEntity<String> login(String username, String password) {
-        Profile profile = profileService.login(username, password);
-
-        System.out.println("Username" + username);
-        if (profile != null) {
+    public ResponseEntity<Profile> login(String username, String password) {
+        Profile profile = profileService.login(username,password);
+        if(profile != null){
             HttpHeaders headers = new HttpHeaders();
-            String token = SecurityUtil.generateToken(profile);
-            String body = "{\"Authorization\":\"" +
-                    token
-                    + "\"}";
-            return new ResponseEntity<>(body, headers, HttpStatus.OK);
+            headers.set("Authorization", SecurityUtil.generateToken(profile));
+            return new ResponseEntity<>(profile, headers, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
-
     /**
      * Post request that gets client profile registration info and then checks to see if information is not
-     * a duplicate in the database. If info is not a duplicate, it sets Authorization headers
-     * and calls profile service to add the request body profile to the database.
-     *
-     * @return aobject name profile, response header, Status code okay
-     * @PARAM Profile
+     *      a duplicate in the database. If info is not a duplicate, it sets Authorization headers
+     *      and calls profile service to add the request body profile to the database.
+     * @param profile
+     * @return a response with the new profile and status created
      */
-
-    @NoAuthIn
     @PostMapping("/register")
+    @NoAuthIn
     public ResponseEntity<Profile> addNewProfile(@Valid @RequestBody Profile profile) {
-        System.out.println("profile" + profile);
         Profile returnedUser = profileService.getProfileByEmail(profile.getEmail());
-        System.out.println("returned" + returnedUser);
-        if (returnedUser == null) {
+        if(returnedUser == null){
             HttpHeaders responseHeaders = new HttpHeaders();
             String token = SecurityUtil.generateToken(profile);
             responseHeaders.set("Authorization", token);
-            responseHeaders.set("Access-Control-Expose-Headers", "Authorization");
-            return new ResponseEntity<>(profileService.addNewProfile(profile), responseHeaders, HttpStatus.CREATED);
+            Profile newProfile = profileService.addNewProfile(profile);
+            if (newProfile == null || newProfile.isIncomplete()) {
+                return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+            return new ResponseEntity<>(newProfile, responseHeaders, HttpStatus.CREATED);
 
         } else {
             return new ResponseEntity<>(HttpStatus.IM_USED);
         }
-
     }
 
     /**
@@ -84,8 +75,8 @@ public class ProfileController {
      * @param id
      * @return Profile object with HttpStatusAccepted or HttpStatusBackRequest
      */
-    @GetMapping("/profiles/{id}")
-    public ResponseEntity<Profile> getProfileByPid(@PathVariable("id") int id) {
+    @GetMapping("{id}")
+    public ResponseEntity<Profile> getProfileByPid(@PathVariable("id")int id) {
         Profile profile = profileService.getProfileByPid(id);
         if (profile != null) {
             return new ResponseEntity<>(profile, HttpStatus.ACCEPTED);
@@ -96,11 +87,11 @@ public class ProfileController {
 
     /**
      * Put mapping grabs the updated fields of profile and updates the profile in the database.
-     *
+     * If no token is sent in the token it fails the Auth and doesn't update the profile.
      * @param profile
      * @return Updated profile with HttpStatus.ACCEPTED otherwise if invalid returns HttpStatus.BAD_REQUEST
      */
-    @PutMapping("/profiles/{id}")
+    @PutMapping
     public ResponseEntity<Profile> updateProfile(@RequestBody Profile profile) {
         Profile result = profileService.updateProfile(profile);
         if (result != null) {
