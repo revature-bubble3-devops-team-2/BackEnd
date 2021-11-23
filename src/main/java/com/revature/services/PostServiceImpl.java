@@ -71,10 +71,6 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<Post> getAllPostByUser(int pageNumber, int profileId) {
-        return null;
-    }
-
     public List<Post> getFollowerPostsByProfile(Profile profile, int page) {
         if (page <= 0) {
             return null;
