@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
+import java.util.ArrayList;
 
 public class ProfileServiceTest {
     private static final String USERNAME = "dummyUsername";
@@ -140,7 +141,6 @@ public class ProfileServiceTest {
         Profile profile = new Profile(1,"test","1234","updateTest","updateTest","test@mail", empty);
         Profile profile2 = new Profile(2,"test2","1234","updateTest2","updateTest2","test2@mail", empty);
 
-
         ArrayList<Profile> followed = new ArrayList<Profile>();
         followed.add(profile2);
         Profile expected = new Profile(1, "test", "1234", "updateTest", "updateTest", "test@mail", followed);
@@ -161,10 +161,7 @@ public class ProfileServiceTest {
         Profile profile2 = new Profile(2,"test2","1234","updateTest2","updateTest2","test2@mail", empty);
 
 
-
-
         Profile expected = new Profile(1, "test", "1234", "updateTest", "updateTest", "test@mail", empty);
-
 
         when(profileRepo.getProfileByEmail("tes2@mail")).thenReturn(profile);
         when(profileRepo.getProfileByEmail("test2@mail")).thenReturn(profile2);
