@@ -38,8 +38,9 @@ public class LikeController {
      */
     @PostMapping
     public ResponseEntity<Profile> addLike(@RequestBody Post post, HttpServletRequest req) {
-       // Profile temp = (Profile) req.getAttribute(PROFILE);
-        Profile temp = profileService.getProfileByPid(1);
+        Profile temp = (Profile) req.getAttribute(PROFILE);
+        System.out.println(req.getAttribute(PROFILE));
+//        Profile temp = profileService.getProfileByPid(1);
         Profile existProfile = postService.likeFindByID(temp, post);
         if (existProfile == null) { //like does not exist
             Profile check = postService.likePost(temp, post);
@@ -66,8 +67,9 @@ public class LikeController {
      */
     @DeleteMapping
     public ResponseEntity<Profile> removeLike(@RequestBody Post post, HttpServletRequest req) {
-      //  Profile temp = (Profile) req.getAttribute(PROFILE);
-        Profile temp = profileService.getProfileByPid(1);
+        Profile temp = (Profile) req.getAttribute(PROFILE);
+        System.out.println(req.getAttribute(PROFILE));
+//        Profile temp = profileService.getProfileByPid(1);
         int check = postService.likeDelete(temp, post);
         if (check == -1){
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
@@ -97,6 +99,7 @@ public class LikeController {
     public ResponseEntity<Integer> getLike(@RequestHeader Post post, @RequestHeader boolean find,
                                            HttpServletRequest req) {
         Profile temp = (Profile) req.getAttribute(PROFILE);
+        System.out.println(req.getAttribute(PROFILE));
         if (!find) {
             int result = postService.likeGet(temp, post);
             return new ResponseEntity<>(result, HttpStatus.OK);
