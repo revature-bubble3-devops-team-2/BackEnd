@@ -22,8 +22,10 @@ public class Comment {
     @ManyToOne
     private Post post;
 
+    @Column(name = "cbody")
     private String cBody;
 
+    @Column(name = "date_created")
     private Timestamp dateCreated;
 
     @OneToOne
