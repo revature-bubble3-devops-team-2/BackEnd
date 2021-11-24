@@ -53,6 +53,5 @@ public class PostController {
     public ResponseEntity<List<Post>> getAllPostsbyPage(@PathVariable ("pageNumber") int pageNumber) {
         return new ResponseEntity<>(postService.getAllPostsPaginated(pageNumber), HttpStatus.OK);
     }
-
 }
 
