@@ -1,6 +1,7 @@
 package com.revature.controllers;
 
 import com.revature.models.Post;
+import com.revature.models.Profile;
 import com.revature.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,6 +32,7 @@ public class PostController {
      */
     @PostMapping
     public ResponseEntity<Post> addPost(@RequestBody Post post, HttpServletRequest req) {
+        post.setCreator((Profile) req.getAttribute("profile"));
         Post check = postService.addPost(post);
         if (check == null) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);

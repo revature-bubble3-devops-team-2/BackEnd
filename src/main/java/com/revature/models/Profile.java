@@ -1,5 +1,4 @@
 package com.revature.models;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.revature.utilites.SecurityUtil;
@@ -7,11 +6,9 @@ import lombok.*;
 import org.springframework.stereotype.Component;
 import javax.persistence.*;
 import java.util.*;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import java.util.Objects;
+import java.util.LinkedHashSet;
+
+
 
 @Component
 @Entity
@@ -52,12 +49,36 @@ public class Profile {
             unique = true)
     private String email;
 
-    @ManyToMany(mappedBy = "likes")
+    @Column(name = "following")
+    @ManyToMany
+    private List<Profile> following = new LinkedList<>();
+
+    @ManyToMany (mappedBy = "likes")
     @JsonIgnore
     private Set<Post> likedPosts = new LinkedHashSet<>();
 
     public Profile() {
         this.pid = SecurityUtil.getId();
+    }
+
+    public Profile(int pid, String username, String passkey, String firstName, String lastName, String email, List<Profile> following) {
+        this.pid = pid;
+        this.username = username;
+        this.passkey = passkey;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.following = following;
+    }
+
+    public Profile(int pid, String username, String passkey, String firstName, String lastName, String email, Set<Post> likedPosts) {
+        this.pid = pid;
+        this.username = username;
+        this.passkey = passkey;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.likedPosts = likedPosts;
     }
 
     public Profile(int pid, String username, String passkey, String firstName, String lastName, String email) {
@@ -105,8 +126,9 @@ public class Profile {
 
     public boolean isIncomplete() {
         return this.username == null || this.passkey == null || this.firstName == null || this.lastName == null ||
-                this.email == null || this.likedPosts == null || this.username.isEmpty() || this.passkey.isEmpty() ||
-                this.firstName.isEmpty() || this.lastName.isEmpty() || this.email.isEmpty() || this.pid < 100;
+                this.email == null || this.likedPosts == null || this.following == null ||  this.username.isEmpty() ||
+                this.passkey.isEmpty() || this.firstName.isEmpty() || this.lastName.isEmpty() || this.email.isEmpty() ||
+                this.pid < 100;
     }
 
 }
