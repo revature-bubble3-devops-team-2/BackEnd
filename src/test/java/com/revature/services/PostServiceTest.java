@@ -89,8 +89,8 @@ public class PostServiceTest {
 
     @Test
     void testLikePost() {
-        Set<Profile> tempLikesSet = new LinkedHashSet<>();
-        tempLikesSet.add(creator);
+        Set<Integer> tempLikesSet = new LinkedHashSet<>();
+        tempLikesSet.add(creator.getPid());
         post.setLikes(tempLikesSet);
 
         when(postRepo.findById(post.getPsid())).thenReturn(Optional.of(post));
@@ -105,8 +105,8 @@ public class PostServiceTest {
 
     @Test
     void testLikeDelete() {
-        Set<Profile> tempLikesSet = new LinkedHashSet<>();
-        tempLikesSet.add(liker);
+        Set<Integer> tempLikesSet = new LinkedHashSet<>();
+        tempLikesSet.add(liker.getPid());
         post.setLikes(tempLikesSet);
 
         when(postRepo.findById(post.getPsid())).thenReturn(Optional.of(post));
@@ -121,9 +121,9 @@ public class PostServiceTest {
 
     @Test
     void testLikeGet() {
-        Set<Profile> tempLikesSet = new LinkedHashSet<>();
-        tempLikesSet.add(liker);
-        tempLikesSet.add(creator);
+        Set<Integer> tempLikesSet = new LinkedHashSet<>();
+        tempLikesSet.add(liker.getPid());
+        tempLikesSet.add(creator.getPid());
         post.setLikes(tempLikesSet);
         int expected = tempLikesSet.size();
 
@@ -135,8 +135,8 @@ public class PostServiceTest {
 
     @Test
     void testLikeFindID() {
-        Set<Profile> tempLikesSet = new LinkedHashSet<>();
-        tempLikesSet.add(liker);
+        Set<Integer> tempLikesSet = new LinkedHashSet<>();
+        tempLikesSet.add(liker.getPid());
         post.setLikes(tempLikesSet);
 
         when(postRepo.findById(post.getPsid())).thenReturn(Optional.of(post));
