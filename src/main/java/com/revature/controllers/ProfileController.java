@@ -33,8 +33,8 @@ public class ProfileController {
     @PostMapping("/login")
     @NoAuthIn
     public ResponseEntity<Profile> login(String username, String password) {
-        Profile profile = profileService.login(username,password);
-        if(profile != null){
+        Profile profile = profileService.login(username, password);
+        if(profile != null) {
             HttpHeaders headers = new HttpHeaders();
             headers.set("Authorization", SecurityUtil.generateToken(profile));
             return new ResponseEntity<>(profile, headers, HttpStatus.OK);
@@ -108,19 +108,13 @@ public class ProfileController {
      */
     @PostMapping("/follow")
     public ResponseEntity<String> newFollower(String email, HttpServletRequest req) {
-        String token = req.getHeader("Authorization");
-        Profile creator = SecurityUtil.validateToken(token);
-        creator = profileService.getProfileByEmail(creator);
+        Profile creator = (Profile) req.getAttribute("profile");
         Profile newProfile = profileService.addFollowerByEmail(creator, email);
         if (newProfile != null) {
             HttpHeaders headers = new HttpHeaders();
-            String newToken = SecurityUtil.generateToken(newProfile);
-            String body = "{\"Authorization\":\"" +
-                    newToken
-                    + "\"}";
-            return new ResponseEntity<>(body, headers, HttpStatus.ACCEPTED);
+            headers.set("Authorization", SecurityUtil.generateToken(newProfile));
+            return new ResponseEntity<>(headers, HttpStatus.ACCEPTED);
         }
-
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 

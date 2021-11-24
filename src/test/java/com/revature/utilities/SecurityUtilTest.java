@@ -80,7 +80,6 @@ public class SecurityUtilTest {
                 () -> assertNull(SecurityUtil.generateToken(new Profile(867851386, val, val, null, val, val))),
                 () -> assertNull(SecurityUtil.generateToken(new Profile(867851386, val, val, val, null, val))),
                 () -> assertNull(SecurityUtil.generateToken(new Profile(867851386, val, val, val, val, null))),
-                () -> assertNull(SecurityUtil.generateToken(new Profile(867851386, val, val, val, val, val, (Set<Post>)null))),
                 () -> assertNull(SecurityUtil.generateToken(new Profile(867851386, val, val, val, val, val, (List<Profile>)null))),
                 () -> assertNull(SecurityUtil.generateToken(new Profile(867851386, "", val, val, val, val))),
                 () -> assertNull(SecurityUtil.generateToken(new Profile(867851386, val, "", val, val, val))),

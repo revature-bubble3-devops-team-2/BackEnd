@@ -135,8 +135,7 @@ public class ProfileServiceImpl implements ProfileService {
     public Profile addFollowerByEmail(Profile profile, String email) {
         List<Profile> pList = new ArrayList<>(profile.getFollowing());
         Profile followed = profileRepo.getProfileByEmail(email);
-        if (followed != null && !followed.equals(profile))
-        {
+        if (followed != null && !followed.equals(profile)) {
             if(!pList.contains(followed)) {
                 pList.add(followed);
             }

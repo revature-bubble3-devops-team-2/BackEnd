@@ -9,7 +9,6 @@
     <version>1.0</version>
     <packaging>jar</packaging>
 
-
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -82,11 +81,6 @@
             <version>4.0.0</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>1.4.200</version>
-        </dependency>
 
         <!-- For Security Utility -->
         <dependency>
@@ -103,71 +97,12 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>pre-integration-test</id>
-                        <goals>
-                            <goal>start</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>post-integration-test</id>
-                        <goals>
-                            <goal>stop</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
             <!-- Allow Testing with Maven -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.0.0-M5</version>
-                <configuration>
-                    <!-- Skip the default running of this plug-in (or everything is run twice...see below) -->
-                    <skip>true</skip>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>unit-tests</id>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>test</goal>
-                        </goals>
-                        <configuration>
-                            <!-- Never skip running the tests when the test phase is invoked -->
-                            <skip>false</skip>
-                            <includes>
-                                <!-- Include unit tests within integration-test phase. -->
-                                <include>**/*Test.java</include>
-                            </includes>
-                            <excludes>
-                                <!-- Exclude integration tests within (unit) test phase. -->
-                                <exclude>**/*IT.java</exclude>
-                            </excludes>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>integration-tests</id>
-                        <phase>integration-test</phase>
-                        <goals>
-                            <goal>test</goal>
-                        </goals>
-                        <configuration>
-                            <!-- Never skip running the tests when the integration-test phase is invoked -->
-                            <skip>false</skip>
-                            <includes>
-                                <!-- Include integration tests within integration-test phase. -->
-                                <include>**/*IT.java</include>
-                            </includes>
-                            <environmentVariables>
-                                <DB_URL>jdbc:h2:~/test</DB_URL>
-                                <DB_USER></DB_USER>
-                                <DB_PASS></DB_PASS>
-                            </environmentVariables>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
             <!-- Allow JaCoCo Test Coverage -->
             <plugin>
