@@ -51,6 +51,5 @@ public class PostController {
     public List<Post> getAllPostsbyPage(@PathVariable ("pageNumber") int pageNumber) {
         return postService.getAllPostsPaginated(pageNumber);
     }
-
 }
 

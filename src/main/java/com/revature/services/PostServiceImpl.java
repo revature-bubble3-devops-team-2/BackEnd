@@ -52,7 +52,6 @@ public class PostServiceImpl implements PostService {
         Page<Post> resultPage = postRepo.findAll(pageable);
         if (resultPage.hasContent()) {
             return resultPage.getContent();
-
         }
         return null;
     }
