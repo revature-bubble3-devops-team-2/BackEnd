@@ -37,7 +37,7 @@ public class Post {
                 joinColumns = @JoinColumn(name = "post_id"),
                 inverseJoinColumns = @JoinColumn(name = "profile_id"))
     @JsonIgnore
-    private Set<Profile> likes = new LinkedHashSet<>();
+    private Set<Integer> likes = new LinkedHashSet<>();
 
     public Post() {
         super();
@@ -53,7 +53,7 @@ public class Post {
         this.datePosted = datePosted;
     }
 
-    public Post(Profile creator, String body, String imgURL, Timestamp datePosted, Set<Profile> likes) {
+    public Post(Profile creator, String body, String imgURL, Timestamp datePosted, Set<Integer> likes) {
         this();
         this.creator = creator;
         this.body = body;
