@@ -34,8 +34,7 @@ public class LikeController {
     @PostMapping
     public ResponseEntity<Profile> addLike(@RequestBody Post post, HttpServletRequest req) {
         Profile temp = (Profile) req.getAttribute(PROFILE);
-
-
+        if (post.getCreator().equals(temp)) return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
         Profile existProfile = postService.likeFindByID(temp, post);
         if (existProfile == null) {
             Profile check = postService.likePost(temp, post);

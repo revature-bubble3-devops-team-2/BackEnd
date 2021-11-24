@@ -32,12 +32,10 @@ public class Post {
     @Column(name = "date_posted", nullable = false)
     private Timestamp datePosted;
 
-    @ManyToMany (fetch = FetchType.LAZY)
-    @JoinTable(
-                name = "likes",
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable( name = "likes",
                 joinColumns = @JoinColumn(name = "post_id"),
                 inverseJoinColumns = @JoinColumn(name = "profile_id"))
-
     @JsonIgnore
     private Set<Profile> likes = new LinkedHashSet<>();
 
@@ -48,7 +46,7 @@ public class Post {
     }
 
     public Post(Profile creator, String body, String imgURL, Timestamp datePosted) {
-        super();
+        this();
         this.creator = creator;
         this.body = body;
         this.imgURL = imgURL;
@@ -56,7 +54,7 @@ public class Post {
     }
 
     public Post(Profile creator, String body, String imgURL, Timestamp datePosted, Set<Profile> likes) {
-        super();
+        this();
         this.creator = creator;
         this.body = body;
         this.imgURL = imgURL;
@@ -92,8 +90,6 @@ public class Post {
     public int hashCode() {
         return Objects.hash(psid, creator, body, imgURL, datePosted);
     }
-
-
 
     @Override
     public String toString() {

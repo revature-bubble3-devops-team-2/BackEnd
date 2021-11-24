@@ -50,8 +50,8 @@ public class PostController {
      */
     @GetMapping("/page/{pageNumber}")
     @ResponseBody
-    public List<Post> getAllPostsbyPage(@PathVariable ("pageNumber") int pageNumber) {
-        return postService.getAllPostsPaginated(pageNumber);
+    public ResponseEntity<List<Post>> getAllPostsbyPage(@PathVariable ("pageNumber") int pageNumber) {
+        return new ResponseEntity<>(postService.getAllPostsPaginated(pageNumber), HttpStatus.OK);
     }
 }
 

@@ -51,9 +51,10 @@ public class Profile {
 
     @Column(name = "following")
     @ManyToMany
+    @JsonIgnore
     private List<Profile> following = new LinkedList<>();
 
-    @ManyToMany (mappedBy = "likes")
+    @ManyToMany(mappedBy = "likes")
     @JsonIgnore
     private Set<Post> likedPosts = new LinkedHashSet<>();
 
@@ -69,16 +70,6 @@ public class Profile {
         this.lastName = lastName;
         this.email = email;
         this.following = following;
-    }
-
-    public Profile(int pid, String username, String passkey, String firstName, String lastName, String email, Set<Post> likedPosts) {
-        this.pid = pid;
-        this.username = username;
-        this.passkey = passkey;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.likedPosts = likedPosts;
     }
 
     public Profile(int pid, String username, String passkey, String firstName, String lastName, String email) {
@@ -99,12 +90,20 @@ public class Profile {
         this.email = email;
     }
 
-    @Override
-    public boolean equals(Object o) {
+    @Override public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         Profile profile = (Profile) o;
-        return pid == profile.pid && username.equals(profile.username) && passkey.equals(profile.passkey) && firstName.equals(profile.firstName) && lastName.equals(profile.lastName) && email.equals(profile.email);
+
+        if (pid != profile.pid) return false;
+        if (!username.equals(profile.username)) return false;
+        if (!passkey.equals(profile.passkey)) return false;
+        if (!firstName.equals(profile.firstName)) return false;
+        if (!lastName.equals(profile.lastName)) return false;
+        if (!email.equals(profile.email)) return false;
+        if (!Objects.equals(following, profile.following)) return false;
+        return Objects.equals(likedPosts, profile.likedPosts);
     }
 
     @Override
