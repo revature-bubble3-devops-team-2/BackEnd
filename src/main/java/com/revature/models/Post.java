@@ -32,11 +32,9 @@ public class Post {
     @Column(name = "date_posted", nullable = false)
     private Timestamp datePosted;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable( name = "likes",
-                joinColumns = @JoinColumn(name = "post_id"),
-                inverseJoinColumns = @JoinColumn(name = "profile_id"))
-    @JsonIgnore
+    @CollectionTable( name = "likes", joinColumns = @JoinColumn(name = "post_id", referencedColumnName = "post_id"))
+    @Column(name="profile_id")
+    @ElementCollection()
     private Set<Integer> likes = new LinkedHashSet<>();
 
     public Post() {

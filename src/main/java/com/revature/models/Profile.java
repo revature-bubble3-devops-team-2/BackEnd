@@ -54,22 +54,8 @@ public class Profile {
     @JsonIgnore
     private List<Profile> following = new LinkedList<>();
 
-    @ManyToMany(mappedBy = "likes")
-    @JsonIgnore
-    private Set<Post> likedPosts = new LinkedHashSet<>();
-
     public Profile() {
         this.pid = SecurityUtil.getId();
-    }
-
-    public Profile(int pid, String username, String passkey, String firstName, String lastName, String email, List<Profile> following) {
-        this.pid = pid;
-        this.username = username;
-        this.passkey = passkey;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.following = following;
     }
 
     public Profile(int pid, String username, String passkey, String firstName, String lastName, String email) {
@@ -102,8 +88,7 @@ public class Profile {
         if (!firstName.equals(profile.firstName)) return false;
         if (!lastName.equals(profile.lastName)) return false;
         if (!email.equals(profile.email)) return false;
-        if (!Objects.equals(following, profile.following)) return false;
-        return Objects.equals(likedPosts, profile.likedPosts);
+        return Objects.equals(following, profile.following);
     }
 
     @Override
@@ -125,7 +110,7 @@ public class Profile {
 
     public boolean isIncomplete() {
         return this.username == null || this.passkey == null || this.firstName == null || this.lastName == null ||
-                this.email == null || this.likedPosts == null || this.following == null ||  this.username.isEmpty() ||
+                this.email == null || this.following == null ||  this.username.isEmpty() ||
                 this.passkey.isEmpty() || this.firstName.isEmpty() || this.lastName.isEmpty() || this.email.isEmpty() ||
                 this.pid < 100;
     }
