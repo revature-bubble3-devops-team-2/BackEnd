@@ -46,6 +46,7 @@ public class PostController {
      *
      * More will be added when this gets implemented more.
      *
+     * @param pageNumber
      * @return a http response with a list of posts in a {@link ResponseEntity} that contains an ok response
      */
     @GetMapping("/page/{pageNumber}")

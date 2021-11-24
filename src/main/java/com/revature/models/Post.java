@@ -1,13 +1,17 @@
 package com.revature.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.revature.utilites.SecurityUtil;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.LinkedHashSet;
+import java.util.Objects;
+import java.util.Set;
 
 @Component
 @Entity @Table(name = "post")
@@ -26,7 +30,7 @@ public class Post {
     @Column(name = "body")
     private String body;
 
-    @Column(name = "image_url")
+    @Column(name = "image_url", columnDefinition = "TEXT")
     private String imgURL;
 
     @Column(name = "date_posted", nullable = false)

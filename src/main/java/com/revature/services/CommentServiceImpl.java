@@ -21,7 +21,7 @@ public class CommentServiceImpl implements CommentService {
      * and returns it.
      *
      * @param comment Comment to be added to the database
-     * @throw NullPointerException if null pointer error occurs
+     * @throws NullPointerException if null pointer error occurs
      * @return Comment that was added or null if an exception is thrown.
      */
     @Override
