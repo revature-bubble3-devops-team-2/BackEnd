@@ -14,6 +14,11 @@
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.4.3</version>
     </parent>
+         
+    <properties>
+         <sonar.organization>revature-bubble-2</sonar.organization>
+         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+    </properties>
 
     <dependencies>
         <!-- Spring Boot -->
