@@ -9,7 +9,6 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 
-@Component
 @Entity @Table(name = "comment")
 @Data @AllArgsConstructor
 public class Comment {
