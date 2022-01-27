@@ -1,0 +1,15 @@
+server:
+  port: 8082
+spring:
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASS}
+  jpa:
+    hibernate:
+      ddl-auto: update
+amazonProperties:
+    endpointUrl: https://s3.us-east-2.amazonaws.com
+    accessKey: XXXXXXXXXXXXXXXXX
+    secretKey: XXXXXXXXXXXXXXXXXXXXXXXXXX
+    bucketName: your-bucket-name    
