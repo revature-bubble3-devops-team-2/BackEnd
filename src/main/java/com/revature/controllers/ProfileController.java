@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpHeaders;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -142,5 +144,16 @@ public class ProfileController {
 
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+    
+    @GetMapping("/search/{query}")
+    public ResponseEntity<Profile> searchProfile(@PathVariable("query")String query) {
+        List <Profile >profile = profileService.getProfilesByQuery(query);
+//        if (profile!=null\) { // if not equal to null
+//            return new ResponseEntity<>(profile, HttpStatus.ACCEPTED);
+//        }else{
+//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//        }
+		return null;
     }
 }

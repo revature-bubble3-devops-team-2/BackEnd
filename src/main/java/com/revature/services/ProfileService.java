@@ -1,5 +1,7 @@
 package com.revature.services;
 
+import java.util.List;
+
 import com.revature.models.Profile;
 
 public interface ProfileService {
@@ -10,4 +12,5 @@ public interface ProfileService {
     public Profile updateProfile(Profile profile);
     public Profile removeFollowByEmail(Profile profile, String email);
     public Profile addFollowerByEmail(Profile profile, String email);
+	public List<Profile> getProfilesByQuery(String query);
 }

@@ -145,4 +145,10 @@ public class ProfileServiceImpl implements ProfileService {
         }
         return null;
     }
+
+	@Override
+	public List<Profile> getProfilesByQuery(String query) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
