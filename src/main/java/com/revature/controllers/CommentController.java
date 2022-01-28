@@ -36,6 +36,6 @@ public class CommentController {
      */
     @GetMapping
     public ResponseEntity<List<Comment>> getCommentsByPost(@RequestParam(value = "psid") Integer id){
-        return new ResponseEntity<>(commentService.getCommentByPostPsid(id), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(commentService.getCommentsByPostPsid(id), HttpStatus.ACCEPTED);
     }
 }
