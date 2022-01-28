@@ -10,8 +10,8 @@ import com.revature.models.Comment;
 
 public interface CommentRepo extends JpaRepository<Comment,Integer> {
 
-    List<Comment> getCommentsByPostPsid(Integer psid);
+    List<Comment> getCommentsByPostPsid(int psid);
     Page<Comment> getCommentsByPostPsid(Pageable pageable, int profileId);
 
-    Comment getCommentByCid(Integer cid);
+    Comment getCommentByCid(int cid);
 }
