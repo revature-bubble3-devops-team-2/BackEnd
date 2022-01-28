@@ -53,10 +53,6 @@ public class Profile {
     @ManyToMany
     @JsonIgnore
     private List<Profile> following = new LinkedList<>();
-    
-    @ManyToMany(mappedBy="members")
-    @JsonIgnore
-    private Set<Group> groups;
 
     public Profile() {
         this.pid = SecurityUtil.getId();
