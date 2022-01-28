@@ -8,8 +8,3 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-amazonProperties:
-    endpointUrl: https://s3.us-east-2.amazonaws.com
-    accessKey: XXXXXXXXXXXXXXXXX
-    secretKey: XXXXXXXXXXXXXXXXXXXXXXXXXX
-    bucketName: your-bucket-name    
