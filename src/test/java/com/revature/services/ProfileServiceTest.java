@@ -1,24 +1,27 @@
 package com.revature.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.revature.models.Profile;
 import com.revature.repositories.ProfileRepo;
 
+import org.apache.tomcat.util.digester.ArrayStack;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import java.util.Optional;
 
 public class ProfileServiceTest {
     private static final String USERNAME = "dummyUsername";
@@ -30,8 +33,6 @@ public class ProfileServiceTest {
     private static final String PASSWORD2 = "abc123";
     private static final String EMAIL2 = "dummy2@email.com";
     private Profile expected2 = new Profile();
-
-    List<Profile> profileList = new ArrayList<Profile>();
 
     @Mock
     ProfileRepo profileRepo;
@@ -64,8 +65,8 @@ public class ProfileServiceTest {
                 "pQbtVcbqyJGNRFA6OAGcWb1R0+04d0+1DA6BjTDsxkltgsvUpLrVFBo4VaFAT6Jf4ZI2Pg39WjFY1an8=";
         expected2 = new Profile(USERNAME2, passkey2, name2, name2, EMAIL2);
 
-        profileList.add(expected);
-        profileList.add(expected2);
+        // profileList.add(expected);
+        // profileList.add(expected2);
     }
 
     @Test
@@ -150,17 +151,30 @@ public class ProfileServiceTest {
     }
 
     @Test
-    void addsecondNewProfile() {
-        when(profileRepo.save(expected)).thenReturn(expected);
-        assertEquals(expected, profileService.addNewProfile(expected));
+    void addSecondNewProfile() {
+        when(profileRepo.save(expected2)).thenReturn(expected2);
+        assertEquals(expected2, profileService.addNewProfile(expected2));
+    }
+
+    @Test
+    void getAllProfiles() {
+        List<Profile> profileList = Arrays.asList(expected, expected2);
+        when(profileRepo.findAll()).thenReturn(profileList);
     }
 
     @Test
     void getAllProfilesPaginated() {
-        Pageable pageable = PageRequest.of(1 - 1, 3, Sort.by("userName").ascending());
+        List<Profile> profileList = Arrays.asList(expected, expected2);
+        int pageRequested = 1;
+        Pageable pageable = PageRequest.of(pageRequested - 1, 2, Sort.unsorted());
+        assertNotNull(pageable);
+        profileRepo.save(expected);
+        profileRepo.save(expected2);
+        assertNotNull(profileRepo.findAll(pageable).getContent());
 
+        when(profileRepo.findAll(pageable).getContent()).thenReturn(profileList);
         List<Profile> actual = profileRepo.findAll(pageable).getContent();
-        when(profileRepo.findAll(pageable).getContent().thenReturn(profileList));
+        assertEquals(actual, expected);
 
     }
 
