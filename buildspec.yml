@@ -9,4 +9,4 @@ phases:
 artifacts:
   files:
     - 'Dockerfile'
-    - target/BackEnd-0.0.1-SNAPSHOT.jar
+    - target/Bubble.jar
