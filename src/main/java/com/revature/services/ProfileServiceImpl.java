@@ -165,8 +165,8 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public List<Profile> getAllProfilesPaginated(int page, int size) {
-        Pageable pageable = PageRequest.of(page - 1, 3, Sort.by("userName").ascending());
+    public List<Profile> getAllProfilesPaginated(int page) {
+        Pageable pageable = PageRequest.of(page - 1, 15, Sort.by("username").ascending());
         Page<Profile> resultPage = profileRepo.findAll(pageable);
         if (resultPage.hasContent()) {
             return resultPage.getContent();
