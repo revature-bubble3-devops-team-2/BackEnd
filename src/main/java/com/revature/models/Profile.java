@@ -53,27 +53,34 @@ public class Profile {
     @ManyToMany
     @JsonIgnore
     private List<Profile> following = new LinkedList<>();
+    
+    @Column(name = "verification",
+    		columnDefinition = "TEXT",
+    		nullable = false)
+    private boolean verification;
 
     public Profile() {
         this.pid = SecurityUtil.getId();
     }
 
-    public Profile(int pid, String username, String passkey, String firstName, String lastName, String email) {
+    public Profile(int pid, String username, String passkey, String firstName, String lastName, String email, boolean verification) {
         this.pid = pid;
         this.username = username;
         this.passkey = passkey;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.verification = verification;
     }
 
-    public Profile(String username, String passkey, String firstName, String lastName, String email) {
+    public Profile(String username, String passkey, String firstName, String lastName, String email, boolean verification) {
         this();
         this.username = username;
         this.passkey = passkey;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.verification = verification;
     }
 
     @Override public boolean equals(Object o) {
@@ -88,12 +95,13 @@ public class Profile {
         if (!firstName.equals(profile.firstName)) return false;
         if (!lastName.equals(profile.lastName)) return false;
         if (!email.equals(profile.email)) return false;
+        if (!verification == profile.verification) return false;
         return Objects.equals(following, profile.following);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(pid, username, passkey, firstName, lastName, email);
+        return Objects.hash(pid, username, passkey, firstName, lastName, email, verification);
     }
 
     @Override
@@ -105,12 +113,13 @@ public class Profile {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
+                ", verification='" + verification + '\'' +
                 '}';
     }
 
     public boolean isIncomplete() {
         return this.username == null || this.passkey == null || this.firstName == null || this.lastName == null ||
-                this.email == null || this.following == null ||  this.username.isEmpty() ||
+                this.email == null || this.verification || this.following == null ||  this.username.isEmpty() ||
                 this.passkey.isEmpty() || this.firstName.isEmpty() || this.lastName.isEmpty() || this.email.isEmpty() ||
                 this.pid < 100;
     }
