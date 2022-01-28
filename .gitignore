@@ -3,6 +3,17 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+node/
+bin/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache/
 
 ### IntelliJ IDEA ###
 .idea
@@ -11,16 +22,26 @@ target/
 *.ipr
 
 ### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
+nbproject/private/
 build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
-# IDEs and editors
+### Compiled Output ###
+/dist
+/tmp
+/out-tsc
+# Only exists if Bazel was run
+/bazel-out
+
+### Dependencies ###
+/node_modules
+
+### IDEs and Editors ###
 /.idea
 .project
 .classpath
@@ -28,13 +49,9 @@ build/
 *.launch
 .settings/
 *.sublime-workspace
-.angular/*
-.apt_generated
-.factorypath
-.springBeans
-.sts4-cache
 
-# IDE - VSCode
+
+### IDE - VSCode ###
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
@@ -42,7 +59,9 @@ build/
 !.vscode/extensions.json
 .history/*
 
-# misc
+### misc ###
+.angular/*
+/.angular/cache
 /.sass-cache
 /connect.lock
 /coverage
@@ -51,9 +70,7 @@ npm-debug.log
 yarn-error.log
 testem.log
 /typings
-/bin
 
-# System Files
+### System Files ###
 .DS_Store
 Thumbs.db
-.angular/cache/*
