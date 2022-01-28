@@ -3,13 +3,9 @@ server:
 spring:
   datasource:
     url: ${DB_URL}
-    username: ${DB_URL}
-    password: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASS}
   jpa:
     hibernate:
       ddl-auto: update    
-amazonProperties:
-    endpointUrl: ${END_URL}
-    accessKey: ${ACCESS_KEY}
-    secretKey: ${SECRET_KEY}
-    bucketName: ${BUCKET_NAME}
+

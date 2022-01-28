@@ -85,8 +85,14 @@ public class ProfileServiceImpl implements ProfileService {
 
     /**
      *
+     *
      * @param profile
      * @return updated profile if it exists otherwise return null.
+     * 
+     * 
+     * @author marouanekhabbaz : add update img url;
+     * 
+     * 
      */
     @Override
     public Profile updateProfile(Profile profile) {
