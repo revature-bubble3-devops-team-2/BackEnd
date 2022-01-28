@@ -7,5 +7,4 @@ spring:
     password: ${DB_PASS}
   jpa:
     hibernate:
-      ddl-auto: update    
-
+      ddl-auto: update
