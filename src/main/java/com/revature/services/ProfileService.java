@@ -19,5 +19,5 @@ public interface ProfileService {
 
     Profile addFollowerByEmail(Profile profile, String email);
 
-    List<Profile> getAllProfilesPaginated(int page, int size);
+    List<Profile> getAllProfilesPaginated(int page);
 }

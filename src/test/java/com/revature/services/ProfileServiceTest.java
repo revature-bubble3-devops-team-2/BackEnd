@@ -162,21 +162,20 @@ public class ProfileServiceTest {
         when(profileRepo.findAll()).thenReturn(profileList);
     }
 
-    @Test
-    void getAllProfilesPaginated() {
-        List<Profile> profileList = Arrays.asList(expected, expected2);
-        int pageRequested = 1;
-        Pageable pageable = PageRequest.of(pageRequested - 1, 2, Sort.unsorted());
-        assertNotNull(pageable);
-        profileRepo.save(expected);
-        profileRepo.save(expected2);
-        assertNotNull(profileRepo.findAll(pageable).getContent());
+    // @Test
+    // void getAllProfilesPaginated() {
+    // List<Profile> profileList = Arrays.asList(expected, expected2);
+    // int pageRequested = 1;
+    // Pageable pageable = PageRequest.of(pageRequested - 1, 2, Sort.unsorted());
+    // assertNotNull(pageable);
+    // profileRepo.save(expected);
+    // profileRepo.save(expected2);
 
-        when(profileRepo.findAll(pageable).getContent()).thenReturn(profileList);
-        List<Profile> actual = profileRepo.findAll(pageable).getContent();
-        assertEquals(actual, expected);
+    // when(profileRepo.findAll(pageable).getContent()).thenReturn(profileList);
+    // List<Profile> actual = profileRepo.findAll(pageable).getContent();
+    // assertEquals(actual, expected);
 
-    }
+    // }
 
     @Test
     void testUpdateExistingProfile() {

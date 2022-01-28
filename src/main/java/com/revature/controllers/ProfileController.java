@@ -13,6 +13,7 @@ import org.springframework.http.HttpHeaders;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.List;
 
 @Log4j2
 @RestController
@@ -34,7 +35,7 @@ public class ProfileController {
     @NoAuthIn
     public ResponseEntity<Profile> login(String username, String password) {
         Profile profile = profileService.login(username, password);
-        if(profile != null) {
+        if (profile != null) {
             HttpHeaders headers = new HttpHeaders();
             headers.set("Authorization", SecurityUtil.generateToken(profile));
             return new ResponseEntity<>(profile, headers, HttpStatus.OK);
@@ -43,9 +44,12 @@ public class ProfileController {
     }
 
     /**
-     * Post request that gets client profile registration info and then checks to see if information is not
-     *      a duplicate in the database. If info is not a duplicate, it sets Authorization headers
-     *      and calls profile service to add the request body profile to the database.
+     * Post request that gets client profile registration info and then checks to
+     * see if information is not
+     * a duplicate in the database. If info is not a duplicate, it sets
+     * Authorization headers
+     * and calls profile service to add the request body profile to the database.
+     * 
      * @param profile
      * @return a response with the new profile and status created
      */
@@ -63,32 +67,38 @@ public class ProfileController {
             }
             return new ResponseEntity<>(newProfile, responseHeaders, HttpStatus.CREATED);
 
-
         } else {
             return new ResponseEntity<>(HttpStatus.IM_USED);
         }
     }
+
     /**
-     * Get Mapping that grabs the profile by the path variable id. It then returns the profile if it is valid.
+     * Get Mapping that grabs the profile by the path variable id. It then returns
+     * the profile if it is valid.
      *
      * @param id
      * @return Profile object with HttpStatusAccepted or HttpStatusBackRequest
      */
+    @NoAuthIn
     @GetMapping("{id}")
-    public ResponseEntity<Profile> getProfileByPid(@PathVariable("id")int id) {
+    public ResponseEntity<Profile> getProfileByPid(@PathVariable("id") int id) {
         Profile profile = profileService.getProfileByPid(id);
-        if (profile!=null) {
+        if (profile != null) {
             return new ResponseEntity<>(profile, HttpStatus.ACCEPTED);
-        }else{
+        } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
     /**
-     * Put mapping grabs the updated fields of profile and updates the profile in the database.
-     * If no token is sent in the token it fails the Auth and doesn't update the profile.
+     * Put mapping grabs the updated fields of profile and updates the profile in
+     * the database.
+     * If no token is sent in the token it fails the Auth and doesn't update the
+     * profile.
+     * 
      * @param profile
-     * @return Updated profile with HttpStatus.ACCEPTED otherwise if invalid returns HttpStatus.BAD_REQUEST
+     * @return Updated profile with HttpStatus.ACCEPTED otherwise if invalid returns
+     *         HttpStatus.BAD_REQUEST
      */
     @PutMapping
     public ResponseEntity<Profile> updateProfile(@RequestBody Profile profile) {
@@ -102,8 +112,10 @@ public class ProfileController {
 
     /**
      * Adds profile to list of profiles being followed by user
+     * 
      * @param email email of profile to follow
-     * @param req http request including the user's authorization token in the "Authroization" header
+     * @param req   http request including the user's authorization token in the
+     *              "Authroization" header
      * @return
      */
     @PostMapping("/follow")
@@ -120,9 +132,12 @@ public class ProfileController {
 
     /**
      * Removed profile from list of profiles being followed by the user
+     * 
      * @param email email of the profile to be unfollowed
-     * @param req http request including the user's authorization token in the "Authroization" header
-     * @return OK response with new authorization token, bad request response if unsuccessful
+     * @param req   http request including the user's authorization token in the
+     *              "Authroization" header
+     * @return OK response with new authorization token, bad request response if
+     *         unsuccessful
      */
     @PostMapping("/unfollow")
     public ResponseEntity<String> unfollow(String email, HttpServletRequest req) {
@@ -142,5 +157,11 @@ public class ProfileController {
 
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    @NoAuthIn
+    @GetMapping("/page/{pageNumber}")
+    public ResponseEntity<List<Profile>> getAllPostsbyPage(@PathVariable("pageNumber") int pageNumber) {
+        return new ResponseEntity<>(profileService.getAllProfilesPaginated(pageNumber), HttpStatus.OK);
     }
 }
