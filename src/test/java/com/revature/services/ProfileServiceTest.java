@@ -170,7 +170,6 @@ public class ProfileServiceTest {
     // assertNotNull(pageable);
     // profileRepo.save(expected);
     // profileRepo.save(expected2);
-    // assertNotNull(profileRepo.findAll(pageable).getContent());
 
     // when(profileRepo.findAll(pageable).getContent()).thenReturn(profileList);
     // List<Profile> actual = profileRepo.findAll(pageable).getContent();
