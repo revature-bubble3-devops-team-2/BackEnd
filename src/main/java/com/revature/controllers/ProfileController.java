@@ -159,6 +159,12 @@ public class ProfileController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * Retrieved a page of profiles
+     * 
+     * @param pageNumber pageNumber to be retrieved
+     * @return page of profiles for page number requested
+     */
     @NoAuthIn
     @GetMapping("/page/{pageNumber}")
     public ResponseEntity<List<Profile>> getAllPostsbyPage(@PathVariable("pageNumber") int pageNumber) {
