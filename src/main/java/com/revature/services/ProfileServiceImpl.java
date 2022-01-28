@@ -164,6 +164,13 @@ public class ProfileServiceImpl implements ProfileService {
         return null;
     }
 
+    /**
+     * Calls ProfileRepo to get a page of profiles
+     * 
+     * @param page profile of user initiating request
+     * 
+     * @return page of profiles
+     */
     @Override
     public List<Profile> getAllProfilesPaginated(int page) {
         Pageable pageable = PageRequest.of(page - 1, 15, Sort.by("username").ascending());
