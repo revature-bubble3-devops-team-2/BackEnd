@@ -4,16 +4,14 @@
 <title>[Bubble] Password Update</title>
 </head>
 <body>
-	<h3>Dear ${username},</h3>
+	<h3>Dear ${Profile.username},</h3>
 
-	<p>This email has been sent to verify your account's email.</p>
-	<p>Please follow the link below to verify your account:</p>
+	<p>This email has been sent to confirm the request to change your Bubble account's passwords.</p>
+	<p>Please follow the one-time link below to reset your password:</p>
 	<br>
-	<!-- The link con -->
-
+	<a 
 
 	<p>If you did not request a change to your password please discard this email.</p>
-	
 	<p>Regards,</p>
 	<p>The Bubble Team</p>
 </body>
