@@ -16,6 +16,7 @@ import javax.validation.Valid;
 
 @Log4j2
 @RestController
+
 @RequestMapping("/profile")
 @CrossOrigin
 public class ProfileController {
