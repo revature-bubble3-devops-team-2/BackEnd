@@ -114,6 +114,10 @@ public class Profile {
                 this.passkey.isEmpty() || this.firstName.isEmpty() || this.lastName.isEmpty() || this.email.isEmpty() ||
                 this.pid < 100;
     }
+    
+    public Profile (String firstName) {
+    	this.firstName = firstName;
+    }
 
 }
 

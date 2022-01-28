@@ -12,5 +12,11 @@ public interface ProfileService {
     public Profile updateProfile(Profile profile);
     public Profile removeFollowByEmail(Profile profile, String email);
     public Profile addFollowerByEmail(Profile profile, String email);
-	public List<Profile> getProfilesByQuery(String query);
+//	public List<Profile> getProfilesByQuery(String query);
+//	public List<Profile> getAllProfiles();
+//	public List<Profile> getProfileByFirstname(String firstname);
+//	
+	public List<Profile> getAll();
+	public List<Profile> search();
+	
 }

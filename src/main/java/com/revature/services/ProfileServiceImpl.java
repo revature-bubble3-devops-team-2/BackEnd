@@ -5,6 +5,8 @@ import com.revature.repositories.ProfileRepo;
 import com.revature.utilites.SecurityUtil;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
@@ -147,8 +149,51 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
 	@Override
-	public List<Profile> getProfilesByQuery(String query) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Profile> getAll() {
+		List<Profile> profiles = profileRepo.findAll();
+		return profiles;
 	}
+
+	@Override
+	public List<Profile> search() {
+//		Profile viral2 = profileRepo.getProfileByUsername("viral2");
+		Profile viral2 = new Profile();
+		viral2.setFirstName("t");
+		viral2.setLastName("a");
+		
+		 ExampleMatcher ignoringExampleMatcher = ExampleMatcher.matchingAny()
+				 .withMatcher("username", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
+				 .withMatcher("firstName", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
+				 .withMatcher("lastName", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
+				 .withMatcher("email", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase());
+				 
+		 
+		 Example <Profile> example = Example.of(viral2, ignoringExampleMatcher);
+		
+		
+		 List<Profile> profiles = profileRepo.findAll(example);
+		return profiles;
+	}
+
+//	@Override
+//	public List<Profile> getProfilesByQuery(String query) {
+//		 List<Profile> pList = new ArrayList<>();
+//		 Profile searchthis = new Profile(query);
+////		 pList = profileRepo.findAll(searchthis);
+//		return pList;
+//	}
+//
+//	@Override
+//	public List<Profile> getAllProfiles() {
+//		 List<Profile> pList = profileRepo.findAll();
+//		 
+//		return pList;
+//	}
+//
+//	@Override
+//	public List<Profile> getProfileByFirstname(String firstname) {
+//		 List<Profile> pList = profileRepo.getProfileByFirstname(firstname);
+//		 
+//		return pList;
+//	}
 }
