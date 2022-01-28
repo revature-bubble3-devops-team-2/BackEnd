@@ -90,12 +90,22 @@ public class ProfileServiceImpl implements ProfileService {
      */
     @Override
     public Profile updateProfile(Profile profile) {
+    	
+    	System.out.println(profile);
+    	
         Profile targetProfile = profileRepo.getProfileByPid(profile.getPid());
         if (targetProfile!=null) {
             if (profile.getEmail()!=null) targetProfile.setEmail(profile.getEmail());
             if (profile.getFirstName()!=null) targetProfile.setFirstName(profile.getFirstName());
             if (profile.getLastName()!=null) targetProfile.setLastName(profile.getLastName());
             if (profile.getPasskey()!=null) targetProfile.setPasskey(profile.getPasskey());
+            if(profile.getImgurl() != null) { 
+            	
+            	System.out.println(profile.getImgurl());
+            	
+            	log.error("here we go   " + profile.getImgurl() );
+            	targetProfile.setImgurl(profile.getImgurl()) ;
+            	};
             return profileRepo.save(targetProfile);
         }else{
             return null;

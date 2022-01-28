@@ -5,6 +5,8 @@ import com.revature.utilites.SecurityUtil;
 import lombok.*;
 import org.springframework.stereotype.Component;
 import javax.persistence.*;
+
+import java.sql.Blob;
 import java.util.*;
 import java.util.LinkedHashSet;
 
@@ -48,6 +50,12 @@ public class Profile {
             nullable = false,
             unique = true)
     private String email;
+    
+    
+    @Column(name = "imgurl",
+            columnDefinition = "TEXT"
+       )
+    private String imgurl;
 
     @Column(name = "following")
     @ManyToMany
