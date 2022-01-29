@@ -1,14 +1,22 @@
 package com.revature.services;
 
-import com.revature.models.Profile;
-import com.revature.repositories.ProfileRepo;
-import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import java.util.ArrayList;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+
+import com.revature.models.Group;
+import com.revature.models.Profile;
+import com.revature.repositories.ProfileRepo;
 
 public class ProfileServiceTest {
     private static final String USERNAME = "dummyUsername";
@@ -135,12 +143,13 @@ public class ProfileServiceTest {
     @Test
     public void testAddFollowerByEmail(){
         ArrayList<Profile> empty = new ArrayList<>();
-        Profile profile = new Profile(1,"test","1234","updateTest","updateTest","test@mail", empty);
-        Profile profile2 = new Profile(2,"test2","1234","updateTest2","updateTest2","test2@mail", empty);
+        Set<Group> groups = new HashSet<>();
+        Profile profile = new Profile(1,"test","1234","updateTest","updateTest","test@mail", empty, groups);
+        Profile profile2 = new Profile(2,"test2","1234","updateTest2","updateTest2","test2@mail", empty, groups);
 
         ArrayList<Profile> followed = new ArrayList<>();
         followed.add(profile2);
-        Profile expected = new Profile(1, "test", "1234", "updateTest", "updateTest", "test@mail", followed);
+        Profile expected = new Profile(1, "test", "1234", "updateTest", "updateTest", "test@mail", followed, groups);
 
         when(profileRepo.getProfileByEmail("test2@mail")).thenReturn(profile2);
         Profile result = profileService.addFollowerByEmail(profile, profile2.getEmail());
@@ -152,10 +161,11 @@ public class ProfileServiceTest {
     @Test
     public void testDeleteFollowerByEmail(){
         ArrayList<Profile> empty = new ArrayList<>();
-        Profile profile = new Profile(1,"test","1234","updateTest","updateTest","test@mail", empty);
-        Profile profile2 = new Profile(2,"test2","1234","updateTest2","updateTest2","test2@mail", empty);
+        Set<Group> groups = new HashSet<>();
+        Profile profile = new Profile(1,"test","1234","updateTest","updateTest","test@mail", empty, groups);
+        Profile profile2 = new Profile(2,"test2","1234","updateTest2","updateTest2","test2@mail", empty, groups);
 
-        Profile expected = new Profile(1, "test", "1234", "updateTest", "updateTest", "test@mail", empty);
+        Profile expected = new Profile(1, "test", "1234", "updateTest", "updateTest", "test@mail", empty, groups);
 
         when(profileRepo.getProfileByEmail("tes2@mail")).thenReturn(profile);
         when(profileRepo.getProfileByEmail("test2@mail")).thenReturn(profile2);
