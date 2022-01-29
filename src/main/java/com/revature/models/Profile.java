@@ -55,10 +55,13 @@ public class Profile {
      * add img url
      * 
      */
+    
+    
+   
     @Column(name = "imgurl",
             columnDefinition = "TEXT"
        )
-    private String imgurl;
+    private String  imgurl;
 
     @Column(name = "following")
     @ManyToMany
