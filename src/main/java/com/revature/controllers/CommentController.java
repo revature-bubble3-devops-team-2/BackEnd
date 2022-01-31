@@ -48,10 +48,10 @@ public class CommentController {
         return new ResponseEntity<>(commentService.getCommentsByPostPsid(id), HttpStatus.ACCEPTED);
     }
     
-    @GetMapping
-    public ResponseEntity<List<Comment>> getRepliesByPostPaginated() {
-    	return null;
-    }
-    
+//    @GetMapping
+//    public ResponseEntity<List<Comment>> getRepliesByPostPaginated() {
+//    	return null;
+//    }
+//    
     
 }
