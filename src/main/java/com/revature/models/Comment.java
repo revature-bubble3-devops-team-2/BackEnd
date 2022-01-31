@@ -13,6 +13,7 @@ import java.sql.Timestamp;
 @Entity @Table(name = "comment")
 @Data @AllArgsConstructor
 public class Comment {
+	
     @Id
     private int cid;
 

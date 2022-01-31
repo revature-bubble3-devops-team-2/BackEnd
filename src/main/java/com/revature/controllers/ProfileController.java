@@ -11,18 +11,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpHeaders;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
 @Log4j2
 @RestController
+
 @RequestMapping("/profile")
 @CrossOrigin
 public class ProfileController {
 
-    @Autowired
-    private ProfileService profileService;
+	@Autowired
+	private ProfileService profileService;
 
     /**
      * processes login attempt via http request from client
@@ -30,20 +33,54 @@ public class ProfileController {
      * @param username
      * @param password
      * @return secure token as json
+     * 
+     * 
+     * @author marouanekhabbaz
+     * refactor the code prevent it from crushing when it have an image 49 - 73
+     * 
      */
     @PostMapping("/login")
     @NoAuthIn
     public ResponseEntity<Profile> login(String username, String password) {
         Profile profile = profileService.login(username, password);
-        if (profile != null) {
+        System.out.println(profile);
+        if(profile != null) {
             HttpHeaders headers = new HttpHeaders();
-            headers.set("Authorization", SecurityUtil.generateToken(profile));
-            return new ResponseEntity<>(profile, headers, HttpStatus.OK);
+            System.out.println(profile.getImgurl());
+            System.out.println(profile);
+            
+            Profile pro = new Profile();
+            
+            pro.setPid(profile.getPid());
+            pro.setUsername(profile.getUsername());
+            pro.setPasskey(profile.getPasskey());
+            pro.setFirstName(profile.getFirstName());
+            pro.setLastName(profile.getLastName());
+            pro.setEmail(profile.getEmail());
+           
+        
+            
+//            profile.setImgurl("");
+            
+          //  System.out.println(pro);
+            
+           /**
+            *   int id = (int) (long) guts.get("pid");
+            String username = (String) guts.get("username");
+            String passkey = (String) guts.get("passkey");
+            String firstName = (String) guts.get("firstName");
+            String lastName = (String) guts.get("lastName");
+            String email = (String) guts.get("email");
+            */
+            
+            headers.set("Authorization", SecurityUtil.generateToken(pro));
+            return new ResponseEntity<>( profile, headers, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
-    /**
+
+	    /**
      * Post request that gets client profile registration info and then checks to
      * see if information is not
      * a duplicate in the database. If info is not a duplicate, it sets
@@ -170,4 +207,45 @@ public class ProfileController {
     public ResponseEntity<List<Profile>> getAllPostsbyPage(@PathVariable("pageNumber") int pageNumber) {
         return new ResponseEntity<>(profileService.getAllProfilesPaginated(pageNumber), HttpStatus.OK);
     }
+
+	
+//	@NoAuthIn
+//	@GetMapping("/search/{query}")
+//	public ResponseEntity<List<Profile>> searchProfile(@PathVariable("query") String query) {
+////		log.info("query " + query);
+//		List<Profile> profiles = profileService.getProfilesByQuery(query);
+////        if (profile!=null\) { // if not equal to null
+////            return new ResponseEntity<>(profile, HttpStatus.ACCEPTED);
+////        }else{
+////            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+////        }
+//		return new ResponseEntity<List<Profile>>(profiles, new HttpHeaders(), HttpStatus.ACCEPTED);
+//	}
+//	
+//	@NoAuthIn
+//	@GetMapping("/searchall")
+//	public ResponseEntity<List<Profile>> searchProfileALL() {
+////		log.info("query " + query);
+//		List<Profile> profiles = profileService.getAllProfiles();
+//
+//		return new ResponseEntity<List<Profile>>(profiles, new HttpHeaders(), HttpStatus.ACCEPTED);
+//	}
+//	
+	
+	@NoAuthIn
+	@GetMapping("/searchall")
+	public ResponseEntity<List<Profile>> all(){
+		return new ResponseEntity<>(profileService.getAll(), new HttpHeaders(), HttpStatus.OK);
+	}
+	
+	@NoAuthIn
+	@GetMapping("/search/single")
+	public ResponseEntity<List<Profile>> search(){
+		log.info("/search hit");
+		return new ResponseEntity<>(profileService.search(), new HttpHeaders(), HttpStatus.OK);
+	}
+	
+	
+
 }
+

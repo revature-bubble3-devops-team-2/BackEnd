@@ -8,10 +8,15 @@ import com.revature.repositories.ProfileRepo;
 import com.revature.utilites.SecurityUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+
 import org.springframework.stereotype.Service;
 
 import lombok.extern.log4j.Log4j2;
@@ -97,21 +102,33 @@ public class ProfileServiceImpl implements ProfileService {
 
     /**
      *
+     *
      * @param profile
      * @return updated profile if it exists otherwise return null.
+     * 
+     * 
+     * @author marouanekhabbaz : add update img url;
+     * 
+     * 
      */
     @Override
     public Profile updateProfile(Profile profile) {
+    	
+    	System.out.println(profile);
+    	
         Profile targetProfile = profileRepo.getProfileByPid(profile.getPid());
-        if (targetProfile != null) {
-            if (profile.getEmail() != null)
-                targetProfile.setEmail(profile.getEmail());
-            if (profile.getFirstName() != null)
-                targetProfile.setFirstName(profile.getFirstName());
-            if (profile.getLastName() != null)
-                targetProfile.setLastName(profile.getLastName());
-            if (profile.getPasskey() != null)
-                targetProfile.setPasskey(profile.getPasskey());
+        if (targetProfile!=null) {
+            if (profile.getEmail()!=null) targetProfile.setEmail(profile.getEmail());
+            if (profile.getFirstName()!=null) targetProfile.setFirstName(profile.getFirstName());
+            if (profile.getLastName()!=null) targetProfile.setLastName(profile.getLastName());
+            if (profile.getPasskey()!=null) targetProfile.setPasskey(profile.getPasskey());
+            if(profile.getImgurl() != null) { 
+            	
+            	System.out.println(profile.getImgurl());
+            	
+            	log.error("here we go   " + profile.getImgurl() );
+            	targetProfile.setImgurl(profile.getImgurl()) ;
+            	};
             return profileRepo.save(targetProfile);
         } else {
             return null;
@@ -164,6 +181,7 @@ public class ProfileServiceImpl implements ProfileService {
         return null;
     }
 
+
     /**
      * Calls ProfileRepo to get a page of profiles
      * 
@@ -180,4 +198,56 @@ public class ProfileServiceImpl implements ProfileService {
         }
         return null;
     }
+
+	@Override
+	public List<Profile> getAll() {
+		List<Profile> profiles = profileRepo.findAll();
+		return profiles;
+	}
+
+	@Override
+	public List<Profile> search() {
+//		Profile viral2 = profileRepo.getProfileByUsername("viral2");
+		Profile viral2 = new Profile();
+//		viral2.setFirstName("t");
+		viral2.setLastName("a");
+		viral2.setPid(0);
+		
+		 ExampleMatcher ignoringExampleMatcher = ExampleMatcher.matchingAny()
+				 .withMatcher("username", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
+				 .withMatcher("firstName", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
+				 .withMatcher("lastName", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
+				 .withMatcher("email", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
+				 .withIgnorePaths("pid");
+				 
+		 
+		 Example <Profile> example = Example.of(viral2, ignoringExampleMatcher);
+		
+		
+		 List<Profile> profiles = profileRepo.findAll(example);
+		return profiles;
+	}
+
+//	@Override
+//	public List<Profile> getProfilesByQuery(String query) {
+//		 List<Profile> pList = new ArrayList<>();
+//		 Profile searchthis = new Profile(query);
+////		 pList = profileRepo.findAll(searchthis);
+//		return pList;
+//	}
+//
+//	@Override
+//	public List<Profile> getAllProfiles() {
+//		 List<Profile> pList = profileRepo.findAll();
+//		 
+//		return pList;
+//	}
+//
+//	@Override
+//	public List<Profile> getProfileByFirstname(String firstname) {
+//		 List<Profile> pList = profileRepo.getProfileByFirstname(firstname);
+//		 
+//		return pList;
+//	}
+
 }

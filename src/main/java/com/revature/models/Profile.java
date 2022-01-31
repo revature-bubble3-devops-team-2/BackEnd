@@ -5,8 +5,9 @@ import com.revature.utilites.SecurityUtil;
 import lombok.*;
 import org.springframework.stereotype.Component;
 import javax.persistence.*;
+
+import java.sql.Blob;
 import java.util.*;
-import java.util.LinkedHashSet;
 
 
 
@@ -48,6 +49,19 @@ public class Profile {
             nullable = false,
             unique = true)
     private String email;
+    
+    /**
+     * @author marouanekhabbaz
+     * add img url
+     * 
+     */
+    
+    
+   
+    @Column(name = "imgurl",
+            columnDefinition = "TEXT"
+       )
+    private String  imgurl;
 
     @Column(name = "following")
     @ManyToMany
@@ -75,6 +89,26 @@ public class Profile {
         this.lastName = lastName;
         this.email = email;
     }
+    
+	/**
+	 * @author marouanekhabbaz 
+	 * added new constructor to avoid breaking the previous tests
+	 * 
+	 */
+    
+	public Profile(int pid, String username, String passkey, String firstName, String lastName, String email,
+			List<Profile> following) {
+		super();
+		this.pid = pid;
+		this.username = username;
+		this.passkey = passkey;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.following = following;
+	}
+    
+    
 
     @Override public boolean equals(Object o) {
         if (this == o) return true;
@@ -114,6 +148,14 @@ public class Profile {
                 this.passkey.isEmpty() || this.firstName.isEmpty() || this.lastName.isEmpty() || this.email.isEmpty() ||
                 this.pid < 100;
     }
+    
+    public Profile (String firstName) {
+    	this.firstName = firstName;
+    }
+
+
+
+
 
 }
 
