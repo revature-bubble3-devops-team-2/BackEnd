@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpHeaders;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
@@ -21,8 +23,28 @@ import java.util.List;
 @CrossOrigin
 public class ProfileController {
 
-    @Autowired
-    private ProfileService profileService;
+	@Autowired
+	private ProfileService profileService;
+
+	/**
+	 * processes login attempt via http request from client
+	 *
+	 * @param username
+	 * @param password
+	 * @return secure token as json
+	 */
+	@PostMapping("/login")
+	@NoAuthIn
+	public ResponseEntity<Profile> login(String username, String password) {
+		Profile profile = profileService.login(username, password);
+		if (profile != null) {
+			HttpHeaders headers = new HttpHeaders();
+			headers.set("Authorization", SecurityUtil.generateToken(profile));
+			return new ResponseEntity<>(profile, headers, HttpStatus.OK);
+		}
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+	}
+
 
     /**
      * processes login attempt via http request from client
@@ -170,4 +192,45 @@ public class ProfileController {
     public ResponseEntity<List<Profile>> getAllPostsbyPage(@PathVariable("pageNumber") int pageNumber) {
         return new ResponseEntity<>(profileService.getAllProfilesPaginated(pageNumber), HttpStatus.OK);
     }
+
+	
+//	@NoAuthIn
+//	@GetMapping("/search/{query}")
+//	public ResponseEntity<List<Profile>> searchProfile(@PathVariable("query") String query) {
+////		log.info("query " + query);
+//		List<Profile> profiles = profileService.getProfilesByQuery(query);
+////        if (profile!=null\) { // if not equal to null
+////            return new ResponseEntity<>(profile, HttpStatus.ACCEPTED);
+////        }else{
+////            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+////        }
+//		return new ResponseEntity<List<Profile>>(profiles, new HttpHeaders(), HttpStatus.ACCEPTED);
+//	}
+//	
+//	@NoAuthIn
+//	@GetMapping("/searchall")
+//	public ResponseEntity<List<Profile>> searchProfileALL() {
+////		log.info("query " + query);
+//		List<Profile> profiles = profileService.getAllProfiles();
+//
+//		return new ResponseEntity<List<Profile>>(profiles, new HttpHeaders(), HttpStatus.ACCEPTED);
+//	}
+//	
+	
+	@NoAuthIn
+	@GetMapping("/searchall")
+	public ResponseEntity<List<Profile>> all(){
+		return new ResponseEntity<>(profileService.getAll(), new HttpHeaders(), HttpStatus.OK);
+	}
+	
+	@NoAuthIn
+	@GetMapping("/search/single")
+	public ResponseEntity<List<Profile>> search(){
+		log.info("/search hit");
+		return new ResponseEntity<>(profileService.search(), new HttpHeaders(), HttpStatus.OK);
+	}
+	
+	
+
 }
+
