@@ -16,6 +16,7 @@ import javax.validation.Valid;
 
 @Log4j2
 @RestController
+
 @RequestMapping("/profile")
 @CrossOrigin
 public class ProfileController {
@@ -29,15 +30,48 @@ public class ProfileController {
      * @param username
      * @param password
      * @return secure token as json
+     * 
+     * 
+     * @author marouanekhabbaz
+     * refactor the code prevent it from crushing when it have an image 49 - 73
+     * 
      */
     @PostMapping("/login")
     @NoAuthIn
     public ResponseEntity<Profile> login(String username, String password) {
         Profile profile = profileService.login(username, password);
+        System.out.println(profile);
         if(profile != null) {
             HttpHeaders headers = new HttpHeaders();
-            headers.set("Authorization", SecurityUtil.generateToken(profile));
-            return new ResponseEntity<>(profile, headers, HttpStatus.OK);
+            System.out.println(profile.getImgurl());
+            System.out.println(profile);
+            
+            Profile pro = new Profile();
+            
+            pro.setPid(profile.getPid());
+            pro.setUsername(profile.getUsername());
+            pro.setPasskey(profile.getPasskey());
+            pro.setFirstName(profile.getFirstName());
+            pro.setLastName(profile.getLastName());
+            pro.setEmail(profile.getEmail());
+           
+        
+            
+//            profile.setImgurl("");
+            
+          //  System.out.println(pro);
+            
+           /**
+            *   int id = (int) (long) guts.get("pid");
+            String username = (String) guts.get("username");
+            String passkey = (String) guts.get("passkey");
+            String firstName = (String) guts.get("firstName");
+            String lastName = (String) guts.get("lastName");
+            String email = (String) guts.get("email");
+            */
+            
+            headers.set("Authorization", SecurityUtil.generateToken(pro));
+            return new ResponseEntity<>( profile, headers, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
