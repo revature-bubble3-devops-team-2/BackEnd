@@ -46,26 +46,7 @@ public class ProfileController {
 	}
 
 
-    /**
-     * processes login attempt via http request from client
-     *
-     * @param username
-     * @param password
-     * @return secure token as json
-     */
-    @PostMapping("/login")
-    @NoAuthIn
-    public ResponseEntity<Profile> login(String username, String password) {
-        Profile profile = profileService.login(username, password);
-        if (profile != null) {
-            HttpHeaders headers = new HttpHeaders();
-            headers.set("Authorization", SecurityUtil.generateToken(profile));
-            return new ResponseEntity<>(profile, headers, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-    }
-
-    /**
+	    /**
      * Post request that gets client profile registration info and then checks to
      * see if information is not
      * a duplicate in the database. If info is not a duplicate, it sets
