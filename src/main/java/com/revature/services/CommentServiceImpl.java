@@ -1,6 +1,7 @@
 package com.revature.services;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -42,7 +43,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<Comment> getCommentsbyPostPsidPaginated(int psid, int page) {
+    public List<Comment> getCommentsByPostPsidPaginated(int psid, int page) {
     	Pageable pageable = PageRequest.of(page - 1, 5, Sort.by("dateCreated").descending());
     	Page<Comment> resultPage = commentRepo.getCommentsByPostPsid(pageable, psid);
     	if (resultPage.hasContent()) {
@@ -75,6 +76,38 @@ public class CommentServiceImpl implements CommentService {
     public Comment getCommentByCid(int cid){
         return commentRepo.getCommentByCid(cid);
     }
+
+	public List<Comment> getCommentsByPostPsidAndPreviousIsNull(int psid) {
+		return commentRepo.getCommentsByPostPsid(psid).stream()
+				.filter(c -> c.getPrevious() == null)
+				.collect(Collectors.toList());
+	}
+
+	public List<Comment> getCommentsByPostPsidAndPreviousPaginated(int psid, int page) {
+		Pageable pageable = PageRequest.of(page - 1, 5, Sort.by("datePosted").descending());
+		Page<Comment> resultPage = commentRepo.getCommentsByPostPsid(pageable, psid);
+		if (resultPage.hasContent()) {
+			return resultPage.getContent().stream()
+					.filter(c -> c.getPrevious() == null)
+					.collect(Collectors.toList());
+		}
+		return null;
+	}
+
+	@Override
+	public List<Comment> getCommentsByPostPsidAndPrevious(int psid, int cid) {
+		return commentRepo.getCommentsByPostPsidAndPrevious(psid, cid);
+	}
+
+	@Override
+	public List<Comment> getCommentsByPostPsidAndPreviousPaginated(int psid, int cid, int page) {
+		Pageable pageable = PageRequest.of(page - 1, 5, Sort.by("datePosted").descending());
+		Page<Comment> resultPage = commentRepo.getCommentsByPostPsidAndPrevious(pageable, psid, cid);
+		if (resultPage.hasContent()) {
+			return resultPage.getContent();
+		}
+		return null;
+	}
 
 	
 	

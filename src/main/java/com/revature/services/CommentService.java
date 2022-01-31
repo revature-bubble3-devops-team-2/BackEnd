@@ -1,15 +1,22 @@
 package com.revature.services;
 
-import com.revature.models.Comment;
-
 import java.util.List;
+
+import org.springframework.data.domain.Pageable;
+
+import com.revature.models.Comment;
 
 public interface CommentService {
     Comment addComment(Comment comment);
     
     
-    List<Comment> getCommentsbyPostPsidPaginated(int psid, int pageNumber);
     List<Comment> getCommentsByPostPsid(int psid);
+    List<Comment> getCommentsByPostPsidPaginated(int psid, int page);
     
+    List<Comment> getCommentsByPostPsidAndPrevious(int psid, int cid);
+    List<Comment> getCommentsByPostPsidAndPreviousPaginated(int psid, int cid, int page);
+    
+    
+
     Comment getCommentByCid(int cid);
 }
