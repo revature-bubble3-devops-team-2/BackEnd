@@ -6,6 +6,10 @@ import java.util.List;
 
 public interface CommentService {
     Comment addComment(Comment comment);
-    List<Comment> getCommentByPostPsid(Integer psid);
-    Comment getCommentByCid(Integer cid);
+    
+    
+    List<Comment> getCommentsbyPostPsidPaginated(int psid, int pageNumber);
+    List<Comment> getCommentsByPostPsid(int psid);
+    
+    Comment getCommentByCid(int cid);
 }
