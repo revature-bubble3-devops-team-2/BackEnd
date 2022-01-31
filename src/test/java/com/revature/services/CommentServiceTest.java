@@ -47,20 +47,20 @@ public class CommentServiceTest {
         assertNull(commentService.addComment(comment));
     }
 
-//    @Test
-//    void testGetComments(){
-//        List<Comment> commentList = new ArrayList<>();
-//        Comment comment = new Comment(null, null, "Testing 4", Timestamp.valueOf(LocalDateTime.now()), null);
-//        commentList.add(comment);
-//        when(commentRepo.getCommentsByPostPsid(24)).thenReturn(commentList);
-//        assertEquals(commentList, commentService.getCommentsByPostPsid(24));
-//    }
-//
-//    @Test
-//    void testGetInvalidCommentByPsid(){
-//        when(commentRepo.getCommentsByPostPsid(1000)).thenReturn(null);
-//        assertNull(commentService.getCommentsByPostPsid(1000));
-//    }
+    @Test
+    void testGetComments(){
+        List<Comment> commentList = new ArrayList<>();
+        Comment comment = new Comment(null, null, "Testing 4", Timestamp.valueOf(LocalDateTime.now()), null);
+        commentList.add(comment);
+        when(commentRepo.getCommentsByPostPsid(24)).thenReturn(commentList);
+        assertEquals(commentList, commentService.getCommentsByPostPsid(24));
+    }
+
+    @Test
+    void testGetInvalidCommentByPsid(){
+        when(commentRepo.getCommentsByPostPsid(1000)).thenReturn(null);
+        assertNull(commentService.getCommentsByPostPsid(1000));
+    }
 
     @Test
     void testGetCommentByCid(){
