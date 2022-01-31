@@ -158,14 +158,16 @@ public class ProfileServiceImpl implements ProfileService {
 	public List<Profile> search() {
 //		Profile viral2 = profileRepo.getProfileByUsername("viral2");
 		Profile viral2 = new Profile();
-		viral2.setFirstName("t");
+//		viral2.setFirstName("t");
 		viral2.setLastName("a");
+		viral2.setPid(0);
 		
 		 ExampleMatcher ignoringExampleMatcher = ExampleMatcher.matchingAny()
 				 .withMatcher("username", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
 				 .withMatcher("firstName", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
 				 .withMatcher("lastName", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
-				 .withMatcher("email", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase());
+				 .withMatcher("email", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
+				 .withIgnorePaths("pid");
 				 
 		 
 		 Example <Profile> example = Example.of(viral2, ignoringExampleMatcher);
