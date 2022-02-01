@@ -22,13 +22,7 @@ public interface ProfileService {
 
     List<Profile> getAllProfilesPaginated(int page);
 
-
-//	public List<Profile> getProfilesByQuery(String query);
-//	public List<Profile> getAllProfiles();
-//	public List<Profile> getProfileByFirstname(String firstname);
-
-	public List<Profile> getAll();
-	public List<Profile> search();
+	public List<Profile> search(String query);
 	
 
 }
