@@ -81,5 +81,9 @@ public class Profile {
 		this.lastName = lastName;
 		this.email = email;
 	}
+	
+	public Profile (String firstName) {
+    	this.firstName = firstName;
+    }
 
 }

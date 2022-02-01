@@ -1,5 +1,8 @@
 package com.revature.controllers;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -39,6 +42,10 @@ public class ProfileController {
      * @param username
      * @param password
      * @return secure token as json
+     *
+     * @author marouanekhabbaz	
+     * refactor the code prevent it from crushing when it have an image 49 - 73	
+     * 
      */
     @PostMapping("/login")
     @NoAuthIn
@@ -111,6 +118,7 @@ public class ProfileController {
      * @param id
      * @return Profile object with HttpStatusAccepted or HttpStatusBackRequest
      */
+    @NoAuthIn
     @GetMapping("{id}")
     public ResponseEntity<ProfileDTO> getProfileByPid(@PathVariable("id")int id) {
         Profile profile = profileService.getProfileByPid(id);
@@ -180,4 +188,36 @@ public class ProfileController {
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
+    
+
+    /**
+     * Retrieved a page of profiles
+     * 
+     * @param pageNumber pageNumber to be retrieved
+     * @return page of profiles for page number requested
+     */
+    @NoAuthIn
+    @GetMapping("/page/{pageNumber}")
+    public ResponseEntity<List<ProfileDTO>> getAllPostsbyPage(@PathVariable("pageNumber") int pageNumber) {
+    	List<Profile> profiles = profileService.getAllProfilesPaginated(pageNumber);
+    	List<ProfileDTO> profileDtos = new LinkedList<>();
+    	profiles.forEach(p -> profileDtos.add(new ProfileDTO(p)));
+        return new ResponseEntity<>(profileDtos, HttpStatus.OK);
+    }
+
+    /**
+     * Search all fields function in profile 
+     * 
+     * @param query Takes in a String without space at end point /search{query}
+     * @return List <Profile> matching search query
+     */
+	@NoAuthIn
+	@GetMapping("/search/{query}")
+	public ResponseEntity<List<ProfileDTO>> search(@PathVariable("query") String query){
+		log.info("/search hit");
+		List<Profile> profiles = profileService.search(query);
+    	List<ProfileDTO> profileDtos = new LinkedList<>();
+    	profiles.forEach(p -> profileDtos.add(new ProfileDTO(p)));
+		return new ResponseEntity<>(profileDtos, new HttpHeaders(), HttpStatus.OK);
+	}
 }

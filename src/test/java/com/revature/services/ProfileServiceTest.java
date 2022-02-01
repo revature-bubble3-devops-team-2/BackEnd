@@ -5,7 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -24,6 +26,11 @@ public class ProfileServiceTest {
     private static final String EMAIL = "dummy@email.com";
     private Profile expected = new Profile();
 
+    private static final String USERNAME2 = "dummyUsername2";
+    private static final String PASSWORD2 = "abc123";
+    private static final String EMAIL2 = "dummy2@email.com";
+    private Profile expected2 = new Profile();
+    
     @Mock
     ProfileRepo profileRepo;
 
@@ -43,6 +50,20 @@ public class ProfileServiceTest {
                 "CYoZcKm9vrrH+CaFykfIUdjnln5jhLoRmjeBIHgYWITG5J5/NCzAM+a3k4Y92/hbgDDE15GD1ud1EU8GHY4eb5LU1pAb2O7zbcW9" +
                 "pQbtVcbqyJGNRFA6OAGcWb1R0+04d0+1DA6BjTDsxkltgsvUpLrVFBo4VaFAT6Jf4ZI2Pg39WjFY1an8=";
         expected = new Profile(USERNAME, passkey, name, name, EMAIL);
+        String name2 = "dummyName2";
+        String passkey2 = "c8ZLBnfDh3YsvZ2dW1KDWY6ZTak8+v+/L74e8Vfoydk1IfySsVCAZVKTZfrtPKodzUXEiR+69yjOz1qqf7U4rA==jnW"
+                +
+                "2sIxW7inUlQqGJCNrNa7Eavj5uMGQAYZ0S6xNz65p79QaOk8eZpOChJlFPvIadohhOuHg5PFGeewM2YmkVR260YPhJwK/GUR3YXs" +
+                "UH0+KjOQKuHAHY8CyLwpBsNV0DsPO56jn2As1CfBMJc9VSNsx37W4Vo5MCaOTisZwBWjUsTG9i+HecqcK9C0tIWC2Jn44oX5BAS3" +
+                "1Huev/ZIWf2OE3FjHSMLyJs0TmJAPxBg6IllwEhv75+ffGbZENZVkkHV3LRxUWKtGdQa5tSOt6pdzIZtdSO6o81zXD6BBDfEZo22" +
+                "qCVCR2C2DQbsmaMJhInHwxEZ3RS3/1N+rz85STq/h+nKvqBcoPOFfq0o5tRRnOlRVFpWuONhiY7IUSqtTZCJmqHnALSRFJwMGFPj" +
+                "mUkq1nQxux1rgxllacVb+AT4bS+Xbw8DyUwGepmTCiw4t75krGyCSBArcmfiFBtgDkVZTFIJ+GMFhFbpWv2darLcxKlgSdur/z9Y" +
+                "CYoZcKm9vrrH+CaFykfIUdjnln5jhLoRmjeBIHgYWITG5J5/NCzAM+a3k4Y92/hbgDDE15GD1ud1EU8GHY4eb5LU1pAb2O7zbcW9" +
+                "pQbtVcbqyJGNRFA6OAGcWb1R0+04d0+1DA6BjTDsxkltgsvUpLrVFBo4VaFAT6Jf4ZI2Pg39WjFY1an8=";
+        expected2 = new Profile(USERNAME2, passkey2, name2, name2, EMAIL2);
+
+        // profileList.add(expected);
+        // profileList.add(expected2);
     }
 
     @Test
@@ -126,6 +147,33 @@ public class ProfileServiceTest {
         assertNull(profileService.getProfileByPid(1));
     }
 
+    @Test
+    void addSecondNewProfile() {
+        when(profileRepo.save(expected2)).thenReturn(expected2);
+        assertEquals(expected2, profileService.addNewProfile(expected2));
+    }
+
+    @Test
+    void getAllProfiles() {
+        List<Profile> profileList = Arrays.asList(expected, expected2);
+        when(profileRepo.findAll()).thenReturn(profileList);
+    }
+
+    // @Test
+    // void getAllProfilesPaginated() {
+    // List<Profile> profileList = Arrays.asList(expected, expected2);
+    // int pageRequested = 1;
+    // Pageable pageable = PageRequest.of(pageRequested - 1, 2, Sort.unsorted());
+    // assertNotNull(pageable);
+    // profileRepo.save(expected);
+    // profileRepo.save(expected2);
+
+    // when(profileRepo.findAll(pageable).getContent()).thenReturn(profileList);
+    // List<Profile> actual = profileRepo.findAll(pageable).getContent();
+    // assertEquals(actual, expected);
+
+    // }
+    
     @Test
     void testUpdateExistingProfile() {
         when(profileRepo.getProfileByPid(expected.getPid())).thenReturn(expected);

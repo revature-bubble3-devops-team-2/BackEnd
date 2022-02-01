@@ -45,7 +45,7 @@ public class CommentController {
      */
     @GetMapping
     public ResponseEntity<List<CommentDTO>> getCommentsByPost(@RequestParam(value = "psid") Integer id){
-    	List<Comment> comments = commentService.getCommentByPostPsid(id);
+    	List<Comment> comments = commentService.getCommentsByPostPsid(id);
     	List<CommentDTO> commentDtos = new LinkedList<>();
     	comments.forEach(c -> commentDtos.add(new CommentDTO(c)));
         return new ResponseEntity<>(commentDtos, HttpStatus.ACCEPTED);
