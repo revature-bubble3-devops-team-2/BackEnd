@@ -1,14 +1,23 @@
 package com.revature.repositories;
 
-import com.revature.models.Comment;
-import com.revature.models.Post;
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
+import com.revature.models.Comment;
 
 public interface CommentRepo extends JpaRepository<Comment,Integer> {
 
-    public List<Comment> getCommentByPostPsid(Integer psid);
+    List<Comment> getCommentsByPostPsid(int psid);
+    Page<Comment> getCommentsByPostPsid(Pageable pageable, int profileId);
+    
+    List<Comment> getCommentsByPostPsidAndPrevious(int psid, int commentId);
+    Page<Comment> getCommentsByPostPsidAndPrevious(Pageable pageable, int psid, int commentId);
+    
+    
 
-    public Comment getCommentByCid(Integer cid);
+    Comment getCommentByCid(int cid);
+    
 }
