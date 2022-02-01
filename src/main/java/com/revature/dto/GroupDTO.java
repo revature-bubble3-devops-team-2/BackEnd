@@ -14,6 +14,14 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
+/**
+*
+* The class is a data transfer object for the Group model
+*
+* @author John Boyle
+* @batch: 211129-Enterprise
+*
+*/
 @Data
 @AllArgsConstructor
 @RequiredArgsConstructor
@@ -24,33 +32,37 @@ public class GroupDTO {
 	private @NonNull Integer groupId;
 
 	private @NonNull String groupName;
-	
+
 	private ProfileDTO owner;
 
-	private Set<ProfileDTO> members;
+	private Set<ProfileDTO> members = new HashSet<>();
 
 	public GroupDTO(Group group) {
 		if (group != null) {
 			groupId = group.getGroupId();
 			groupName = group.getGroupName();
-			owner = new ProfileDTO(group.getOwner());
-			members = new HashSet<>();
-			group.getMembers().forEach(m -> {
-				ProfileDTO profileDto = new ProfileDTO(m.getPid(), m.getUsername(), m.getPasskey(), m.getFirstName(),
-						m.getLastName(), m.getEmail());
-				List<ProfileDTO> following = new ArrayList<>();
-				if (m.getFollowing() != null) {
-					m.getFollowing().forEach(f -> following.add(new ProfileDTO(f.getPid(), f.getUsername(),
-							f.getPasskey(), f.getFirstName(), f.getLastName(), f.getEmail())));
-				}
-				Set<GroupDTO> groups = new HashSet<>();
-				if (m.getGroups() != null) {
-					m.getGroups().forEach(g -> groups.add(new GroupDTO(g.getGroupId(), g.getGroupName())));
-				}
-				profileDto.setFollowing(following);
-				profileDto.setGroups(groups);
-				members.add(profileDto);
-			});
+			owner = group.getOwner() != null ? new ProfileDTO(group.getOwner()) : null;
+			if (group.getMembers() != null) {
+				members = new HashSet<>();
+				group.getMembers().forEach(m -> {
+					ProfileDTO profileDto = new ProfileDTO(m.getPid(), m.getUsername(), m.getPasskey(),
+							m.getFirstName(), m.getLastName(), m.getEmail(), m.getImgurl(), null, null);
+					List<ProfileDTO> following = new ArrayList<>();
+					if (m.getFollowing() != null) {
+						m.getFollowing().forEach(f -> following.add(new ProfileDTO(f.getPid(), f.getUsername(), f.getPasskey(),
+										f.getFirstName(), f.getLastName(), f.getEmail(), f.getImgurl(), null, null)));
+					}
+					Set<GroupDTO> groups = new HashSet<>();
+					if (m.getGroups() != null) {
+						m.getGroups().forEach(g -> groups.add(new GroupDTO(g.getGroupId(), g.getGroupName())));
+					}
+					profileDto.setFollowing(following);
+					profileDto.setGroups(groups);
+					members.add(profileDto);
+				});
+			} else {
+				members = null;
+			}
 		}
 	}
 

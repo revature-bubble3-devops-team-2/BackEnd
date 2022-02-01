@@ -47,6 +47,9 @@ public class Profile {
 
 	@Column(name = "email", columnDefinition = "TEXT", nullable = false, unique = true)
 	private String email;
+	
+	@Column(name = "imgurl", columnDefinition = "TEXT")
+    private String  imgurl;
 
 	@Column(name = "following")
 	@ManyToMany
@@ -57,6 +60,7 @@ public class Profile {
 	private Set<Group> groups = new HashSet<>();
 
 	public Profile() {
+		super();
 		this.pid = SecurityUtil.getId();
 	}
 

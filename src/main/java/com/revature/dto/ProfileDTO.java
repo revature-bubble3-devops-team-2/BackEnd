@@ -14,6 +14,14 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
+/**
+*
+* The class is a data transfer object for the Profile model
+*
+* @author John Boyle
+* @batch: 211129-Enterprise
+*
+*/
 @Data
 @AllArgsConstructor
 @RequiredArgsConstructor
@@ -33,9 +41,11 @@ public class ProfileDTO {
 
 	private @NonNull String email;
 
-	private List<ProfileDTO> following;
+    private String imgurl;
+	
+	private List<ProfileDTO> following = new LinkedList<>();
 
-	private Set<GroupDTO> groups;
+	private Set<GroupDTO> groups = new HashSet<>();
 
 	public ProfileDTO(Profile profile) {
 		if (profile != null) {
@@ -45,10 +55,11 @@ public class ProfileDTO {
 			firstName = profile.getFirstName();
 			lastName = profile.getLastName();
 			email = profile.getEmail();
+			imgurl = profile.getImgurl();
 			following = new LinkedList<>();
 			if (profile.getFollowing() != null) {
 				profile.getFollowing().forEach(f -> following.add(new ProfileDTO(f.getPid(), f.getUsername(),
-						f.getPasskey(), f.getFirstName(), f.getLastName(), f.getEmail())));
+						f.getPasskey(), f.getFirstName(), f.getLastName(), f.getEmail(), f.getImgurl(), null, null)));
 			}
 			groups = new HashSet<>();
 			if (profile.getGroups() != null) {
@@ -58,7 +69,10 @@ public class ProfileDTO {
 	}
 
 	public boolean isIncomplete() {
-		return this.pid < 100;
+		return this.username == null || this.passkey == null || this.firstName == null || this.lastName == null
+				|| this.email == null || this.following == null || this.groups == null || this.username.isEmpty()
+				|| this.passkey.isEmpty() || this.firstName.isEmpty() || this.lastName.isEmpty() || this.email.isEmpty()
+				|| this.pid < 100;
 	}
 
 }

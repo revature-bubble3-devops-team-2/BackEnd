@@ -10,6 +10,14 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
+/**
+*
+* The class is a data transfer object for the Comment model
+*
+* @author John Boyle
+* @batch: 211129-Enterprise
+*
+*/
 @Data
 @AllArgsConstructor
 @RequiredArgsConstructor
@@ -31,11 +39,11 @@ public class CommentDTO {
 	public CommentDTO(Comment comment) {
 		if (comment != null) {
 			cid = comment.getCid();
-			writer = new ProfileDTO(comment.getWriter());
-			post = new PostDTO(comment.getPost());
+			writer = comment.getWriter() != null ? new ProfileDTO(comment.getWriter()) : null;
+			post = comment.getPost() != null ? new PostDTO(comment.getPost()) : null;
 			cBody = comment.getCBody();
 			dateCreated = comment.getDateCreated();
-			previous = new CommentDTO(comment.getPrevious());
+			previous = comment.getPrevious() != null ? new CommentDTO(comment.getPrevious()) : null;
 		}
 	}
 

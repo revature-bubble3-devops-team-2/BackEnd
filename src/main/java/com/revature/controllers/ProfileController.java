@@ -1,19 +1,28 @@
 package com.revature.controllers;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.revature.aspects.annotations.NoAuthIn;
 import com.revature.dto.ProfileDTO;
 import com.revature.models.Profile;
 import com.revature.services.ProfileService;
 import com.revature.utilites.SecurityUtil;
-import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.http.HttpHeaders;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
+import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 @RestController
@@ -37,7 +46,34 @@ public class ProfileController {
         Profile profile = profileService.login(username, password);
         if(profile != null) {
             HttpHeaders headers = new HttpHeaders();
-            headers.set("Authorization", SecurityUtil.generateToken(new ProfileDTO(profile)));
+            System.out.println(profile.getImgurl());
+            System.out.println(profile);
+            
+            Profile pro = new Profile();
+            
+            pro.setPid(profile.getPid());
+            pro.setUsername(profile.getUsername());
+            pro.setPasskey(profile.getPasskey());
+            pro.setFirstName(profile.getFirstName());
+            pro.setLastName(profile.getLastName());
+            pro.setEmail(profile.getEmail());
+           
+        
+            
+//            profile.setImgurl("");
+            
+          //  System.out.println(pro);
+            
+           /**
+            *   int id = (int) (long) guts.get("pid");
+            String username = (String) guts.get("username");
+            String passkey = (String) guts.get("passkey");
+            String firstName = (String) guts.get("firstName");
+            String lastName = (String) guts.get("lastName");
+            String email = (String) guts.get("email");
+            */
+            
+            headers.set("Authorization", SecurityUtil.generateToken(new ProfileDTO(pro)));
             return new ResponseEntity<>(new ProfileDTO(profile), headers, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

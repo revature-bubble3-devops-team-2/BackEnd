@@ -19,29 +19,27 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 @Entity
-@Table(name="groups")
+@Table(name = "groups")
 @Data
 @AllArgsConstructor
-@EqualsAndHashCode(exclude = {"members"})
-@ToString(exclude= {"members"})
+@EqualsAndHashCode(exclude = { "members" })
+@ToString(exclude = { "members" })
 public class Group {
-	
+
 	@Id
 	private Integer groupId;
-	
+
 	private String groupName;
-	
+
 	@ManyToOne
 	private Profile owner;
-	
+
 	@ManyToMany
-	@JoinTable(
-		  name = "profile_groups", 
-		  joinColumns = @JoinColumn(name = "group_id"), 
-		  inverseJoinColumns = @JoinColumn(name = "profile_id"))
+	@JoinTable(name = "profile_groups", joinColumns = @JoinColumn(name = "group_id"), inverseJoinColumns = @JoinColumn(name = "profile_id"))
 	private Set<Profile> members = new HashSet<>();
-	
+
 	public Group() {
-        groupId = SecurityUtil.getId();
-    }
+		super();
+		groupId = SecurityUtil.getId();
+	}
 }

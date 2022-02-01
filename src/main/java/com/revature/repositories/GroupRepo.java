@@ -5,6 +5,14 @@ import org.springframework.stereotype.Repository;
 
 import com.revature.models.Group;
 
+/**
+*
+* The class is a JPA Repository for the Group class
+*
+* @author John Boyle
+* @batch: 211129-Enterprise
+*
+*/
 @Repository
 public interface GroupRepo extends JpaRepository<Group, Integer> {
 

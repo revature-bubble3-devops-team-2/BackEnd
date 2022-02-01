@@ -16,6 +16,15 @@ import com.revature.dto.GroupDTO;
 import com.revature.models.Group;
 import com.revature.services.GroupServiceImpl;
 
+/**
+*
+* Controller class for the Group class
+* All endpoints are prefaced with /groups
+*
+* @author John Boyle
+* @batch: 211129-Enterprise
+*
+*/
 @RestController
 @CrossOrigin
 @RequestMapping("/groups")
@@ -24,12 +33,29 @@ public class GroupController {
 	@Autowired
 	GroupServiceImpl groupService;
 
+	/** 
+	 * 
+	 * Get request that returns a GroupDTO object with the given id
+	 * 
+	 * @Params id
+	 * @return GroupDto with the corresponding id
+	 * 
+	 */
 	@GetMapping("/{id}")
 	public ResponseEntity<GroupDTO> findGroup(@PathVariable("id") int id) {
 		GroupDTO groupDto = new GroupDTO(groupService.findById(id));
 		return ResponseEntity.ok(groupDto);
 	}
 	
+	/** 
+	 * 
+	 * Post request that sends a Group object to the service layer to be saved
+	 * and returns the updated GroupDTO object
+	 * 
+	 * @Params group
+	 * @return GroupDto for the Group object that was saved
+	 * 
+	 */
 	@PostMapping("/save")
 	public ResponseEntity<GroupDTO> saveGroup(@Valid @RequestBody Group group) {
 		GroupDTO groupDto = new GroupDTO(groupService.save(group));
