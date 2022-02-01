@@ -10,6 +10,7 @@ import com.revature.models.Group;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
@@ -24,14 +25,14 @@ import lombok.ToString;
 */
 @Data
 @AllArgsConstructor
-@RequiredArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(exclude = { "members" })
 @ToString(exclude = { "members" })
 public class GroupDTO {
 
-	private @NonNull Integer groupId;
+	private Integer groupId;
 
-	private @NonNull String groupName;
+	private String groupName;
 
 	private ProfileDTO owner;
 
@@ -54,7 +55,7 @@ public class GroupDTO {
 					}
 					Set<GroupDTO> groups = new HashSet<>();
 					if (m.getGroups() != null) {
-						m.getGroups().forEach(g -> groups.add(new GroupDTO(g.getGroupId(), g.getGroupName())));
+						m.getGroups().forEach(g -> groups.add(new GroupDTO(g.getGroupId(), g.getGroupName(), null, null)));
 					}
 					profileDto.setFollowing(following);
 					profileDto.setGroups(groups);

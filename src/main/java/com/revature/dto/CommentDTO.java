@@ -7,8 +7,6 @@ import com.revature.models.Comment;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 
 /**
 *
@@ -20,19 +18,18 @@ import lombok.RequiredArgsConstructor;
 */
 @Data
 @AllArgsConstructor
-@RequiredArgsConstructor
 @NoArgsConstructor
 public class CommentDTO {
 
-	private @NonNull Integer cid;
+	private Integer cid;
 
-	private @NonNull ProfileDTO writer;
+	private ProfileDTO writer;
 
-	private @NonNull PostDTO post;
+	private PostDTO post;
 
-	private @NonNull String cBody;
+	private String cBody;
 
-	private @NonNull Timestamp dateCreated;
+	private Timestamp dateCreated;
 
 	private CommentDTO previous;
 

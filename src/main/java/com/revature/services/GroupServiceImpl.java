@@ -1,5 +1,7 @@
 package com.revature.services;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,6 +46,7 @@ public class GroupServiceImpl implements GroupService {
 	 */
 	@Override
 	public Group findById(int id) {
-		return groupRepo.findById(id).get();
+		Optional<Group> group = groupRepo.findById(id);
+		return  group.isPresent() ? group.get() : null;
 	}
 }

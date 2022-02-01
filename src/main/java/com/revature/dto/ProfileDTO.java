@@ -10,6 +10,7 @@ import com.revature.models.Profile;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
@@ -24,22 +25,22 @@ import lombok.ToString;
 */
 @Data
 @AllArgsConstructor
-@RequiredArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(exclude = { "groups", "following" })
 @ToString(exclude = { "groups", "following" })
 public class ProfileDTO {
 
-	private @NonNull Integer pid;
+	private Integer pid;
 
-	private @NonNull String username;
+	private String username;
 
-	private @NonNull String passkey;
+	private String passkey;
 
-	private @NonNull String firstName;
+	private String firstName;
 
-	private @NonNull String lastName;
+	private String lastName;
 
-	private @NonNull String email;
+	private String email;
 
     private String imgurl;
 	
@@ -63,7 +64,7 @@ public class ProfileDTO {
 			}
 			groups = new HashSet<>();
 			if (profile.getGroups() != null) {
-				profile.getGroups().forEach(g -> groups.add(new GroupDTO(g.getGroupId(), g.getGroupName())));
+				profile.getGroups().forEach(g -> groups.add(new GroupDTO(g.getGroupId(), g.getGroupName(), null, null)));
 			}
 		}
 	}

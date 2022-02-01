@@ -22,19 +22,18 @@ import lombok.RequiredArgsConstructor;
 */
 @Data
 @AllArgsConstructor
-@RequiredArgsConstructor
 @NoArgsConstructor
 public class PostDTO {
 
-	private @NonNull Integer psid;
+	private Integer psid;
 
-	private @NonNull ProfileDTO creator;
+	private ProfileDTO creator;
 
-	private @NonNull String body;
+	private String body;
 
-	private @NonNull String imgURL;
+	private String imgURL;
 
-	private @NonNull Timestamp datePosted;
+	private Timestamp datePosted;
 
 	private Set<Integer> likes = new LinkedHashSet<>();
 
