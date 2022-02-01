@@ -7,6 +7,7 @@ import com.nimbusds.jose.crypto.RSADecrypter;
 import com.nimbusds.jose.crypto.RSAEncrypter;
 import com.nimbusds.jwt.EncryptedJWT;
 import com.nimbusds.jwt.JWTClaimsSet;
+import com.revature.dto.ProfileDTO;
 import com.revature.models.Profile;
 import lombok.extern.log4j.Log4j2;
 import javax.crypto.SecretKeyFactory;
@@ -162,7 +163,7 @@ public class SecurityUtil {
      * @param profile the object that is going to be encrypted
      * @return the encrypted token string
      */
-    public static String generateToken(Profile profile) {
+    public static String generateToken(ProfileDTO profile) {
         if (profile == null) {
             log.error("Cannot generate token from null values. Exiting method and returning null.");
             return null;

@@ -1,6 +1,7 @@
 package com.revature.controllers;
 
 import com.revature.aspects.annotations.NoAuthIn;
+import com.revature.dto.ProfileDTO;
 import com.revature.models.Profile;
 import com.revature.services.ProfileService;
 import com.revature.utilites.SecurityUtil;
@@ -32,12 +33,12 @@ public class ProfileController {
      */
     @PostMapping("/login")
     @NoAuthIn
-    public ResponseEntity<Profile> login(String username, String password) {
+    public ResponseEntity<ProfileDTO> login(String username, String password) {
         Profile profile = profileService.login(username, password);
         if(profile != null) {
             HttpHeaders headers = new HttpHeaders();
-            headers.set("Authorization", SecurityUtil.generateToken(profile));
-            return new ResponseEntity<>(profile, headers, HttpStatus.OK);
+            headers.set("Authorization", SecurityUtil.generateToken(new ProfileDTO(profile)));
+            return new ResponseEntity<>(new ProfileDTO(profile), headers, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
@@ -51,13 +52,13 @@ public class ProfileController {
      */
     @NoAuthIn
     @PostMapping("/register")
-    public ResponseEntity<Profile> addNewProfile(@Valid @RequestBody Profile profile) {
+    public ResponseEntity<ProfileDTO> addNewProfile(@Valid @RequestBody Profile profile) {
         Profile returnedUser = profileService.getProfileByEmail(profile);
         if (returnedUser == null) {
             HttpHeaders responseHeaders = new HttpHeaders();
-            String token = SecurityUtil.generateToken(profile);
+            String token = SecurityUtil.generateToken(new ProfileDTO(profile));
             responseHeaders.set("Authorization", token);
-            Profile newProfile = profileService.addNewProfile(profile);
+            ProfileDTO newProfile = new ProfileDTO(profileService.addNewProfile(profile));
             if (newProfile == null || newProfile.isIncomplete()) {
                 return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
             }
@@ -75,10 +76,10 @@ public class ProfileController {
      * @return Profile object with HttpStatusAccepted or HttpStatusBackRequest
      */
     @GetMapping("{id}")
-    public ResponseEntity<Profile> getProfileByPid(@PathVariable("id")int id) {
+    public ResponseEntity<ProfileDTO> getProfileByPid(@PathVariable("id")int id) {
         Profile profile = profileService.getProfileByPid(id);
         if (profile!=null) {
-            return new ResponseEntity<>(profile, HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(new ProfileDTO(profile), HttpStatus.ACCEPTED);
         }else{
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -91,10 +92,10 @@ public class ProfileController {
      * @return Updated profile with HttpStatus.ACCEPTED otherwise if invalid returns HttpStatus.BAD_REQUEST
      */
     @PutMapping
-    public ResponseEntity<Profile> updateProfile(@RequestBody Profile profile) {
+    public ResponseEntity<ProfileDTO> updateProfile(@RequestBody Profile profile) {
         Profile result = profileService.updateProfile(profile);
         if (result != null) {
-            return new ResponseEntity<>(result, HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(new ProfileDTO(result), HttpStatus.ACCEPTED);
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -112,7 +113,7 @@ public class ProfileController {
         Profile newProfile = profileService.addFollowerByEmail(creator, email);
         if (newProfile != null) {
             HttpHeaders headers = new HttpHeaders();
-            headers.set("Authorization", SecurityUtil.generateToken(newProfile));
+            headers.set("Authorization", SecurityUtil.generateToken(new ProfileDTO(newProfile)));
             return new ResponseEntity<>(headers, HttpStatus.ACCEPTED);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -133,7 +134,7 @@ public class ProfileController {
             if (follower != null) {
                 log.info("Profile successfully unfollowed");
                 HttpHeaders headers = new HttpHeaders();
-                String newToken = SecurityUtil.generateToken(follower);
+                String newToken = SecurityUtil.generateToken(new ProfileDTO(follower));
                 String body = "{\"Authorization\":\"" +
                         newToken
                         + "\"}";

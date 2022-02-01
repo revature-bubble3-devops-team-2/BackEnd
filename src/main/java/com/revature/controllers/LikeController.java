@@ -1,5 +1,6 @@
 package com.revature.controllers;
 
+import com.revature.dto.ProfileDTO;
 import com.revature.models.Post;
 import com.revature.models.Profile;
 import com.revature.services.PostService;
@@ -32,7 +33,7 @@ public class LikeController {
      *          found response if the like already exists
      */
     @PostMapping
-    public ResponseEntity<Profile> addLike(@RequestBody Post post, HttpServletRequest req) {
+    public ResponseEntity<ProfileDTO> addLike(@RequestBody Post post, HttpServletRequest req) {
         Profile temp = (Profile) req.getAttribute(PROFILE);
         if (post.getCreator().equals(temp)) return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
         Profile existProfile = postService.likeFindByID(temp, post);
@@ -41,10 +42,10 @@ public class LikeController {
             if (check == null) {
                 return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
             } else {
-                return new ResponseEntity<>(check, HttpStatus.CREATED);
+                return new ResponseEntity<>(new ProfileDTO(check), HttpStatus.CREATED);
             }
         } else {
-            return new ResponseEntity<>(existProfile, HttpStatus.FOUND);
+            return new ResponseEntity<>(new ProfileDTO(existProfile), HttpStatus.FOUND);
         }
     }
 
@@ -60,7 +61,7 @@ public class LikeController {
      *          like was not deleted or a null and ok request if the like was deleted
      */
     @DeleteMapping
-    public ResponseEntity<Profile> removeLike(@RequestBody Post post, HttpServletRequest req) {
+    public ResponseEntity<ProfileDTO> removeLike(@RequestBody Post post, HttpServletRequest req) {
         Profile temp = (Profile) req.getAttribute(PROFILE);
         int check = postService.likeDelete(temp, post);
         if (check == -1){
