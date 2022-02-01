@@ -208,41 +208,17 @@ public class ProfileController {
         return new ResponseEntity<>(profileService.getAllProfilesPaginated(pageNumber), HttpStatus.OK);
     }
 
-	
-//	@NoAuthIn
-//	@GetMapping("/search/{query}")
-//	public ResponseEntity<List<Profile>> searchProfile(@PathVariable("query") String query) {
-////		log.info("query " + query);
-//		List<Profile> profiles = profileService.getProfilesByQuery(query);
-////        if (profile!=null\) { // if not equal to null
-////            return new ResponseEntity<>(profile, HttpStatus.ACCEPTED);
-////        }else{
-////            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-////        }
-//		return new ResponseEntity<List<Profile>>(profiles, new HttpHeaders(), HttpStatus.ACCEPTED);
-//	}
-//	
-//	@NoAuthIn
-//	@GetMapping("/searchall")
-//	public ResponseEntity<List<Profile>> searchProfileALL() {
-////		log.info("query " + query);
-//		List<Profile> profiles = profileService.getAllProfiles();
-//
-//		return new ResponseEntity<List<Profile>>(profiles, new HttpHeaders(), HttpStatus.ACCEPTED);
-//	}
-//	
-	
+    /**
+     * Search all fields function in profile 
+     * 
+     * @param query Takes in a String without space at end point /search{query}
+     * @return List <Profile> matching search query
+     */
 	@NoAuthIn
-	@GetMapping("/searchall")
-	public ResponseEntity<List<Profile>> all(){
-		return new ResponseEntity<>(profileService.getAll(), new HttpHeaders(), HttpStatus.OK);
-	}
-	
-	@NoAuthIn
-	@GetMapping("/search/single")
-	public ResponseEntity<List<Profile>> search(){
+	@GetMapping("/search/{query}")
+	public ResponseEntity<List<Profile>> search(@PathVariable("query") String query){
 		log.info("/search hit");
-		return new ResponseEntity<>(profileService.search(), new HttpHeaders(), HttpStatus.OK);
+		return new ResponseEntity<>(profileService.search(query), new HttpHeaders(), HttpStatus.OK);
 	}
 	
 	

@@ -199,19 +199,21 @@ public class ProfileServiceImpl implements ProfileService {
         return null;
     }
 
-	@Override
-	public List<Profile> getAll() {
-		List<Profile> profiles = profileRepo.findAll();
-		return profiles;
-	}
 
+    /**
+     * Calls ProfileRepo to get a list of matching profiles.
+     * 
+     * ImageUrl and Pid are ignored when searching.
+     * @param Search query without spaces
+     * @return List <Profile> matching search
+     */ 
 	@Override
-	public List<Profile> search() {
-//		Profile viral2 = profileRepo.getProfileByUsername("viral2");
-		Profile viral2 = new Profile();
-//		viral2.setFirstName("t");
-		viral2.setLastName("a");
-		viral2.setPid(0);
+	public List<Profile> search(String query) {
+		Profile sampleProfile = new Profile();
+		sampleProfile.setFirstName(query);
+		sampleProfile.setLastName(query);
+		sampleProfile.setUsername(query);
+		sampleProfile.setEmail(query);
 		
 		 ExampleMatcher ignoringExampleMatcher = ExampleMatcher.matchingAny()
 				 .withMatcher("username", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
@@ -220,34 +222,10 @@ public class ProfileServiceImpl implements ProfileService {
 				 .withMatcher("email", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
 				 .withIgnorePaths("pid");
 				 
-		 
-		 Example <Profile> example = Example.of(viral2, ignoringExampleMatcher);
+		 Example <Profile> example = Example.of(sampleProfile, ignoringExampleMatcher);
 		
 		
 		 List<Profile> profiles = profileRepo.findAll(example);
 		return profiles;
 	}
-
-//	@Override
-//	public List<Profile> getProfilesByQuery(String query) {
-//		 List<Profile> pList = new ArrayList<>();
-//		 Profile searchthis = new Profile(query);
-////		 pList = profileRepo.findAll(searchthis);
-//		return pList;
-//	}
-//
-//	@Override
-//	public List<Profile> getAllProfiles() {
-//		 List<Profile> pList = profileRepo.findAll();
-//		 
-//		return pList;
-//	}
-//
-//	@Override
-//	public List<Profile> getProfileByFirstname(String firstname) {
-//		 List<Profile> pList = profileRepo.getProfileByFirstname(firstname);
-//		 
-//		return pList;
-//	}
-
 }
