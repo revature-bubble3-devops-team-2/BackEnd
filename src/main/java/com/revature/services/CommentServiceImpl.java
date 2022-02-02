@@ -88,11 +88,13 @@ public class CommentServiceImpl implements CommentService {
 		Pageable pageable = PageRequest.of(page - 1, 5, Sort.by("datePosted").descending());
 		Page<Comment> resultPage = commentRepo.getCommentsByPostPsid(pageable, psid);
 		if (resultPage.hasContent()) {
-			return resultPage.getContent().stream()
+			List<Comment> results = resultPage.getContent().stream()
 					.filter(c -> c.getPrevious() == null)
 					.collect(Collectors.toList());
+			return results;
 		}
-    	return new ArrayList<>();	
+		return new ArrayList<>();
+
 	}
 
 	@Override
@@ -108,6 +110,7 @@ public class CommentServiceImpl implements CommentService {
 			return resultPage.getContent();
 		}
     	return new ArrayList<>();
+
 	}
 
 	
