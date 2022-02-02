@@ -53,8 +53,6 @@ public class ProfileController {
         Profile profile = profileService.login(username, password);
         if(profile != null) {
             HttpHeaders headers = new HttpHeaders();
-            System.out.println(profile.getImgurl());
-            System.out.println(profile);
             
             Profile pro = new Profile();
             
