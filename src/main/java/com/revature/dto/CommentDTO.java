@@ -3,10 +3,10 @@ package com.revature.dto;
 import java.sql.Timestamp;
 
 import com.revature.models.Comment;
+import com.revature.utilites.SecurityUtil;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
 *
@@ -18,10 +18,9 @@ import lombok.NoArgsConstructor;
 */
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 public class CommentDTO {
 
-	private Integer cid;
+	private int cid;
 
 	private ProfileDTO writer;
 
@@ -33,6 +32,11 @@ public class CommentDTO {
 
 	private CommentDTO previous;
 
+	public CommentDTO() {
+		super();
+		cid = SecurityUtil.getId();
+	}
+	
 	public CommentDTO(Comment comment) {
 		if (comment != null) {
 			cid = comment.getCid();
@@ -43,5 +47,29 @@ public class CommentDTO {
 			previous = comment.getPrevious() != null ? new CommentDTO(comment.getPrevious()) : null;
 		}
 	}
+	
+	public Comment toComment() {
+		if(writer == null || post == null) {
+			return null;
+		}
+		if(previous != null) {
+			return new Comment(cid, writer.toProfile(), post.toPost(), cBody, dateCreated, previous.toComment());
+		}
+		else {
+			return new Comment(cid, writer.toProfile(), post.toPost(), cBody, dateCreated, null);
+		}
+		
+	}
+
+	public CommentDTO(ProfileDTO writer, PostDTO post, String cBody, Timestamp dateCreated,
+			CommentDTO previous) {
+		this();
+		this.writer = writer;
+		this.post = post;
+		this.cBody = cBody;
+		this.dateCreated = dateCreated;
+		this.previous = previous;
+	}
+	
 
 }

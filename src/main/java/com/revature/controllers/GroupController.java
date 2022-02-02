@@ -57,8 +57,8 @@ public class GroupController {
 	 * 
 	 */
 	@PostMapping("/save")
-	public ResponseEntity<GroupDTO> saveGroup(@Valid @RequestBody Group group) {
-		GroupDTO groupDto = new GroupDTO(groupService.save(group));
+	public ResponseEntity<GroupDTO> saveGroup(@Valid @RequestBody GroupDTO group) {
+		GroupDTO groupDto = new GroupDTO(groupService.save(group.toGroup()));
 		return ResponseEntity.ok(groupDto);
 	}
 	

@@ -32,9 +32,16 @@ public class CommentController {
      * @return HTTP created status and the comment when it is added successfully.
      */
     @PostMapping
-    public ResponseEntity<CommentDTO> addComment(@RequestBody Comment comment){
-        return new ResponseEntity<>(new CommentDTO(commentService.addComment(comment)), HttpStatus.CREATED);
+    public ResponseEntity<CommentDTO> addComment(@RequestBody CommentDTO comment){
+    	System.out.println(comment);
+        return new ResponseEntity<>(new CommentDTO(commentService.addComment(comment.toComment())), HttpStatus.CREATED);
     }
+    
+//    @PostMapping
+//    public ResponseEntity<Comment> addComment(@RequestBody Comment comment){
+//    	System.out.println(comment);
+//        return new ResponseEntity<>(commentService.addComment(comment), HttpStatus.CREATED);
+//    }
 
     /**
      * getCommentsByPost receives a Post id in the request parameter, and returns a list of comments
