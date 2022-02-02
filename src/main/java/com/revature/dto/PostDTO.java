@@ -5,12 +5,10 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import com.revature.models.Post;
+import com.revature.utilites.SecurityUtil;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 
 /**
 *
@@ -22,10 +20,9 @@ import lombok.RequiredArgsConstructor;
 */
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 public class PostDTO {
 
-	private Integer psid;
+	private int psid;
 
 	private ProfileDTO creator;
 
@@ -37,6 +34,11 @@ public class PostDTO {
 
 	private Set<Integer> likes = new LinkedHashSet<>();
 
+	public PostDTO() {
+		super();
+		psid = SecurityUtil.getId();
+	}
+	
 	public PostDTO(Post post) {
 		if (post != null) {
 			psid = post.getPsid();
@@ -47,5 +49,29 @@ public class PostDTO {
 			likes = post.getLikes();
 		}
 	}
+	
+	public Post toPost() {
+		if(creator == null) { 
+			return null;
+		}
+		return new Post(psid, creator.toProfile(), body, imgURL, datePosted, likes);
+	}
+	
+	public PostDTO(ProfileDTO creator, String body, String imgURL, Timestamp datePosted) {
+		this();
+		this.creator = creator;
+		this.body = body;
+		this.imgURL = imgURL;
+		this.datePosted = datePosted;
+	}
 
+	public PostDTO(ProfileDTO creator, String body, String imgURL, Timestamp datePosted, Set<Integer> likes) {
+		this();
+		this.creator = creator;
+		this.body = body;
+		this.imgURL = imgURL;
+		this.datePosted = datePosted;
+		this.likes = likes;
+	}
+	
 }
