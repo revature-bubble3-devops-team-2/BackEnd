@@ -1,5 +1,6 @@
 package com.revature.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,7 +51,7 @@ public class CommentServiceImpl implements CommentService {
     		return resultPage.getContent();
     	}
     	
-    	return null;	
+    	return new ArrayList<Comment>();	
     	
     }
     /**
@@ -91,7 +92,7 @@ public class CommentServiceImpl implements CommentService {
 					.filter(c -> c.getPrevious() == null)
 					.collect(Collectors.toList());
 		}
-		return null;
+    	return new ArrayList<Comment>();	
 	}
 
 	@Override
@@ -106,7 +107,7 @@ public class CommentServiceImpl implements CommentService {
 		if (resultPage.hasContent()) {
 			return resultPage.getContent();
 		}
-		return null;
+    	return new ArrayList<Comment>();
 	}
 
 	
