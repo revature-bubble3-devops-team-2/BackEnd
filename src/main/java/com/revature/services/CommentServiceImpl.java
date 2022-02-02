@@ -51,7 +51,7 @@ public class CommentServiceImpl implements CommentService {
     		return resultPage.getContent();
     	}
     	
-    	return new ArrayList<Comment>();	
+    	return new ArrayList<>();	
     	
     }
     /**
@@ -92,7 +92,7 @@ public class CommentServiceImpl implements CommentService {
 					.filter(c -> c.getPrevious() == null)
 					.collect(Collectors.toList());
 		}
-    	return new ArrayList<Comment>();	
+    	return new ArrayList<>();	
 	}
 
 	@Override
@@ -107,7 +107,7 @@ public class CommentServiceImpl implements CommentService {
 		if (resultPage.hasContent()) {
 			return resultPage.getContent();
 		}
-    	return new ArrayList<Comment>();
+    	return new ArrayList<>();
 	}
 
 	

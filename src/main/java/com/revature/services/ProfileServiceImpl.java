@@ -196,7 +196,7 @@ public class ProfileServiceImpl implements ProfileService {
         if (resultPage.hasContent()) {
             return resultPage.getContent();
         }
-        return new ArrayList<Profile>();
+        return new ArrayList<>();
     }
 
 
