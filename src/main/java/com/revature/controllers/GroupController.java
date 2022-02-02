@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.dto.GroupDTO;
-import com.revature.models.Group;
 import com.revature.services.GroupServiceImpl;
 
 /**

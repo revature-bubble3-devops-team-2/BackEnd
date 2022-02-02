@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.dto.PostDTO;
 import com.revature.dto.ProfileDTO;
-import com.revature.models.Post;
 import com.revature.models.Profile;
 import com.revature.services.PostService;
 
