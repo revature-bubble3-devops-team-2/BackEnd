@@ -23,7 +23,7 @@ import javax.validation.Valid;
 @CrossOrigin
 public class ProfileController {
 	
-	private static final String tokenName = "Authorization";
+	private static final String TOKEN_NAME = "Authorization";
 
 	@Autowired
 	private ProfileService profileService;
@@ -61,7 +61,7 @@ public class ProfileController {
            
         
             
-            headers.set(tokenName, SecurityUtil.generateToken(pro));
+            headers.set(TOKEN_NAME, SecurityUtil.generateToken(pro));
             return new ResponseEntity<>( profile, headers, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -85,7 +85,7 @@ public class ProfileController {
         if (returnedUser == null) {
             HttpHeaders responseHeaders = new HttpHeaders();
             String token = SecurityUtil.generateToken(profile);
-            responseHeaders.set(tokenName, token);
+            responseHeaders.set(TOKEN_NAME, token);
             Profile newProfile = profileService.addNewProfile(profile);
             if (newProfile == null || newProfile.isIncomplete()) {
                 return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -149,7 +149,7 @@ public class ProfileController {
         Profile newProfile = profileService.addFollowerByEmail(creator, email);
         if (newProfile != null) {
             HttpHeaders headers = new HttpHeaders();
-            headers.set(tokenName, SecurityUtil.generateToken(newProfile));
+            headers.set(TOKEN_NAME, SecurityUtil.generateToken(newProfile));
             return new ResponseEntity<>(headers, HttpStatus.ACCEPTED);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
