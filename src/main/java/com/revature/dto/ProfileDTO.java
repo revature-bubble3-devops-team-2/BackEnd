@@ -5,14 +5,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import com.revature.models.Group;
 import com.revature.models.Profile;
+import com.revature.utilites.SecurityUtil;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 /**
@@ -25,12 +24,11 @@ import lombok.ToString;
 */
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 @EqualsAndHashCode(exclude = { "groups", "following" })
 @ToString(exclude = { "groups", "following" })
 public class ProfileDTO {
 
-	private Integer pid;
+	private int pid;
 
 	private String username;
 
@@ -48,6 +46,11 @@ public class ProfileDTO {
 
 	private Set<GroupDTO> groups = new HashSet<>();
 
+	public ProfileDTO() {
+		super();
+		pid = SecurityUtil.getId();
+	}
+	
 	public ProfileDTO(Profile profile) {
 		if (profile != null) {
 			pid = profile.getPid();
@@ -75,5 +78,30 @@ public class ProfileDTO {
 				|| this.passkey.isEmpty() || this.firstName.isEmpty() || this.lastName.isEmpty() || this.email.isEmpty()
 				|| this.pid < 100;
 	}
+	
+	public Profile toProfile() {
+		List<Profile> newFollowing = new LinkedList<>();
+		if(following != null) {
+			following.forEach(f -> newFollowing.add(f.toProfile()));
+		}
+		Set<Group> newGroups = new HashSet<>();
+		if(groups != null) {
+			groups.forEach(g -> newGroups.add(g.toGroup()));
+		}
+		return new Profile(pid, username, passkey, firstName, lastName, email, imgurl, newFollowing, newGroups);
+	}
 
+	public ProfileDTO(String username, String passkey, String firstName, String lastName, String email,
+			String imgurl, List<ProfileDTO> following, Set<GroupDTO> groups) {
+		this();
+		this.username = username;
+		this.passkey = passkey;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.imgurl = imgurl;
+		this.following = following;
+		this.groups = groups;
+	}
+	
 }

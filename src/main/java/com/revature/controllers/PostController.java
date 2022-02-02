@@ -43,9 +43,11 @@ public class PostController {
      *          is added, bad request otherwise
      */
     @PostMapping
-    public ResponseEntity<PostDTO> addPost(@RequestBody Post post, HttpServletRequest req) {
-        post.setCreator((Profile) req.getAttribute("profile"));
-        Post check = postService.addPost(post);
+    public ResponseEntity<PostDTO> addPost(@RequestBody PostDTO post, HttpServletRequest req) {
+    	System.out.println(post);
+    	Post newPost = post.toPost();
+        newPost.setCreator((Profile) req.getAttribute("profile"));
+        Post check = postService.addPost(newPost);
         if (check == null) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         } else {

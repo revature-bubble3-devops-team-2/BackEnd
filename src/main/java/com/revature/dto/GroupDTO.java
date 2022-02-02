@@ -6,13 +6,12 @@ import java.util.List;
 import java.util.Set;
 
 import com.revature.models.Group;
+import com.revature.models.Profile;
+import com.revature.utilites.SecurityUtil;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 /**
@@ -25,12 +24,11 @@ import lombok.ToString;
 */
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 @EqualsAndHashCode(exclude = { "members" })
 @ToString(exclude = { "members" })
 public class GroupDTO {
 
-	private Integer groupId;
+	private int groupId;
 
 	private String groupName;
 
@@ -38,6 +36,11 @@ public class GroupDTO {
 
 	private Set<ProfileDTO> members = new HashSet<>();
 
+	public GroupDTO() {
+		super();
+		groupId = SecurityUtil.getId();
+	}
+	
 	public GroupDTO(Group group) {
 		if (group != null) {
 			groupId = group.getGroupId();
@@ -66,5 +69,23 @@ public class GroupDTO {
 			}
 		}
 	}
+	
+	public Group toGroup() {
+		if(owner == null) {
+			return null;
+		}
+		Set<Profile> newMembers = new HashSet<>();
+		if(members != null) {
+			members.forEach(m -> newMembers.add(m.toProfile()));
+		}
+		return new Group(groupId, groupName, owner.toProfile(), newMembers);
+	}
 
+	public GroupDTO(String groupName, ProfileDTO owner, Set<ProfileDTO> members) {
+		this();
+		this.groupName = groupName;
+		this.owner = owner;
+		this.members = members;
+	}
+	
 }
