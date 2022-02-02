@@ -156,11 +156,12 @@ public class ProfileServiceTest {
         assertEquals(expected2, profileService.addNewProfile(expected2));
     }
 
-    @Test
-    void getAllProfiles() {
-        List<Profile> profileList = Arrays.asList(expected, expected2);
-        when(profileRepo.findAll()).thenReturn(profileList);
-    }
+//    
+//    @Test
+//    void getAllProfiles() {
+//        List<Profile> profileList = Arrays.asList(expected, expected2);
+//        when(profileRepo.findAll()).thenReturn(profileList);
+//    }
 
     // @Test
     // void getAllProfilesPaginated() {

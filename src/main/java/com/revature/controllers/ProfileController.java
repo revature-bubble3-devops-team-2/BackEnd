@@ -15,7 +15,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.List;
 
 @Log4j2
 @RestController
@@ -23,6 +22,8 @@ import java.util.List;
 @RequestMapping("/profile")
 @CrossOrigin
 public class ProfileController {
+	
+	private static final String tokenName = "Authorization";
 
 	@Autowired
 	private ProfileService profileService;
@@ -43,11 +44,11 @@ public class ProfileController {
     @NoAuthIn
     public ResponseEntity<Profile> login(String username, String password) {
         Profile profile = profileService.login(username, password);
-        System.out.println(profile);
+        log.info(profile);
         if(profile != null) {
             HttpHeaders headers = new HttpHeaders();
-            System.out.println(profile.getImgurl());
-            System.out.println(profile);
+            log.info(profile.getImgurl());
+            log.info(profile);
             
             Profile pro = new Profile();
             
@@ -60,20 +61,7 @@ public class ProfileController {
            
         
             
-//            profile.setImgurl("");
-            
-          //  System.out.println(pro);
-            
-           /**
-            *   int id = (int) (long) guts.get("pid");
-            String username = (String) guts.get("username");
-            String passkey = (String) guts.get("passkey");
-            String firstName = (String) guts.get("firstName");
-            String lastName = (String) guts.get("lastName");
-            String email = (String) guts.get("email");
-            */
-            
-            headers.set("Authorization", SecurityUtil.generateToken(pro));
+            headers.set(tokenName, SecurityUtil.generateToken(pro));
             return new ResponseEntity<>( profile, headers, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -97,7 +85,7 @@ public class ProfileController {
         if (returnedUser == null) {
             HttpHeaders responseHeaders = new HttpHeaders();
             String token = SecurityUtil.generateToken(profile);
-            responseHeaders.set("Authorization", token);
+            responseHeaders.set(tokenName, token);
             Profile newProfile = profileService.addNewProfile(profile);
             if (newProfile == null || newProfile.isIncomplete()) {
                 return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -131,7 +119,7 @@ public class ProfileController {
      * Put mapping grabs the updated fields of profile and updates the profile in
      * the database.
      * If no token is sent in the token it fails the Auth and doesn't update the
-     * profile.
+     * profile.	
      * 
      * @param profile
      * @return Updated profile with HttpStatus.ACCEPTED otherwise if invalid returns
@@ -161,7 +149,7 @@ public class ProfileController {
         Profile newProfile = profileService.addFollowerByEmail(creator, email);
         if (newProfile != null) {
             HttpHeaders headers = new HttpHeaders();
-            headers.set("Authorization", SecurityUtil.generateToken(newProfile));
+            headers.set(tokenName, SecurityUtil.generateToken(newProfile));
             return new ResponseEntity<>(headers, HttpStatus.ACCEPTED);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
