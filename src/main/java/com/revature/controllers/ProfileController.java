@@ -23,7 +23,7 @@ import javax.validation.Valid;
 @CrossOrigin
 public class ProfileController {
 	
-	private final String tokenName = "Authorization";
+	private static final String tokenName = "Authorization";
 
 	@Autowired
 	private ProfileService profileService;
