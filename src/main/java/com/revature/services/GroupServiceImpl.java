@@ -72,10 +72,8 @@ public class GroupServiceImpl implements GroupService {
 	public List<Group> findAllPaginated(int page) {
         Pageable pageable = PageRequest.of(page - 1, 3, Sort.by("datePosted").descending());
         Page<Group> groupsPage = groupRepo.findAll(pageable);
-        if (groupsPage.hasContent()) {
             return groupsPage.getContent();
-        }
-        return null;
+
 	}
 	/**
 	 * @author robot
@@ -91,7 +89,7 @@ public class GroupServiceImpl implements GroupService {
 		if (targetGroup != null && targetGroup.getMembers() != null && !targetGroup.getMembers().isEmpty()) {
 			return targetGroup.getMembers();
 		}
-		return new HashSet<Profile>();
+		return new HashSet<>();
 	}
 	
     /**

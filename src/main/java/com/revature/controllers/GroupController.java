@@ -70,7 +70,7 @@ public class GroupController {
 	@ResponseBody
 	public ResponseEntity<List<GroupDTO>> findAllGroups(@PathVariable ("pageNumber") int pageNumber) {
 		List<Group> groups = groupService.findAllPaginated(pageNumber);
-		List<GroupDTO> groupDTOs = new LinkedList<GroupDTO>();
+		List<GroupDTO> groupDTOs = new LinkedList<>();
 		groups.forEach(g -> groupDTOs.add(new GroupDTO(g)));
 		return new ResponseEntity<>(groupDTOs, HttpStatus.OK);
 	}
@@ -98,7 +98,7 @@ public class GroupController {
 	 * @return Set containing all the profiles that belong to the group with the given id
 	 */
 	@GetMapping("/{id}/members")
-	public ResponseEntity<?> getMembers(@PathVariable("id") int id) {
+	public ResponseEntity<Set<ProfileDTO>> getMembers(@PathVariable("id") int id) {
 		Group group;
 		if((group = groupService.findById(id)) != null) {
 			GroupDTO galaxyDTO = new GroupDTO(group);
@@ -114,26 +114,26 @@ public class GroupController {
 	 * 
 	 * Add user to a group by UID
 	 * 
-	 * @param id
+	 * @param groupId
 	 * @param userId
 	 * @return Group object after addition
 	 */
-	@PostMapping("/{id}/join/{uid}")
-	public ResponseEntity<?> userJoin(@PathVariable("id") int id, @PathVariable("uid") int userId) {
+	@PostMapping("/{gid}/join/{uid}")
+	public ResponseEntity<GroupDTO> userJoin(@PathVariable("gid") int groupId, @PathVariable("uid") int userId) {
 		
 		Group group;
-		if((group = groupService.findById(id)) != null) {
+		if((group = groupService.findById(groupId)) != null) {
 			Profile user = profileService.getProfileByPid(userId);
 			Set<Profile> members = group.getMembers();
 			if(members.contains(user)) {
-				return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<>(new GroupDTO(group), HttpStatus.BAD_REQUEST);
 			}else {
 				members.add(user);
 				group.setMembers(members);
 				return ResponseEntity.ok(new GroupDTO(groupService.save(group)));
 			}
 		}
-		return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(new GroupDTO(group), HttpStatus.BAD_REQUEST);
 	}
 	
 	/**
@@ -141,26 +141,26 @@ public class GroupController {
 	 * 
 	 * Remove user from a group by UID
 	 * 
-	 * @param id
+	 * @param groupId
 	 * @param userId
 	 * @return Group object after removal
 	 */
-	@PostMapping("/{id}/leave/{uid}")
-	public ResponseEntity<?> userLeave(@PathVariable("id") int id, @PathVariable("uid") int userId) {
+	@PostMapping("/{gid}/leave/{uid}")
+	public ResponseEntity<GroupDTO> userLeave(@PathVariable("gid") int groupId, @PathVariable("uid") int userId) {
 		
 		Group group;
-		if((group = groupService.findById(id)) != null) {
+		if((group = groupService.findById(groupId)) != null) {
 			Profile user = profileService.getProfileByPid(userId);
 			Set<Profile> members = group.getMembers();
 			if(!members.contains(user)) {
-				return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<>(new GroupDTO(group), HttpStatus.BAD_REQUEST);
 			}else {
 				members.remove(user);
 				group.setMembers(members);
 				return ResponseEntity.ok(new GroupDTO(groupService.save(group)));
 			}
 		}
-		return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(new GroupDTO(group), HttpStatus.BAD_REQUEST);
 	}
 	
     /**
