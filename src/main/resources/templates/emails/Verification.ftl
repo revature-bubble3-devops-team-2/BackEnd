@@ -10,7 +10,8 @@
 	<p>Please follow the link below to verify your account:</p>
 	<br>
 	<!-- The link connecting to the account name change -->
-
+	
+	<a href=${emailURL}>Click Here to Verify</a>
 
 	<p>If you did not request a change to your password please discard this email.</p>
 	

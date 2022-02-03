@@ -31,7 +31,7 @@ public class EmailService {
 	        throws IOException, TemplateException, MessagingException {
 	        
 	    Template freemarkerTemplate = freemarkerConfigurer.getConfiguration()
-	      .getTemplate("PasswordReset.ftlh");
+	      .getTemplate("PasswordReset.ftl");
 	    String htmlBody = FreeMarkerTemplateUtils.processTemplateIntoString(freemarkerTemplate, templateModel);
 
 	    sendHtmlMessage(to, subject, htmlBody);
@@ -42,7 +42,7 @@ public class EmailService {
 		        throws IOException, TemplateException, MessagingException {
 		        
 		    Template freemarkerTemplate = freemarkerConfigurer.getConfiguration()
-		      .getTemplate("Verification.ftlh");
+		      .getTemplate("Verification.ftl");
 		    String htmlBody = FreeMarkerTemplateUtils.processTemplateIntoString(freemarkerTemplate, templateModel);
 
 		    sendHtmlMessage(to, subject, htmlBody);
