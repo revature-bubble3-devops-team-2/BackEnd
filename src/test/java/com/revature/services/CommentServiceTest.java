@@ -34,7 +34,7 @@ public class CommentServiceTest {
     @Test
     void testAddComment() {
         Profile tempProfile = new Profile(2, "profile2", "22", "Two", "LastTwo", "Email2");
-        Post tempPost = new Post(3, tempProfile, "Hello World", null, Timestamp.valueOf(LocalDateTime.now()));
+        Post tempPost = new Post(3, tempProfile, "Hello World", null, Timestamp.valueOf(LocalDateTime.now()), null);
         Comment comment = new Comment(tempProfile, tempPost, "Test", Timestamp.valueOf(LocalDateTime.now()), null);
         when(commentRepo.save(comment)).thenReturn(comment);
         assertEquals(comment, commentService.addComment(comment));

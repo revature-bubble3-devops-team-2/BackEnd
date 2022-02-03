@@ -44,7 +44,7 @@ public class PostServiceTest {
         MockitoAnnotations.openMocks(this);
         creator = new Profile(USERNAME, PASSWORD, NAME, NAME, EMAIL);
         liker = new Profile(USERNAME, PASSWORD, NAME, NAME, EMAIL);
-        post = new Post(creator, BODY, IMG, getTime());
+        post = new Post(creator, BODY, IMG, getTime(), null);
     }
 
     @Test
@@ -59,8 +59,8 @@ public class PostServiceTest {
 
             () -> assertNull(postService.addPost(null)),
             () -> assertNull(postService.addPost(new Post())),
-            () -> assertNull(postService.addPost(new Post(13, null, null, null,Timestamp.valueOf(LocalDateTime.now())))),
-            () -> assertNull(postService.addPost(new Post(134, new Profile(), null, null, null)))
+            () -> assertNull(postService.addPost(new Post(13, null, null, null,Timestamp.valueOf(LocalDateTime.now()), null))),
+            () -> assertNull(postService.addPost(new Post(134, new Profile(), null, null, null, null)))
 
         );
     }
@@ -68,9 +68,9 @@ public class PostServiceTest {
     @Test
     void testGetAllPosts() {
         List<Post> expected = new ArrayList<>();
-        expected.add(new Post(creator, USERNAME, PASSWORD, getTime()));
-        expected.add(new Post(creator, USERNAME, PASSWORD, getTime()));
-        expected.add(new Post(creator, USERNAME, PASSWORD, getTime()));
+        expected.add(new Post(creator, USERNAME, PASSWORD, getTime(), null));
+        expected.add(new Post(creator, USERNAME, PASSWORD, getTime(), null));
+        expected.add(new Post(creator, USERNAME, PASSWORD, getTime(), null));
 
         postService.addPost(expected.get(0));
         postService.addPost(expected.get(1));
