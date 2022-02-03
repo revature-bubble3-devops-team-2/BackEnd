@@ -2,6 +2,7 @@ package com.revature.controllers;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -24,6 +25,7 @@ import com.revature.dto.ProfileDTO;
 import com.revature.models.Group;
 import com.revature.models.Profile;
 import com.revature.services.GroupServiceImpl;
+import com.revature.services.ProfileServiceImpl;
 
 /**
 *
@@ -41,6 +43,8 @@ public class GroupController {
 	
 	@Autowired
 	GroupServiceImpl groupService;
+	@Autowired
+	ProfileServiceImpl profileService;
 
 	/** 
 	 * 
@@ -104,6 +108,60 @@ public class GroupController {
 		return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		
 	}
+
+	/**
+	 * @author Zak
+	 * 
+	 * Add user to a group by UID
+	 * 
+	 * @param id
+	 * @param userId
+	 * @return Group object after addition
+	 */
+	@PostMapping("/{id}/join/{uid}")
+	public ResponseEntity<?> userJoin(@PathVariable("id") int id, @PathVariable("uid") int userId) {
+		
+		Group group;
+		if((group = groupService.findById(id)) != null) {
+			Profile user = profileService.getProfileByPid(userId);
+			Set<Profile> members = group.getMembers();
+			if(members.contains(user)) {
+				return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+			}else {
+				members.add(user);
+				group.setMembers(members);
+				return ResponseEntity.ok(new GroupDTO(groupService.save(group)));
+			}
+		}
+		return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+	}
+	
+	/**
+	 * @author Zak
+	 * 
+	 * Remove user from a group by UID
+	 * 
+	 * @param id
+	 * @param userId
+	 * @return Group object after removal
+	 */
+	@PostMapping("/{id}/leave/{uid}")
+	public ResponseEntity<?> userLeave(@PathVariable("id") int id, @PathVariable("uid") int userId) {
+		
+		Group group;
+		if((group = groupService.findById(id)) != null) {
+			Profile user = profileService.getProfileByPid(userId);
+			Set<Profile> members = group.getMembers();
+			if(!members.contains(user)) {
+				return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+			}else {
+				members.remove(user);
+				group.setMembers(members);
+				return ResponseEntity.ok(new GroupDTO(groupService.save(group)));
+			}
+		}
+		return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+	}
 	
     /**
      * Search all fields function in group 
@@ -119,4 +177,5 @@ public class GroupController {
     	groups.forEach(p -> groupDtos.add(new GroupDTO(p)));
 		return new ResponseEntity<>(groupDtos, new HttpHeaders(), HttpStatus.OK);
 	}
+
 }
