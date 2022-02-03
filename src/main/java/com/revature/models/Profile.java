@@ -56,8 +56,8 @@ public class Profile {
     
     @Column(name = "verification",
     		columnDefinition = "TEXT",
-    		nullable = false)
-    private boolean verification;
+    		nullable = true)
+    private boolean verification = false;
 
     public Profile() {
         this.pid = SecurityUtil.getId();

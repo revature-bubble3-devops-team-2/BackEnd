@@ -8,3 +8,17 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+  mail:
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: 'true'
+          timeout: '3000'
+          auth: 'true'
+          connectiontimeout: '5000'
+          writetimeout: '5000'
+    host: smtp.gmail.com
+    username: mlmstorenow@gmail.com
+    password: SoWaCh007
+    port: '587'

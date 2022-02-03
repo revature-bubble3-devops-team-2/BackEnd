@@ -4,7 +4,7 @@
 <title>[Bubble] Password Update</title>
 </head>
 <body>
-	<h3>Dear ${Profile.username},</h3>
+	<h3>Dear ${profile.username},</h3>
 
 	<p>This email has been sent to verify your account's email.</p>
 	<p>Please follow the link below to verify your account:</p>

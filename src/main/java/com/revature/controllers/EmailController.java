@@ -2,6 +2,7 @@ package com.revature.controllers;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.mail.MessagingException;
 
@@ -30,14 +31,19 @@ public class EmailController {
 	
 	@NoAuthIn
 	@PostMapping("/verfied/email")
-	public boolean sendEmail(@RequestBody HashMap emailMap) {
+	public boolean sendEmail(@RequestBody Map<?,?> emailMap) {
+		System.out.println("In Email Controller -----------------------");
 		HashMap<String, Object> tempMap = new HashMap<String, Object>();
 		tempMap.put("email", emailMap.get("email"));
+		System.out.println((String) emailMap.get("email"));
 		tempMap.put("url", emailMap.get("url"));
+		
 		
 		Profile whyGod = new Profile();
 		whyGod.setEmail((String) emailMap.get("email"));
-		tempMap.put("profile", pserv.getProfileByEmail(whyGod));
+		Profile profile = pserv.getProfileByEmail(whyGod);
+		System.out.println(profile);
+		tempMap.put("profile", profile);
 		
 		try {
 			eserv.sendVerificationMessage((String) emailMap.get("email"), "Verify", tempMap);
