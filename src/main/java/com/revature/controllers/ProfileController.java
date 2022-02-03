@@ -86,15 +86,15 @@ public class ProfileController {
     @NoAuthIn
     @PostMapping("/register")
     public ResponseEntity<ProfileDTO> addNewProfile(@Valid @RequestBody ProfileDTO profile) {
-    	System.out.println(profile);
     	Profile newProfile = profile.toProfile();
         Profile returnedUser = profileService.getProfileByEmail(newProfile);
         if (returnedUser == null) {
             HttpHeaders responseHeaders = new HttpHeaders();
             String token = SecurityUtil.generateToken(new ProfileDTO(newProfile));
             responseHeaders.set(TOKEN_NAME, token);
-            ProfileDTO profileDto = new ProfileDTO(profileService.addNewProfile(newProfile));
-            if (profileDto == null || profileDto.isIncomplete()) {
+            Profile tempProfile = profileService.addNewProfile(newProfile);
+            ProfileDTO profileDto = new ProfileDTO(tempProfile);
+            if (tempProfile == null || profileDto.isIncomplete()) {
                 return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
             }
             return new ResponseEntity<>(profileDto, responseHeaders, HttpStatus.CREATED);
@@ -104,26 +104,7 @@ public class ProfileController {
             return new ResponseEntity<>(HttpStatus.IM_USED);
         }
     }
-//    @NoAuthIn
-//    @PostMapping("/register")
-//    public ResponseEntity<ProfileDTO> addNewProfile(@Valid @RequestBody Profile profile) {
-//    	System.out.println(profile);
-//        Profile returnedUser = profileService.getProfileByEmail(profile);
-//        if (returnedUser == null) {
-//            HttpHeaders responseHeaders = new HttpHeaders();
-//            String token = SecurityUtil.generateToken(new ProfileDTO(profile));
-//            responseHeaders.set("Authorization", token);
-//            ProfileDTO profileDto = new ProfileDTO(profileService.addNewProfile(profile));
-//            if (profileDto == null || profileDto.isIncomplete()) {
-//                return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-//            }
-//            return new ResponseEntity<>(profileDto, responseHeaders, HttpStatus.CREATED);
-//
-//
-//        } else {
-//            return new ResponseEntity<>(HttpStatus.IM_USED);
-//        }
-//    }
+
     /**
      * Get Mapping that grabs the profile by the path variable id. It then returns the profile if it is valid.
      *
@@ -152,7 +133,6 @@ public class ProfileController {
      */
     @PutMapping
     public ResponseEntity<ProfileDTO> updateProfile(@RequestBody ProfileDTO profile) {
-    	System.out.println(profile);
         Profile result = profileService.updateProfile(profile.toProfile());
         if (result != null) {
             return new ResponseEntity<>(new ProfileDTO(result), HttpStatus.ACCEPTED);
