@@ -45,7 +45,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<Comment> getCommentsByPostPsidPaginated(int psid, int page) {
-    	Pageable pageable = PageRequest.of(page - 1, 5, Sort.by("dateCreated").descending());
+    	Pageable pageable = PageRequest.of(page - 1, 5, Sort.by("dateCreated").ascending());
     	Page<Comment> resultPage = commentRepo.getCommentsByPostPsid(pageable, psid);
     	if (resultPage.hasContent()) {
     		return resultPage.getContent();
@@ -78,20 +78,19 @@ public class CommentServiceImpl implements CommentService {
         return commentRepo.getCommentByCid(cid);
     }
 
-	public List<Comment> getCommentsByPostPsidAndPreviousIsNull(int psid) {
+	public List<Comment> getOriginalCommentsByPostPsid(int psid) {
 		return commentRepo.getCommentsByPostPsid(psid).stream()
 				.filter(c -> c.getPrevious() == null)
 				.collect(Collectors.toList());
 	}
 
-	public List<Comment> getCommentsByPostPsidAndPreviousPaginated(int psid, int page) {
-		Pageable pageable = PageRequest.of(page - 1, 5, Sort.by("datePosted").descending());
+	public List<Comment> getOriginalCommentsByPostPsidPaginated(int psid, int page) {
+		Pageable pageable = PageRequest.of(page - 1, 5, Sort.by("datePosted").ascending());
 		Page<Comment> resultPage = commentRepo.getCommentsByPostPsid(pageable, psid);
-		if (resultPage.hasContent()) {
-			List<Comment> results = resultPage.getContent().stream()
+		if (resultPage != null && resultPage.hasContent()) {
+			return resultPage.getContent().stream()
 					.filter(c -> c.getPrevious() == null)
 					.collect(Collectors.toList());
-			return results;
 		}
 		return new ArrayList<>();
 
@@ -104,8 +103,9 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public List<Comment> getCommentsByPostPsidAndPreviousPaginated(int psid, int cid, int page) {
-		Pageable pageable = PageRequest.of(page - 1, 5, Sort.by("datePosted").descending());
+		Pageable pageable = PageRequest.of(page - 1, 5, Sort.by("datePosted").ascending());
 		Page<Comment> resultPage = commentRepo.getCommentsByPostPsidAndPrevious(pageable, psid, cid);
+		System.out.println(resultPage.hasContent());
 		if (resultPage.hasContent()) {
 			return resultPage.getContent();
 		}
@@ -118,5 +118,4 @@ public class CommentServiceImpl implements CommentService {
 	
 	
 	
-
 }

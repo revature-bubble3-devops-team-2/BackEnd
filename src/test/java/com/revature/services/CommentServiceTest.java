@@ -1,7 +1,6 @@
 package com.revature.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.when;
 
@@ -10,7 +9,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,6 +18,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import com.revature.models.Comment;
@@ -73,7 +72,7 @@ public class CommentServiceTest {
     }
     
     @Test
-    void testGetOriginalCommentsPaginated() {
+    void testGetOriginalComments(){
     	Post post = new Post(24, null, "Post Body", "", Timestamp.valueOf(LocalDateTime.now()), new LinkedHashSet<Integer>() );
     	Comment comment = new Comment(null, post, "Testing 4", Timestamp.valueOf(LocalDateTime.now()), null);
     	Comment reply = new Comment(null, post, "Testing 2", Timestamp.valueOf(LocalDateTime.now()), comment);
@@ -82,25 +81,62 @@ public class CommentServiceTest {
     	commentList.add(reply);
     	List<Comment> noReplies = new ArrayList<>();
     	noReplies.add(comment);
-    	Page<Comment> commentPage = new PageImpl<Comment>(noReplies);
-    	when(commentRepo.getCommentsByPostPsid(PageRequest.of(0, 5, Sort.by("dateCreated").descending()),24)).thenReturn(commentPage);
-    	assertEquals(noReplies, commentService.getCommentsByPostPsidPaginated(24, 1));
+    	when(commentRepo.getCommentsByPostPsid(24)).thenReturn(commentList);
+    	assertEquals(noReplies, commentService.getOriginalCommentsByPostPsid(24));
     }
-    
     @Test
-    void testGetRepliesPaginated() {
+    void testGetReplies(){
     	Post post = new Post(24, null, "Post Body", "", Timestamp.valueOf(LocalDateTime.now()), new LinkedHashSet<Integer>() );
-    	Comment comment = new Comment(null, post, "Testing 4", Timestamp.valueOf(LocalDateTime.now()), null);
-    	Comment reply = new Comment(null, post, "Testing 2", Timestamp.valueOf(LocalDateTime.now()), comment);
+    	Comment comment = new Comment(15, null, post, "Testing 4", Timestamp.valueOf(LocalDateTime.now()), null);
+    	Comment reply = new Comment(17, null, post, "Testing 2", Timestamp.valueOf(LocalDateTime.now()), comment);
+    	Comment reply2 = new Comment(19, null, post, "Testing 3", Timestamp.valueOf(LocalDateTime.now()), comment);
     	List<Comment> commentList = new ArrayList<>();
     	commentList.add(comment);
     	commentList.add(reply);
+    	commentList.add(reply2);
     	List<Comment> replies = new ArrayList<>();
     	replies.add(reply);
-    	Page<Comment> commentPage = new PageImpl<Comment>(replies);
-    	when(commentRepo.getCommentsByPostPsid(PageRequest.of(0, 5, Sort.by("dateCreated").descending()),24)).thenReturn(commentPage);
-    	assertEquals(replies, commentService.getCommentsByPostPsidPaginated(24, 1));
+    	replies.add(reply2);
+    	when(commentRepo.getCommentsByPostPsidAndPrevious(24,15)).thenReturn(replies);
+    	assertEquals(replies, commentService.getCommentsByPostPsidAndPrevious(24, 15));
     }
+    
+    @Test
+    void testGetOriginalCommentsEmptyList(){
+    	List<Comment> commentList = new ArrayList<>();
+    	when(commentRepo.getCommentsByPostPsid(566548189)).thenReturn(commentList);
+    	assertEquals(new ArrayList<>(), commentService.getCommentsByPostPsid(566548189));
+    }
+    
+//    @Test
+//    void testGetOriginalCommentsPaginated() {
+//    	Post post = new Post(24, null, "Post Body", "", Timestamp.valueOf(LocalDateTime.now()), new LinkedHashSet<Integer>() );
+//    	Comment comment = new Comment(null, post, "Testing 4", Timestamp.valueOf(LocalDateTime.now()), null);
+//    	Comment reply = new Comment(null, post, "Testing 2", Timestamp.valueOf(LocalDateTime.now()), comment);
+//    	List<Comment> commentList = new ArrayList<>();
+//    	commentList.add(comment);
+//    	commentList.add(reply);
+//    	List<Comment> noReplies = new ArrayList<>();
+//    	noReplies.add(comment);
+//    	Page<Comment> commentPage = new PageImpl<Comment>(commentList);
+//    	Pageable pageable = PageRequest.of(0, 5, Sort.by("dateCreated").ascending());
+//    	when(commentRepo.getCommentsByPostPsid(pageable, 24)).thenReturn(commentPage);
+//    	assertEquals(noReplies, commentService.getOriginalCommentsByPostPsidPaginated(24, 1));
+//    }
+    
+//    @Test
+//    void testGetRepliesPaginated() {
+//    	Comment comment = new Comment(15, null, null, "Testing 4", Timestamp.valueOf(LocalDateTime.now()), null);
+//    	Comment reply = new Comment(17, null, null, "Test Reply 1", Timestamp.valueOf(LocalDateTime.now()), comment);
+//    	Comment reply2 = new Comment(18, null, null, "Test Reply 2", Timestamp.valueOf(LocalDateTime.now()), comment);
+//    	List<Comment> replies = new ArrayList<>();
+//    	replies.add(reply);
+//    	replies.add(reply2);
+//    	Page<Comment> commentPage = new PageImpl<Comment>(replies);
+//    	Pageable pageable = PageRequest.of(0, 5, Sort.by("dateCreated").ascending());
+//    	when(commentRepo.getCommentsByPostPsidAndPrevious(pageable, 24, 15)).thenReturn(commentPage);
+//    	assertEquals(replies, commentService.getCommentsByPostPsidAndPreviousPaginated(24, 15, 1));
+//    }
     
     @Test
     void testGetCommentsPaginated() {
@@ -108,7 +144,7 @@ public class CommentServiceTest {
     	List<Comment> commentList = new ArrayList<>();
     	commentList.add(comment);
     	Page<Comment> commentPage = new PageImpl<Comment>(commentList);
-    	when(commentRepo.getCommentsByPostPsid(PageRequest.of(0, 5, Sort.by("dateCreated").descending()),24)).thenReturn(commentPage);
+    	when(commentRepo.getCommentsByPostPsid(PageRequest.of(0, 5, Sort.by("dateCreated").ascending()),24)).thenReturn(commentPage);
     	assertEquals(commentList, commentService.getCommentsByPostPsidPaginated(24, 1));
     }
     
@@ -116,7 +152,7 @@ public class CommentServiceTest {
     void testGetCommentsPaginatedNoComments() {
     	List<Comment> commentList = new ArrayList<>();
     	Page<Comment> commentPage = new PageImpl<Comment>(new ArrayList<>());
-    	when(commentRepo.getCommentsByPostPsid(PageRequest.of(0, 5, Sort.by("dateCreated").descending()),24)).thenReturn(commentPage);
+    	when(commentRepo.getCommentsByPostPsid(PageRequest.of(0, 5, Sort.by("dateCreated").ascending()),24)).thenReturn(commentPage);
     	assertEquals(commentList, commentService.getCommentsByPostPsidPaginated(24, 1));
     }
 
