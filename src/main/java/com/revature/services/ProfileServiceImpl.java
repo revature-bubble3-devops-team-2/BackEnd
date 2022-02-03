@@ -220,6 +220,7 @@ public class ProfileServiceImpl implements ProfileService {
 				 .withMatcher("firstName", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
 				 .withMatcher("lastName", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
 				 .withMatcher("email", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
+				 .withMatcher("groups", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
 				 .withIgnorePaths("pid");
 				 
 		 Example <Profile> example = Example.of(sampleProfile, ignoringExampleMatcher);
@@ -227,4 +228,7 @@ public class ProfileServiceImpl implements ProfileService {
 		
 		return profileRepo.findAll(example);
 	}
+	
+
+
 }
