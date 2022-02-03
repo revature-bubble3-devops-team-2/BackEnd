@@ -58,7 +58,7 @@ public class SecurityUtilTest {
                 () -> assertNull(SecurityUtil.validateToken(falseToken))
         );
     }
-
+    
     @Test
     @Order(2)
     void generateValidToken() {

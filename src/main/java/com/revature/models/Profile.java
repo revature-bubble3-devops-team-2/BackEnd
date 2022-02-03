@@ -119,7 +119,7 @@ public class Profile {
 
     public boolean isIncomplete() {
         return this.username == null || this.passkey == null || this.firstName == null || this.lastName == null ||
-                this.email == null || this.verification || this.following == null ||  this.username.isEmpty() ||
+                this.email == null || this.following == null ||  this.username.isEmpty() ||
                 this.passkey.isEmpty() || this.firstName.isEmpty() || this.lastName.isEmpty() || this.email.isEmpty() ||
                 this.pid < 100;
     }
