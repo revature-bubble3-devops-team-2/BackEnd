@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.dto.PostDTO;
 import com.revature.dto.ProfileDTO;
-import com.revature.models.Post;
 import com.revature.models.Profile;
 import com.revature.services.PostService;
 
@@ -43,9 +42,8 @@ public class LikeController {
      */
     @PostMapping
     public ResponseEntity<ProfileDTO> addLike(@RequestBody PostDTO post, HttpServletRequest req) {
-    	System.out.println(post);
         Profile temp = (Profile) req.getAttribute(PROFILE);
-        if (post.getCreator().equals(temp)) return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+        if (post.getCreator().getUsername().equals(temp.getUsername())) return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
         Profile existProfile = postService.likeFindByID(temp, post.toPost());
         if (existProfile == null) {
             Profile check = postService.likePost(temp, post.toPost());
@@ -72,7 +70,6 @@ public class LikeController {
      */
     @DeleteMapping
     public ResponseEntity<ProfileDTO> removeLike(@RequestBody PostDTO post, HttpServletRequest req) {
-    	System.out.println(post);
         Profile temp = (Profile) req.getAttribute(PROFILE);
         int check = postService.likeDelete(temp, post.toPost());
         if (check == -1){
@@ -97,7 +94,6 @@ public class LikeController {
      */
     @GetMapping
     public ResponseEntity<Integer> getLike(@RequestHeader PostDTO post, @RequestHeader boolean find, HttpServletRequest req) {
-    	System.out.println(post);
         Profile temp = (Profile) req.getAttribute(PROFILE);
         if (!find) {
             int result = postService.likeGet(post.toPost());

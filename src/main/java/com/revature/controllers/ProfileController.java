@@ -32,6 +32,8 @@ import lombok.extern.log4j.Log4j2;
 @RequestMapping("/profile")
 @CrossOrigin
 public class ProfileController {
+	
+	private static final String TOKEN_NAME = "Authorization";
 
     @Autowired
     private ProfileService profileService;
@@ -51,10 +53,12 @@ public class ProfileController {
     @NoAuthIn
     public ResponseEntity<ProfileDTO> login(String username, String password) {
         Profile profile = profileService.login(username, password);
+
+        log.info(profile);
         if(profile != null) {
             HttpHeaders headers = new HttpHeaders();
-            System.out.println(profile.getImgurl());
-            System.out.println(profile);
+            log.info(profile.getImgurl());
+            log.info(profile);
             
             Profile pro = new Profile();
             
@@ -65,23 +69,9 @@ public class ProfileController {
             pro.setLastName(profile.getLastName());
             pro.setEmail(profile.getEmail());
            
-        
-            
-//            profile.setImgurl("");
-            
-          //  System.out.println(pro);
-            
-           /**
-            *   int id = (int) (long) guts.get("pid");
-            String username = (String) guts.get("username");
-            String passkey = (String) guts.get("passkey");
-            String firstName = (String) guts.get("firstName");
-            String lastName = (String) guts.get("lastName");
-            String email = (String) guts.get("email");
-            */
-            
-            headers.set("Authorization", SecurityUtil.generateToken(new ProfileDTO(pro)));
+            headers.set(TOKEN_NAME, SecurityUtil.generateToken(new ProfileDTO(pro)));
             return new ResponseEntity<>(new ProfileDTO(profile), headers, HttpStatus.OK);
+
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
@@ -96,15 +86,15 @@ public class ProfileController {
     @NoAuthIn
     @PostMapping("/register")
     public ResponseEntity<ProfileDTO> addNewProfile(@Valid @RequestBody ProfileDTO profile) {
-    	System.out.println(profile);
     	Profile newProfile = profile.toProfile();
         Profile returnedUser = profileService.getProfileByEmail(newProfile);
         if (returnedUser == null) {
             HttpHeaders responseHeaders = new HttpHeaders();
             String token = SecurityUtil.generateToken(new ProfileDTO(newProfile));
-            responseHeaders.set("Authorization", token);
-            ProfileDTO profileDto = new ProfileDTO(profileService.addNewProfile(newProfile));
-            if (profileDto == null || profileDto.isIncomplete()) {
+            responseHeaders.set(TOKEN_NAME, token);
+            Profile tempProfile = profileService.addNewProfile(newProfile);
+            ProfileDTO profileDto = new ProfileDTO(tempProfile);
+            if (tempProfile == null || profileDto.isIncomplete()) {
                 return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
             }
             return new ResponseEntity<>(profileDto, responseHeaders, HttpStatus.CREATED);
@@ -114,26 +104,7 @@ public class ProfileController {
             return new ResponseEntity<>(HttpStatus.IM_USED);
         }
     }
-//    @NoAuthIn
-//    @PostMapping("/register")
-//    public ResponseEntity<ProfileDTO> addNewProfile(@Valid @RequestBody Profile profile) {
-//    	System.out.println(profile);
-//        Profile returnedUser = profileService.getProfileByEmail(profile);
-//        if (returnedUser == null) {
-//            HttpHeaders responseHeaders = new HttpHeaders();
-//            String token = SecurityUtil.generateToken(new ProfileDTO(profile));
-//            responseHeaders.set("Authorization", token);
-//            ProfileDTO profileDto = new ProfileDTO(profileService.addNewProfile(profile));
-//            if (profileDto == null || profileDto.isIncomplete()) {
-//                return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-//            }
-//            return new ResponseEntity<>(profileDto, responseHeaders, HttpStatus.CREATED);
-//
-//
-//        } else {
-//            return new ResponseEntity<>(HttpStatus.IM_USED);
-//        }
-//    }
+
     /**
      * Get Mapping that grabs the profile by the path variable id. It then returns the profile if it is valid.
      *
@@ -152,14 +123,16 @@ public class ProfileController {
     }
 
     /**
-     * Put mapping grabs the updated fields of profile and updates the profile in the database.
-     * If no token is sent in the token it fails the Auth and doesn't update the profile.
+     * Put mapping grabs the updated fields of profile and updates the profile in
+     * the database.
+     * If no token is sent in the token it fails the Auth and doesn't update the
+     * profile.	
+     * 
      * @param profile
      * @return Updated profile with HttpStatus.ACCEPTED otherwise if invalid returns HttpStatus.BAD_REQUEST
      */
     @PutMapping
     public ResponseEntity<ProfileDTO> updateProfile(@RequestBody ProfileDTO profile) {
-    	System.out.println(profile);
         Profile result = profileService.updateProfile(profile.toProfile());
         if (result != null) {
             return new ResponseEntity<>(new ProfileDTO(result), HttpStatus.ACCEPTED);
@@ -180,7 +153,7 @@ public class ProfileController {
         Profile newProfile = profileService.addFollowerByEmail(creator, email);
         if (newProfile != null) {
             HttpHeaders headers = new HttpHeaders();
-            headers.set("Authorization", SecurityUtil.generateToken(new ProfileDTO(newProfile)));
+            headers.set(TOKEN_NAME, SecurityUtil.generateToken(new ProfileDTO(newProfile)));
             return new ResponseEntity<>(headers, HttpStatus.ACCEPTED);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
