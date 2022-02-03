@@ -105,7 +105,7 @@ public class GroupController {
 				return ResponseEntity.ok()
 	                    .body(galaxyDTO.getMembers());
 		}
-		return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(new GroupDTO(group).getMembers(), HttpStatus.NOT_FOUND);
 		
 	}
 
