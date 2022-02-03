@@ -42,4 +42,8 @@ public class Group {
 		super();
 		groupId = SecurityUtil.getId();
 	}
+	
+	public Set<Profile> getMembers() {
+		return members;
+	}
 }
