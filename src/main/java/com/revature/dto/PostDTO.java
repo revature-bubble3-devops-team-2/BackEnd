@@ -58,7 +58,7 @@ public class PostDTO {
 			return null;
 		}
 		if(group == null) {
-			new Post(psid, creator.toProfile(), body, imgURL, datePosted, likes, null);
+			return new Post(psid, creator.toProfile(), body, imgURL, datePosted, likes, null);
 		}
 		return new Post(psid, creator.toProfile(), body, imgURL, datePosted, likes, group.toGroup());
 	}
