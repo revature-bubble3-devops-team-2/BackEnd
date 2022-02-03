@@ -1,14 +1,26 @@
 package com.revature.controllers;
 
-import com.revature.models.Post;
-import com.revature.models.Profile;
-import com.revature.services.PostService;
+import java.util.LinkedList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import java.util.List;
-import javax.servlet.http.HttpServletRequest;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.revature.dto.PostDTO;
+import com.revature.models.Post;
+import com.revature.models.Profile;
+import com.revature.services.PostService;
 
 @RestController
 @CrossOrigin
@@ -31,13 +43,15 @@ public class PostController {
      *          is added, bad request otherwise
      */
     @PostMapping
-    public ResponseEntity<Post> addPost(@RequestBody Post post, HttpServletRequest req) {
-        post.setCreator((Profile) req.getAttribute("profile"));
-        Post check = postService.addPost(post);
+    public ResponseEntity<PostDTO> addPost(@RequestBody PostDTO post, HttpServletRequest req) {
+    	System.out.println(post);
+    	Post newPost = post.toPost();
+        newPost.setCreator((Profile) req.getAttribute("profile"));
+        Post check = postService.addPost(newPost);
         if (check == null) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         } else {
-            return new ResponseEntity<>(check, HttpStatus.CREATED);
+            return new ResponseEntity<>(new PostDTO(check), HttpStatus.CREATED);
         }
     }
 
@@ -51,8 +65,11 @@ public class PostController {
      */
     @GetMapping("/page/{pageNumber}")
     @ResponseBody
-    public ResponseEntity<List<Post>> getAllPostsbyPage(@PathVariable ("pageNumber") int pageNumber) {
-        return new ResponseEntity<>(postService.getAllPostsPaginated(pageNumber), HttpStatus.OK);
+    public ResponseEntity<List<PostDTO>> getAllPostsbyPage(@PathVariable ("pageNumber") int pageNumber) {
+    	List<Post> posts = postService.getAllPostsPaginated(pageNumber);
+    	List<PostDTO> postDtos = new LinkedList<>();
+    	posts.forEach(p -> postDtos.add(new PostDTO(p)));
+        return new ResponseEntity<>(postDtos, HttpStatus.OK);
     }
 }
 

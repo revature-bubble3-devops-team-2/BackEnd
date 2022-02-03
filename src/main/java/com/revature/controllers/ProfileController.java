@@ -1,25 +1,39 @@
 package com.revature.controllers;
 
-import com.revature.aspects.annotations.NoAuthIn;
-import com.revature.models.Profile;
-import com.revature.services.ProfileService;
-import com.revature.utilites.SecurityUtil;
-import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.http.HttpHeaders;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.revature.aspects.annotations.NoAuthIn;
+import com.revature.dto.ProfileDTO;
+import com.revature.models.Profile;
+import com.revature.services.ProfileService;
+import com.revature.utilites.SecurityUtil;
+
+import lombok.extern.log4j.Log4j2;
+
 @Log4j2
 @RestController
-
 @RequestMapping("/profile")
 @CrossOrigin
 public class ProfileController {
+	
+	private static final String TOKEN_NAME = "Authorization";
 
     @Autowired
     private ProfileService profileService;
@@ -30,21 +44,21 @@ public class ProfileController {
      * @param username
      * @param password
      * @return secure token as json
-     * 
-     * 
-     * @author marouanekhabbaz
-     * refactor the code prevent it from crushing when it have an image 49 - 73
+     *
+     * @author marouanekhabbaz	
+     * refactor the code prevent it from crushing when it have an image 49 - 73	
      * 
      */
     @PostMapping("/login")
     @NoAuthIn
-    public ResponseEntity<Profile> login(String username, String password) {
+    public ResponseEntity<ProfileDTO> login(String username, String password) {
         Profile profile = profileService.login(username, password);
-        System.out.println(profile);
+
+        log.info(profile);
         if(profile != null) {
             HttpHeaders headers = new HttpHeaders();
-            System.out.println(profile.getImgurl());
-            System.out.println(profile);
+            log.info(profile.getImgurl());
+            log.info(profile);
             
             Profile pro = new Profile();
             
@@ -55,23 +69,9 @@ public class ProfileController {
             pro.setLastName(profile.getLastName());
             pro.setEmail(profile.getEmail());
            
-        
-            
-//            profile.setImgurl("");
-            
-          //  System.out.println(pro);
-            
-           /**
-            *   int id = (int) (long) guts.get("pid");
-            String username = (String) guts.get("username");
-            String passkey = (String) guts.get("passkey");
-            String firstName = (String) guts.get("firstName");
-            String lastName = (String) guts.get("lastName");
-            String email = (String) guts.get("email");
-            */
-            
-            headers.set("Authorization", SecurityUtil.generateToken(pro));
-            return new ResponseEntity<>( profile, headers, HttpStatus.OK);
+            headers.set(TOKEN_NAME, SecurityUtil.generateToken(new ProfileDTO(pro)));
+            return new ResponseEntity<>(new ProfileDTO(profile), headers, HttpStatus.OK);
+
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
@@ -85,50 +85,77 @@ public class ProfileController {
      */
     @NoAuthIn
     @PostMapping("/register")
-    public ResponseEntity<Profile> addNewProfile(@Valid @RequestBody Profile profile) {
-        Profile returnedUser = profileService.getProfileByEmail(profile);
+    public ResponseEntity<ProfileDTO> addNewProfile(@Valid @RequestBody ProfileDTO profile) {
+    	System.out.println(profile);
+    	Profile newProfile = profile.toProfile();
+        Profile returnedUser = profileService.getProfileByEmail(newProfile);
         if (returnedUser == null) {
             HttpHeaders responseHeaders = new HttpHeaders();
-            String token = SecurityUtil.generateToken(profile);
-            responseHeaders.set("Authorization", token);
-            Profile newProfile = profileService.addNewProfile(profile);
-            if (newProfile == null || newProfile.isIncomplete()) {
+            String token = SecurityUtil.generateToken(new ProfileDTO(newProfile));
+            responseHeaders.set(TOKEN_NAME, token);
+            ProfileDTO profileDto = new ProfileDTO(profileService.addNewProfile(newProfile));
+            if (profileDto == null || profileDto.isIncomplete()) {
                 return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
             }
-            return new ResponseEntity<>(newProfile, responseHeaders, HttpStatus.CREATED);
+            return new ResponseEntity<>(profileDto, responseHeaders, HttpStatus.CREATED);
 
 
         } else {
             return new ResponseEntity<>(HttpStatus.IM_USED);
         }
     }
+//    @NoAuthIn
+//    @PostMapping("/register")
+//    public ResponseEntity<ProfileDTO> addNewProfile(@Valid @RequestBody Profile profile) {
+//    	System.out.println(profile);
+//        Profile returnedUser = profileService.getProfileByEmail(profile);
+//        if (returnedUser == null) {
+//            HttpHeaders responseHeaders = new HttpHeaders();
+//            String token = SecurityUtil.generateToken(new ProfileDTO(profile));
+//            responseHeaders.set("Authorization", token);
+//            ProfileDTO profileDto = new ProfileDTO(profileService.addNewProfile(profile));
+//            if (profileDto == null || profileDto.isIncomplete()) {
+//                return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+//            }
+//            return new ResponseEntity<>(profileDto, responseHeaders, HttpStatus.CREATED);
+//
+//
+//        } else {
+//            return new ResponseEntity<>(HttpStatus.IM_USED);
+//        }
+//    }
     /**
      * Get Mapping that grabs the profile by the path variable id. It then returns the profile if it is valid.
      *
      * @param id
      * @return Profile object with HttpStatusAccepted or HttpStatusBackRequest
      */
+    @NoAuthIn
     @GetMapping("{id}")
-    public ResponseEntity<Profile> getProfileByPid(@PathVariable("id")int id) {
+    public ResponseEntity<ProfileDTO> getProfileByPid(@PathVariable("id")int id) {
         Profile profile = profileService.getProfileByPid(id);
         if (profile!=null) {
-            return new ResponseEntity<>(profile, HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(new ProfileDTO(profile), HttpStatus.ACCEPTED);
         }else{
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
     /**
-     * Put mapping grabs the updated fields of profile and updates the profile in the database.
-     * If no token is sent in the token it fails the Auth and doesn't update the profile.
+     * Put mapping grabs the updated fields of profile and updates the profile in
+     * the database.
+     * If no token is sent in the token it fails the Auth and doesn't update the
+     * profile.	
+     * 
      * @param profile
      * @return Updated profile with HttpStatus.ACCEPTED otherwise if invalid returns HttpStatus.BAD_REQUEST
      */
     @PutMapping
-    public ResponseEntity<Profile> updateProfile(@RequestBody Profile profile) {
-        Profile result = profileService.updateProfile(profile);
+    public ResponseEntity<ProfileDTO> updateProfile(@RequestBody ProfileDTO profile) {
+    	System.out.println(profile);
+        Profile result = profileService.updateProfile(profile.toProfile());
         if (result != null) {
-            return new ResponseEntity<>(result, HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(new ProfileDTO(result), HttpStatus.ACCEPTED);
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -146,7 +173,7 @@ public class ProfileController {
         Profile newProfile = profileService.addFollowerByEmail(creator, email);
         if (newProfile != null) {
             HttpHeaders headers = new HttpHeaders();
-            headers.set("Authorization", SecurityUtil.generateToken(newProfile));
+            headers.set(TOKEN_NAME, SecurityUtil.generateToken(new ProfileDTO(newProfile)));
             return new ResponseEntity<>(headers, HttpStatus.ACCEPTED);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -167,7 +194,7 @@ public class ProfileController {
             if (follower != null) {
                 log.info("Profile successfully unfollowed");
                 HttpHeaders headers = new HttpHeaders();
-                String newToken = SecurityUtil.generateToken(follower);
+                String newToken = SecurityUtil.generateToken(new ProfileDTO(follower));
                 String body = "{\"Authorization\":\"" +
                         newToken
                         + "\"}";
@@ -177,4 +204,36 @@ public class ProfileController {
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
+    
+
+    /**
+     * Retrieved a page of profiles
+     * 
+     * @param pageNumber pageNumber to be retrieved
+     * @return page of profiles for page number requested
+     */
+    @NoAuthIn
+    @GetMapping("/page/{pageNumber}")
+    public ResponseEntity<List<ProfileDTO>> getAllPostsbyPage(@PathVariable("pageNumber") int pageNumber) {
+    	List<Profile> profiles = profileService.getAllProfilesPaginated(pageNumber);
+    	List<ProfileDTO> profileDtos = new LinkedList<>();
+    	profiles.forEach(p -> profileDtos.add(new ProfileDTO(p)));
+        return new ResponseEntity<>(profileDtos, HttpStatus.OK);
+    }
+
+    /**
+     * Search all fields function in profile 
+     * 
+     * @param query Takes in a String without space at end point /search{query}
+     * @return List <Profile> matching search query
+     */
+	@NoAuthIn
+	@GetMapping("/search/{query}")
+	public ResponseEntity<List<ProfileDTO>> search(@PathVariable("query") String query){
+		log.info("/search hit");
+		List<Profile> profiles = profileService.search(query);
+    	List<ProfileDTO> profileDtos = new LinkedList<>();
+    	profiles.forEach(p -> profileDtos.add(new ProfileDTO(p)));
+		return new ResponseEntity<>(profileDtos, new HttpHeaders(), HttpStatus.OK);
+	}
 }
