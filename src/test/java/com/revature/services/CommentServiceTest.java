@@ -52,14 +52,14 @@ public class CommentServiceTest {
         List<Comment> commentList = new ArrayList<>();
         Comment comment = new Comment(null, null, "Testing 4", Timestamp.valueOf(LocalDateTime.now()), null);
         commentList.add(comment);
-        when(commentRepo.getCommentByPostPsid(24)).thenReturn(commentList);
-        assertEquals(commentList, commentService.getCommentByPostPsid(24));
+        when(commentRepo.getCommentsByPostPsid(24)).thenReturn(commentList);
+        assertEquals(commentList, commentService.getCommentsByPostPsid(24));
     }
 
     @Test
     void testGetInvalidCommentByPsid(){
-        when(commentRepo.getCommentByPostPsid(1000)).thenReturn(null);
-        assertNull(commentService.getCommentByPostPsid(1000));
+        when(commentRepo.getCommentsByPostPsid(1000)).thenReturn(null);
+        assertNull(commentService.getCommentsByPostPsid(1000));
     }
 
     @Test

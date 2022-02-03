@@ -22,3 +22,4 @@ spring:
     username: mlmstorenow@gmail.com
     password: SoWaCh007
     port: '587'
+    
