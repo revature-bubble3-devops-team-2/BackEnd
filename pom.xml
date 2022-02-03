@@ -86,6 +86,32 @@
             <version>4.0.0</version>
             <scope>test</scope>
         </dependency>
+        
+        <!-- https://mvnrepository.com/artifact/org.freemarker/freemarker -->
+        <!-- Used to generate email templates -->
+		<dependency>
+    		<groupId>org.freemarker</groupId>
+    		<artifactId>freemarker</artifactId>
+    		<version>2.3.31</version>
+		</dependency>
+        
+        <!-- Used as part of the email service -->
+        <!-- https://mvnrepository.com/artifact/javax.mail/mail -->
+		<dependency>
+    		<groupId>javax.mail</groupId>
+    		<artifactId>mail</artifactId>
+    		<version>1.4.7</version>
+		</dependency>
+		
+		<!-- Used as part of the email service -->
+		<dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>3.0.5.RELEASE</version>
+        </dependency>
+		
+
+        
 
         <!-- For Security Utility -->
         <dependency>

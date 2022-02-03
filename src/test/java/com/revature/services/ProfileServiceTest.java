@@ -14,6 +14,7 @@ public class ProfileServiceTest {
     private static final String USERNAME = "dummyUsername";
     private static final String PASSWORD = "abc123";
     private static final String EMAIL = "dummy@email.com";
+    private static final boolean VERIFICATION = true;
     private Profile expected = new Profile();
 
     @Mock
@@ -34,7 +35,7 @@ public class ProfileServiceTest {
                 "mUkq1nQxux1rgxllacVb+AT4bS+Xbw8DyUwGepmTCiw4t75krGyCSBArcmfiFBtgDkVZTFIJ+GMFhFbpWv2darLcxKlgSdur/z9Y" +
                 "CYoZcKm9vrrH+CaFykfIUdjnln5jhLoRmjeBIHgYWITG5J5/NCzAM+a3k4Y92/hbgDDE15GD1ud1EU8GHY4eb5LU1pAb2O7zbcW9" +
                 "pQbtVcbqyJGNRFA6OAGcWb1R0+04d0+1DA6BjTDsxkltgsvUpLrVFBo4VaFAT6Jf4ZI2Pg39WjFY1an8=";
-        expected = new Profile(USERNAME, passkey, name, name, EMAIL);
+        expected = new Profile(USERNAME, passkey, name, name, EMAIL, VERIFICATION);
     }
 
     @Test
@@ -135,12 +136,12 @@ public class ProfileServiceTest {
     @Test
     public void testAddFollowerByEmail(){
         ArrayList<Profile> empty = new ArrayList<>();
-        Profile profile = new Profile(1,"test","1234","updateTest","updateTest","test@mail", empty);
-        Profile profile2 = new Profile(2,"test2","1234","updateTest2","updateTest2","test2@mail", empty);
+        Profile profile = new Profile(1,"test","1234","updateTest","updateTest","test@mail", empty, true);
+        Profile profile2 = new Profile(2,"test2","1234","updateTest2","updateTest2","test2@mail", empty, true);
 
         ArrayList<Profile> followed = new ArrayList<>();
         followed.add(profile2);
-        Profile expected = new Profile(1, "test", "1234", "updateTest", "updateTest", "test@mail", followed);
+        Profile expected = new Profile(1, "test", "1234", "updateTest", "updateTest", "test@mail", followed, true);
 
         when(profileRepo.getProfileByEmail("test2@mail")).thenReturn(profile2);
         Profile result = profileService.addFollowerByEmail(profile, profile2.getEmail());
@@ -152,10 +153,10 @@ public class ProfileServiceTest {
     @Test
     public void testDeleteFollowerByEmail(){
         ArrayList<Profile> empty = new ArrayList<>();
-        Profile profile = new Profile(1,"test","1234","updateTest","updateTest","test@mail", empty);
-        Profile profile2 = new Profile(2,"test2","1234","updateTest2","updateTest2","test2@mail", empty);
+        Profile profile = new Profile(1,"test","1234","updateTest","updateTest","test@mail", empty, true);
+        Profile profile2 = new Profile(2,"test2","1234","updateTest2","updateTest2","test2@mail", empty, true);
 
-        Profile expected = new Profile(1, "test", "1234", "updateTest", "updateTest", "test@mail", empty);
+        Profile expected = new Profile(1, "test", "1234", "updateTest", "updateTest", "test@mail", empty, true);
 
         when(profileRepo.getProfileByEmail("tes2@mail")).thenReturn(profile);
         when(profileRepo.getProfileByEmail("test2@mail")).thenReturn(profile2);
