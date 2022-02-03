@@ -19,7 +19,9 @@ bin/
 .idea
 *.iws
 *.iml
-*.ipr
+target
+.idea
+.application.yml
 
 ### NetBeans ###
 nbproject/private/
