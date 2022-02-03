@@ -1,11 +1,17 @@
 package com.revature.services;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 import com.revature.models.Group;
+import com.revature.models.Profile;
 import com.revature.repositories.GroupRepo;
 
 /**
@@ -48,5 +54,43 @@ public class GroupServiceImpl implements GroupService {
 	public Group findById(int id) {
 		Optional<Group> group = groupRepo.findById(id);
 		return  group.isPresent() ? group.get() : null;
+	}
+	
+	/**
+	 * @author robot
+	 * Gets the profiles associated with the group with the given id
+	 * 
+	 * @param id
+	 * @return Set containing all profiles in a group
+	 */
+	public Set<Profile> showGroups(int id) {
+		Optional<Group> group = groupRepo.findById(id);
+		Group targetGroup = group.isPresent() ? group.get() : null;
+		
+		if (targetGroup != null && targetGroup.getMembers() != null && !targetGroup.getMembers().isEmpty()) {
+			return targetGroup.getMembers();
+		}
+		return new HashSet<Profile>();
+	}
+	
+    /**
+     * Calls ProfileRepo to get a list of matching profiles.
+     * 
+     * ImageUrl and Pid are ignored when searching.
+     * @param Search query without spaces
+     * @return List <Profile> matching search
+     */ 
+	public List<Group> search(String query) {
+		Group sampleGroup = new Group();
+		sampleGroup.setGroupName(query);
+		
+		 ExampleMatcher ignoringExampleMatcher = ExampleMatcher.matchingAny()
+				 .withMatcher("groupName", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
+				 .withIgnorePaths("pid");
+				 
+		 Example <Group> example = Example.of(sampleGroup, ignoringExampleMatcher);
+		
+		
+		return groupRepo.findAll(example);
 	}
 }
