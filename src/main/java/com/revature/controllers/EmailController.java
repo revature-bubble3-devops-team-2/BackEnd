@@ -50,13 +50,13 @@ public class EmailController {
 			return true;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
 		} catch (TemplateException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+		
 		} catch (MessagingException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
 		}
 		return false;
 	}
@@ -75,6 +75,38 @@ public class EmailController {
 		
 		if(pserv.updateProfile(prof)!= null) {
 		return true;
+		}
+		return false;
+	}
+	
+	@PostMapping("/email/verify/passwordupdate")
+	@NoAuthIn
+	public boolean sendEmailForUpdatePassword(@RequestBody Map<?,?> emailMap) {
+		System.out.println("In Email Controller For Update Password -----------------------");
+		HashMap<String, Object> tempMap = new HashMap<String, Object>();
+		tempMap.put("email", emailMap.get("email"));
+		System.out.println((String) emailMap.get("email"));
+		tempMap.put("url", emailMap.get("url"));
+		
+		
+		Profile whyGod = new Profile();
+		whyGod.setEmail((String) emailMap.get("email"));
+		Profile profile = pserv.getProfileByEmail(whyGod);
+		System.out.println(profile);
+		tempMap.put("profile", profile);
+		
+		try {
+			eserv.sendPasswordResetMessage((String) emailMap.get("email"), "Verify", tempMap);
+			return true;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+		
+		} catch (TemplateException e) {
+			// TODO Auto-generated catch block
+			
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			
 		}
 		return false;
 	}
