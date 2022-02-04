@@ -11,19 +11,25 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.revature.controllers.ProfileController;
 import com.revature.models.Group;
 import com.revature.models.Profile;
 import com.revature.repositories.ProfileRepo;
+
+import lombok.extern.log4j.Log4j2;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+@Log4j2
 public class ProfileServiceTest {
 
     private static final String USERNAME = "dummyUsername";
@@ -158,12 +164,12 @@ public class ProfileServiceTest {
         assertEquals(expected2, profileService.addNewProfile(expected2));
     }
 
-    //
-    // @Test
-    // void getAllProfiles() {
-    // List<Profile> profileList = Arrays.asList(expected, expected2);
-    // when(profileRepo.findAll()).thenReturn(profileList);
-    // }
+//    
+//     @Test
+//     void getAllProfiles() {
+//     List<Profile> profileList = Arrays.asList(expected, expected2);
+//     when(profileRepo.findAll()).thenReturn(profileList);
+//     }
 
     @Test
     void getAllProfilesPaginated() {
@@ -174,10 +180,10 @@ public class ProfileServiceTest {
         assertNotNull(pageable);
         String pageAbleString = pageable.toString();
 
-        when(profileRepo.findAll(pageable).getContent()).thenReturn(profileList);
+        Page<Profile> profilePage = new PageImpl<Profile>(profileList);
+        when(profileRepo.findAll(pageable)).thenReturn(profilePage);
         List<Profile> actual = profileRepo.findAll(pageable).getContent();
-        assertEquals(actual, expected);
-
+        assertEquals(actual, profileList);
     }
 
     @Test
