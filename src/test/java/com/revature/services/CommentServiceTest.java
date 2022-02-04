@@ -108,36 +108,35 @@ public class CommentServiceTest {
     	assertEquals(new ArrayList<>(), commentService.getCommentsByPostPsid(566548189));
     }
     
-//    @Test
-//    void testGetOriginalCommentsPaginated() {
-//    	Post post = new Post(24, null, "Post Body", "", Timestamp.valueOf(LocalDateTime.now()), new LinkedHashSet<Integer>() );
-//    	Comment comment = new Comment(null, post, "Testing 4", Timestamp.valueOf(LocalDateTime.now()), null);
-//    	Comment reply = new Comment(null, post, "Testing 2", Timestamp.valueOf(LocalDateTime.now()), comment);
-//    	List<Comment> commentList = new ArrayList<>();
-//    	commentList.add(comment);
-//    	commentList.add(reply);
-//    	List<Comment> noReplies = new ArrayList<>();
-//    	noReplies.add(comment);
-//    	Page<Comment> commentPage = new PageImpl<Comment>(commentList);
-//    	Pageable pageable = PageRequest.of(0, 5, Sort.by("dateCreated").ascending());
-//    	when(commentRepo.getCommentsByPostPsid(pageable, 24)).thenReturn(commentPage);
-//    	assertEquals(noReplies, commentService.getOriginalCommentsByPostPsidPaginated(24, 1));
-//    }
-//    
-//    @Test
-//    void testGetRepliesPaginated() {
-//    	Post post = new Post(24, null, "Post Body", "", Timestamp.valueOf(LocalDateTime.now()), new LinkedHashSet<Integer>());
-//    	Comment comment = new Comment(15, null, post, "Testing 4", Timestamp.valueOf(LocalDateTime.now()), null);
-//    	Comment reply = new Comment(17, null, post, "Test Reply 1", Timestamp.valueOf(LocalDateTime.now()), comment);
-//    	Comment reply2 = new Comment(18, null, post, "Test Reply 2", Timestamp.valueOf(LocalDateTime.now()), comment);
-//    	List<Comment> replies = new ArrayList<>();
-//    	replies.add(reply);
-//    	replies.add(reply2);
-//    	Page<Comment> commentPage = new PageImpl<Comment>(replies);
-//    	Pageable pageable = PageRequest.of(0, 5, Sort.by("dateCreated").ascending());
-//    	when(commentRepo.getCommentsByPostPsidAndPrevious(pageable, 24, 15)).thenReturn(commentPage);
-//    	assertEquals(replies, commentService.getCommentsByPostPsidAndPreviousPaginated(24, 15, 1));
-//    }
+    @Test
+    void testGetOriginalCommentsPaginated() {
+    	Post post = new Post(24, null, "Post Body", "", Timestamp.valueOf(LocalDateTime.now()), new LinkedHashSet<Integer>() );
+    	Comment comment = new Comment(15, null, post, "Testing 4", Timestamp.valueOf(LocalDateTime.now()), null);
+    	Comment reply = new Comment(17, null, post, "Testing 2", Timestamp.valueOf(LocalDateTime.now()), comment);
+    	List<Comment> commentList = new ArrayList<>();
+    	commentList.add(comment);
+    	commentList.add(reply);
+    	List<Comment> noReplies = new ArrayList<>();
+    	noReplies.add(comment);
+    	Page<Comment> commentPage = new PageImpl<Comment>(commentList);
+    	Pageable pageable = PageRequest.of(0, 5, Sort.by("dateCreated").ascending());
+    	when(commentRepo.getCommentsByPostPsid(pageable, 24)).thenReturn(commentPage);
+    	assertEquals(noReplies, commentService.getOriginalCommentsByPostPsidPaginated(24, 1));
+    }
+    
+    @Test
+    void testGetRepliesPaginated() {
+    	Comment comment = new Comment(15, null, null, "Testing 4", Timestamp.valueOf(LocalDateTime.now()), null);
+    	Comment reply = new Comment(17, null, null, "Test Reply 1", Timestamp.valueOf(LocalDateTime.now()), comment);
+    	Comment reply2 = new Comment(18, null, null, "Test Reply 2", Timestamp.valueOf(LocalDateTime.now()), comment);
+    	List<Comment> replies = new ArrayList<>();
+    	replies.add(reply);
+    	replies.add(reply2);
+    	Page<Comment> commentPage = new PageImpl<Comment>(replies);
+    	Pageable pageable = PageRequest.of(0, 5, Sort.by("dateCreated").ascending());
+    	when(commentRepo.getCommentsByPostPsidAndPrevious(pageable, 24, 15)).thenReturn(commentPage);
+    	assertEquals(replies, commentService.getCommentsByPostPsidAndPreviousPaginated(24, 15, 1));
+    }
     
     @Test
     void testGetCommentsPaginated() {

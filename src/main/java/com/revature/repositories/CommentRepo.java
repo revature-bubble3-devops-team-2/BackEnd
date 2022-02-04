@@ -14,7 +14,6 @@ public interface CommentRepo extends JpaRepository<Comment,Integer> {
 
     List<Comment> getCommentsByPostPsid(int psid);
     Page<Comment> getCommentsByPostPsid(Pageable pageable, int psid);
-
     
     List<Comment> getCommentsByPostPsidAndPrevious(int psid, int cid);
     Page<Comment> getCommentsByPostPsidAndPrevious(Pageable pageable, int psid, int cid);

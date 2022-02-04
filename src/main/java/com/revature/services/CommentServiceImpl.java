@@ -85,7 +85,8 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	public List<Comment> getOriginalCommentsByPostPsidPaginated(int psid, int page) {
-		Pageable pageable = PageRequest.of(page - 1, 5, Sort.by("datePosted").ascending());
+		Pageable pageable = PageRequest.of(page - 1, 5, Sort.by("dateCreated").ascending());
+
 		Page<Comment> resultPage = commentRepo.getCommentsByPostPsid(pageable, psid);
 		if (resultPage != null && resultPage.hasContent()) {
 			return resultPage.getContent().stream()
@@ -103,9 +104,8 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public List<Comment> getCommentsByPostPsidAndPreviousPaginated(int psid, int cid, int page) {
-		Pageable pageable = PageRequest.of(page - 1, 5, Sort.by("datePosted").ascending());
+		Pageable pageable = PageRequest.of(page - 1, 5, Sort.by("dateCreated").ascending());
 		Page<Comment> resultPage = commentRepo.getCommentsByPostPsidAndPrevious(pageable, psid, cid);
-		System.out.println(resultPage.hasContent());
 		if (resultPage.hasContent()) {
 			return resultPage.getContent();
 		}
