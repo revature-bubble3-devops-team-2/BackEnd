@@ -235,20 +235,24 @@ public class ProfileServiceTest {
     	List<Profile> searchExpected = new ArrayList<>();
     	searchExpected.add(expected);
     	searchExpected.add(expected2);
-    	
-		 ExampleMatcher ignoringExampleMatcher = ExampleMatcher.matchingAny()
+
+    	Profile sampleProfile = new Profile();
+    	sampleProfile.setPid(0);
+		sampleProfile.setFirstName("test");
+		sampleProfile.setLastName("test");
+		sampleProfile.setUsername("test");
+		sampleProfile.setEmail("test");
+		
+		ExampleMatcher ignoringExampleMatcher = ExampleMatcher.matchingAny()
 				 .withMatcher("username", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
 				 .withMatcher("firstName", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
 				 .withMatcher("lastName", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
 				 .withMatcher("email", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
 				 .withMatcher("groups", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
 				 .withIgnorePaths("pid");
-		 
-		 Profile searchSampleProfile = new Profile();
-		 searchSampleProfile.setFirstName("test");
-    	
-    	Example <Profile> example = Example.of(searchSampleProfile, ignoringExampleMatcher);
-    	
+				 
+		Example <Profile> example = Example.of(sampleProfile, ignoringExampleMatcher);
+    	System.out.println(example);
     	when(profileRepo.findAll(example)).thenReturn(searchExpected);
     	
     	List<Profile> result = profileService.search("test");
