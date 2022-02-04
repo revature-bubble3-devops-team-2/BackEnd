@@ -8,7 +8,7 @@ import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class PostModelTest {
+class PostModelTest {
 	
 	private static Post post1;
 	private static Post post2;

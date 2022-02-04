@@ -10,7 +10,7 @@ import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class ProfileModelTest {
+class ProfileModelTest {
 	private static Profile profile1;
 	private static Profile profile2;
 	private static List<Profile> following;
