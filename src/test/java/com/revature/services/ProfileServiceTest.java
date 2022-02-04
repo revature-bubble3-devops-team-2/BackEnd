@@ -15,6 +15,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 
 import com.revature.models.Group;
 import com.revature.models.Profile;
@@ -224,5 +226,37 @@ public class ProfileServiceTest {
         Profile result = profileService.removeFollowByEmail(profile, profile2.getEmail());
 
         assertEquals(expected, result);
+    }
+    
+    
+    @Test
+    public void testSearchFirst() {
+    	
+    	List<Profile> searchExpected = new ArrayList<>();
+    	searchExpected.add(expected);
+    	searchExpected.add(expected2);
+
+    	Profile sampleProfile = new Profile();
+    	sampleProfile.setPid(0);
+		sampleProfile.setFirstName("test");
+		sampleProfile.setLastName("test");
+		sampleProfile.setUsername("test");
+		sampleProfile.setEmail("test");
+		
+		ExampleMatcher ignoringExampleMatcher = ExampleMatcher.matchingAny()
+				 .withMatcher("username", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
+				 .withMatcher("firstName", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
+				 .withMatcher("lastName", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
+				 .withMatcher("email", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
+				 .withMatcher("groups", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
+				 .withIgnorePaths("pid");
+				 
+		Example <Profile> example = Example.of(sampleProfile, ignoringExampleMatcher);
+    	when(profileRepo.findAll(example)).thenReturn(searchExpected);
+    	
+    	List<Profile> result = profileService.search("test");
+    	
+    	assertEquals(searchExpected, result);
+    	
     }
 }
