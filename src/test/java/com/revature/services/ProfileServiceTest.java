@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.ExampleMatcher;
 
 import com.revature.models.Group;
 import com.revature.models.Profile;
@@ -224,5 +225,22 @@ public class ProfileServiceTest {
         Profile result = profileService.removeFollowByEmail(profile, profile2.getEmail());
 
         assertEquals(expected, result);
+    }
+    
+    
+    @Test
+    public void testSearch() {
+    	
+    	List<Profile> searchExpected = new ArrayList<>();
+    	searchExpected.add(expected);
+    	searchExpected.add(expected2);
+    	
+		
+    	when(profileService.search("test")).thenReturn(searchExpected);
+    	
+    	List<Profile> result = profileService.search("test");
+    	
+    	assertEquals(searchExpected, result);
+    	
     }
 }
