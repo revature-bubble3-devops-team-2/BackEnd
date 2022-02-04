@@ -74,7 +74,7 @@ public class CommentServiceTest {
     
     @Test
     void testGetOriginalComments(){
-    	Post post = new Post(24, null, "Post Body", "", Timestamp.valueOf(LocalDateTime.now()), new LinkedHashSet<Integer>() );
+    	Post post = new Post(24, null, "Post Body", "", Timestamp.valueOf(LocalDateTime.now()), new LinkedHashSet<Integer>(), null);
     	Comment comment = new Comment(null, post, "Testing 4", Timestamp.valueOf(LocalDateTime.now()), null);
     	Comment reply = new Comment(null, post, "Testing 2", Timestamp.valueOf(LocalDateTime.now()), comment);
     	List<Comment> commentList = new ArrayList<>();
@@ -87,7 +87,7 @@ public class CommentServiceTest {
     }
     @Test
     void testGetReplies(){
-    	Post post = new Post(24, null, "Post Body", "", Timestamp.valueOf(LocalDateTime.now()), new LinkedHashSet<Integer>() );
+    	Post post = new Post(24, null, "Post Body", "", Timestamp.valueOf(LocalDateTime.now()), new LinkedHashSet<Integer>(), null);
     	Comment comment = new Comment(15, null, post, "Testing 4", Timestamp.valueOf(LocalDateTime.now()), null);
     	Comment reply = new Comment(17, null, post, "Testing 2", Timestamp.valueOf(LocalDateTime.now()), comment);
     	Comment reply2 = new Comment(19, null, post, "Testing 3", Timestamp.valueOf(LocalDateTime.now()), comment);
@@ -111,7 +111,7 @@ public class CommentServiceTest {
     
     @Test
     void testGetOriginalCommentsPaginated() {
-    	Post post = new Post(24, null, "Post Body", "", Timestamp.valueOf(LocalDateTime.now()), new LinkedHashSet<Integer>() );
+    	Post post = new Post(24, null, "Post Body", "", Timestamp.valueOf(LocalDateTime.now()), new LinkedHashSet<Integer>(), null);
     	Comment comment = new Comment(15, null, post, "Testing 4", Timestamp.valueOf(LocalDateTime.now()), null);
     	Comment reply = new Comment(17, null, post, "Testing 2", Timestamp.valueOf(LocalDateTime.now()), comment);
     	List<Comment> commentList = new ArrayList<>();
