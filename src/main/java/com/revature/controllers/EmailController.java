@@ -60,4 +60,22 @@ public class EmailController {
 		}
 		return false;
 	}
+	
+	@PostMapping("/validate")
+	@NoAuthIn
+	public boolean emailVerified(@RequestBody String email) {
+		System.out.println("in validate---------------------");
+		System.out.println("email: " + email);
+		Profile profile = new Profile();
+		profile.setEmail(email);
+		
+		Profile prof = pserv.getProfileByEmail(profile);
+		
+		prof.setVerification(true);
+		
+		if(pserv.updateProfile(prof)!= null) {
+		return true;
+		}
+		return false;
+	}
 }
