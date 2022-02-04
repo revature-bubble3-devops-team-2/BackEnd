@@ -33,7 +33,7 @@ public class CommentServiceTest {
     
     @Test
     void testAddComment() {
-        Profile tempProfile = new Profile(2, "profile2", "22", "Two", "LastTwo", "Email2");
+        Profile tempProfile = new Profile(2, "profile2", "22", "Two", "LastTwo", "Email2", true);
         Post tempPost = new Post(3, tempProfile, "Hello World", null, Timestamp.valueOf(LocalDateTime.now()));
         Comment comment = new Comment(tempProfile, tempPost, "Test", Timestamp.valueOf(LocalDateTime.now()), null);
         when(commentRepo.save(comment)).thenReturn(comment);
@@ -52,14 +52,14 @@ public class CommentServiceTest {
         List<Comment> commentList = new ArrayList<>();
         Comment comment = new Comment(null, null, "Testing 4", Timestamp.valueOf(LocalDateTime.now()), null);
         commentList.add(comment);
-        when(commentRepo.getCommentByPostPsid(24)).thenReturn(commentList);
-        assertEquals(commentList, commentService.getCommentByPostPsid(24));
+        when(commentRepo.getCommentsByPostPsid(24)).thenReturn(commentList);
+        assertEquals(commentList, commentService.getCommentsByPostPsid(24));
     }
 
     @Test
     void testGetInvalidCommentByPsid(){
-        when(commentRepo.getCommentByPostPsid(1000)).thenReturn(null);
-        assertNull(commentService.getCommentByPostPsid(1000));
+        when(commentRepo.getCommentsByPostPsid(1000)).thenReturn(null);
+        assertNull(commentService.getCommentsByPostPsid(1000));
     }
 
     @Test

@@ -1,5 +1,6 @@
 package com.revature.utilities;
 
+import com.revature.dto.ProfileDTO;
 import com.revature.models.Post;
 import com.revature.models.Profile;
 import com.revature.utilites.SecurityUtil;
@@ -23,7 +24,7 @@ public class SecurityUtilTest {
             "jmUkq1nQxux1rgxllacVb+AT4bS+Xbw8DyUwGepmTCiw4t75krGyCSBArcmfiFBtgDkVZTFIJ+GMFhFbpWv2darLcxKlgSdur/z9YCYo" +
             "ZcKm9vrrH+CaFykfIUdjnln5jhLoRmjeBIHgYWITG5J5/NCzAM+a3k4Y92/hbgDDE15GD1ud1EU8GHY4eb5LU1pAb2O7zbcW9pQbtVcb" +
             "qyJGNRFA6OAGcWb1R0+04d0+1DA6BjTDsxkltgsvUpLrVFBo4VaFAT6Jf4ZI2Pg39WjFY1an8=";
-    private static final Profile PROFILE = new Profile(8756, "username", "passkey", "name", "name", "email");
+    private static final Profile PROFILE = new Profile(8756, "username", "passkey", "name", "name", "email", true);
 
     @Order(1)
     @Test
@@ -58,11 +59,11 @@ public class SecurityUtilTest {
                 () -> assertNull(SecurityUtil.validateToken(falseToken))
         );
     }
-
+    
     @Test
     @Order(2)
     void generateValidToken() {
-        assertNotNull(SecurityUtil.generateToken(PROFILE));
+        assertNotNull(SecurityUtil.generateToken(new ProfileDTO(PROFILE)));
     }
 
     @Test
@@ -74,18 +75,18 @@ public class SecurityUtilTest {
     void generateFromIncomplete() {
         String val = "testdata";
         assertAll(
-                () -> assertNull(SecurityUtil.generateToken(new Profile(0, val, val, val, val, val))),
-                () -> assertNull(SecurityUtil.generateToken(new Profile(867851386, null, val, val, val, val))),
-                () -> assertNull(SecurityUtil.generateToken(new Profile(867851386, val, null, val, val, val))),
-                () -> assertNull(SecurityUtil.generateToken(new Profile(867851386, val, val, null, val, val))),
-                () -> assertNull(SecurityUtil.generateToken(new Profile(867851386, val, val, val, null, val))),
-                () -> assertNull(SecurityUtil.generateToken(new Profile(867851386, val, val, val, val, null))),
-                () -> assertNull(SecurityUtil.generateToken(new Profile(867851386, val, val, val, val, val, (List<Profile>)null))),
-                () -> assertNull(SecurityUtil.generateToken(new Profile(867851386, "", val, val, val, val))),
-                () -> assertNull(SecurityUtil.generateToken(new Profile(867851386, val, "", val, val, val))),
-                () -> assertNull(SecurityUtil.generateToken(new Profile(867851386, val, val, "", val, val))),
-                () -> assertNull(SecurityUtil.generateToken(new Profile(867851386, val, val, val, "", val))),
-                () -> assertNull(SecurityUtil.generateToken(new Profile(867851386, val, val, val, val, "")))
+
+                () -> assertNull(SecurityUtil.generateToken(new ProfileDTO(new Profile(0, val, val, val, val, val, false)))),
+                () -> assertNull(SecurityUtil.generateToken(new ProfileDTO(new Profile(867851386, null, val, val, val, val, false)))),
+                () -> assertNull(SecurityUtil.generateToken(new ProfileDTO(new Profile(867851386, val, null, val, val, val, false)))),
+                () -> assertNull(SecurityUtil.generateToken(new ProfileDTO(new Profile(867851386, val, val, null, val, val, false)))),
+                () -> assertNull(SecurityUtil.generateToken(new ProfileDTO(new Profile(867851386, val, val, val, null, val, false)))),
+                () -> assertNull(SecurityUtil.generateToken(new ProfileDTO(new Profile(867851386, val, val, val, val, null, false)))),
+                () -> assertNull(SecurityUtil.generateToken(new ProfileDTO(new Profile(867851386, "", val, val, val, val, false)))),
+                () -> assertNull(SecurityUtil.generateToken(new ProfileDTO(new Profile(867851386, val, "", val, val, val, false)))),
+                () -> assertNull(SecurityUtil.generateToken(new ProfileDTO(new Profile(867851386, val, val, "", val, val, false)))),
+                () -> assertNull(SecurityUtil.generateToken(new ProfileDTO(new Profile(867851386, val, val, val, "", val, false)))),
+                () -> assertNull(SecurityUtil.generateToken(new ProfileDTO(new Profile(867851386, val, val, val, val, "", false))))
         );
     }
 
