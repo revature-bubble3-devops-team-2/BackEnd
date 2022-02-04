@@ -50,11 +50,11 @@ public class GroupDTO {
 				members = new HashSet<>();
 				group.getMembers().forEach(m -> {
 					ProfileDTO profileDto = new ProfileDTO(m.getPid(), m.getUsername(), m.getPasskey(),
-							m.getFirstName(), m.getLastName(), m.getEmail(), m.getImgurl(), null, null);
+							m.getFirstName(), m.getLastName(), m.getEmail(), m.isVerification(), m.getImgurl(), null, null);
 					List<ProfileDTO> following = new ArrayList<>();
 					if (m.getFollowing() != null) {
 						m.getFollowing().forEach(f -> following.add(new ProfileDTO(f.getPid(), f.getUsername(), f.getPasskey(),
-										f.getFirstName(), f.getLastName(), f.getEmail(), f.getImgurl(), null, null)));
+										f.getFirstName(), f.getLastName(), f.getEmail(), f.isVerification(), f.getImgurl(), null, null)));
 					}
 					Set<GroupDTO> groups = new HashSet<>();
 					if (m.getGroups() != null) {

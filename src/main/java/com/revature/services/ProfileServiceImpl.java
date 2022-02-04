@@ -29,7 +29,7 @@ public class ProfileServiceImpl implements ProfileService {
     public ProfileRepo profileRepo;
 
     /**
-     * processes login request from profile controller
+     * processes login request fromprofile controller
      * 
      * @param username
      * @param password
@@ -122,6 +122,7 @@ public class ProfileServiceImpl implements ProfileService {
             if (profile.getFirstName()!=null) targetProfile.setFirstName(profile.getFirstName());
             if (profile.getLastName()!=null) targetProfile.setLastName(profile.getLastName());
             if (profile.getPasskey()!=null) targetProfile.setPasskey(profile.getPasskey());
+            targetProfile.setVerification(profile.isVerification());
             if(profile.getImgurl() != null) { 
             	
             	log.info(profile.getImgurl());
@@ -220,6 +221,7 @@ public class ProfileServiceImpl implements ProfileService {
 				 .withMatcher("firstName", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
 				 .withMatcher("lastName", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
 				 .withMatcher("email", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
+				 .withMatcher("groups", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
 				 .withIgnorePaths("pid");
 				 
 		 Example <Profile> example = Example.of(sampleProfile, ignoringExampleMatcher);
@@ -227,4 +229,7 @@ public class ProfileServiceImpl implements ProfileService {
 		
 		return profileRepo.findAll(example);
 	}
+	
+
+
 }

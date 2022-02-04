@@ -50,4 +50,5 @@ public class CommentController {
     	comments.forEach(c -> commentDtos.add(new CommentDTO(c)));
         return new ResponseEntity<>(commentDtos, HttpStatus.ACCEPTED);
     }
+
 }

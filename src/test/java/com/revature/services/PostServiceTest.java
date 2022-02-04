@@ -21,6 +21,7 @@ public class PostServiceTest {
     private static final String PASSWORD = "dummyPassword";
     private static final String NAME = "dummyName";
     private static final String EMAIL = "dummy@email.com";
+    private static boolean VERIFICATION = true;
     private Profile creator = new Profile();
     private Profile liker = new Profile();
 
@@ -42,8 +43,8 @@ public class PostServiceTest {
     @BeforeEach
     void initMock() {
         MockitoAnnotations.openMocks(this);
-        creator = new Profile(USERNAME, PASSWORD, NAME, NAME, EMAIL);
-        liker = new Profile(USERNAME, PASSWORD, NAME, NAME, EMAIL);
+        creator = new Profile(USERNAME, PASSWORD, NAME, NAME, EMAIL, VERIFICATION);
+        liker = new Profile(USERNAME, PASSWORD, NAME, NAME, EMAIL, VERIFICATION);
         post = new Post(creator, BODY, IMG, getTime(), null);
     }
 

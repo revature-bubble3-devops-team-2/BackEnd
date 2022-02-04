@@ -258,8 +258,9 @@ public class SecurityUtil {
             String firstName = (String) guts.get("firstName");
             String lastName = (String) guts.get("lastName");
             String email = (String) guts.get("email");
+            boolean verification = (boolean) guts.get("verification");
 
-            return new Profile(id, username, passkey, firstName, lastName, email);
+            return new Profile(id, username, passkey, firstName, lastName, email, verification);
         } catch (ParseException e) {
             log.error("Unable to parse token " + e.getMessage());
         }
