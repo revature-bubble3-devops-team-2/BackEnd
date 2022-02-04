@@ -252,7 +252,6 @@ public class ProfileServiceTest {
 				 .withIgnorePaths("pid");
 				 
 		Example <Profile> example = Example.of(sampleProfile, ignoringExampleMatcher);
-    	System.out.println(example);
     	when(profileRepo.findAll(example)).thenReturn(searchExpected);
     	
     	List<Profile> result = profileService.search("test");
