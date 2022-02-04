@@ -225,9 +225,7 @@ public class ProfileServiceImpl implements ProfileService {
 				 .withIgnorePaths("pid");
 				 
 		Example <Profile> example = Example.of(sampleProfile, ignoringExampleMatcher);
-		System.out.println(example);
 		List<Profile> profiles = profileRepo.findAll(example);
-		System.out.println(profiles);
 		return profiles;
 	}
 	
