@@ -33,7 +33,7 @@ public class CommentServiceTest {
     
     @Test
     void testAddComment() {
-        Profile tempProfile = new Profile(2, "profile2", "22", "Two", "LastTwo", "Email2");
+        Profile tempProfile = new Profile(2, "profile2", "22", "Two", "LastTwo", "Email2", true);
         Post tempPost = new Post(3, tempProfile, "Hello World", null, Timestamp.valueOf(LocalDateTime.now()));
         Comment comment = new Comment(tempProfile, tempPost, "Test", Timestamp.valueOf(LocalDateTime.now()), null);
         when(commentRepo.save(comment)).thenReturn(comment);
