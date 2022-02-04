@@ -178,7 +178,6 @@ public class ProfileServiceTest {
 
         Pageable pageable = PageRequest.of(pageRequested - 1, 2, Sort.unsorted());
         assertNotNull(pageable);
-        String pageAbleString = pageable.toString();
 
         Page<Profile> profilePage = new PageImpl<Profile>(profileList);
         when(profileRepo.findAll(pageable)).thenReturn(profilePage);
