@@ -1,7 +1,9 @@
 package com.revature.controllers;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -216,4 +218,15 @@ public class ProfileController {
     	profiles.forEach(p -> profileDtos.add(new ProfileDTO(p)));
 		return new ResponseEntity<>(profileDtos, new HttpHeaders(), HttpStatus.OK);
 	}
+	
+	@NoAuthIn
+	@GetMapping("/{id}/following")
+	public ResponseEntity<List<ProfileDTO>> getFollowingProfiles(@PathVariable("id")int id){
+		log.info("/following hit");
+		Profile profile = profileService.getProfileByPid(id);
+    	List<ProfileDTO> profileDtos = new LinkedList<>();
+    	profile.getFollowing().forEach(p -> profileDtos.add(new ProfileDTO(p)));
+		return new ResponseEntity<>(profileDtos, new HttpHeaders(), HttpStatus.OK);
+	}
+	
 }
