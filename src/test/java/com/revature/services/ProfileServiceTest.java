@@ -1,6 +1,7 @@
 package com.revature.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.when;
 
@@ -10,17 +11,21 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.revature.models.Group;
+import com.revature.models.Profile;
+import com.revature.repositories.ProfileRepo;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
-import com.revature.models.Group;
-import com.revature.models.Profile;
-import com.revature.repositories.ProfileRepo;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 public class ProfileServiceTest {
+
     private static final String USERNAME = "dummyUsername";
     private static final String PASSWORD = "abc123";
     private static final String EMAIL = "dummy@email.com";
@@ -30,7 +35,7 @@ public class ProfileServiceTest {
     private static final String PASSWORD2 = "abc123";
     private static final String EMAIL2 = "dummy2@email.com";
     private Profile expected2 = new Profile();
-    
+
     @Mock
     ProfileRepo profileRepo;
 
@@ -67,56 +72,56 @@ public class ProfileServiceTest {
     }
 
     @Test
-    void testLoginSuccess(){
+    void testLoginSuccess() {
         when(profileRepo.getProfileByUsername(USERNAME)).thenReturn(expected);
         Profile actual = profileService.login(USERNAME, PASSWORD);
-        assertEquals(expected,actual);
+        assertEquals(expected, actual);
     }
 
     @Test
-    void testLoginNullEmail(){
+    void testLoginNullEmail() {
         when(profileRepo.getProfileByEmail(null)).thenReturn(null);
         Profile actual = profileService.login(null, PASSWORD);
         assertNull(actual);
     }
 
     @Test
-    void testLoginNullPass(){
+    void testLoginNullPass() {
         when(profileRepo.getProfileByEmail(EMAIL)).thenReturn(expected);
-        Profile actual = profileService.login(EMAIL,null);
+        Profile actual = profileService.login(EMAIL, null);
         assertNull(actual);
     }
 
     @Test
-    void testLoginBadEmail(){
+    void testLoginBadEmail() {
         when(profileRepo.getProfileByEmail("banana")).thenReturn(null);
-        Profile actual = profileService.login("banana","tomato");
+        Profile actual = profileService.login("banana", "tomato");
         assertNull(actual);
     }
 
     @Test
-    void testLoginBadPass(){
+    void testLoginBadPass() {
         when(profileRepo.getProfileByEmail(EMAIL)).thenReturn(expected);
-        Profile actual = profileService.login(EMAIL,"tomato");
+        Profile actual = profileService.login(EMAIL, "tomato");
         assertNull(actual);
     }
 
     @Test
-    void testFindProfileByEmailSuccess(){
+    void testFindProfileByEmailSuccess() {
         when(profileRepo.getProfileByEmail(EMAIL)).thenReturn(expected);
         Profile actual = profileRepo.getProfileByEmail(EMAIL);
-        assertEquals(actual,expected);
+        assertEquals(actual, expected);
     }
 
     @Test
-    void testFindProfileByEmailNullEntry(){
+    void testFindProfileByEmailNullEntry() {
         when(profileRepo.getProfileByEmail(null)).thenReturn(null);
         Profile actual = profileRepo.getProfileByEmail((null));
         assertNull(actual);
     }
 
     @Test
-    void testFindProfileByEmailBadEntry(){
+    void testFindProfileByEmailBadEntry() {
         when(profileRepo.getProfileByEmail("FloppyDisk")).thenReturn(null);
         Profile actual = profileRepo.getProfileByEmail(("FloppyDisk"));
         assertNull(actual);
@@ -132,7 +137,7 @@ public class ProfileServiceTest {
     void getProfileByUser() {
         when(profileRepo.getProfileByEmail(expected.getEmail())).thenReturn(expected);
         Profile actual = profileService.getProfileByEmail(expected);
-        assertEquals(expected,actual);
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -153,28 +158,28 @@ public class ProfileServiceTest {
         assertEquals(expected2, profileService.addNewProfile(expected2));
     }
 
-//    
-//    @Test
-//    void getAllProfiles() {
-//        List<Profile> profileList = Arrays.asList(expected, expected2);
-//        when(profileRepo.findAll()).thenReturn(profileList);
-//    }
-
+    //
     // @Test
-    // void getAllProfilesPaginated() {
+    // void getAllProfiles() {
     // List<Profile> profileList = Arrays.asList(expected, expected2);
-    // int pageRequested = 1;
-    // Pageable pageable = PageRequest.of(pageRequested - 1, 2, Sort.unsorted());
-    // assertNotNull(pageable);
-    // profileRepo.save(expected);
-    // profileRepo.save(expected2);
-
-    // when(profileRepo.findAll(pageable).getContent()).thenReturn(profileList);
-    // List<Profile> actual = profileRepo.findAll(pageable).getContent();
-    // assertEquals(actual, expected);
-
+    // when(profileRepo.findAll()).thenReturn(profileList);
     // }
-    
+
+    @Test
+    void getAllProfilesPaginated() {
+        List<Profile> profileList = Arrays.asList(expected, expected2);
+        int pageRequested = 1;
+
+        Pageable pageable = PageRequest.of(pageRequested - 1, 2, Sort.unsorted());
+        assertNotNull(pageable);
+        String pageAbleString = pageable.toString();
+
+        when(profileRepo.findAll(pageable).getContent()).thenReturn(profileList);
+        List<Profile> actual = profileRepo.findAll(pageable).getContent();
+        assertEquals(actual, expected);
+
+    }
+
     @Test
     void testUpdateExistingProfile() {
         when(profileRepo.getProfileByPid(expected.getPid())).thenReturn(expected);
@@ -190,15 +195,18 @@ public class ProfileServiceTest {
     }
 
     @Test
-    public void testAddFollowerByEmail(){
+    public void testAddFollowerByEmail() {
         ArrayList<Profile> empty = new ArrayList<>();
         Set<Group> groups = new HashSet<>();
-        Profile profile = new Profile(1,"test","1234","updateTest","updateTest","test@mail", "img@url.com", empty, groups);
-        Profile profile2 = new Profile(2,"test2","1234","updateTest2","updateTest2","test2@mail", "img@url.com", empty, groups);
+        Profile profile = new Profile(1, "test", "1234", "updateTest", "updateTest", "test@mail", "img@url.com", empty,
+                groups);
+        Profile profile2 = new Profile(2, "test2", "1234", "updateTest2", "updateTest2", "test2@mail", "img@url.com",
+                empty, groups);
 
         ArrayList<Profile> followed = new ArrayList<>();
         followed.add(profile2);
-        Profile expected = new Profile(1, "test", "1234", "updateTest", "updateTest", "test@mail", "img@url.com", followed, groups);
+        Profile expected = new Profile(1, "test", "1234", "updateTest", "updateTest", "test@mail", "img@url.com",
+                followed, groups);
 
         when(profileRepo.getProfileByEmail("test2@mail")).thenReturn(profile2);
         Profile result = profileService.addFollowerByEmail(profile, profile2.getEmail());
@@ -206,15 +214,17 @@ public class ProfileServiceTest {
         assertEquals(expected, result);
     }
 
-
     @Test
-    public void testDeleteFollowerByEmail(){
+    public void testDeleteFollowerByEmail() {
         ArrayList<Profile> empty = new ArrayList<>();
         Set<Group> groups = new HashSet<>();
-        Profile profile = new Profile(1,"test","1234","updateTest","updateTest","test@mail", "img@url.com", empty, groups);
-        Profile profile2 = new Profile(2,"test2","1234","updateTest2","updateTest2","test2@mail", "img@url.com", empty, groups);
+        Profile profile = new Profile(1, "test", "1234", "updateTest", "updateTest", "test@mail", "img@url.com", empty,
+                groups);
+        Profile profile2 = new Profile(2, "test2", "1234", "updateTest2", "updateTest2", "test2@mail", "img@url.com",
+                empty, groups);
 
-        Profile expected = new Profile(1, "test", "1234", "updateTest", "updateTest", "test@mail", "img@url.com", empty, groups);
+        Profile expected = new Profile(1, "test", "1234", "updateTest", "updateTest", "test@mail", "img@url.com", empty,
+                groups);
 
         when(profileRepo.getProfileByEmail("tes2@mail")).thenReturn(profile);
         when(profileRepo.getProfileByEmail("test2@mail")).thenReturn(profile2);
