@@ -1,9 +1,6 @@
 package com.revature.services;
 
 import java.util.List;
-
-import org.springframework.data.domain.Pageable;
-
 import com.revature.models.Comment;
 
 public interface CommentService {

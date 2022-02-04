@@ -1,5 +1,6 @@
 package com.revature.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,13 +45,13 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<Comment> getCommentsByPostPsidPaginated(int psid, int page) {
-    	Pageable pageable = PageRequest.of(page - 1, 5, Sort.by("dateCreated").descending());
+    	Pageable pageable = PageRequest.of(page - 1, 5, Sort.by("dateCreated").ascending());
     	Page<Comment> resultPage = commentRepo.getCommentsByPostPsid(pageable, psid);
     	if (resultPage.hasContent()) {
     		return resultPage.getContent();
     	}
     	
-    	return null;	
+    	return new ArrayList<>();	
     	
     }
     /**
@@ -77,21 +78,23 @@ public class CommentServiceImpl implements CommentService {
         return commentRepo.getCommentByCid(cid);
     }
 
-	public List<Comment> getCommentsByPostPsidAndPreviousIsNull(int psid) {
+	public List<Comment> getOriginalCommentsByPostPsid(int psid) {
 		return commentRepo.getCommentsByPostPsid(psid).stream()
 				.filter(c -> c.getPrevious() == null)
 				.collect(Collectors.toList());
 	}
 
-	public List<Comment> getCommentsByPostPsidAndPreviousPaginated(int psid, int page) {
-		Pageable pageable = PageRequest.of(page - 1, 5, Sort.by("datePosted").descending());
+	public List<Comment> getOriginalCommentsByPostPsidPaginated(int psid, int page) {
+		Pageable pageable = PageRequest.of(page - 1, 5, Sort.by("dateCreated").ascending());
+
 		Page<Comment> resultPage = commentRepo.getCommentsByPostPsid(pageable, psid);
-		if (resultPage.hasContent()) {
+		if (resultPage != null && resultPage.hasContent()) {
 			return resultPage.getContent().stream()
 					.filter(c -> c.getPrevious() == null)
 					.collect(Collectors.toList());
 		}
-		return null;
+		return new ArrayList<>();
+
 	}
 
 	@Override
@@ -101,18 +104,13 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public List<Comment> getCommentsByPostPsidAndPreviousPaginated(int psid, int cid, int page) {
-		Pageable pageable = PageRequest.of(page - 1, 5, Sort.by("datePosted").descending());
+		Pageable pageable = PageRequest.of(page - 1, 5, Sort.by("dateCreated").ascending());
 		Page<Comment> resultPage = commentRepo.getCommentsByPostPsidAndPrevious(pageable, psid, cid);
 		if (resultPage.hasContent()) {
 			return resultPage.getContent();
 		}
-		return null;
+    	return new ArrayList<>();
+
 	}
-
 	
-	
-	
-	
-	
-
 }

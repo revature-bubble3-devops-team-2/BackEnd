@@ -114,7 +114,7 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public Profile updateProfile(Profile profile) {
     	
-    	System.out.println(profile);
+    	log.info(profile);
     	
         Profile targetProfile = profileRepo.getProfileByPid(profile.getPid());
         if (targetProfile!=null) {
@@ -124,11 +124,11 @@ public class ProfileServiceImpl implements ProfileService {
             if (profile.getPasskey()!=null) targetProfile.setPasskey(profile.getPasskey());
             if(profile.getImgurl() != null) { 
             	
-            	System.out.println(profile.getImgurl());
+            	log.info(profile.getImgurl());
             	
             	log.error("here we go   " + profile.getImgurl() );
             	targetProfile.setImgurl(profile.getImgurl()) ;
-            	};
+            }
             return profileRepo.save(targetProfile);
         } else {
             return null;
@@ -196,7 +196,7 @@ public class ProfileServiceImpl implements ProfileService {
         if (resultPage.hasContent()) {
             return resultPage.getContent();
         }
-        return null;
+        return new ArrayList<>();
     }
 
 
@@ -220,12 +220,15 @@ public class ProfileServiceImpl implements ProfileService {
 				 .withMatcher("firstName", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
 				 .withMatcher("lastName", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
 				 .withMatcher("email", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
+				 .withMatcher("groups", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
 				 .withIgnorePaths("pid");
 				 
 		 Example <Profile> example = Example.of(sampleProfile, ignoringExampleMatcher);
 		
 		
-		 List<Profile> profiles = profileRepo.findAll(example);
-		return profiles;
+		return profileRepo.findAll(example);
 	}
+	
+
+
 }
