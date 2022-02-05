@@ -33,6 +33,8 @@ public class PostDTO {
 	private Timestamp datePosted;
 
 	private Set<Integer> likes = new LinkedHashSet<>();
+	
+	private GroupDTO group;
 
 	public PostDTO() {
 		super();
@@ -47,6 +49,7 @@ public class PostDTO {
 			imgURL = post.getImgURL();
 			datePosted = post.getDatePosted();
 			likes = post.getLikes();
+			group = post.getGroup() != null ? new GroupDTO(post.getGroup()) : null;
 		}
 	}
 	
@@ -54,24 +57,29 @@ public class PostDTO {
 		if(creator == null) { 
 			return null;
 		}
-		return new Post(psid, creator.toProfile(), body, imgURL, datePosted, likes);
+		if(group == null) {
+			return new Post(psid, creator.toProfile(), body, imgURL, datePosted, likes, null);
+		}
+		return new Post(psid, creator.toProfile(), body, imgURL, datePosted, likes, group.toGroup());
 	}
 	
-	public PostDTO(ProfileDTO creator, String body, String imgURL, Timestamp datePosted) {
+	public PostDTO(ProfileDTO creator, String body, String imgURL, Timestamp datePosted, GroupDTO group) {
 		this();
 		this.creator = creator;
 		this.body = body;
 		this.imgURL = imgURL;
 		this.datePosted = datePosted;
+		this.group = group;
 	}
 
-	public PostDTO(ProfileDTO creator, String body, String imgURL, Timestamp datePosted, Set<Integer> likes) {
+	public PostDTO(ProfileDTO creator, String body, String imgURL, Timestamp datePosted, Set<Integer> likes, GroupDTO group) {
 		this();
 		this.creator = creator;
 		this.body = body;
 		this.imgURL = imgURL;
 		this.datePosted = datePosted;
 		this.likes = likes;
+		this.group = group;
 	}
 	
 }
