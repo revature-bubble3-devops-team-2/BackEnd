@@ -20,7 +20,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Autowired
     CommentRepo commentRepo;
-
+    String sort = "dateCreated";
     /**
      * This method will receive a comment to be added from the user and return a comment. 
      * Within a try block, it will catch any exception and return null. It also makes sure the comment has a profile and date, otherwise
@@ -45,7 +45,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<Comment> getCommentsByPostPsidPaginated(int psid, int page) {
-    	Pageable pageable = PageRequest.of(page - 1, 5, Sort.by("dateCreated").ascending());
+    	Pageable pageable = PageRequest.of(page - 1, 5, Sort.by(sort).ascending());
     	Page<Comment> resultPage = commentRepo.getCommentsByPostPsid(pageable, psid);
     	if (resultPage.hasContent()) {
     		return resultPage.getContent();
@@ -85,7 +85,7 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	public List<Comment> getOriginalCommentsByPostPsidPaginated(int psid, int page) {
-		Pageable pageable = PageRequest.of(page - 1, 5, Sort.by("dateCreated").ascending());
+		Pageable pageable = PageRequest.of(page - 1, 5, Sort.by(sort).ascending());
 
 		Page<Comment> resultPage = commentRepo.getCommentsByPostPsid(pageable, psid);
 		if (resultPage != null && resultPage.hasContent()) {
@@ -104,7 +104,7 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public List<Comment> getCommentsByPostPsidAndPreviousPaginated(int psid, int cid, int page) {
-		Pageable pageable = PageRequest.of(page - 1, 5, Sort.by("dateCreated").ascending());
+		Pageable pageable = PageRequest.of(page - 1, 5, Sort.by(sort).ascending());
 		Page<Comment> resultPage = commentRepo.getCommentsByPostPsidAndPrevious(pageable, psid, cid);
 		if (resultPage.hasContent()) {
 			return resultPage.getContent();

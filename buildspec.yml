@@ -1,0 +1,12 @@
+
+version: 0.2
+
+phases:
+  build:
+    commands:
+      - java -version
+      - mvn clean package
+artifacts:
+  files:
+    - 'Dockerfile'
+    - target/Bubble.jar
