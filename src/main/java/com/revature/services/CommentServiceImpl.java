@@ -43,6 +43,27 @@ public class CommentServiceImpl implements CommentService {
         }
     }
 
+    /**
+     * This method will take in an id for a Post and return all comments 
+     * related to the post
+     *
+     * @param psid of the target Post
+     * @return list of comments organized by PostId
+     *
+     */
+    @Override
+    public List<Comment> getCommentsByPostPsid(int psid) {
+    	List<Comment> comments = commentRepo.getCommentsByPostPsid(psid) != null ? commentRepo.getCommentsByPostPsid(psid) : new ArrayList<>();
+    	return comments;
+    }
+    
+    /**
+     * This method will take in an id for a post, and a page number, and return
+     * a list of comments for the corresponding page.
+     * 
+     * @param psid of the target post, page number
+     * @return List of comments sorted by dateCreated
+     */
     @Override
     public List<Comment> getCommentsByPostPsidPaginated(int psid, int page) {
     	Pageable pageable = PageRequest.of(page - 1, 5, Sort.by(sort).ascending());
@@ -54,52 +75,32 @@ public class CommentServiceImpl implements CommentService {
     	return new ArrayList<>();	
     	
     }
-    /**
-     * This method will take in an id for a Post and return all comments 
-     * related to the post
-     *
-     * @param psid of the target Post
-     * @return list of comments organized by PostId
-     *
-     */
-    @Override
-    public List<Comment> getCommentsByPostPsid(int psid) {
-        return commentRepo.getCommentsByPostPsid(psid);
-    }
-
-    /**
-     * This method will take in an id for a Comment and return the comment
-     *
-     * @param cid of the target Comment
-     * @return the target Comment
-     */
-    @Override
-    public Comment getCommentByCid(int cid){
-        return commentRepo.getCommentByCid(cid);
-    }
 
 	public List<Comment> getOriginalCommentsByPostPsid(int psid) {
-		return commentRepo.getCommentsByPostPsid(psid).stream()
-				.filter(c -> c.getPrevious() == null)
-				.collect(Collectors.toList());
+		List<Comment> comments = commentRepo.getCommentsByPostPsid(psid) != null ? 
+				commentRepo.getCommentsByPostPsid(psid).stream()
+						   .filter(c -> c.getPrevious() == null).collect(Collectors.toList())
+				: new ArrayList<>();
+		return comments;
 	}
-
-	public List<Comment> getOriginalCommentsByPostPsidPaginated(int psid, int page) {
-		Pageable pageable = PageRequest.of(page - 1, 5, Sort.by(sort).ascending());
-
-		Page<Comment> resultPage = commentRepo.getCommentsByPostPsid(pageable, psid);
-		if (resultPage != null && resultPage.hasContent()) {
-			return resultPage.getContent().stream()
-					.filter(c -> c.getPrevious() == null)
-					.collect(Collectors.toList());
-		}
-		return new ArrayList<>();
-
-	}
-
+    
+    public List<Comment> getOriginalCommentsByPostPsidPaginated(int psid, int page) {
+    	Pageable pageable = PageRequest.of(page - 1, 5, Sort.by(sort).ascending());
+    	
+    	Page<Comment> resultPage = commentRepo.getCommentsByPostPsid(pageable, psid);
+    	if (resultPage != null && resultPage.hasContent()) {
+    		return resultPage.getContent().stream()
+    				.filter(c -> c.getPrevious() == null)
+    				.collect(Collectors.toList());
+    	}
+    	return new ArrayList<>();
+    	
+    }
+    
 	@Override
 	public List<Comment> getCommentsByPostPsidAndPrevious(int psid, int cid) {
-		return commentRepo.getCommentsByPostPsidAndPrevious(psid, cid);
+		List<Comment> comments = commentRepo.getCommentsByPostPsidAndPrevious(psid, cid) != null ? commentRepo.getCommentsByPostPsidAndPrevious(psid, cid) : new ArrayList<>();
+		return comments;
 	}
 
 	@Override
@@ -110,7 +111,17 @@ public class CommentServiceImpl implements CommentService {
 			return resultPage.getContent();
 		}
     	return new ArrayList<>();
-
 	}
+    
+    /**
+     * This method will take in an id for a Comment and return the comment
+     *
+     * @param cid of the target Comment
+     * @return the target Comment
+     */
+    @Override
+    public Comment getCommentByCid(int cid){
+        return commentRepo.getCommentByCid(cid);
+    }
 	
 }
