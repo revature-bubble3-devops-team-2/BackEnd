@@ -3,6 +3,7 @@ package com.revature.controllers;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.mail.MessagingException;
 
@@ -37,7 +38,7 @@ public class EmailController {
 		tempMap.put("email", emailMap.get("email"));
 		System.out.println((String) emailMap.get("email"));
 		tempMap.put("url", emailMap.get("url"));
-		
+		System.out.println(emailMap.get("url"));
 		
 		Profile whyGod = new Profile();
 		whyGod.setEmail((String) emailMap.get("email"));
@@ -73,7 +74,11 @@ public class EmailController {
 		
 		prof.setVerification(true);
 		
-		if(pserv.updateProfile(prof)!= null) {
+		Profile p = pserv.updateProfile(prof);
+		
+		if(p!= null) {
+			
+			System.out.println(p.isVerification());
 		return true;
 		}
 		return false;
@@ -110,4 +115,17 @@ public class EmailController {
 		}
 		return false;
 	}
+	
+	@PostMapping("/email/verify/password")
+	@NoAuthIn
+	public Profile updatePassword(@RequestBody Map<String,String> pmap) {
+		Profile prof = new Profile();
+		prof.setEmail(pmap.get("email"));
+		prof.setPasskey(pmap.get("password"));
+		prof.setVerification(true);
+		
+		Profile p = pserv.updateProfile(prof);
+		return p;
+	}
+	
 }
