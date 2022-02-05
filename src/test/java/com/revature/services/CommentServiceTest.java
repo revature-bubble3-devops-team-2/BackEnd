@@ -86,14 +86,14 @@ public class CommentServiceTest {
     void testGetCommentsPaginated() {
     	comments.add(comment);
     	Page<Comment> commentPage = new PageImpl<Comment>(comments);
-    	when(commentRepo.getCommentsByPostPsid(pageable,24)).thenReturn(commentPage);
+    	when(commentRepo.getCommentsByPostPsid(pageable,3)).thenReturn(commentPage);
     	assertEquals(comments, commentService.getCommentsByPostPsidPaginated(3, 1));
     }
     
     @Test
     void testGetNoCommentsPaginated() {
     	Page<Comment> commentPage = new PageImpl<Comment>(comments);
-    	when(commentRepo.getCommentsByPostPsid(pageable,14)).thenReturn(commentPage);
+    	when(commentRepo.getCommentsByPostPsid(pageable,3)).thenReturn(commentPage);
     	assertEquals(new ArrayList<>(), commentService.getCommentsByPostPsidPaginated(3, 1));
     }
     
