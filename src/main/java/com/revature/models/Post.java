@@ -45,6 +45,9 @@ public class Post {
 	@Column(name = "profile_id")
 	@ElementCollection()
 	private Set<Integer> likes = new LinkedHashSet<>();
+	
+	@ManyToOne
+	private Group group;
 
 	public Post() {
 		super();
@@ -52,29 +55,32 @@ public class Post {
 
 	}
 
-	public Post(Profile creator, String body, String imgURL, Timestamp datePosted) {
+	public Post(Profile creator, String body, String imgURL, Timestamp datePosted, Group group) {
 		this();
 		this.creator = creator;
 		this.body = body;
 		this.imgURL = imgURL;
 		this.datePosted = datePosted;
+		this.group = group;
 	}
 
-	public Post(Profile creator, String body, String imgURL, Timestamp datePosted, Set<Integer> likes) {
+	public Post(Profile creator, String body, String imgURL, Timestamp datePosted, Set<Integer> likes, Group group) {
 		this();
 		this.creator = creator;
 		this.body = body;
 		this.imgURL = imgURL;
 		this.datePosted = datePosted;
 		this.likes = likes;
+		this.group = group;
 	}
 
-	public Post(int psid, Profile creator, String body, String imgURL, Timestamp dateposted) {
+	public Post(int psid, Profile creator, String body, String imgURL, Timestamp dateposted, Group group) {
 		this.psid = psid;
 		this.creator = creator;
 		this.body = body;
 		this.imgURL = imgURL;
 		this.datePosted = dateposted;
+		this.group = group;
 	}
 
 }
