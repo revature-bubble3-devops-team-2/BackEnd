@@ -8,7 +8,7 @@ import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class GroupTest {
+class GroupModelTest {
 
 
 	private static final int GROUP_ID = 0;

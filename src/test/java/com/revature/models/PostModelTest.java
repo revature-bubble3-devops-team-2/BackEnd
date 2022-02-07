@@ -10,7 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 
-class PostTest {
+class PostModelTest {
 
 	private static final int PSID = 0;
 	private static final String BODY = "body";
