@@ -36,6 +36,7 @@ public class ProfileServiceTest {
     private static final String USERNAME = "dummyUsername";
     private static final String PASSWORD = "abc123";
     private static final String EMAIL = "dummy@email.com";
+    private static final boolean VERIFICATION = true;
     private Profile expected = new Profile();
 
     private static final String USERNAME2 = "dummyUsername2";
@@ -61,7 +62,8 @@ public class ProfileServiceTest {
                 "mUkq1nQxux1rgxllacVb+AT4bS+Xbw8DyUwGepmTCiw4t75krGyCSBArcmfiFBtgDkVZTFIJ+GMFhFbpWv2darLcxKlgSdur/z9Y" +
                 "CYoZcKm9vrrH+CaFykfIUdjnln5jhLoRmjeBIHgYWITG5J5/NCzAM+a3k4Y92/hbgDDE15GD1ud1EU8GHY4eb5LU1pAb2O7zbcW9" +
                 "pQbtVcbqyJGNRFA6OAGcWb1R0+04d0+1DA6BjTDsxkltgsvUpLrVFBo4VaFAT6Jf4ZI2Pg39WjFY1an8=";
-        expected = new Profile(USERNAME, passkey, name, name, EMAIL);
+
+        expected = new Profile(USERNAME, passkey, name, name, EMAIL, VERIFICATION);
         String name2 = "dummyName2";
         String passkey2 = "c8ZLBnfDh3YsvZ2dW1KDWY6ZTak8+v+/L74e8Vfoydk1IfySsVCAZVKTZfrtPKodzUXEiR+69yjOz1qqf7U4rA==jnW"
                 +
@@ -72,7 +74,7 @@ public class ProfileServiceTest {
                 "mUkq1nQxux1rgxllacVb+AT4bS+Xbw8DyUwGepmTCiw4t75krGyCSBArcmfiFBtgDkVZTFIJ+GMFhFbpWv2darLcxKlgSdur/z9Y" +
                 "CYoZcKm9vrrH+CaFykfIUdjnln5jhLoRmjeBIHgYWITG5J5/NCzAM+a3k4Y92/hbgDDE15GD1ud1EU8GHY4eb5LU1pAb2O7zbcW9" +
                 "pQbtVcbqyJGNRFA6OAGcWb1R0+04d0+1DA6BjTDsxkltgsvUpLrVFBo4VaFAT6Jf4ZI2Pg39WjFY1an8=";
-        expected2 = new Profile(USERNAME2, passkey2, name2, name2, EMAIL2);
+        expected2 = new Profile(USERNAME2, passkey2, name2, name2, EMAIL2, VERIFICATION);
 
         // profileList.add(expected);
         // profileList.add(expected2);
@@ -203,16 +205,14 @@ public class ProfileServiceTest {
     @Test
     public void testAddFollowerByEmail() {
         ArrayList<Profile> empty = new ArrayList<>();
+
         Set<Group> groups = new HashSet<>();
-        Profile profile = new Profile(1, "test", "1234", "updateTest", "updateTest", "test@mail", "img@url.com", empty,
-                groups);
-        Profile profile2 = new Profile(2, "test2", "1234", "updateTest2", "updateTest2", "test2@mail", "img@url.com",
-                empty, groups);
+        Profile profile = new Profile(1,"test","1234","updateTest","updateTest","test@mail", true, "img@url.com", empty, groups);
+        Profile profile2 = new Profile(2,"test2","1234","updateTest2","updateTest2","test2@mail", true, "img@url.com", empty, groups);
 
         ArrayList<Profile> followed = new ArrayList<>();
         followed.add(profile2);
-        Profile expected = new Profile(1, "test", "1234", "updateTest", "updateTest", "test@mail", "img@url.com",
-                followed, groups);
+        Profile expected = new Profile(1, "test", "1234", "updateTest", "updateTest", "test@mail", true, "img@url.com", followed, groups);
 
         when(profileRepo.getProfileByEmail("test2@mail")).thenReturn(profile2);
         Profile result = profileService.addFollowerByEmail(profile, profile2.getEmail());
@@ -223,15 +223,12 @@ public class ProfileServiceTest {
     @Test
     public void testDeleteFollowerByEmail() {
         ArrayList<Profile> empty = new ArrayList<>();
+
         Set<Group> groups = new HashSet<>();
-        Profile profile = new Profile(1, "test", "1234", "updateTest", "updateTest", "test@mail", "img@url.com", empty,
-                groups);
-        Profile profile2 = new Profile(2, "test2", "1234", "updateTest2", "updateTest2", "test2@mail", "img@url.com",
-                empty, groups);
+        Profile profile = new Profile(1,"test","1234","updateTest","updateTest","test@mail", true, "img@url.com", empty, groups);
+        Profile profile2 = new Profile(2,"test2","1234","updateTest2","updateTest2","test2@mail", true, "img@url.com", empty, groups);
 
-        Profile expected = new Profile(1, "test", "1234", "updateTest", "updateTest", "test@mail", "img@url.com", empty,
-                groups);
-
+        Profile expected = new Profile(1, "test", "1234", "updateTest", "updateTest", "test@mail", true, "img@url.com", empty, groups);
         when(profileRepo.getProfileByEmail("tes2@mail")).thenReturn(profile);
         when(profileRepo.getProfileByEmail("test2@mail")).thenReturn(profile2);
 

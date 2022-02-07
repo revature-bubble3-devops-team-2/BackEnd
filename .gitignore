@@ -5,6 +5,7 @@ target/
 !**/src/test/**/target/
 node/
 bin/
+.metadata/
 
 ### STS ###
 .apt_generated
