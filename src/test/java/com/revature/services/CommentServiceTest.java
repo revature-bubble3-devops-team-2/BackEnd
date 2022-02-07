@@ -25,7 +25,7 @@ import com.revature.models.Post;
 import com.revature.models.Profile;
 import com.revature.repositories.CommentRepo;
 
-public class CommentServiceTest {
+class CommentServiceTest {
 	
 	private Profile tempProfile = new Profile();
 	private Post tempPost = new Post();

@@ -10,28 +10,23 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 import com.revature.dto.GroupDTO;
-import com.revature.dto.ProfileDTO;
 import com.revature.models.Group;
 import com.revature.models.Profile;
 import com.revature.services.GroupServiceImpl;
 import com.revature.services.ProfileServiceImpl;
 
 
-public class GroupControllerTests {
-	public static Set<Profile> members = new HashSet();
-	public static List<Group> list = new ArrayList();
-	public static final Profile PROFILE = new Profile(1,"puser", "sadfjkeii", "tname", "tLname", "t@email.com", false );
-	public static final Group GROUP = new Group(1, "gname", PROFILE, members);
+class GroupControllerTests {
+	private static Set<Profile> members = new HashSet<>();
+	private static List<Group> list = new ArrayList<>();
+	private static final Profile PROFILE = new Profile(1,"puser", "sadfjkeii", "tname", "tLname", "t@email.com", false );
+	private static final Group GROUP = new Group(1, "gname", PROFILE, members);
 	
 	@Mock
 	GroupServiceImpl gserv;
@@ -40,12 +35,12 @@ public class GroupControllerTests {
 	ProfileServiceImpl pserv;
 	
 	@BeforeEach
-	public void init() {
+	void init() {
 		MockitoAnnotations.initMocks(this);
 
 	}
 	@Test
-	public void testFindGroup() {
+	void testFindGroup() {
 		
 		when(gserv.findById(0)).thenReturn(GROUP);
 		GroupDTO groupdto = new GroupDTO(gserv.findById(0));
@@ -54,7 +49,7 @@ public class GroupControllerTests {
 	}
 	
 	@Test
-	public void testFindAllGroups(){
+	void testFindAllGroups(){
 		ArrayList<Group> gList = new ArrayList<Group>();
 		gList.add(GROUP);
 		when(gserv.findAllPaginated(1)).thenReturn(gList);
@@ -67,7 +62,7 @@ public class GroupControllerTests {
 		
 	}
 	@Test
-	public void testSaveGroup() {
+	void testSaveGroup() {
 		when(gserv.save(GROUP)).thenReturn(GROUP);
 		GroupDTO groupDto = new GroupDTO(gserv.save(GROUP));
 		assertEquals(groupDto.getGroupId(), GROUP.getGroupId());
@@ -75,7 +70,7 @@ public class GroupControllerTests {
 	}
 	
 	@Test
-	public void testGetMembers() {
+	void testGetMembers() {
 		Group group;
 		GroupDTO gDTO = null;
 		when(gserv.findById(1)).thenReturn(GROUP);
@@ -86,7 +81,7 @@ public class GroupControllerTests {
 		
 	}
 	@Test
-	public void testUserJoin() {
+	void testUserJoin() {
 		Group group = new Group();
 		Set<Profile> members = GROUP.getMembers();
 		when(gserv.findById(1)).thenReturn(GROUP);
@@ -103,7 +98,7 @@ public class GroupControllerTests {
 	}
 	
 	@Test
-	public void testUserLeave() {
+	void testUserLeave() {
 		Group group = new Group();
 		Set<Profile> members = GROUP.getMembers();
 		when(gserv.findById(1)).thenReturn(GROUP);
@@ -120,8 +115,8 @@ public class GroupControllerTests {
 	}
 	
 	@Test
-	public void testSearch() {
-		List <Group> group = new ArrayList();
+	void testSearch() {
+		List <Group> group = new ArrayList<>();
 		list.add(GROUP);
 		List<GroupDTO> groupDtos = new LinkedList<>();
 		when(gserv.search("query")).thenReturn(list);
