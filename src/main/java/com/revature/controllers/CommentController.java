@@ -33,15 +33,8 @@ public class CommentController {
      */
     @PostMapping
     public ResponseEntity<CommentDTO> addComment(@RequestBody CommentDTO comment){
-    	System.out.println(comment);
         return new ResponseEntity<>(new CommentDTO(commentService.addComment(comment.toComment())), HttpStatus.CREATED);
     }
-    
-//    @PostMapping
-//    public ResponseEntity<Comment> addComment(@RequestBody Comment comment){
-//    	System.out.println(comment);
-//        return new ResponseEntity<>(commentService.addComment(comment), HttpStatus.CREATED);
-//    }
 
     /**
      * getCommentsByPost receives a Post id in the request parameter, and returns a list of comments
@@ -57,4 +50,5 @@ public class CommentController {
     	comments.forEach(c -> commentDtos.add(new CommentDTO(c)));
         return new ResponseEntity<>(commentDtos, HttpStatus.ACCEPTED);
     }
+
 }

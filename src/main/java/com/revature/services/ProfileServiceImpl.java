@@ -29,7 +29,7 @@ public class ProfileServiceImpl implements ProfileService {
     public ProfileRepo profileRepo;
 
     /**
-     * processes login request from profile controller
+     * processes login request fromprofile controller
      * 
      * @param username
      * @param password
@@ -115,13 +115,20 @@ public class ProfileServiceImpl implements ProfileService {
     public Profile updateProfile(Profile profile) {
     	
     	log.info(profile);
+    	 Profile targetProfile;
+    	if(profile.getPid() <= 0) {
+    		targetProfile = profileRepo.getProfileByEmail(profile.getEmail());
+    	} else {
+    		targetProfile = profileRepo.getProfileByPid(profile.getPid());
+    	}
     	
-        Profile targetProfile = profileRepo.getProfileByPid(profile.getPid());
+       
         if (targetProfile!=null) {
             if (profile.getEmail()!=null) targetProfile.setEmail(profile.getEmail());
             if (profile.getFirstName()!=null) targetProfile.setFirstName(profile.getFirstName());
             if (profile.getLastName()!=null) targetProfile.setLastName(profile.getLastName());
-            if (profile.getPasskey()!=null) targetProfile.setPasskey(profile.getPasskey());
+            if (profile.getPasskey()!=null) targetProfile.setPasskey(SecurityUtil.hashPassword(profile.getPasskey()));
+            targetProfile.setVerification(profile.isVerification());
             if(profile.getImgurl() != null) { 
             	
             	log.info(profile.getImgurl());
@@ -213,21 +220,21 @@ public class ProfileServiceImpl implements ProfileService {
 	@Override
 	public List<Profile> search(String query) {
 		Profile sampleProfile = new Profile();
+		sampleProfile.setPid(0);
 		sampleProfile.setFirstName(query);
 		sampleProfile.setLastName(query);
 		sampleProfile.setUsername(query);
 		sampleProfile.setEmail(query);
 		
-		 ExampleMatcher ignoringExampleMatcher = ExampleMatcher.matchingAny()
+		ExampleMatcher ignoringExampleMatcher = ExampleMatcher.matchingAny()
 				 .withMatcher("username", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
 				 .withMatcher("firstName", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
 				 .withMatcher("lastName", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
 				 .withMatcher("email", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
+				 .withMatcher("groups", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
 				 .withIgnorePaths("pid");
 				 
-		 Example <Profile> example = Example.of(sampleProfile, ignoringExampleMatcher);
-		
-		
+		Example <Profile> example = Example.of(sampleProfile, ignoringExampleMatcher);
 		return profileRepo.findAll(example);
 	}
 
@@ -236,5 +243,5 @@ public class ProfileServiceImpl implements ProfileService {
 		return profileRepo.getFollowers(id);
 	}
 	
-	
+
 }

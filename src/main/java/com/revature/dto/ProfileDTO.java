@@ -39,6 +39,8 @@ public class ProfileDTO {
 	private String lastName;
 
 	private String email;
+	
+	private boolean verification;
 
     private String imgurl;
 	
@@ -59,14 +61,17 @@ public class ProfileDTO {
 			firstName = profile.getFirstName();
 			lastName = profile.getLastName();
 			email = profile.getEmail();
+			verification = profile.isVerification();
 			imgurl = profile.getImgurl();
-			following = new LinkedList<>();
+			following = null;
 			if (profile.getFollowing() != null) {
+				following = new LinkedList<>();
 				profile.getFollowing().forEach(f -> following.add(new ProfileDTO(f.getPid(), f.getUsername(),
-						f.getPasskey(), f.getFirstName(), f.getLastName(), f.getEmail(), f.getImgurl(), null, null)));
+						f.getPasskey(), f.getFirstName(), f.getLastName(), f.getEmail(), f.isVerification(), f.getImgurl(), null, null)));
 			}
-			groups = new HashSet<>();
+			groups = null;
 			if (profile.getGroups() != null) {
+				groups = new HashSet<>();
 				profile.getGroups().forEach(g -> groups.add(new GroupDTO(g.getGroupId(), g.getGroupName(), null, null)));
 			}
 		}
@@ -88,10 +93,10 @@ public class ProfileDTO {
 		if(groups != null) {
 			groups.forEach(g -> newGroups.add(g.toGroup()));
 		}
-		return new Profile(pid, username, passkey, firstName, lastName, email, imgurl, newFollowing, newGroups);
+		return new Profile(pid, username, passkey, firstName, lastName, email, verification, imgurl, newFollowing, newGroups);
 	}
 
-	public ProfileDTO(String username, String passkey, String firstName, String lastName, String email,
+	public ProfileDTO(String username, String passkey, String firstName, String lastName, String email, boolean verification,
 			String imgurl, List<ProfileDTO> following, Set<GroupDTO> groups) {
 		this();
 		this.username = username;
@@ -99,6 +104,7 @@ public class ProfileDTO {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
+		this.verification = verification;
 		this.imgurl = imgurl;
 		this.following = following;
 		this.groups = groups;

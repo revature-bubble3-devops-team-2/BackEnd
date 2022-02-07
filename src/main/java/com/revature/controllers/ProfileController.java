@@ -68,7 +68,8 @@ public class ProfileController {
             pro.setFirstName(profile.getFirstName());
             pro.setLastName(profile.getLastName());
             pro.setEmail(profile.getEmail());
-           
+            pro.setVerification(profile.isVerification());
+            
             headers.set(TOKEN_NAME, SecurityUtil.generateToken(new ProfileDTO(pro)));
             return new ResponseEntity<>(new ProfileDTO(profile), headers, HttpStatus.OK);
 
