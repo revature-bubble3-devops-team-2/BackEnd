@@ -214,12 +214,13 @@ public class ProfileServiceImpl implements ProfileService {
 	@Override
 	public List<Profile> search(String query) {
 		Profile sampleProfile = new Profile();
+		sampleProfile.setPid(0);
 		sampleProfile.setFirstName(query);
 		sampleProfile.setLastName(query);
 		sampleProfile.setUsername(query);
 		sampleProfile.setEmail(query);
 		
-		 ExampleMatcher ignoringExampleMatcher = ExampleMatcher.matchingAny()
+		ExampleMatcher ignoringExampleMatcher = ExampleMatcher.matchingAny()
 				 .withMatcher("username", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
 				 .withMatcher("firstName", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
 				 .withMatcher("lastName", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
@@ -227,9 +228,7 @@ public class ProfileServiceImpl implements ProfileService {
 				 .withMatcher("groups", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
 				 .withIgnorePaths("pid");
 				 
-		 Example <Profile> example = Example.of(sampleProfile, ignoringExampleMatcher);
-		
-		
+		Example <Profile> example = Example.of(sampleProfile, ignoringExampleMatcher);
 		return profileRepo.findAll(example);
 	}
 	
