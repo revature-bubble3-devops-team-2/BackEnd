@@ -221,7 +221,7 @@ public class ProfileServiceTest {
     }
 
     @Test
-    public void testDeleteFollowerByEmail() {
+    void testDeleteFollowerByEmail() {
         ArrayList<Profile> empty = new ArrayList<>();
 
         Set<Group> groups = new HashSet<>();
@@ -240,7 +240,7 @@ public class ProfileServiceTest {
     
     
     @Test
-    public void testSearchFirst() {
+    void testSearchFirst() {
     	
     	List<Profile> searchExpected = new ArrayList<>();
     	searchExpected.add(expected);
