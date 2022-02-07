@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import com.revature.models.Group;
 import com.revature.models.Profile;
 
-public class GroupDTOTest {
+class GroupDTOTest {
 
 	private static final int GROUP_ID = 0;
 	private static final String GROUP_NAME = "Friends";
@@ -45,7 +45,7 @@ public class GroupDTOTest {
 	}
 
 	@Test
-	public void testSetters() {
+	void testSetters() {
 		GroupDTO groupDto = new GroupDTO();
 		groupDto.setGroupId(GROUP_ID);
 		groupDto.setGroupName(GROUP_NAME);

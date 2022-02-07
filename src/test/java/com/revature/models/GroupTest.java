@@ -8,7 +8,7 @@ import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class GroupTest {
+class GroupTest {
 
 	private static final int GROUP_ID = 0;
 	private static final String GROUP_NAME = "Friends";
@@ -37,7 +37,7 @@ public class GroupTest {
 	}
 
 	@Test
-	public void testSetters() {
+	void testSetters() {
 		Group group = new Group();
 		group.setGroupId(GROUP_ID);
 		group.setGroupName(GROUP_NAME);

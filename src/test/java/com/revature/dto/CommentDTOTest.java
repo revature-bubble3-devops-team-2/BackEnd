@@ -11,7 +11,7 @@ import com.revature.models.Comment;
 import com.revature.models.Post;
 import com.revature.models.Profile;
 
-public class CommentDTOTest {
+class CommentDTOTest {
 
 	private static final int CID = 0;
 	private static final String C_BODY = "haha that's funny";
@@ -51,7 +51,7 @@ public class CommentDTOTest {
 	}
 
 	@Test
-	public void testSetters() {
+	void testSetters() {
 		CommentDTO commentDto = new CommentDTO();
 		commentDto.setCid(CID);
 		commentDto.setWriter(writer);
