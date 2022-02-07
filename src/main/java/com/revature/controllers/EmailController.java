@@ -18,7 +18,9 @@ import com.revature.services.EmailService;
 import com.revature.services.ProfileService;
 
 import freemarker.template.TemplateException;
+import lombok.extern.log4j.Log4j2;
 
+@Log4j2
 @RestController
 @CrossOrigin
 public class EmailController {
@@ -29,34 +31,33 @@ public class EmailController {
 	@Autowired
 	ProfileService pserv;
 	
+	private static final String EMAIL = "email";
+	
 	@NoAuthIn
 	@PostMapping("/verfied/email")
 	public boolean sendEmail(@RequestBody Map<?,?> emailMap) {
-		System.out.println("In Email Controller -----------------------");
+		log.info("In Email Controller -----------------------");
 		HashMap<String, Object> tempMap = new HashMap<String, Object>();
-		tempMap.put("email", emailMap.get("email"));
-		System.out.println((String) emailMap.get("email"));
+		tempMap.put(EMAIL, emailMap.get(EMAIL));
+		log.info((String) emailMap.get(EMAIL));
 		tempMap.put("url", emailMap.get("url"));
 		
 		
 		Profile whyGod = new Profile();
-		whyGod.setEmail((String) emailMap.get("email"));
+		whyGod.setEmail((String) emailMap.get(EMAIL));
 		Profile profile = pserv.getProfileByEmail(whyGod);
-		System.out.println(profile);
+		log.info(profile);
 		tempMap.put("profile", profile);
 		
 		try {
-			eserv.sendVerificationMessage((String) emailMap.get("email"), "Verify", tempMap);
+			eserv.sendVerificationMessage((String) emailMap.get(EMAIL), "Verify", tempMap);
 			return true;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.info(e.getMessage());
 		} catch (TemplateException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.info(e.getMessage());
 		} catch (MessagingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.info(e.getMessage());
 		}
 		return false;
 	}
@@ -64,8 +65,8 @@ public class EmailController {
 	@PostMapping("/validate")
 	@NoAuthIn
 	public boolean emailVerified(@RequestBody String email) {
-		System.out.println("in validate---------------------");
-		System.out.println("email: " + email);
+		log.info("in validate---------------------");
+		log.info(EMAIL + ": " + email);
 		Profile profile = new Profile();
 		profile.setEmail(email);
 		
