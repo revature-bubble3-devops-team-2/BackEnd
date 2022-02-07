@@ -1,5 +1,6 @@
 package com.revature.controllers;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -7,6 +8,14 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.hibernate.loader.custom.CollectionFetchReturn;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,6 +30,11 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -30,6 +44,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.mockito.junit.jupiter.MockitoExtension;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Lists;
 import com.revature.Driver;
 import com.revature.dto.ProfileDTO;
 import com.revature.models.Profile;
@@ -122,9 +137,7 @@ public class ProfileControllerTest {
 		  Profile newProfile = profiledto.toProfile();
 		  HttpHeaders responseHeaders = new HttpHeaders();
          String token = SecurityUtil.generateToken(new ProfileDTO(newProfile));
-         assertNotNull(SecurityUtil.validateToken(token));
          responseHeaders.set(TOKEN_NAME, token);
-//         assertNotNull(responseHeaders);
 	 }
 	 
 	  @Test
@@ -137,38 +150,71 @@ public class ProfileControllerTest {
 	 
 	  @Test
 	  public void testLogin() {
-		 
+		  when(profileService.login(any(String.class),any(String.class) )).thenReturn(expected);
+		  ResponseEntity<ProfileDTO> responseEntity = profileController.login(USERNAME, PASSWORD);
+		  assertNotNull(responseEntity);
+		  assertThat(responseEntity.getStatusCodeValue()).isEqualTo(HttpStatus.OK.value());
 	  }
-//	  
-//	  @Test
-//	  public void testGetProfile() {
-//		  
-//	  }
-//	  
-//	  @Test
-//	  public void testUpdateProfile() {
-//		  
-//	  }
-//	  
-//	  @Test
-//	  public void testFollow() {
-//		  
-//	  }
-//	  
-//	  @Test
-//	  public void testUnfollow() {
-//		  
-//	  }
-//	  
-//	  @Test
-//	  public void testGetAll() {
-//		 
-//	  }
-//	  
-//	  @Test
-//	  public void testSearch() {
-//		  
-//	  }
+	  
+	  @Test
+	  public void testGetProfile() {
+		  when(profileService.getProfileByPid(any(Integer.class))).thenReturn(expected);
+		  ResponseEntity<ProfileDTO> responseEntity = profileController.getProfileByPid(1);
+		  assertNotNull(responseEntity);
+		  assertThat(responseEntity.getStatusCodeValue()).isEqualTo(HttpStatus.ACCEPTED.value());
+	  }
+	  
+	  @Test
+	  public void testUpdateProfile() {
+		  when(profileService.updateProfile(any(Profile.class))).thenReturn(expected2);
+		  ResponseEntity<ProfileDTO> responseEntity = profileController.updateProfile(testprofiledto);
+		  assertEquals(responseEntity.getBody().toProfile().getFirstName(), expected2.getFirstName());
+		  assertThat(responseEntity.getStatusCodeValue()).isEqualTo(HttpStatus.ACCEPTED.value()); 
+	  }
+	  
+	  @Test
+	  public void testFollow() {
+		  HttpServletRequest req = Mockito.mock(HttpServletRequest.class);
+		  when(req.getAttribute(any(String.class))).thenReturn(expected);
+		  when(profileService.addFollowerByEmail(any(Profile.class), any(String.class))).thenReturn(expected);
+		  ResponseEntity<String> responseEntity = profileController.newFollower(expected.getEmail(), req);
+		  assertThat(responseEntity.getStatusCodeValue()).isEqualTo(HttpStatus.ACCEPTED.value()); 
+	  }
+	  
+	  @Test
+	  public void testUnfollow() {
+		  HttpServletRequest req = Mockito.mock(HttpServletRequest.class);
+		  when(req.getAttribute(any(String.class))).thenReturn(expected);
+		  when(profileService.getProfileByEmail(any(Profile.class))).thenReturn(expected);
+		  when(profileService.removeFollowByEmail(any(Profile.class), any(String.class))).thenReturn(expected);
+		  ResponseEntity<String> responseEntity = profileController.unfollow(expected.getEmail(), req);
+		  assertThat(responseEntity.getStatusCodeValue()).isEqualTo(HttpStatus.ACCEPTED.value()); 
+	  }
+	  
+	  @Test
+	  public void testGetAll() {
+		  List<Profile> profileList = Arrays.asList(expected, expected2);
+		  int pageRequested = 1;
+		  
+	      when(profileService.getAllProfilesPaginated(any(Integer.class))).thenReturn(profileList);
+	      ResponseEntity<List<ProfileDTO>> list = profileController.getAllPostsbyPage(pageRequested);
+	      List<Profile> profiles = list.getBody().stream().map(pdto -> pdto.toProfile() ).collect(Collectors.toList());
+	      for(int index = 0; index<2;index++){
+	    	  assertEquals(profiles.get(index).getPid(), profileList.get(index).getPid());
+	      }
+	  }
+	  
+	  @Test
+	  public void testSearch() {
+		  List<Profile> profileList = Arrays.asList(expected, expected2);
+		  String query = "dummy";
+	      when(profileService.search(any(String.class))).thenReturn(profileList);
+	      ResponseEntity<List<ProfileDTO>> searchList = profileController.search(query);
+	      List<Profile> profiles = searchList.getBody().stream().map(pdto -> pdto.toProfile() ).collect(Collectors.toList());
+	      for(int index = 0; index<2;index++){
+	    	  assertEquals(profiles.get(index).getPid(), profileList.get(index).getPid());
+	      }
+	  }
 //	  
 //	  @Test
 //	  public void testGetFollowing() {
