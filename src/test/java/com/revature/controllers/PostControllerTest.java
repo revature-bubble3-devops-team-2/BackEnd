@@ -66,4 +66,13 @@ public class PostControllerTest {
         assertThat(responseEntity.getStatusCodeValue()).isEqualTo(HttpStatus.OK.value());
     }
 	
+	@Test
+    public void testGetAllPostsbyPageNoArgs() 
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
+        when(postServiceImpl.getAllPosts()).thenReturn(new LinkedList<>());
+        ResponseEntity<List<PostDTO>> responseEntity = postController.getAllPostsbyPage();
+        assertThat(responseEntity.getStatusCodeValue()).isEqualTo(HttpStatus.OK.value());
+    }
 }
