@@ -25,6 +25,14 @@ public class EmailService {
 	@Autowired
 	JavaMailSender emailSender;
 
+	/*
+	 * This function create a rest_password message at user request to change password
+	 * The instruction send to the user email for changing password
+	 * 
+	 * @throws IOException occur whenever an input or output operation is failed or interpreted.
+	 * @throws TemplateException A runtime exception in a template
+	 * @throws MessagingException thrown when the connect method on a Store or Transport object fails due to an authentication failure 
+	 */
 	public void sendPasswordResetMessage(String to, String subject, Map<String, Object> templateModel)
 			throws IOException, TemplateException, MessagingException {
 
@@ -33,7 +41,15 @@ public class EmailService {
 
 		sendHtmlMessage(to, subject, htmlBody);
 	}
-
+	
+	/*
+	 * This function create a message for user to verify his/her email address
+	 * The message will send to the user at their email address
+	 * 
+	 * @throws IOException occur whenever an input or output operation is failed or interpreted.
+	 * @throws TemplateException A runtime exception in a template
+	 * @throws MessagingException thrown when the connect method on a Store or Transport object fails due to an authentication failure
+	 */
 	public void sendVerificationMessage(String to, String subject, Map<String, Object> templateModel)
 			throws IOException, TemplateException, MessagingException {
 
@@ -42,7 +58,14 @@ public class EmailService {
 
 		sendHtmlMessage(to, subject, htmlBody);
 	}
-
+	
+	/*
+	 * Here a new message is created
+	 * With MessageHelper we set, who to send the message, set the subject of our message, set the message body
+	 * By using JavaMailSender we send the message
+	 * 
+	 * @throws MessagingException thrown when the connect method on a Store or Transport object fails due to an authentication failure
+	 */
 	private void sendHtmlMessage(String to, String subject, String htmlBody) throws MessagingException {
 		MimeMessage message = emailSender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
