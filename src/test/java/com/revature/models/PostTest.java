@@ -9,8 +9,8 @@ import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class PostModelTest {
 
+class PostTest {
 
 	private static final int PSID = 0;
 	private static final String BODY = "body";
@@ -27,7 +27,7 @@ public class PostModelTest {
 		creator = new Profile();
 		group = new Group();
 		timestamp = new Timestamp(0);
-		likes = Set.of(1, 2, 3);
+		likes = Set.of(1,2,3);
 		post1 = new Post(PSID, creator, BODY, IMG_URL, timestamp, likes, group);
 		post2 = new Post(PSID, creator, BODY, IMG_URL, timestamp, likes, group);
 	}

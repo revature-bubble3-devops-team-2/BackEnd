@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -35,7 +36,7 @@ public class PostDTOTest {
 		group = new GroupDTO();
 		modelGroup = group.toGroup();
 		dateCreated = new Timestamp(0);
-		likes = Set.of(1, 2, 3);
+		likes.addAll(Arrays.asList(1,2,3));
 		postDto1 = new PostDTO(PSID, creator, BODY, IMG_URL, dateCreated, likes, group);
 		postDto2 = new PostDTO(PSID, creator, BODY, IMG_URL, dateCreated, likes, group);
 		post = new Post(PSID, modelCreator, BODY, IMG_URL, dateCreated, likes, modelGroup);
