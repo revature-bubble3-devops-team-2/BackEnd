@@ -68,7 +68,8 @@ public class ProfileController {
             pro.setFirstName(profile.getFirstName());
             pro.setLastName(profile.getLastName());
             pro.setEmail(profile.getEmail());
-           
+            pro.setVerification(profile.isVerification());
+            
             headers.set(TOKEN_NAME, SecurityUtil.generateToken(new ProfileDTO(pro)));
             return new ResponseEntity<>(new ProfileDTO(profile), headers, HttpStatus.OK);
 
@@ -158,9 +159,18 @@ public class ProfileController {
      * @return
      */
     @PostMapping("/follow")
-    public ResponseEntity<String> newFollower(String email, HttpServletRequest req) {
-        Profile creator = (Profile) req.getAttribute("profile");
-        Profile newProfile = profileService.addFollowerByEmail(creator, email);
+    
+//    public static final String ANSI_RESET = "\u001B[0m";
+//    public static final String ANSI_BLACK = "\u001B[30m";
+//    public static final String ANSI_RED = "\u001B[31m";
+    public ResponseEntity<String> newFollower(String email, int id , HttpServletRequest req) {
+//        Profile creator = (Profile) req.getAttribute("profile");
+        Profile profile = profileService.getProfileByPid(id);
+//        System.out.println(  "\u001B[31m" + "================================================================");
+//        System.out.println(profile.getImgurl().charAt(3));
+//        System.out.println("================================================================" + "\u001B[0m");
+        
+        Profile newProfile = profileService.addFollowerByEmail(profile, email);
         if (newProfile != null) {
             HttpHeaders headers = new HttpHeaders();
             Profile pro = new Profile();
@@ -242,12 +252,23 @@ public class ProfileController {
 		return new ResponseEntity<>(profileDtos, new HttpHeaders(), HttpStatus.OK);
 	}
 	
-	@GetMapping("/{id}/following")
-	public ResponseEntity<List<ProfileDTO>> getFollowingProfiles(@PathVariable("id")int id){
-		log.info("/following hit");
-		Profile profile = profileService.getProfileByPid(id);
-    	List<ProfileDTO> profileDtos = new LinkedList<>();
-    	profile.getFollowing().forEach(p -> profileDtos.add(new ProfileDTO(p)));
+	@NoAuthIn
+	@GetMapping("/followers/{id}")
+	public ResponseEntity<List<ProfileDTO>> getFollowers(@PathVariable("id") int id){
+		
+		
+		List<Profile> profiles = profileService.getFollowers(id);
+		
+		
+		List<ProfileDTO> profileDtos = new LinkedList<>();
+		
+    	profiles.forEach(p -> profileDtos.add(new ProfileDTO(p)));
+    	
+      System.out.println(  "\u001B[31m" + "================================================================");
+      System.out.println(profiles);
+      System.out.println("================================================================" + "\u001B[0m");
+		
+    
 		return new ResponseEntity<>(profileDtos, new HttpHeaders(), HttpStatus.OK);
 	}
 	

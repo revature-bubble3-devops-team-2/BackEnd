@@ -61,14 +61,17 @@ public class ProfileDTO {
 			firstName = profile.getFirstName();
 			lastName = profile.getLastName();
 			email = profile.getEmail();
+			verification = profile.isVerification();
 			imgurl = profile.getImgurl();
-			following = new LinkedList<>();
+			following = null;
 			if (profile.getFollowing() != null) {
+				following = new LinkedList<>();
 				profile.getFollowing().forEach(f -> following.add(new ProfileDTO(f.getPid(), f.getUsername(),
 						f.getPasskey(), f.getFirstName(), f.getLastName(), f.getEmail(), f.isVerification(), f.getImgurl(), null, null)));
 			}
-			groups = new HashSet<>();
+			groups = null;
 			if (profile.getGroups() != null) {
+				groups = new HashSet<>();
 				profile.getGroups().forEach(g -> groups.add(new GroupDTO(g.getGroupId(), g.getGroupName(), null, null)));
 			}
 		}

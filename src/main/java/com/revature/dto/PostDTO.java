@@ -54,13 +54,8 @@ public class PostDTO {
 	}
 	
 	public Post toPost() {
-		if(creator == null) { 
-			return null;
-		}
-		if(group == null) {
-			return new Post(psid, creator.toProfile(), body, imgURL, datePosted, likes, null);
-		}
-		return new Post(psid, creator.toProfile(), body, imgURL, datePosted, likes, group.toGroup());
+		return new Post(psid, (creator != null ? creator.toProfile() : null), body, imgURL, datePosted, likes,
+				(group != null ? group.toGroup() : null));
 	}
 	
 	public PostDTO(ProfileDTO creator, String body, String imgURL, Timestamp datePosted, GroupDTO group) {
