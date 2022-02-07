@@ -112,7 +112,6 @@ public class ProfileController {
      * @param id
      * @return Profile object with HttpStatusAccepted or HttpStatusBackRequest
      */
-    @NoAuthIn
     @GetMapping("{id}")
     public ResponseEntity<ProfileDTO> getProfileByPid(@PathVariable("id")int id) {
         Profile profile = profileService.getProfileByPid(id);
@@ -220,7 +219,6 @@ public class ProfileController {
      * @param pageNumber pageNumber to be retrieved
      * @return page of profiles for page number requested
      */
-    @NoAuthIn
     @GetMapping("/page/{pageNumber}")
     public ResponseEntity<List<ProfileDTO>> getAllPostsbyPage(@PathVariable("pageNumber") int pageNumber) {
     	List<Profile> profiles = profileService.getAllProfilesPaginated(pageNumber);
@@ -235,7 +233,6 @@ public class ProfileController {
      * @param query Takes in a String without space at end point /search{query}
      * @return List <Profile> matching search query
      */
-	@NoAuthIn
 	@GetMapping("/search/{query}")
 	public ResponseEntity<List<ProfileDTO>> search(@PathVariable("query") String query){
 		log.info("/search hit");
@@ -245,7 +242,6 @@ public class ProfileController {
 		return new ResponseEntity<>(profileDtos, new HttpHeaders(), HttpStatus.OK);
 	}
 	
-	@NoAuthIn
 	@GetMapping("/{id}/following")
 	public ResponseEntity<List<ProfileDTO>> getFollowingProfiles(@PathVariable("id")int id){
 		log.info("/following hit");

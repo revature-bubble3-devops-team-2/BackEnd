@@ -1,5 +1,8 @@
 package com.revature.controllers;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -8,6 +11,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -18,27 +22,21 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.event.annotation.BeforeTestClass;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
+import org.mockito.junit.jupiter.MockitoExtension;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.Driver;
 import com.revature.dto.ProfileDTO;
 import com.revature.models.Profile;
 import com.revature.repositories.ProfileRepo;
-import com.revature.services.ProfileService;
 import com.revature.services.ProfileServiceImpl;
 import com.revature.utilites.SecurityUtil;
-import static org.mockito.Mockito.when;
-import static org.mockito.BDDMockito.given;
-
+import org.junit.platform.runner.JUnitPlatform;
 import lombok.extern.log4j.Log4j2;
 
 
@@ -48,9 +46,9 @@ import lombok.extern.log4j.Log4j2;
 
 
 @Log4j2
-@SpringBootTest(Arrays.of(SpringBootTest.WebEnvironment.MOCK), classes = Driver.class)
-@AutoConfigureMockMvc
-public class ProfileControllerTest extends AbstractTestNGSpringContextTests {
+@ExtendWith(MockitoExtension.class)
+@RunWith(JUnitPlatform.class)
+public class ProfileControllerTest {
 	 private static final String USERNAME = "dummyUsername";
 	 private static final String PASSWORD = "abc123";
 	 private static final String EMAIL = "dummy@email.com";
@@ -64,34 +62,18 @@ public class ProfileControllerTest extends AbstractTestNGSpringContextTests {
 	 
 	 private static final String TOKEN_NAME = "Authorization";
 	
-	 @Autowired
-	 private static WebApplicationContext webApplicationContext;
-	 
-	 private static ProfileDTO profiledto;
-	 private static ProfileDTO testprofiledto;
-	 
-	 @Autowired
-	 private static MockMvc mockMvc;
-	  
-	 private static String baseUrl = "/profile";
-
-	 @MockBean 
-	 private static ProfileService profileServiceInterface;
+	 private ProfileDTO profiledto;
+	 private ProfileDTO testprofiledto;
 	 
 	 @Mock
-	 private ProfileRepo profileRepo;
-	 
-	 @InjectMocks
 	 private ProfileServiceImpl profileService;
-	 
-	 
-	 private Profile actualProfile;
-	 
-	
 
-	 @BeforeAll
-	 static void initMock() {
-//	      MockitoAnnotations.openMocks(this);
+	 @InjectMocks
+	 ProfileController profileController;
+
+	 @BeforeEach
+	 void initMock() {
+	      MockitoAnnotations.openMocks(this);
 	      String name = "dummyName";
 	      String passkey = "c8ZLBnfDh3YsvZ2dW1KDWY6ZTak8+v+/L74e8Vfoydk1IfySsVCAZVKTZfrtPKodzUXEiR+69yjOz1qqf7U4rA==jnW" +
 	                "2sIxW7inUlQqGJCNrNa7Eavj5uMGQAYZ0S6xNz65p79QaOk8eZpOChJlFPvIadohhOuHg5PFGeewM2YmkVR260YPhJwK/GUR3YXs" +
@@ -129,10 +111,6 @@ public class ProfileControllerTest extends AbstractTestNGSpringContextTests {
 	       testprofiledto.setLastName(name2);
 	       testprofiledto.setEmail(EMAIL2);
 	       testprofiledto.setVerification(VERIFICATION);
-	    log.info(webApplicationContext);
-	       mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-	    //   ProfileController pc = new ProfileController();
-//	       mockMvc = MockMvcBuilders.standaloneSetup(pc).build();
 	  }
 	 
 	 @BeforeEach
@@ -151,25 +129,16 @@ public class ProfileControllerTest extends AbstractTestNGSpringContextTests {
 	 
 	  @Test
 	  public void testRegister() throws Exception {
-		
-//		  given(profileService.addNewProfile(expected).willReturn(actualProfile);
-		//  when(profileRepo.save(expected)).thenReturn(expected);
-          ObjectMapper objectMapper = new ObjectMapper();
-          String profileJSON = objectMapper.writeValueAsString(expected);
-          log.info(profileJSON);
-          
-		  mockMvc.perform(post(baseUrl + "/register")
-				  .contentType(MediaType.APPLICATION_JSON)
-				  .content(profileJSON))
-		  	.andExpect(status().isOk())
-		  	.andExpect(content().contentType("application/json"));
-		  
+		  when(profileService.getProfileByEmail(any(Profile.class))).thenReturn(expected);
+		  ResponseEntity<ProfileDTO> responseEntity = profileController.addNewProfile(profiledto);
+		  assertNotNull(responseEntity);
+		  assertThat(responseEntity.getStatusCodeValue()).isEqualTo(HttpStatus.IM_USED.value());
 	  }
 	 
-//	  @Test
-//	  public void testLogin() {
-//		 
-//	  }
+	  @Test
+	  public void testLogin() {
+		 
+	  }
 //	  
 //	  @Test
 //	  public void testGetProfile() {
