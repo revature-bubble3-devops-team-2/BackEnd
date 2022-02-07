@@ -45,12 +45,12 @@ public class GroupControllerTests {
 
 	}
 	@Test
-	public ResponseEntity<GroupDTO> testFindGroup() {
+	public void testFindGroup() {
 		
 		when(gserv.findById(0)).thenReturn(GROUP);
 		GroupDTO groupdto = new GroupDTO(gserv.findById(0));
 		assertEquals(groupdto.getGroupId(), 1);
-		return ResponseEntity.ok(groupdto);
+		
 	}
 	
 	@Test
