@@ -9,7 +9,7 @@ import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class PostModelTest {
+class PostTest {
 
 
 	private static final int PSID = 0;
