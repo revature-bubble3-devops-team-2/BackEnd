@@ -71,14 +71,11 @@ public class GroupDTO {
 	}
 	
 	public Group toGroup() {
-		if(owner == null) {
-			return null;
-		}
 		Set<Profile> newMembers = new HashSet<>();
 		if(members != null) {
 			members.forEach(m -> newMembers.add(m.toProfile()));
 		}
-		return new Group(groupId, groupName, owner.toProfile(), newMembers);
+		return new Group(groupId, groupName, (owner != null ? owner.toProfile() : null), newMembers);
 	}
 
 	public GroupDTO(String groupName, ProfileDTO owner, Set<ProfileDTO> members) {
