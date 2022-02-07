@@ -29,7 +29,7 @@ public class ProfileServiceImpl implements ProfileService {
     public ProfileRepo profileRepo;
 
     /**
-     * processes login request from profile controller
+     * processes login request fromprofile controller
      * 
      * @param username
      * @param password
@@ -122,6 +122,7 @@ public class ProfileServiceImpl implements ProfileService {
             if (profile.getFirstName()!=null) targetProfile.setFirstName(profile.getFirstName());
             if (profile.getLastName()!=null) targetProfile.setLastName(profile.getLastName());
             if (profile.getPasskey()!=null) targetProfile.setPasskey(profile.getPasskey());
+            targetProfile.setVerification(profile.isVerification());
             if(profile.getImgurl() != null) { 
             	
             	log.info(profile.getImgurl());
@@ -210,12 +211,13 @@ public class ProfileServiceImpl implements ProfileService {
 	@Override
 	public List<Profile> search(String query) {
 		Profile sampleProfile = new Profile();
+		sampleProfile.setPid(0);
 		sampleProfile.setFirstName(query);
 		sampleProfile.setLastName(query);
 		sampleProfile.setUsername(query);
 		sampleProfile.setEmail(query);
 		
-		 ExampleMatcher ignoringExampleMatcher = ExampleMatcher.matchingAny()
+		ExampleMatcher ignoringExampleMatcher = ExampleMatcher.matchingAny()
 				 .withMatcher("username", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
 				 .withMatcher("firstName", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
 				 .withMatcher("lastName", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
@@ -223,10 +225,9 @@ public class ProfileServiceImpl implements ProfileService {
 				 .withMatcher("groups", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
 				 .withIgnorePaths("pid");
 				 
-		 Example <Profile> example = Example.of(sampleProfile, ignoringExampleMatcher);
-		
-		
-		return profileRepo.findAll(example);
+		Example <Profile> example = Example.of(sampleProfile, ignoringExampleMatcher);
+		List<Profile> profiles = profileRepo.findAll(example);
+		return profiles;
 	}
 	
 

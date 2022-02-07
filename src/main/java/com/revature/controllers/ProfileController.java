@@ -91,6 +91,7 @@ public class ProfileController {
     	Profile newProfile = profile.toProfile();
         Profile returnedUser = profileService.getProfileByEmail(newProfile);
         if (returnedUser == null) {
+
             HttpHeaders responseHeaders = new HttpHeaders();
             String token = SecurityUtil.generateToken(new ProfileDTO(newProfile));
             responseHeaders.set(TOKEN_NAME, token);
@@ -137,7 +138,17 @@ public class ProfileController {
     public ResponseEntity<ProfileDTO> updateProfile(@RequestBody ProfileDTO profile) {
         Profile result = profileService.updateProfile(profile.toProfile());
         if (result != null) {
-            return new ResponseEntity<>(new ProfileDTO(result), HttpStatus.ACCEPTED);
+        	
+     	   Profile pro = new Profile();
+           
+           pro.setPid(result.getPid());
+           pro.setUsername(result.getUsername());
+           pro.setPasskey(result.getPasskey());
+           pro.setFirstName(result.getFirstName());
+           pro.setLastName(result.getLastName());
+           pro.setEmail(result.getEmail());
+        	
+            return new ResponseEntity<>(new ProfileDTO(pro), HttpStatus.ACCEPTED);
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -155,7 +166,15 @@ public class ProfileController {
         Profile newProfile = profileService.addFollowerByEmail(creator, email);
         if (newProfile != null) {
             HttpHeaders headers = new HttpHeaders();
-            headers.set(TOKEN_NAME, SecurityUtil.generateToken(new ProfileDTO(newProfile)));
+            Profile pro = new Profile();
+            
+            pro.setPid(newProfile.getPid());
+            pro.setUsername(newProfile.getUsername());
+            pro.setPasskey(newProfile.getPasskey());
+            pro.setFirstName(newProfile.getFirstName());
+            pro.setLastName(newProfile.getLastName());
+            pro.setEmail(newProfile.getEmail());
+            headers.set(TOKEN_NAME, SecurityUtil.generateToken(new ProfileDTO(pro)));
             return new ResponseEntity<>(headers, HttpStatus.ACCEPTED);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -174,9 +193,21 @@ public class ProfileController {
         if (follower != null) {
             follower = profileService.removeFollowByEmail(follower, email);
             if (follower != null) {
+            	
+            	
+            	
+                Profile pro = new Profile();
+                
+                pro.setPid(follower.getPid());
+                pro.setUsername(follower.getUsername());
+                pro.setPasskey(follower.getPasskey());
+                pro.setFirstName(follower.getFirstName());
+                pro.setLastName(follower.getLastName());
+                pro.setEmail(follower.getEmail());
+            	
                 log.info("Profile successfully unfollowed");
                 HttpHeaders headers = new HttpHeaders();
-                String newToken = SecurityUtil.generateToken(new ProfileDTO(follower));
+                String newToken = SecurityUtil.generateToken(new ProfileDTO(pro));
                 String body = "{\"Authorization\":\"" +
                         newToken
                         + "\"}";

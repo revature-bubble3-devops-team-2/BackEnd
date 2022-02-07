@@ -8,6 +8,10 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.revature.models.Group;
@@ -56,6 +60,21 @@ public class GroupServiceImpl implements GroupService {
 		return  group.isPresent() ? group.get() : null;
 	}
 	
+	/** 
+	 * @author Zak
+	 * 
+	 * Gets the a list of all Groups, Paginated.
+	 * 
+	 * @return A list of all Group objects by page
+	 * 
+	 */
+	@Override
+	public List<Group> findAllPaginated(int page) {
+        Pageable pageable = PageRequest.of(page - 1, 3, Sort.by("datePosted").descending());
+        Page<Group> groupsPage = groupRepo.findAll(pageable);
+            return groupsPage.getContent();
+
+	}
 	/**
 	 * @author robot
 	 * Gets the profiles associated with the group with the given id
@@ -70,7 +89,7 @@ public class GroupServiceImpl implements GroupService {
 		if (targetGroup != null && targetGroup.getMembers() != null && !targetGroup.getMembers().isEmpty()) {
 			return targetGroup.getMembers();
 		}
-		return new HashSet<Profile>();
+		return new HashSet<>();
 	}
 	
     /**
