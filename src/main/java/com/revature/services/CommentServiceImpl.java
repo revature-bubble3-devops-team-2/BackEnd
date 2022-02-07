@@ -20,7 +20,8 @@ public class CommentServiceImpl implements CommentService {
 
     @Autowired
     CommentRepo commentRepo;
-    String sort = "dateCreated";
+    private static final String DATE_CREATED = "dateCreated";
+
     /**
      * This method will receive a comment to be added from the user and return a comment. 
      * Within a try block, it will catch any exception and return null. It also makes sure the comment has a profile and date, otherwise
@@ -53,8 +54,7 @@ public class CommentServiceImpl implements CommentService {
      */
     @Override
     public List<Comment> getCommentsByPostPsid(int psid) {
-    	List<Comment> comments = commentRepo.getCommentsByPostPsid(psid) != null ? commentRepo.getCommentsByPostPsid(psid) : new ArrayList<>();
-    	return comments;
+    	return commentRepo.getCommentsByPostPsid(psid) != null ? commentRepo.getCommentsByPostPsid(psid) : new ArrayList<>();
     }
     
     /**
@@ -66,7 +66,7 @@ public class CommentServiceImpl implements CommentService {
      */
     @Override
     public List<Comment> getCommentsByPostPsidPaginated(int psid, int page) {
-    	Pageable pageable = PageRequest.of(page - 1, 5, Sort.by(sort).ascending());
+    	Pageable pageable = PageRequest.of(page - 1, 5, Sort.by(DATE_CREATED).ascending());
     	Page<Comment> resultPage = commentRepo.getCommentsByPostPsid(pageable, psid);
     	if (resultPage.hasContent()) {
     		return resultPage.getContent();
@@ -77,25 +77,22 @@ public class CommentServiceImpl implements CommentService {
     }
 
 	public List<Comment> getOriginalCommentsByPostPsid(int psid) {
-		List<Comment> comments = commentRepo.getCommentsByPostPsid(psid) != null ? 
+		return commentRepo.getCommentsByPostPsid(psid) != null ? 
 				commentRepo.getCommentsByPostPsid(psid).stream()
 						   .filter(c -> c.getPrevious() == null).collect(Collectors.toList())
 				: new ArrayList<>();
-		return comments;
 	}
     
-    public List<Comment> getOriginalCommentsByPostPsidPaginated(int psid, int page) {
-    	Pageable pageable = PageRequest.of(page - 1, 5, Sort.by(sort).ascending());
-    	
-    	Page<Comment> resultPage = commentRepo.getCommentsByPostPsid(pageable, psid);
-    	if (resultPage != null && resultPage.hasContent()) {
-    		return resultPage.getContent().stream()
-    				.filter(c -> c.getPrevious() == null)
-    				.collect(Collectors.toList());
-    	}
-    	return new ArrayList<>();
-    	
-    }
+	public List<Comment> getOriginalCommentsByPostPsidPaginated(int psid, int page) {
+		Pageable pageable = PageRequest.of(page - 1, 5, Sort.by(DATE_CREATED).ascending());
+
+		Page<Comment> resultPage = commentRepo.getCommentsByPostPsid(pageable, psid);
+		if (resultPage != null && resultPage.hasContent()) {
+			return resultPage.getContent().stream()
+					.filter(c -> c.getPrevious() == null)
+					.collect(Collectors.toList());
+		}
+		return new ArrayList<>();
     
 	@Override
 	public List<Comment> getCommentsByPostPsidAndPrevious(int psid, int cid) {
@@ -105,7 +102,7 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public List<Comment> getCommentsByPostPsidAndPreviousPaginated(int psid, int cid, int page) {
-		Pageable pageable = PageRequest.of(page - 1, 5, Sort.by(sort).ascending());
+		Pageable pageable = PageRequest.of(page - 1, 5, Sort.by(DATE_CREATED).ascending());
 		Page<Comment> resultPage = commentRepo.getCommentsByPostPsidAndPrevious(pageable, psid, cid);
 		if (resultPage.hasContent()) {
 			return resultPage.getContent();
