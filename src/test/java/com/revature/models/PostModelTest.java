@@ -3,26 +3,27 @@ package com.revature.models;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class PostModelTest {
-	
+
 	private static Post post1;
 	private static Post post2;
 	private static Profile creator;
 	private static Timestamp timestamp;
 	private static Set<Integer> likes;
 	private static Group group;
-	
+
 	@BeforeEach
 	void init() {
 		creator = new Profile();
 		group = new Group();
 		timestamp = new Timestamp(0);
-		likes = Set.of(1, 2, 3);
+		likes.addAll(Arrays.asList(1, 2, 3));
 		post1 = new Post(0, creator, "test", "test", timestamp, likes, group);
 		post2 = new Post(0, creator, "test", "test", timestamp, likes, group);
 	}
@@ -37,7 +38,7 @@ class PostModelTest {
 		assertEquals(likes, post1.getLikes());
 		assertEquals(group, post1.getGroup());
 	}
-	
+
 	@Test
 	void testSetters() {
 		Post post = new Post();
@@ -50,15 +51,15 @@ class PostModelTest {
 		post.setGroup(group);
 		assertEquals(post1, post);
 	}
-	
+
 	@Test
 	void testEquals() {
 		assertEquals(post1, post2);
 	}
-	
+
 	@Test
 	void testHashCode() {
 		assertEquals(post1.hashCode(), post2.hashCode());
 	}
-	
+
 }

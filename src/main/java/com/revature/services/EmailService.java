@@ -1,6 +1,6 @@
 package com.revature.services;
 
-import java.io.IOException; 
+import java.io.IOException;
 import java.util.Map;
 
 import javax.mail.MessagingException;
@@ -16,36 +16,31 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
-
 @Service
 public class EmailService {
 
 	@Autowired
 	private FreeMarkerConfigurer freemarkerConfigurer;
-	
+
 	@Autowired
 	JavaMailSender emailSender;
 
-	public void sendPasswordResetMessage(
-	    String to, String subject, Map<String, Object> templateModel)
-	        throws IOException, TemplateException, MessagingException {
-	        
-	    Template freemarkerTemplate = freemarkerConfigurer.getConfiguration()
-	      .getTemplate("PasswordReset.ftl");
-	    String htmlBody = FreeMarkerTemplateUtils.processTemplateIntoString(freemarkerTemplate, templateModel);
+	public void sendPasswordResetMessage(String to, String subject, Map<String, Object> templateModel)
+			throws IOException, TemplateException, MessagingException {
 
-	    sendHtmlMessage(to, subject, htmlBody);
+		Template freemarkerTemplate = freemarkerConfigurer.getConfiguration().getTemplate("PasswordReset.ftl");
+		String htmlBody = FreeMarkerTemplateUtils.processTemplateIntoString(freemarkerTemplate, templateModel);
+
+		sendHtmlMessage(to, subject, htmlBody);
 	}
-	
-	public void sendVerificationMessage(
-		    String to, String subject, Map<String, Object> templateModel)
-		        throws IOException, TemplateException, MessagingException {
-		        
-		    Template freemarkerTemplate = freemarkerConfigurer.getConfiguration()
-		      .getTemplate("Verification.ftl");
-		    String htmlBody = FreeMarkerTemplateUtils.processTemplateIntoString(freemarkerTemplate, templateModel);
 
-		    sendHtmlMessage(to, subject, htmlBody);
+	public void sendVerificationMessage(String to, String subject, Map<String, Object> templateModel)
+			throws IOException, TemplateException, MessagingException {
+
+		Template freemarkerTemplate = freemarkerConfigurer.getConfiguration().getTemplate("Verification.ftl");
+		String htmlBody = FreeMarkerTemplateUtils.processTemplateIntoString(freemarkerTemplate, templateModel);
+
+		sendHtmlMessage(to, subject, htmlBody);
 	}
 
 	private void sendHtmlMessage(String to, String subject, String htmlBody) throws MessagingException {
