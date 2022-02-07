@@ -74,7 +74,9 @@ public class Profile {
 		this.verification = verification;
 	}
 
+
 	public Profile(String firstName) {
 		this.firstName = firstName;
 	}
+
 }

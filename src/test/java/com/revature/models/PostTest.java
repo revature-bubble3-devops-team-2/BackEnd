@@ -9,8 +9,16 @@ import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+<<<<<<< HEAD:src/test/java/com/revature/models/PostModelTest.java
 class PostModelTest {
 
+=======
+class PostTest {
+
+	private static final int PSID = 0;
+	private static final String BODY = "body";
+	private static final String IMG_URL = "imgurl";
+>>>>>>> eae792ea2868922fdd2d69381da5cdc268a0fdda:src/test/java/com/revature/models/PostTest.java
 	private static Post post1;
 	private static Post post2;
 	private static Profile creator;
@@ -23,17 +31,23 @@ class PostModelTest {
 		creator = new Profile();
 		group = new Group();
 		timestamp = new Timestamp(0);
+<<<<<<< HEAD:src/test/java/com/revature/models/PostModelTest.java
 		likes.addAll(Arrays.asList(1, 2, 3));
 		post1 = new Post(0, creator, "test", "test", timestamp, likes, group);
 		post2 = new Post(0, creator, "test", "test", timestamp, likes, group);
+=======
+		likes = Set.of(1, 2, 3);
+		post1 = new Post(PSID, creator, BODY, IMG_URL, timestamp, likes, group);
+		post2 = new Post(PSID, creator, BODY, IMG_URL, timestamp, likes, group);
+>>>>>>> eae792ea2868922fdd2d69381da5cdc268a0fdda:src/test/java/com/revature/models/PostTest.java
 	}
 
 	@Test
 	void testGetters() {
-		assertEquals(0, post1.getPsid());
+		assertEquals(PSID, post1.getPsid());
 		assertEquals(creator, post1.getCreator());
-		assertEquals("test", post1.getBody());
-		assertEquals("test", post1.getImgURL());
+		assertEquals(BODY, post1.getBody());
+		assertEquals(IMG_URL, post1.getImgURL());
 		assertEquals(timestamp, post1.getDatePosted());
 		assertEquals(likes, post1.getLikes());
 		assertEquals(group, post1.getGroup());
@@ -42,10 +56,10 @@ class PostModelTest {
 	@Test
 	void testSetters() {
 		Post post = new Post();
-		post.setPsid(0);
+		post.setPsid(PSID);
 		post.setCreator(creator);
-		post.setBody("test");
-		post.setImgURL("test");
+		post.setBody(BODY);
+		post.setImgURL(IMG_URL);
 		post.setDatePosted(timestamp);
 		post.setLikes(likes);
 		post.setGroup(group);

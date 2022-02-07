@@ -21,7 +21,9 @@ import com.revature.services.EmailService;
 import com.revature.services.ProfileService;
 
 import freemarker.template.TemplateException;
+import lombok.extern.log4j.Log4j2;
 
+@Log4j2
 @RestController
 @CrossOrigin
 public class EmailController {
@@ -32,28 +34,33 @@ public class EmailController {
 	@Autowired
 	ProfileService pserv;
 
+	
+	private static final String EMAIL = "email";
+	
 	@NoAuthIn
 	@PostMapping("/verfied/email")
-	public boolean sendEmail(@RequestBody Map<?, ?> emailMap) {
+	public boolean sendEmail(@RequestBody Map<?,?> emailMap) {
+		log.info("In Email Controller -----------------------");
 		HashMap<String, Object> tempMap = new HashMap<String, Object>();
-		tempMap.put("email", emailMap.get("email"));
+		tempMap.put(EMAIL, emailMap.get(EMAIL));
+		log.info((String) emailMap.get(EMAIL));
 		tempMap.put("url", emailMap.get("url"));
 
 		Profile whyGod = new Profile();
-		whyGod.setEmail((String) emailMap.get("email"));
+		whyGod.setEmail((String) emailMap.get(EMAIL));
 		Profile profile = pserv.getProfileByEmail(whyGod);
+		log.info(profile);
 		tempMap.put("profile", profile);
 
 		try {
-
-			eserv.sendVerificationMessage((String) emailMap.get("email"), "Verify", tempMap);
+			eserv.sendVerificationMessage((String) emailMap.get(EMAIL), "Verify", tempMap);
 			return true;
 		} catch (IOException e) {
-
+			log.info(e.getMessage());
 		} catch (TemplateException e) {
-
+			log.info(e.getMessage());
 		} catch (MessagingException e) {
-
+			log.info(e.getMessage());
 		}
 		return false;
 	}
@@ -61,17 +68,15 @@ public class EmailController {
 	@PostMapping("/validate")
 	@NoAuthIn
 	public boolean emailVerified(@RequestBody String email) {
+		log.info("in validate---------------------");
+		log.info(EMAIL + ": " + email);
 		Profile profile = new Profile();
 		profile.setEmail(email);
 
 		Profile prof = pserv.getProfileByEmail(profile);
 		prof.setVerification(true);
-		Profile p = pserv.updateProfile(prof);
 
-		if (p != null) {
-			return true;
-		}
-		return false;
+		return pserv.updateProfile(prof)!= null;
 	}
 
 	@PostMapping("/email/verify/passwordupdate")
@@ -97,6 +102,9 @@ public class EmailController {
 
 		}
 		return false;
+
+		
+		
 	}
 
 	@PostMapping("/email/verify/password")
