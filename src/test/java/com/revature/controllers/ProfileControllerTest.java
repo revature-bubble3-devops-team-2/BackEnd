@@ -5,61 +5,28 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import javax.servlet.http.HttpServletRequest;
-
-import org.hibernate.loader.custom.CollectionFetchReturn;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
-import org.mockito.junit.jupiter.MockitoExtension;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.collect.Lists;
-import com.revature.Driver;
 import com.revature.dto.ProfileDTO;
 import com.revature.models.Profile;
-import com.revature.repositories.ProfileRepo;
 import com.revature.services.ProfileServiceImpl;
 import com.revature.utilites.SecurityUtil;
-import org.junit.platform.runner.JUnitPlatform;
 import lombok.extern.log4j.Log4j2;
-
-
-
-//@WebMvcTest(ProfileController.class)
-
 
 
 @Log4j2
@@ -177,9 +144,8 @@ public class ProfileControllerTest {
 	  @Test
 	  public void testFollow() {
 		  HttpServletRequest req = Mockito.mock(HttpServletRequest.class);
-		  when(req.getAttribute(any(String.class))).thenReturn(expected);
 		  when(profileService.addFollowerByEmail(any(Profile.class), any(String.class))).thenReturn(expected);
-		  ResponseEntity<String> responseEntity = profileController.newFollower(expected.getEmail(), req);
+		  ResponseEntity<String> responseEntity = profileController.newFollower(expected.getEmail(), 1,  req);
 		  assertThat(responseEntity.getStatusCodeValue()).isEqualTo(HttpStatus.ACCEPTED.value()); 
 	  }
 	  
@@ -219,18 +185,10 @@ public class ProfileControllerTest {
 	  }
 	  
 	  @Test
-	  public void testGetFollowing() {
-		  Profile expected = new Profile();
-		  when(profileService.getProfileByPid(any(Integer.class))).thenReturn(expected);
-		  
-		  ResponseEntity<List<ProfileDTO>> followingList = profileController.getFollowingProfiles(1);
-		
-		 
-		  List<Profile> actualProfileList = followingList.getBody().stream().map(profileDTO -> profileDTO.toProfile() ).collect(Collectors.toList());
-		  actualProfileList.forEach(profile -> System.out.println(profile));
-		
+	  public void testGetFollowing() { 
+		 ResponseEntity<List<ProfileDTO>> followingList = profileController.getFollowers(1);
+		 List<Profile> actualProfileList = followingList.getBody().stream().map(profileDTO -> profileDTO.toProfile() ).collect(Collectors.toList());
+		 actualProfileList.forEach(profile -> System.out.println(profile));
 	     assertTrue(actualProfileList.isEmpty());
-		
-		  
 	  }
 }
