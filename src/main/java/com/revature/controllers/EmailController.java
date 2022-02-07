@@ -74,9 +74,6 @@ public class EmailController {
 		
 		prof.setVerification(true);
 		
-		if(pserv.updateProfile(prof)!= null) {
-		return true;
-		}
-		return false;
+		return pserv.updateProfile(prof)!= null;
 	}
 }
