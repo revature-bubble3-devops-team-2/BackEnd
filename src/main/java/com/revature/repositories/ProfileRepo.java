@@ -15,4 +15,11 @@ public interface ProfileRepo extends JpaRepository<Profile, Integer> {
     Profile getProfileByPid(Integer pid);
     Profile getProfileByUsername(String username);
     
+//    @Query(value = "select * from profile_following pf where pf.following_profile_id = :id", nativeQuery = true)
+    @Query(value = "\r\n"
+    		+ "select * from profile p \r\n"
+    		+ "join profile_following pf on pf.profile_profile_id = p.profile_id \r\n"
+    		+ "where pf.following_profile_id = :id" , nativeQuery = true)
+    List< Profile > getFollowers( @Param("id") int id);
+    
 }

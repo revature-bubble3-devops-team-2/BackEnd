@@ -230,4 +230,11 @@ public class ProfileServiceImpl implements ProfileService {
 		
 		return profileRepo.findAll(example);
 	}
+
+	@Override
+	public List<Profile> getFollowers(int id) {
+		return profileRepo.getFollowers(id);
+	}
+	
+	
 }
