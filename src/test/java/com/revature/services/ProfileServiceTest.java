@@ -227,7 +227,6 @@ public class ProfileServiceTest {
         Set<Group> groups = new HashSet<>();
         Profile profile = new Profile(1,"test","1234","updateTest","updateTest","test@mail", true, "img@url.com", empty, groups);
         Profile profile2 = new Profile(2,"test2","1234","updateTest2","updateTest2","test2@mail", true, "img@url.com", empty, groups);
-
         Profile expected = new Profile(1, "test", "1234", "updateTest", "updateTest", "test@mail", true, "img@url.com", empty, groups);
         when(profileRepo.getProfileByEmail("tes2@mail")).thenReturn(profile);
         when(profileRepo.getProfileByEmail("test2@mail")).thenReturn(profile2);
