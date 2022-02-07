@@ -3,6 +3,7 @@ package com.revature.models;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -28,7 +29,8 @@ public class Group {
 
 	@Id
 	private Integer groupId;
-
+	
+	@Column(name="group_name", nullable=false)
 	private String groupName;
 
 	@ManyToOne
