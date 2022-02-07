@@ -41,7 +41,7 @@ public class EmailController {
 	@PostMapping("/verfied/email")
 	public boolean sendEmail(@RequestBody Map<?,?> emailMap) {
 		log.info("In Email Controller -----------------------");
-		HashMap<String, Object> tempMap = new HashMap<String, Object>();
+		HashMap<String, Object> tempMap = new HashMap<>();
 		tempMap.put(EMAIL, emailMap.get(EMAIL));
 		log.info((String) emailMap.get(EMAIL));
 		tempMap.put("url", emailMap.get("url"));
@@ -83,23 +83,23 @@ public class EmailController {
 	@NoAuthIn
 	public boolean sendEmailForUpdatePassword(@RequestBody Map<?, ?> emailMap) {
 		HashMap<String, Object> tempMap = new HashMap<String, Object>();
-		tempMap.put("email", emailMap.get("email"));
+		tempMap.put("email", emailMap.get(EMAIL));
 		tempMap.put("url", emailMap.get("url"));
 
 		Profile whyGod = new Profile();
-		whyGod.setEmail((String) emailMap.get("email"));
+		whyGod.setEmail((String) emailMap.get(EMAIL));
 		Profile profile = pserv.getProfileByEmail(whyGod);
 		tempMap.put("profile", profile);
 
 		try {
-			eserv.sendPasswordResetMessage((String) emailMap.get("email"), "Verify", tempMap);
+			eserv.sendPasswordResetMessage((String) emailMap.get(EMAIL), "Verify", tempMap);
 			return true;
 		} catch (IOException e) {
-
+			log.info(e.getMessage());
 		} catch (TemplateException e) {
-
+			log.info(e.getMessage());
 		} catch (MessagingException e) {
-
+			log.info(e.getMessage());
 		}
 		return false;
 
@@ -109,9 +109,9 @@ public class EmailController {
 
 	@PostMapping("/email/verify/password")
 	@NoAuthIn
-	public ResponseEntity<?> updatePassword(@RequestBody Map<String, String> pmap) {
+	public ResponseEntity<ProfileDTO> updatePassword(@RequestBody Map<String, String> pmap) {
 		Profile prof = new Profile();
-		prof.setEmail(pmap.get("email"));
+		prof.setEmail(pmap.get(EMAIL));
 		prof.setPasskey(pmap.get("password"));
 		prof.setVerification(true);
 
