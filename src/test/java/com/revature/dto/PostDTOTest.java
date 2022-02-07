@@ -1,6 +1,7 @@
 package com.revature.dto;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.sql.Timestamp;
 import java.util.Set;
@@ -22,7 +23,7 @@ class PostDTOTest {
 	private static Post post;
 	private static ProfileDTO creator;
 	private static Profile modelCreator;
-	private static Timestamp timestamp;
+	private static Timestamp dateCreated;
 	private static Set<Integer> likes;
 	private static GroupDTO group;
 	private static Group modelGroup;
@@ -33,11 +34,11 @@ class PostDTOTest {
 		modelCreator = creator.toProfile();
 		group = new GroupDTO();
 		modelGroup = group.toGroup();
-		timestamp = new Timestamp(0);
+		dateCreated = new Timestamp(0);
 		likes = Set.of(1, 2, 3);
-		postDto1 = new PostDTO(PSID, creator, BODY, IMG_URL, timestamp, likes, group);
-		postDto2 = new PostDTO(PSID, creator, BODY, IMG_URL, timestamp, likes, group);
-		post = new Post(PSID, modelCreator, BODY, IMG_URL, timestamp, likes, modelGroup);
+		postDto1 = new PostDTO(PSID, creator, BODY, IMG_URL, dateCreated, likes, group);
+		postDto2 = new PostDTO(PSID, creator, BODY, IMG_URL, dateCreated, likes, group);
+		post = new Post(PSID, modelCreator, BODY, IMG_URL, dateCreated, likes, modelGroup);
 	}
 
 	@Test
@@ -46,7 +47,7 @@ class PostDTOTest {
 		assertEquals(creator, postDto1.getCreator());
 		assertEquals(BODY, postDto1.getBody());
 		assertEquals(IMG_URL, postDto1.getImgURL());
-		assertEquals(timestamp, postDto1.getDatePosted());
+		assertEquals(dateCreated, postDto1.getDatePosted());
 		assertEquals(likes, postDto1.getLikes());
 		assertEquals(group, postDto1.getGroup());
 	}
@@ -58,7 +59,7 @@ class PostDTOTest {
 		postDto.setCreator(creator);
 		postDto.setBody(BODY);
 		postDto.setImgURL(IMG_URL);
-		postDto.setDatePosted(timestamp);
+		postDto.setDatePosted(dateCreated);
 		postDto.setLikes(likes);
 		postDto.setGroup(group);
 		assertEquals(postDto1, postDto);
@@ -84,4 +85,21 @@ class PostDTOTest {
 		assertEquals(post, postDto1.toPost());
 	}
 
+	@Test
+	void testCustomConstructorNoPSID() {
+		PostDTO pDto = new PostDTO(creator, BODY, IMG_URL, dateCreated, likes, group);
+		assertNotEquals(postDto1.getPsid(), pDto.getPsid());
+		pDto.setPsid(postDto1.getPsid());
+		assertEquals(postDto1, pDto);
+	}
+	
+	@Test
+	void testCustomConstructorNoPSIDNoLikes() {
+		PostDTO pDto = new PostDTO(creator, BODY, IMG_URL, dateCreated, group);
+		assertNotEquals(postDto1.getPsid(), pDto.getPsid());
+		pDto.setPsid(postDto1.getPsid());
+		pDto.setLikes(postDto1.getLikes());
+		assertEquals(postDto1, pDto);
+	}
+	
 }

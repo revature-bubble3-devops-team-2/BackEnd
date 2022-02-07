@@ -1,6 +1,7 @@
 package com.revature.dto;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -72,6 +73,14 @@ class GroupDTOTest {
 	@Test
 	void testToGroup() {
 		assertEquals(group, groupDto1.toGroup());
+	}
+	
+	@Test
+	void testCustomConstructor() {
+		GroupDTO gDto = new GroupDTO(GROUP_NAME, owner, members);
+		assertNotEquals(groupDto1.getGroupId(), gDto.getGroupId());
+		gDto.setGroupId(groupDto1.getGroupId());
+		assertEquals(groupDto1, gDto);
 	}
 
 }
