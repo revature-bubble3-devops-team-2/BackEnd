@@ -171,9 +171,6 @@ public class ProfileServiceImpl implements ProfileService {
     	 	
         List<Profile> pList = profile.getFollowing();
         
-//        System.out.println(  "\u001B[31m" + "================================================================");
-//        System.out.println(pList);
-//        System.out.println("================================================================" + "\u001B[0m");
         
         Profile followed = profileRepo.getProfileByEmail(email);
         if (followed != null && !followed.equals(profile)) {
