@@ -6,27 +6,29 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
-
-import com.revature.models.Group;
-import com.revature.models.Profile;
-import com.revature.repositories.ProfileRepo;
-
-import lombok.extern.log4j.Log4j2;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
+
+import com.revature.models.Group;
+import com.revature.models.Profile;
+import com.revature.repositories.ProfileRepo;
+
+import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 public class ProfileServiceTest {

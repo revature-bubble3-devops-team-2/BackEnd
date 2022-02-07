@@ -9,16 +9,12 @@ import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-<<<<<<< HEAD:src/test/java/com/revature/models/PostModelTest.java
 class PostModelTest {
 
-=======
-class PostTest {
 
 	private static final int PSID = 0;
 	private static final String BODY = "body";
 	private static final String IMG_URL = "imgurl";
->>>>>>> eae792ea2868922fdd2d69381da5cdc268a0fdda:src/test/java/com/revature/models/PostTest.java
 	private static Post post1;
 	private static Post post2;
 	private static Profile creator;
@@ -31,15 +27,9 @@ class PostTest {
 		creator = new Profile();
 		group = new Group();
 		timestamp = new Timestamp(0);
-<<<<<<< HEAD:src/test/java/com/revature/models/PostModelTest.java
-		likes.addAll(Arrays.asList(1, 2, 3));
-		post1 = new Post(0, creator, "test", "test", timestamp, likes, group);
-		post2 = new Post(0, creator, "test", "test", timestamp, likes, group);
-=======
 		likes = Set.of(1, 2, 3);
 		post1 = new Post(PSID, creator, BODY, IMG_URL, timestamp, likes, group);
 		post2 = new Post(PSID, creator, BODY, IMG_URL, timestamp, likes, group);
->>>>>>> eae792ea2868922fdd2d69381da5cdc268a0fdda:src/test/java/com/revature/models/PostTest.java
 	}
 
 	@Test
