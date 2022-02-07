@@ -45,7 +45,6 @@ public class PostController {
      */
     @PostMapping
     public ResponseEntity<PostDTO> addPost(@RequestBody PostDTO post, HttpServletRequest req) {
-    	System.out.println(post);
     	Post newPost = post.toPost();
         newPost.setCreator((Profile) req.getAttribute("profile"));
         Post check = postService.addPost(newPost);
