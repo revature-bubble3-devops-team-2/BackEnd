@@ -35,7 +35,7 @@ public class PostControllerTest {
     PostServiceImpl postServiceImpl;
 	
 	@Test
-    public void testInvalidAddEmployee() 
+    public void testInvalidAddPost() 
     {
         MockHttpServletRequest request = new MockHttpServletRequest();
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
@@ -46,7 +46,7 @@ public class PostControllerTest {
     }
 	
 	@Test
-    public void testValidAddEmployee() 
+    public void testValidAddPost() 
     {
         MockHttpServletRequest request = new MockHttpServletRequest();
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
