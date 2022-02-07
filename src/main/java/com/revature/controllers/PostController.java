@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.revature.aspects.annotations.NoAuthIn;
 import com.revature.dto.PostDTO;
 import com.revature.models.Post;
 import com.revature.models.Profile;
@@ -44,6 +45,7 @@ public class PostController {
      */
     @PostMapping
     public ResponseEntity<PostDTO> addPost(@RequestBody PostDTO post, HttpServletRequest req) {
+    	System.out.println(post);
     	Post newPost = post.toPost();
         newPost.setCreator((Profile) req.getAttribute("profile"));
         Post check = postService.addPost(newPost);
@@ -53,7 +55,6 @@ public class PostController {
             return new ResponseEntity<>(new PostDTO(check), HttpStatus.CREATED);
         }
     }
-
     /**
      * Returns a list of all the posts within the database.
      *
@@ -70,5 +71,19 @@ public class PostController {
     	posts.forEach(p -> postDtos.add(new PostDTO(p)));
         return new ResponseEntity<>(postDtos, HttpStatus.OK);
     }
+    
+	@NoAuthIn
+    @GetMapping("/page/all")
+    @ResponseBody
+    public ResponseEntity<List<PostDTO>> getAllPostsbyPage() {
+    	List<Post> posts = postService.getAllPosts();
+    	List<PostDTO> postDtos = new LinkedList<>();
+    	posts.forEach(p -> postDtos.add(new PostDTO(p)));
+        return new ResponseEntity<>(postDtos, HttpStatus.OK);
+    }
+    
+    
+    
 }
+
 
