@@ -237,6 +237,11 @@ public class ProfileServiceImpl implements ProfileService {
 		Example <Profile> example = Example.of(sampleProfile, ignoringExampleMatcher);
 		return profileRepo.findAll(example);
 	}
+
+	@Override
+	public List<Profile> getFollowers(int id) {
+		return profileRepo.getFollowers(id);
+	}
 	
 
 

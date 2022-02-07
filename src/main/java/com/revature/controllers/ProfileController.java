@@ -257,4 +257,25 @@ public class ProfileController {
     	profiles.forEach(p -> profileDtos.add(new ProfileDTO(p)));
 		return new ResponseEntity<>(profileDtos, new HttpHeaders(), HttpStatus.OK);
 	}
+	
+	@NoAuthIn
+	@GetMapping("/followers/{id}")
+	public ResponseEntity<List<ProfileDTO>> getFollowers(@PathVariable("id") int id){
+		
+		
+		List<Profile> profiles = profileService.getFollowers(id);
+		
+		
+		List<ProfileDTO> profileDtos = new LinkedList<>();
+		
+    	profiles.forEach(p -> profileDtos.add(new ProfileDTO(p)));
+    	
+      System.out.println(  "\u001B[31m" + "================================================================");
+      System.out.println(profiles);
+      System.out.println("================================================================" + "\u001B[0m");
+		
+    
+		return new ResponseEntity<>(profileDtos, new HttpHeaders(), HttpStatus.OK);
+	}
+	
 }
