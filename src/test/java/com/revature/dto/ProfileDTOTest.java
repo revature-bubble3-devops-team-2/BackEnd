@@ -1,6 +1,7 @@
 package com.revature.dto;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -95,4 +96,12 @@ class ProfileDTOTest {
 		assertEquals(profile, profileDto1.toProfile());
 	}
 
+	@Test
+	void testCustomConstructor() {
+		ProfileDTO pDto = new ProfileDTO(USERNAME, PASSKEY, FIRST_NAME, LAST_NAME, EMAIL, VERIFICATION, IMG_URL,
+				following, groups);
+		assertNotEquals(profileDto1.getPid(), pDto.getPid());
+		pDto.setPid(profileDto1.getPid());
+		assertEquals(profileDto1, pDto);
+	}
 }
