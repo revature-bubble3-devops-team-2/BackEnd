@@ -25,7 +25,7 @@ import com.revature.models.Profile;
 import com.revature.repositories.PostRepo;
 
 
-class PostServiceTest {
+public class PostServiceTest {
     private static final String USERNAME = "dummyUsername";
     private static final String PASSWORD = "dummyPassword";
     private static final String NAME = "dummyName";

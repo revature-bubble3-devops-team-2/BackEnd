@@ -10,7 +10,7 @@ import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class ProfileModelTest {
+public class ProfileModelTest {
 
 	private static final int PID = 0;
 	private static final String USERNAME = "username";
