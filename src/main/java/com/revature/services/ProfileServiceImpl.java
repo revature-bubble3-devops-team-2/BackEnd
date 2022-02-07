@@ -226,7 +226,7 @@ public class ProfileServiceImpl implements ProfileService {
 				 .withIgnorePaths("pid");
 				 
 		Example <Profile> example = Example.of(sampleProfile, ignoringExampleMatcher);
-		return profileRepo.findAll(example) != null ? profileRepo.findAll(example) : new ArrayList<>() ;
+		return profileRepo.findAll(example);
 	}
 	
 
