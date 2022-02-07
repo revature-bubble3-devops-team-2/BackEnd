@@ -61,6 +61,7 @@ public class ProfileDTO {
 			firstName = profile.getFirstName();
 			lastName = profile.getLastName();
 			email = profile.getEmail();
+			verification = profile.isVerification();
 			imgurl = profile.getImgurl();
 			following = null;
 			if (profile.getFollowing() != null) {

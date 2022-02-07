@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.revature.aspects.annotations.NoAuthIn;
 import com.revature.dto.PostDTO;
 import com.revature.models.Post;
 import com.revature.models.Profile;
@@ -43,14 +44,13 @@ public class PostController {
      *          is added, bad request otherwise
      */
     @PostMapping
-    public ResponseEntity<PostDTO> addPost(@RequestBody PostDTO post, HttpServletRequest req) {
-    	Post newPost = post.toPost();
-        newPost.setCreator((Profile) req.getAttribute("profile"));
-        Post check = postService.addPost(newPost);
-        if (check == null) {
+    public ResponseEntity<Post> addPost(@RequestBody Post post, HttpServletRequest req) {
+        post.setCreator((Profile) req.getAttribute("profile"));
+        Post check = postService.addPost(post);
+        if (check == null) {	
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         } else {
-            return new ResponseEntity<>(new PostDTO(check), HttpStatus.CREATED);
+            return new ResponseEntity<>(check, HttpStatus.CREATED);
         }
     }
 
@@ -64,11 +64,22 @@ public class PostController {
      */
     @GetMapping("/page/{pageNumber}")
     @ResponseBody
-    public ResponseEntity<List<PostDTO>> getAllPostsbyPage(@PathVariable ("pageNumber") int pageNumber) {
-    	List<Post> posts = postService.getAllPostsPaginated(pageNumber);
+    public ResponseEntity<List<Post>> getAllPostsbyPage(@PathVariable ("pageNumber") int pageNumber) {
+        return new ResponseEntity<>(postService.getAllPostsPaginated(pageNumber), HttpStatus.OK);
+    }
+    
+	@NoAuthIn
+    @GetMapping("/page/all")
+    @ResponseBody
+    public ResponseEntity<List<PostDTO>> getAllPostsbyPage() {
+    	List<Post> posts = postService.getAllPosts();
     	List<PostDTO> postDtos = new LinkedList<>();
     	posts.forEach(p -> postDtos.add(new PostDTO(p)));
         return new ResponseEntity<>(postDtos, HttpStatus.OK);
     }
+    
+    
+    
 }
+
 
