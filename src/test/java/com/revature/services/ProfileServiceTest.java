@@ -31,7 +31,7 @@ import com.revature.repositories.ProfileRepo;
 import lombok.extern.log4j.Log4j2;
 
 
-class ProfileServiceTest {
+public class ProfileServiceTest {
 
     private static final String USERNAME = "dummyUsername";
     private static final String PASSWORD = "abc123";

@@ -12,7 +12,7 @@ import com.revature.models.Comment;
 import com.revature.models.Post;
 import com.revature.models.Profile;
 
-class CommentDTOTest {
+public class CommentDTOTest {
 
 	private static final int CID = 0;
 	private static final String C_BODY = "haha that's funny";
