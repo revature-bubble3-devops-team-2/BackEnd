@@ -116,10 +116,10 @@ public class ProfileServiceImpl implements ProfileService {
     	
     	log.info(profile);
     	 Profile targetProfile;
-    	if(profile.getPid() <=0) {
-    		  targetProfile = profileRepo.getProfileByPid(profile.getPid());
-    	}else {
-    		  targetProfile = profileRepo.getProfileByEmail(profile.getEmail());
+    	if(profile.getPid() <= 0) {
+    		targetProfile = profileRepo.getProfileByEmail(profile.getEmail());
+    	} else {
+    		targetProfile = profileRepo.getProfileByPid(profile.getPid());
     	}
     	
        
