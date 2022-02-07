@@ -42,9 +42,11 @@ import static org.mockito.BDDMockito.given;
 import lombok.extern.log4j.Log4j2;
 
 
-//@ExtendWith(SpringExtension.class)
+
 //@WebMvcTest(ProfileController.class)
-//@RunWith(SpringRunner.class)
+
+
+
 @Log4j2
 @SpringBootTest(Arrays.of(SpringBootTest.WebEnvironment.MOCK), classes = Driver.class)
 @AutoConfigureMockMvc
