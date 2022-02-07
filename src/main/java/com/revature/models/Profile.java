@@ -25,7 +25,7 @@ import lombok.ToString;
 @Data
 @AllArgsConstructor
 @EqualsAndHashCode(exclude = { "groups", "following" })
-@ToString(exclude = { "groups", "following" })
+//@ToString(exclude = { "groups", "following" })
 public class Profile {
 
 	@Id
@@ -85,5 +85,16 @@ public class Profile {
 	public Profile (String firstName) {
     	this.firstName = firstName;
     }
+
+	@Override
+	public String toString() {
+		return "Profile [pid=" + pid +" \n " + ", username=" + username +" \n " + ", passkey=" + passkey +" \n " + 
+	", firstName=" + firstName +" \n "
+				+ ", lastName=" + lastName +" \n " + ", email=" + email +" \n "
+	+ ", imgurl=" + imgurl +" \n " ;
+	}
+	
+	//+ ", following=" + following +" \n "
+	//+ ", groups=" + groups + "]"
 
 }

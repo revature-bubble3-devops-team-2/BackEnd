@@ -71,5 +71,18 @@ public class PostController {
     	posts.forEach(p -> postDtos.add(new PostDTO(p)));
         return new ResponseEntity<>(postDtos, HttpStatus.OK);
     }
+    
+    @GetMapping("/page/all")
+    @ResponseBody
+    public ResponseEntity<List<PostDTO>> getAllPostsbyPage() {
+    	List<Post> posts = postService.getAllPosts();
+    	List<PostDTO> postDtos = new LinkedList<>();
+    	posts.forEach(p -> postDtos.add(new PostDTO(p)));
+        return new ResponseEntity<>(postDtos, HttpStatus.OK);
+    }
+    
+    
+    
 }
+
 

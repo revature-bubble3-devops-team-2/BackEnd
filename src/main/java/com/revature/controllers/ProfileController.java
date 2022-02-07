@@ -159,9 +159,18 @@ public class ProfileController {
      * @return
      */
     @PostMapping("/follow")
-    public ResponseEntity<String> newFollower(String email, HttpServletRequest req) {
-        Profile creator = (Profile) req.getAttribute("profile");
-        Profile newProfile = profileService.addFollowerByEmail(creator, email);
+    
+//    public static final String ANSI_RESET = "\u001B[0m";
+//    public static final String ANSI_BLACK = "\u001B[30m";
+//    public static final String ANSI_RED = "\u001B[31m";
+    public ResponseEntity<String> newFollower(String email, int id , HttpServletRequest req) {
+//        Profile creator = (Profile) req.getAttribute("profile");
+        Profile profile = profileService.getProfileByPid(id);
+//        System.out.println(  "\u001B[31m" + "================================================================");
+//        System.out.println(profile.getImgurl().charAt(3));
+//        System.out.println("================================================================" + "\u001B[0m");
+        
+        Profile newProfile = profileService.addFollowerByEmail(profile, email);
         if (newProfile != null) {
             HttpHeaders headers = new HttpHeaders();
             Profile pro = new Profile();

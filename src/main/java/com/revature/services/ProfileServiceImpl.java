@@ -168,7 +168,13 @@ public class ProfileServiceImpl implements ProfileService {
      */
     @Override
     public Profile addFollowerByEmail(Profile profile, String email) {
-        List<Profile> pList = new ArrayList<>(profile.getFollowing());
+    	 	
+        List<Profile> pList = profile.getFollowing();
+        
+//        System.out.println(  "\u001B[31m" + "================================================================");
+//        System.out.println(pList);
+//        System.out.println("================================================================" + "\u001B[0m");
+        
         Profile followed = profileRepo.getProfileByEmail(email);
         if (followed != null && !followed.equals(profile)) {
             if (!pList.contains(followed)) {
