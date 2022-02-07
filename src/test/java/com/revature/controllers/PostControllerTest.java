@@ -4,6 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.platform.runner.JUnitPlatform;
@@ -36,11 +39,9 @@ public class PostControllerTest {
     {
         MockHttpServletRequest request = new MockHttpServletRequest();
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
-        when(postServiceImpl.addPost(any(Post.class))).thenReturn(null);
-        
+        when(postServiceImpl.addPost(any(Post.class))).thenReturn(null);    
         PostDTO postDto = new PostDTO();
-        ResponseEntity<PostDTO> responseEntity = postController.addPost(postDto, request);
-         
+        ResponseEntity<PostDTO> responseEntity = postController.addPost(postDto, request);         
         assertThat(responseEntity.getStatusCodeValue()).isEqualTo(HttpStatus.BAD_REQUEST.value());
     }
 	
@@ -49,12 +50,20 @@ public class PostControllerTest {
     {
         MockHttpServletRequest request = new MockHttpServletRequest();
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
-        when(postServiceImpl.addPost(any(Post.class))).thenReturn(new Post());
-         
+        when(postServiceImpl.addPost(any(Post.class))).thenReturn(new Post());         
         PostDTO postDto = new PostDTO();
         ResponseEntity<PostDTO> responseEntity = postController.addPost(postDto, request);
-        
         assertThat(responseEntity.getStatusCodeValue()).isEqualTo(HttpStatus.CREATED.value());
+    }
+	
+	@Test
+    public void testGetAllPostsbyPage() 
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
+        when(postServiceImpl.getAllPostsPaginated(any(Integer.class))).thenReturn(new LinkedList<>());
+        ResponseEntity<List<PostDTO>> responseEntity = postController.getAllPostsbyPage(0);
+        assertThat(responseEntity.getStatusCodeValue()).isEqualTo(HttpStatus.OK.value());
     }
 	
 }
