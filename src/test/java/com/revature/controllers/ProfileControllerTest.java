@@ -1,29 +1,41 @@
 package com.revature.controllers;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
+import org.mockito.junit.jupiter.MockitoExtension;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.dto.ProfileDTO;
 import com.revature.models.Profile;
 import com.revature.repositories.ProfileRepo;
+import com.revature.services.ProfileServiceImpl;
 import com.revature.utilites.SecurityUtil;
-
+import org.junit.platform.runner.JUnitPlatform;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
+@ExtendWith(MockitoExtension.class)
+@RunWith(JUnitPlatform.class)
 public class ProfileControllerTest {
 	 private static final String USERNAME = "dummyUsername";
 	 private static final String PASSWORD = "abc123";
@@ -38,20 +50,14 @@ public class ProfileControllerTest {
 	 
 	 private static final String TOKEN_NAME = "Authorization";
 	
-	 @Autowired
-	 private WebApplicationContext webApplicationContext;
-	 
 	 private ProfileDTO profiledto;
 	 private ProfileDTO testprofiledto;
 	 
-	 
-	 private MockMvc mockMvc;
-	  
-	 private static String baseUrl = "/profile";
-
 	 @Mock
-	 private ProfileRepo profileRepo;
-	 private Profile profile;
+	 private ProfileServiceImpl profileService;
+
+	 @InjectMocks
+	 ProfileController profileController;
 
 	 @BeforeEach
 	 void initMock() {
@@ -93,35 +99,20 @@ public class ProfileControllerTest {
 	       testprofiledto.setLastName(name2);
 	       testprofiledto.setEmail(EMAIL2);
 	       testprofiledto.setVerification(VERIFICATION);
-	       //mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-	       ProfileController pc = new ProfileController();
-	       mockMvc = MockMvcBuilders.standaloneSetup(pc).build();
 	  }
 	 
 	  @Test
 	  public void testRegister() throws Exception {
-		  Profile newProfile = profiledto.toProfile();
-		  HttpHeaders responseHeaders = new HttpHeaders();
-          String token = SecurityUtil.generateToken(new ProfileDTO(newProfile));
-          assertNotNull(SecurityUtil.validateToken(token));
-          responseHeaders.set(TOKEN_NAME, token);
-          assertNotNull(responseHeaders);
-          ObjectMapper objectMapper = new ObjectMapper();
-          String profileJSON = objectMapper.writeValueAsString(newProfile);
-          log.info(profileJSON);
-		  mockMvc.perform(post(baseUrl + "/register")
-				  .contentType(MediaType.APPLICATION_JSON)
-				  .content(profileJSON))
-		  	.andExpect(status().isOk())
-		  	.andExpect(content().contentType("application/json"))
-		  	;
-		  
+		  when(profileService.getProfileByEmail(any(Profile.class))).thenReturn(expected);
+		  ResponseEntity<ProfileDTO> responseEntity = profileController.addNewProfile(profiledto);
+		  assertNotNull(responseEntity);
+		  assertThat(responseEntity.getStatusCodeValue()).isEqualTo(HttpStatus.IM_USED.value());
 	  }
 	 
-//	  @Test
-//	  public void testLogin() {
-//		 
-//	  }
+	  @Test
+	  public void testLogin() {
+		 
+	  }
 //	  
 //	  @Test
 //	  public void testGetProfile() {
