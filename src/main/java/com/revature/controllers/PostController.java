@@ -44,14 +44,13 @@ public class PostController {
      *          is added, bad request otherwise
      */
     @PostMapping
-    public ResponseEntity<PostDTO> addPost(@RequestBody PostDTO post, HttpServletRequest req) {
-    	Post newPost = post.toPost();
-        newPost.setCreator((Profile) req.getAttribute("profile"));
-        Post check = postService.addPost(newPost);
-        if (check == null) {
+    public ResponseEntity<Post> addPost(@RequestBody Post post, HttpServletRequest req) {
+        post.setCreator((Profile) req.getAttribute("profile"));
+        Post check = postService.addPost(post);
+        if (check == null) {	
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         } else {
-            return new ResponseEntity<>(new PostDTO(check), HttpStatus.CREATED);
+            return new ResponseEntity<>(check, HttpStatus.CREATED);
         }
     }
 
@@ -65,11 +64,8 @@ public class PostController {
      */
     @GetMapping("/page/{pageNumber}")
     @ResponseBody
-    public ResponseEntity<List<PostDTO>> getAllPostsbyPage(@PathVariable ("pageNumber") int pageNumber) {
-    	List<Post> posts = postService.getAllPostsPaginated(pageNumber);
-    	List<PostDTO> postDtos = new LinkedList<>();
-    	posts.forEach(p -> postDtos.add(new PostDTO(p)));
-        return new ResponseEntity<>(postDtos, HttpStatus.OK);
+    public ResponseEntity<List<Post>> getAllPostsbyPage(@PathVariable ("pageNumber") int pageNumber) {
+        return new ResponseEntity<>(postService.getAllPostsPaginated(pageNumber), HttpStatus.OK);
     }
     
 	@NoAuthIn
