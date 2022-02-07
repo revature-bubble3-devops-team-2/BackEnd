@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 import com.revature.models.Group;
 import com.revature.models.Profile;
 
-class ProfileDTOTest {
+public class ProfileDTOTest {
 
 	private static final int PID = 0;
 	private static final String USERNAME = "username";

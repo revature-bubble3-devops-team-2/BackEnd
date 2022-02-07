@@ -83,7 +83,7 @@ public class EmailController {
 	@PostMapping("/email/verify/passwordupdate")
 	@NoAuthIn
 	public boolean sendEmailForUpdatePassword(@RequestBody Map<?, ?> emailMap) {
-		HashMap<String, Object> tempMap = new HashMap<String, Object>();
+		HashMap<String, Object> tempMap = new HashMap<>();
 		tempMap.put(EMAIL, emailMap.get(EMAIL));
 		tempMap.put(URL, emailMap.get(URL));
 
