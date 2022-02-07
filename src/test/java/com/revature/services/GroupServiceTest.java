@@ -4,8 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.when;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -23,13 +21,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
-import com.revature.models.Comment;
 import com.revature.models.Group;
-import com.revature.models.Post;
 import com.revature.models.Profile;
 import com.revature.repositories.GroupRepo;
 
-public class GroupServiceTest {
+class GroupServiceTest {
 	
 	private Profile tempProfile = new Profile();
 	private Group tempGroup1 = new Group();

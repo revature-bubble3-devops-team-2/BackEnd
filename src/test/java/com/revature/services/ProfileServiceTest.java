@@ -30,8 +30,8 @@ import com.revature.repositories.ProfileRepo;
 
 import lombok.extern.log4j.Log4j2;
 
-@Log4j2
-public class ProfileServiceTest {
+
+class ProfileServiceTest {
 
     private static final String USERNAME = "dummyUsername";
     private static final String PASSWORD = "abc123";
@@ -165,13 +165,6 @@ public class ProfileServiceTest {
         when(profileRepo.save(expected2)).thenReturn(expected2);
         assertEquals(expected2, profileService.addNewProfile(expected2));
     }
-
-//    
-//     @Test
-//     void getAllProfiles() {
-//     List<Profile> profileList = Arrays.asList(expected, expected2);
-//     when(profileRepo.findAll()).thenReturn(profileList);
-//     }
 
     @Test
     void getAllProfilesPaginated() {
