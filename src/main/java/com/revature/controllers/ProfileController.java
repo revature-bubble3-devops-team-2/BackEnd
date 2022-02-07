@@ -1,9 +1,7 @@
 package com.revature.controllers;
 
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -183,7 +181,7 @@ public class ProfileController {
     /**
      * Removed profile from list of profiles being followed by the user
      * @param email email of the profile to be unfollowed
-     * @param req http request including the user's authorization token in the "Authroization" header
+     * @param req http request including the user's authorization token in the "Authorization" header
      * @return OK response with new authorization token, bad request response if unsuccessful
      */
     @PostMapping("/unfollow")
@@ -193,9 +191,6 @@ public class ProfileController {
         if (follower != null) {
             follower = profileService.removeFollowByEmail(follower, email);
             if (follower != null) {
-            	
-            	
-            	
                 Profile pro = new Profile();
                 
                 pro.setPid(follower.getPid());
