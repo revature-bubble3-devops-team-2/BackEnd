@@ -4,35 +4,42 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.internal.util.MockUtil;
+import org.mockito.plugins.MockMaker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
+import org.mockito.plugins.MockMaker;
 import com.revature.models.Profile;
 import com.revature.repositories.ProfileRepo;
 
 public class ProfileControllerTest {
 	 private static final String USERNAME = "dummyUsername";
-	    private static final String PASSWORD = "abc123";
-	    private static final String EMAIL = "dummy@email.com";
-	    private static final boolean VERIFICATION = true;
-	    private Profile expected = new Profile();
+	 private static final String PASSWORD = "abc123";
+	 private static final String EMAIL = "dummy@email.com";
+	 private static final boolean VERIFICATION = true;
+	 private Profile expected = new Profile();
 
-	    private static final String USERNAME2 = "dummyUsername2";
-	    private static final String PASSWORD2 = "abc123";
-	    private static final String EMAIL2 = "dummy2@email.com";
-	    private Profile expected2 = new Profile();
+	 private static final String USERNAME2 = "dummyUsername2";
+	 private static final String PASSWORD2 = "abc123";
+	 private static final String EMAIL2 = "dummy2@email.com";
+	 private Profile expected2 = new Profile();
 	
-	  @Autowired
-	  private MockMvc mvc;
+	 @Autowired
+	 private WebApplicationContext webApplicationContext;
+	 
+	 
+	 private MockMvc mockMvc;
 	  
-	  private static String baseUrl = "/api/profile";
+	 private static String baseUrl = "/api/profile";
 
-	  @Mock
-	  private ProfileRepo profileRepo;
+	 @Mock
+	 private ProfileRepo profileRepo;
+	 private Profile profile;
 
-	  private Profile profile;
-
-	  @BeforeEach
-	  void initMock() {
+	 @BeforeEach
+	 void initMock() {
 	      MockitoAnnotations.openMocks(this);
 	      String name = "dummyName";
 	      String passkey = "c8ZLBnfDh3YsvZ2dW1KDWY6ZTak8+v+/L74e8Vfoydk1IfySsVCAZVKTZfrtPKodzUXEiR+69yjOz1qqf7U4rA==jnW" +
@@ -56,11 +63,12 @@ public class ProfileControllerTest {
 	                "CYoZcKm9vrrH+CaFykfIUdjnln5jhLoRmjeBIHgYWITG5J5/NCzAM+a3k4Y92/hbgDDE15GD1ud1EU8GHY4eb5LU1pAb2O7zbcW9" +
 	                "pQbtVcbqyJGNRFA6OAGcWb1R0+04d0+1DA6BjTDsxkltgsvUpLrVFBo4VaFAT6Jf4ZI2Pg39WjFY1an8=";
 	       expected2 = new Profile(USERNAME2, passkey2, name2, name2, EMAIL2, VERIFICATION);
-	   }
+	       mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+	  }
 	  
 	  @Test
 	  public void testLogin() {
-		  
+		 
 	  }
 	  
 	  @Test
@@ -68,4 +76,38 @@ public class ProfileControllerTest {
 		  
 	  }
 	  
+	  @Test
+	  public void testGetProfile() {
+		  
+	  }
+	  
+	  @Test
+	  public void testUpdateProfile() {
+		  
+	  }
+	  
+	  @Test
+	  public void testFollow() {
+		  
+	  }
+	  
+	  @Test
+	  public void testUnfollow() {
+		  
+	  }
+	  
+	  @Test
+	  public void testGetAll() {
+		  
+	  }
+	  
+	  @Test
+	  public void testSearch() {
+		  
+	  }
+	  
+	  @Test
+	  public void testGetFollowing() {
+		  
+	  }
 }
