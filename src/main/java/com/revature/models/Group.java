@@ -30,7 +30,7 @@ public class Group {
 	@Id
 	private Integer groupId;
 	
-	@Column(name="group_name", nullable=false)
+	@Column(name="group_name", nullable=false, unique=true)
 	private String groupName;
 
 	@ManyToOne
