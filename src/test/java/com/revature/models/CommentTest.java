@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class CommentModelTest {
+class CommentTest {
 
 	private static final int CID = 0;
 	private static final String C_BODY = "haha that's funny";
