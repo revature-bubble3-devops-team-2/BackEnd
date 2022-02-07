@@ -64,6 +64,7 @@ public class GroupServiceTest {
     void testAddInvalidGroup() {
     	tempGroup2 = new Group(0, null, null, new HashSet<>());
     	when(groupRepo.save(tempGroup2)).thenReturn(null);
+    	assertNull(groupServ.save(tempGroup2));
     }
 	
     @Test
