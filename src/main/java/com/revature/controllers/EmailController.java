@@ -36,6 +36,7 @@ public class EmailController {
 
 	
 	private static final String EMAIL = "email";
+	private static final String URL = "url";
 	
 	@NoAuthIn
 	@PostMapping("/verfied/email")
@@ -44,7 +45,7 @@ public class EmailController {
 		HashMap<String, Object> tempMap = new HashMap<>();
 		tempMap.put(EMAIL, emailMap.get(EMAIL));
 		log.info((String) emailMap.get(EMAIL));
-		tempMap.put("url", emailMap.get("url"));
+		tempMap.put(URL, emailMap.get(URL));
 
 		Profile whyGod = new Profile();
 		whyGod.setEmail((String) emailMap.get(EMAIL));
@@ -83,8 +84,8 @@ public class EmailController {
 	@NoAuthIn
 	public boolean sendEmailForUpdatePassword(@RequestBody Map<?, ?> emailMap) {
 		HashMap<String, Object> tempMap = new HashMap<String, Object>();
-		tempMap.put("email", emailMap.get(EMAIL));
-		tempMap.put("url", emailMap.get("url"));
+		tempMap.put(EMAIL, emailMap.get(EMAIL));
+		tempMap.put(URL, emailMap.get(URL));
 
 		Profile whyGod = new Profile();
 		whyGod.setEmail((String) emailMap.get(EMAIL));

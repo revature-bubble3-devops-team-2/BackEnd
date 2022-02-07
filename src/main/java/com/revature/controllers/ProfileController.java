@@ -70,7 +70,6 @@ public class ProfileController {
             pro.setEmail(profile.getEmail());
             pro.setVerification(profile.isVerification());
             
-            System.out.println();
             headers.set(TOKEN_NAME, SecurityUtil.generateToken(new ProfileDTO(pro)));
             return new ResponseEntity<>(new ProfileDTO(profile), headers, HttpStatus.OK);
 
