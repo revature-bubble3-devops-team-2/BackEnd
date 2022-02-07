@@ -49,7 +49,7 @@ public class GroupControllerTests {
 		
 		when(gserv.findById(0)).thenReturn(GROUP);
 		GroupDTO groupdto = new GroupDTO(gserv.findById(0));
-		assertEquals(groupdto.getGroupId(), 1);
+		assertEquals(1, groupdto.getGroupId());
 		
 	}
 	
