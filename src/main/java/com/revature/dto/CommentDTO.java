@@ -49,16 +49,8 @@ public class CommentDTO {
 	}
 	
 	public Comment toComment() {
-		if(writer == null || post == null) {
-			return null;
-		}
-		if(previous != null) {
-			return new Comment(cid, writer.toProfile(), post.toPost(), cBody, dateCreated, previous.toComment());
-		}
-		else {
-			return new Comment(cid, writer.toProfile(), post.toPost(), cBody, dateCreated, null);
-		}
-		
+		return new Comment(cid, (writer != null ? writer.toProfile() : null), (post != null ? post.toPost() : null),
+				cBody, dateCreated, (previous != null ? previous.toComment() : null));
 	}
 
 	public CommentDTO(ProfileDTO writer, PostDTO post, String cBody, Timestamp dateCreated,
