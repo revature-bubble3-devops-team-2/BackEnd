@@ -1,5 +1,6 @@
 package com.revature.controllers;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
@@ -8,6 +9,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -215,9 +217,20 @@ public class ProfileControllerTest {
 	    	  assertEquals(profiles.get(index).getPid(), profileList.get(index).getPid());
 	      }
 	  }
-//	  
-//	  @Test
-//	  public void testGetFollowing() {
-//		  
-//	  }
+	  
+	  @Test
+	  public void testGetFollowing() {
+		  Profile expected = new Profile();
+		  when(profileService.getProfileByPid(any(Integer.class))).thenReturn(expected);
+		  
+		  ResponseEntity<List<ProfileDTO>> followingList = profileController.getFollowingProfiles(1);
+		
+		 
+		  List<Profile> actualProfileList = followingList.getBody().stream().map(profileDTO -> profileDTO.toProfile() ).collect(Collectors.toList());
+		  actualProfileList.forEach(profile -> System.out.println(profile));
+		
+	     assertTrue(actualProfileList.isEmpty());
+		
+		  
+	  }
 }
