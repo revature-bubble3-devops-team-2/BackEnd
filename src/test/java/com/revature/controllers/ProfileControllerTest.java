@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,6 +17,10 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,6 +30,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.mockito.junit.jupiter.MockitoExtension;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.revature.Driver;
 import com.revature.dto.ProfileDTO;
 import com.revature.models.Profile;
 import com.revature.repositories.ProfileRepo;
@@ -33,6 +39,10 @@ import com.revature.utilites.SecurityUtil;
 import org.junit.platform.runner.JUnitPlatform;
 import lombok.extern.log4j.Log4j2;
 
+
+//@ExtendWith(SpringExtension.class)
+//@WebMvcTest(ProfileController.class)
+//@RunWith(SpringRunner.class)
 @Log4j2
 @ExtendWith(MockitoExtension.class)
 @RunWith(JUnitPlatform.class)
@@ -41,12 +51,12 @@ public class ProfileControllerTest {
 	 private static final String PASSWORD = "abc123";
 	 private static final String EMAIL = "dummy@email.com";
 	 private static final boolean VERIFICATION = true;
-	 private Profile expected = new Profile();
+	 private static Profile expected = new Profile();
 
 	 private static final String USERNAME2 = "dummyUsername2";
 	 private static final String PASSWORD2 = "abc123";
 	 private static final String EMAIL2 = "dummy2@email.com";
-	 private Profile expected2 = new Profile();
+	 private static Profile expected2 = new Profile();
 	 
 	 private static final String TOKEN_NAME = "Authorization";
 	
@@ -100,6 +110,20 @@ public class ProfileControllerTest {
 	       testprofiledto.setEmail(EMAIL2);
 	       testprofiledto.setVerification(VERIFICATION);
 	  }
+	 
+	 @BeforeEach
+	 private void initEachMock() {
+		 MockitoAnnotations.openMocks(this);
+	 }
+	 
+	 private void generateHeaders() {
+		  Profile newProfile = profiledto.toProfile();
+		  HttpHeaders responseHeaders = new HttpHeaders();
+         String token = SecurityUtil.generateToken(new ProfileDTO(newProfile));
+         assertNotNull(SecurityUtil.validateToken(token));
+         responseHeaders.set(TOKEN_NAME, token);
+//         assertNotNull(responseHeaders);
+	 }
 	 
 	  @Test
 	  public void testRegister() throws Exception {
