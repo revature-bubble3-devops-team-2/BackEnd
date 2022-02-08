@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.revature.aspects.annotations.NoAuthIn;
 import com.revature.dto.CommentDTO;
 import com.revature.models.Comment;
 import com.revature.services.CommentServiceImpl;
@@ -44,6 +45,7 @@ public class CommentController {
      * @return HTTP accepted status and a list of comments based on Post id.
      */
     @GetMapping
+    @NoAuthIn
     public ResponseEntity<List<CommentDTO>> getCommentsByPost(@RequestParam(value = "psid") Integer id){
     	List<Comment> comments = commentService.getCommentsByPostPsid(id);
     	List<CommentDTO> commentDtos = new LinkedList<>();
