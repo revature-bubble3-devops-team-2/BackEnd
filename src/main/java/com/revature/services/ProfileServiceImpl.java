@@ -164,18 +164,14 @@ public class ProfileServiceImpl implements ProfileService {
     	
     	
     	if (targetProfile!=null) {
-    		if (profile.getEmail()!=null) targetProfile.setEmail(profile.getEmail());
-    		if (profile.getFirstName()!=null) targetProfile.setFirstName(profile.getFirstName());
-    		if (profile.getLastName()!=null) targetProfile.setLastName(profile.getLastName());
+    		
+    		targetProfile.setEmail(profile.getEmail());
+    		targetProfile.setFirstName(profile.getFirstName());
+    		targetProfile.setLastName(profile.getLastName());
     		targetProfile.setPasskey(SecurityUtil.hashPassword(profile.getPasskey()));
     		targetProfile.setVerification(profile.isVerification());
-    		if(profile.getImgurl() != null) { 
-    			
-    			log.info(profile.getImgurl());
-    			
-    			log.error("here we go   " + profile.getImgurl() );
-    			targetProfile.setImgurl(profile.getImgurl()) ;
-    		}
+    		targetProfile.setImgurl(profile.getImgurl()) ;
+    		
     		return profileRepo.save(targetProfile);
     	} else {
     		return null;
