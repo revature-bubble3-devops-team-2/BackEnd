@@ -148,7 +148,7 @@ class ProfileControllerTest {
 	      ResponseEntity<List<ProfileDTO>> list = profileController.getAllPostsbyPage(pageRequested);
 	      List<Profile> profiles = list.getBody().stream().map(pdto -> pdto.toProfile() ).collect(Collectors.toList());
 	      assertEquals(HttpStatus.OK.value(),list.getStatusCodeValue());
-	      for(int index = 0; index<2;index++){
+	      for(int index = 0; index < profiles.size();index++){
 	    	  assertEquals(profiles.get(index).getPid(), profileList.get(index).getPid());
 	      }
 	  }
@@ -161,7 +161,7 @@ class ProfileControllerTest {
 	      ResponseEntity<List<ProfileDTO>> searchList = profileController.search(query);
 	      List<Profile> profiles = searchList.getBody().stream().map(pdto -> pdto.toProfile() ).collect(Collectors.toList());
 	      assertEquals(HttpStatus.OK.value(),searchList.getStatusCodeValue());
-	      for(int index = 0; index<2;index++){
+	      for(int index = 0; index < profiles.size(); index++) {
 	    	  assertEquals(profiles.get(index).getPid(), profileList.get(index).getPid());
 	      }
 	  }
