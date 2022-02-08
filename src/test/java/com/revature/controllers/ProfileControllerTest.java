@@ -28,7 +28,7 @@ import com.revature.models.Profile;
 import com.revature.services.ProfileServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
-public class ProfileControllerTest {
+class ProfileControllerTest {
 	 private static final String USERNAME = "dummyUsername";
 	 private static final String PASSWORD = "abc123";
 	 private static final String EMAIL = "dummy@email.com";
@@ -43,7 +43,7 @@ public class ProfileControllerTest {
 	 private static final String TOKEN_NAME = "Authorization";
 	
 	 private ProfileDTO profiledto;
-	 private ProfileDTO testprofiledto;
+	 private ProfileDTO testprofiledto; 
 	 
 	 @Mock
 	 private ProfileServiceImpl profileService;
@@ -94,12 +94,12 @@ public class ProfileControllerTest {
 	  }
 	 
 	 @BeforeEach
-	 private void initEachMock() {
+	 void initEachMock() {
 		 MockitoAnnotations.openMocks(this);
 	 }
 
 	  @Test
-	  public void testRegister() throws Exception {
+	  void testRegister() throws Exception {
 		  when(profileService.getProfileByEmail(any(Profile.class))).thenReturn(expected);
 		  ResponseEntity<ProfileDTO> responseEntity = profileController.addNewProfile(profiledto);
 		  assertNotNull(responseEntity);
@@ -107,7 +107,7 @@ public class ProfileControllerTest {
 	  }
 	 
 	  @Test
-	  public void testLogin() {
+	  void testLogin() {
 		  when(profileService.login(any(String.class),any(String.class) )).thenReturn(expected);
 		  ResponseEntity<ProfileDTO> responseEntity = profileController.login(USERNAME, PASSWORD);
 		  assertNotNull(responseEntity);
@@ -115,7 +115,7 @@ public class ProfileControllerTest {
 	  }
 	  
 	  @Test
-	  public void testGetProfile() {
+	  void testGetProfile() {
 		  when(profileService.getProfileByPid(any(Integer.class))).thenReturn(expected);
 		  ResponseEntity<ProfileDTO> responseEntity = profileController.getProfileByPid(1);
 		  assertNotNull(responseEntity);
@@ -123,15 +123,15 @@ public class ProfileControllerTest {
 	  }
 	  
 	  @Test
-	  public void testUpdateProfile() {
+	  void testUpdateProfile() {
 		  when(profileService.updateProfile(any(Profile.class))).thenReturn(expected2);
 		  ResponseEntity<ProfileDTO> responseEntity = profileController.updateProfile(testprofiledto);
-		  assertTrue(responseEntity.getBody().toProfile().getFirstName().equals(expected2.getFirstName()));
+		  assertEquals(responseEntity.getBody().toProfile().getFirstName(), expected2.getFirstName());
 		  assertEquals(HttpStatus.ACCEPTED.value(), responseEntity.getStatusCodeValue());
 	  }
 	  
 	  @Test
-	  public void testUnfollow() {
+	  void testUnfollow() {
 		  HttpServletRequest req = Mockito.mock(HttpServletRequest.class);
 		  when(req.getAttribute(any(String.class))).thenReturn(expected);
 		  when(profileService.getProfileByEmail(any(Profile.class))).thenReturn(expected);
@@ -141,7 +141,7 @@ public class ProfileControllerTest {
 	  }
 	  
 	  @Test
-	  public void testGetAll() {
+	  void testGetAll() {
 		  List<Profile> profileList = Arrays.asList(expected, expected2);
 		  int pageRequested = 1;
 		  
@@ -154,7 +154,7 @@ public class ProfileControllerTest {
 	  }
 	  
 	  @Test
-	  public void testSearch() {
+	  void testSearch() {
 		  List<Profile> profileList = Arrays.asList(expected, expected2);
 		  String query = "dummy";
 	      when(profileService.search(any(String.class))).thenReturn(profileList);
@@ -166,7 +166,7 @@ public class ProfileControllerTest {
 	  }
 	  
 	  @Test
-	  public void testGetFollowing() { 
+	  void testGetFollowing() { 
 		 ResponseEntity<List<ProfileDTO>> followingList = profileController.getFollowers(1);
 		 List<Profile> actualProfileList = followingList.getBody().stream().map(profileDTO -> profileDTO.toProfile() ).collect(Collectors.toList());
 		 actualProfileList.forEach(profile -> System.out.println(profile));

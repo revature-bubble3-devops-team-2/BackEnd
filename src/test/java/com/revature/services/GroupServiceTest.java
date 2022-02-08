@@ -25,7 +25,7 @@ import com.revature.models.Group;
 import com.revature.models.Profile;
 import com.revature.repositories.GroupRepo;
 
-public class GroupServiceTest {
+class GroupServiceTest {
 	
 	private Profile tempProfile = new Profile();
 	private Group tempGroup1 = new Group();

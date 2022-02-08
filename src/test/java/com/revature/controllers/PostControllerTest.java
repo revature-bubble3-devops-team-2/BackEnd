@@ -1,6 +1,5 @@
 package com.revature.controllers;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -24,7 +23,7 @@ import com.revature.models.Post;
 import com.revature.services.PostServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
-public class PostControllerTest {
+class PostControllerTest {
 
 	@InjectMocks
     PostController postController;
@@ -33,7 +32,7 @@ public class PostControllerTest {
     PostServiceImpl postServiceImpl;
 	
 	@Test
-    public void testInvalidAddPost() 
+    void testInvalidAddPost() 
     {
         MockHttpServletRequest request = new MockHttpServletRequest();
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
@@ -44,7 +43,7 @@ public class PostControllerTest {
     }
 	
 	@Test
-    public void testValidAddPost() 
+    void testValidAddPost() 
     {
         MockHttpServletRequest request = new MockHttpServletRequest();
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
@@ -55,7 +54,7 @@ public class PostControllerTest {
     }
 	
 	@Test
-    public void testGetAllPostsbyPage() 
+    void testGetAllPostsbyPage() 
     {
         MockHttpServletRequest request = new MockHttpServletRequest();
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
@@ -64,7 +63,7 @@ public class PostControllerTest {
         assertEquals(HttpStatus.OK.value(), responseEntity.getStatusCodeValue());    }
 	
 	@Test
-    public void testGetAllPostsbyPageNoArgs() 
+    void testGetAllPostsbyPageNoArgs() 
     {
         MockHttpServletRequest request = new MockHttpServletRequest();
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
