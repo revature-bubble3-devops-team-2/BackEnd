@@ -1,8 +1,10 @@
 package com.revature.controllers;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertTrue;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -12,8 +14,8 @@ import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -103,7 +105,7 @@ public class ProfileControllerTest {
 		  when(profileService.getProfileByEmail(any(Profile.class))).thenReturn(expected);
 		  ResponseEntity<ProfileDTO> responseEntity = profileController.addNewProfile(profiledto);
 		  assertNotNull(responseEntity);
-		  assertThat(responseEntity.getStatusCodeValue()).isEqualTo(HttpStatus.IM_USED.value());
+		  assertEquals(HttpStatus.IM_USED.value(), responseEntity.getStatusCodeValue());
 	  }
 	 
 	  @Test
@@ -111,7 +113,7 @@ public class ProfileControllerTest {
 		  when(profileService.login(any(String.class),any(String.class) )).thenReturn(expected);
 		  ResponseEntity<ProfileDTO> responseEntity = profileController.login(USERNAME, PASSWORD);
 		  assertNotNull(responseEntity);
-		  assertThat(responseEntity.getStatusCodeValue()).isEqualTo(HttpStatus.OK.value());
+		  assertEquals(HttpStatus.OK.value(), responseEntity.getStatusCodeValue());
 	  }
 	  
 	  @Test
@@ -119,15 +121,15 @@ public class ProfileControllerTest {
 		  when(profileService.getProfileByPid(any(Integer.class))).thenReturn(expected);
 		  ResponseEntity<ProfileDTO> responseEntity = profileController.getProfileByPid(1);
 		  assertNotNull(responseEntity);
-		  assertThat(responseEntity.getStatusCodeValue()).isEqualTo(HttpStatus.ACCEPTED.value());
+		  assertEquals(HttpStatus.ACCEPTED.value(), responseEntity.getStatusCodeValue());
 	  }
 	  
 	  @Test
 	  public void testUpdateProfile() {
 		  when(profileService.updateProfile(any(Profile.class))).thenReturn(expected2);
 		  ResponseEntity<ProfileDTO> responseEntity = profileController.updateProfile(testprofiledto);
-		  assertEquals(responseEntity.getBody().toProfile().getFirstName(), expected2.getFirstName());
-		  assertThat(responseEntity.getStatusCodeValue()).isEqualTo(HttpStatus.ACCEPTED.value()); 
+		  assertTrue(responseEntity.getBody().toProfile().getFirstName().equals(expected2.getFirstName()));
+		  assertEquals(HttpStatus.IM_USED.value(), responseEntity.getStatusCodeValue());
 	  }
 	  
 	  @Test
@@ -137,7 +139,7 @@ public class ProfileControllerTest {
 		  when(profileService.getProfileByEmail(any(Profile.class))).thenReturn(expected);
 		  when(profileService.removeFollowByEmail(any(Profile.class), any(String.class))).thenReturn(expected);
 		  ResponseEntity<String> responseEntity = profileController.unfollow(expected.getEmail(), req);
-		  assertThat(responseEntity.getStatusCodeValue()).isEqualTo(HttpStatus.ACCEPTED.value()); 
+		  assertEquals(HttpStatus.ACCEPTED.value(), responseEntity.getStatusCodeValue()); 
 	  }
 	  
 	  @Test
