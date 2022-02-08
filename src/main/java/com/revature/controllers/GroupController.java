@@ -125,11 +125,10 @@ public class GroupController {
 		if((group = groupService.findById(groupId)) != null) {
 			Profile user = profileService.getProfileByPid(userId);
 			Set<Profile> members = group.getMembers();
-			if(members.contains(user)) {
+			if (members.contains(user)) {
 				return new ResponseEntity<>(new GroupDTO(group), HttpStatus.BAD_REQUEST);
-			}else {
-				members.add(user);
-				group.setMembers(members);
+			} else {
+				group.getMembers().add(user);
 				return ResponseEntity.ok(new GroupDTO(groupService.save(group)));
 			}
 		}
@@ -155,8 +154,7 @@ public class GroupController {
 			if(!members.contains(user)) {
 				return new ResponseEntity<>(new GroupDTO(group), HttpStatus.BAD_REQUEST);
 			}else {
-				members.remove(user);
-				group.setMembers(members);
+				group.getMembers().remove(user);
 				return ResponseEntity.ok(new GroupDTO(groupService.save(group)));
 			}
 		}

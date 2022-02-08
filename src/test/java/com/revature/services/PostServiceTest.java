@@ -1,22 +1,31 @@
 package com.revature.services;
 
-import com.revature.models.Post;
-import com.revature.models.Profile;
-import com.revature.repositories.PostRepo;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.Mockito.when;
+
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.mockito.Mockito.when;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.util.*;
+import com.revature.models.Post;
+import com.revature.models.Profile;
+import com.revature.repositories.PostRepo;
 
-import static org.junit.jupiter.api.Assertions.*;
 
-public class PostServiceTest {
+class PostServiceTest {
     private static final String USERNAME = "dummyUsername";
     private static final String PASSWORD = "dummyPassword";
     private static final String NAME = "dummyName";

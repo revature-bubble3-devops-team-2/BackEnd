@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 
 class PostModelTest {
 
-
 	private static final int PSID = 0;
 	private static final String BODY = "body";
 	private static final String IMG_URL = "imgurl";
@@ -28,12 +27,12 @@ class PostModelTest {
 		creator = new Profile();
 		group = new Group();
 		timestamp = new Timestamp(0);
-//		likes = Set.of(1, 2, 3);
-		likes = new HashSet<>();
-		likes.add(1);
-		likes.add(2);
-		likes.add(3);
+
 		
+
+		likes = new HashSet<>();
+		likes.addAll(Arrays.asList(1,2,3));
+
 		post1 = new Post(PSID, creator, BODY, IMG_URL, timestamp, likes, group);
 		post2 = new Post(PSID, creator, BODY, IMG_URL, timestamp, likes, group);
 	}

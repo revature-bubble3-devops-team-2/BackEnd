@@ -70,7 +70,7 @@ public class GroupServiceImpl implements GroupService {
 	 */
 	@Override
 	public List<Group> findAllPaginated(int page) {
-        Pageable pageable = PageRequest.of(page - 1, 3, Sort.by("datePosted").descending());
+        Pageable pageable = PageRequest.of(page - 1, 3, Sort.by("groupName").descending());
         Page<Group> groupsPage = groupRepo.findAll(pageable);
             return groupsPage.getContent();
 
@@ -101,6 +101,7 @@ public class GroupServiceImpl implements GroupService {
      */ 
 	public List<Group> search(String query) {
 		Group sampleGroup = new Group();
+		sampleGroup.setGroupId(0);
 		sampleGroup.setGroupName(query);
 		
 		 ExampleMatcher ignoringExampleMatcher = ExampleMatcher.matchingAny()

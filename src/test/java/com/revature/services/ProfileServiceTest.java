@@ -30,8 +30,8 @@ import com.revature.repositories.ProfileRepo;
 
 import lombok.extern.log4j.Log4j2;
 
-@Log4j2
-public class ProfileServiceTest {
+
+class ProfileServiceTest {
 
     private static final String USERNAME = "dummyUsername";
     private static final String PASSWORD = "abc123";
@@ -74,9 +74,6 @@ public class ProfileServiceTest {
                  "CYoZcKm9vrrH+CaFykfIUdjnln5jhLoRmjeBIHgYWITG5J5/NCzAM+a3k4Y92/hbgDDE15GD1ud1EU8GHY4eb5LU1pAb2O7zbcW9" +
                  "pQbtVcbqyJGNRFA6OAGcWb1R0+04d0+1DA6BjTDsxkltgsvUpLrVFBo4VaFAT6Jf4ZI2Pg39WjFY1an8=";
         expected2 = new Profile(USERNAME2, passkey2, name2, name2, EMAIL2, VERIFICATION);
-
-        // profileList.add(expected);
-        // profileList.add(expected2);
     }
 
     @Test
@@ -116,23 +113,40 @@ public class ProfileServiceTest {
 
     @Test
     void testFindProfileByEmailSuccess() {
+    	expected2.setEmail(EMAIL);
         when(profileRepo.getProfileByEmail(EMAIL)).thenReturn(expected);
-        Profile actual = profileRepo.getProfileByEmail(EMAIL);
-        assertEquals(actual, expected);
+        Profile actual = profileService.getProfileByEmail(expected2);
+        assertEquals(expected, actual);
     }
 
     @Test
     void testFindProfileByEmailNullEntry() {
+    	expected2.setEmail(null);
         when(profileRepo.getProfileByEmail(null)).thenReturn(null);
-        Profile actual = profileRepo.getProfileByEmail((null));
+        Profile actual = profileService.getProfileByEmail(expected2);
         assertNull(actual);
     }
 
     @Test
     void testFindProfileByEmailBadEntry() {
+    	expected2.setEmail("FloppyDisk");
         when(profileRepo.getProfileByEmail("FloppyDisk")).thenReturn(null);
-        Profile actual = profileRepo.getProfileByEmail(("FloppyDisk"));
+        Profile actual = profileService.getProfileByEmail(expected2);
         assertNull(actual);
+    }
+    
+    @Test
+    void testFindProfileByUsernameSuccess() {
+    	when(profileRepo.getProfileByUsername(USERNAME)).thenReturn(expected);
+    	Profile actual = profileService.getProfileByUsername(USERNAME);
+    	assertEquals(expected, actual);
+    }
+    
+    @Test
+    void testFindProfileByUsernameNullEntry() {
+    	when(profileRepo.getProfileByUsername(null)).thenReturn(null);
+    	Profile actual = profileService.getProfileByUsername((null));
+    	assertNull(actual);
     }
 
     @Test
@@ -166,25 +180,18 @@ public class ProfileServiceTest {
         assertEquals(expected2, profileService.addNewProfile(expected2));
     }
 
-//    
-//     @Test
-//     void getAllProfiles() {
-//     List<Profile> profileList = Arrays.asList(expected, expected2);
-//     when(profileRepo.findAll()).thenReturn(profileList);
-//     }
-
     @Test
     void getAllProfilesPaginated() {
         List<Profile> profileList = Arrays.asList(expected, expected2);
         int pageRequested = 1;
 
-        Pageable pageable = PageRequest.of(pageRequested - 1, 2, Sort.unsorted());
+        Pageable pageable = PageRequest.of(pageRequested - 1, 15, Sort.by("username").ascending());
         assertNotNull(pageable);
 
         Page<Profile> profilePage = new PageImpl<Profile>(profileList);
         when(profileRepo.findAll(pageable)).thenReturn(profilePage);
-        List<Profile> actual = profileRepo.findAll(pageable).getContent();
-        assertEquals(actual, profileList);
+        List<Profile> actual = profileService.getAllProfilesPaginated(1);
+        assertEquals(profileList, actual);
     }
 
     @Test
@@ -203,7 +210,7 @@ public class ProfileServiceTest {
     }
 
     @Test
-    public void testAddFollowerByEmail() {
+    void testAddFollowerByEmail() {
         ArrayList<Profile> empty = new ArrayList<>();
 
         Set<Group> groups = new HashSet<>();

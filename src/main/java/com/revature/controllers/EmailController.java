@@ -47,9 +47,9 @@ public class EmailController {
 		log.info((String) emailMap.get(EMAIL));
 		tempMap.put(URL, emailMap.get(URL));
 
-		Profile whyGod = new Profile();
-		whyGod.setEmail((String) emailMap.get(EMAIL));
-		Profile profile = pserv.getProfileByEmail(whyGod);
+		Profile emailProfile = new Profile();
+		emailProfile.setEmail((String) emailMap.get(EMAIL));
+		Profile profile = pserv.getProfileByEmail(emailProfile);
 		log.info(profile);
 		tempMap.put("profile", profile);
 
@@ -57,11 +57,11 @@ public class EmailController {
 			eserv.sendVerificationMessage((String) emailMap.get(EMAIL), "Verify", tempMap);
 			return true;
 		} catch (IOException e) {
-			log.info(e.getMessage());
+			log.error(e.getMessage());
 		} catch (TemplateException e) {
-			log.info(e.getMessage());
+			log.error(e.getMessage());
 		} catch (MessagingException e) {
-			log.info(e.getMessage());
+			log.error(e.getMessage());
 		}
 		return false;
 	}
@@ -83,7 +83,7 @@ public class EmailController {
 	@PostMapping("/email/verify/passwordupdate")
 	@NoAuthIn
 	public boolean sendEmailForUpdatePassword(@RequestBody Map<?, ?> emailMap) {
-		HashMap<String, Object> tempMap = new HashMap<String, Object>();
+		HashMap<String, Object> tempMap = new HashMap<>();
 		tempMap.put(EMAIL, emailMap.get(EMAIL));
 		tempMap.put(URL, emailMap.get(URL));
 
@@ -95,12 +95,12 @@ public class EmailController {
 		try {
 			eserv.sendPasswordResetMessage((String) emailMap.get(EMAIL), "Verify", tempMap);
 			return true;
-		} catch (IOException e) {
-			log.info(e.getMessage());
-		} catch (TemplateException e) {
-			log.info(e.getMessage());
-		} catch (MessagingException e) {
-			log.info(e.getMessage());
+		} catch (IOException ioE) {
+			log.error(ioE.getMessage());
+		} catch (TemplateException tE) {
+			log.error(tE.getMessage());
+		} catch (MessagingException mE) {
+			log.error(mE.getMessage());
 		}
 		return false;
 
