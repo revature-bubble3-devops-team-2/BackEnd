@@ -15,7 +15,7 @@ import com.revature.models.Group;
 import com.revature.models.Post;
 import com.revature.models.Profile;
 
-public class PostDTOTest {
+class PostDTOTest {
 
 	private static final int PSID = 0;
 	private static final String BODY = "body";

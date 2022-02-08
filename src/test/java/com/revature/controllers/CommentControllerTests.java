@@ -28,36 +28,35 @@ import com.revature.models.Profile;
 import com.revature.services.CommentServiceImpl;
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(controllers = CommentController.class)
-public class CommentControllerTests {
+class CommentControllerTests {
 
 	private MockMvc mockMvc;
-	private static String BASE_URL = "/comment";
-	   @Autowired
-	    private WebApplicationContext webApplicationContext;
-	   
-	   @Autowired
-	   private ObjectMapper objectMapper;
 
-	   @MockBean
-	   CommentServiceImpl cServ;
-	  @BeforeEach
-	    public void setup() {
-	        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-	    }
+	private static String baseUrl = "/comment";
+	@Autowired
+	private WebApplicationContext webApplicationContext;
+
+	@Autowired
+	private ObjectMapper objectMapper;
+
+	@MockBean
+	CommentServiceImpl cServ;
+
+	@BeforeEach
+	void setup() {
+		mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+	}
+
 	@Test
 	void testAddComments_thenReturns200() throws Exception {
-	Profile profile = new Profile();
-	Post post = new Post();
-	Comment previous = new Comment();
-	Timestamp tStamp = new Timestamp(40);
-	Comment c = new Comment(1, profile, post, "body", tStamp, previous );
-	
-	mockMvc.perform(MockMvcRequestBuilders.post(BASE_URL)
-								.contentType("application/json")
-									.param("comment", "true")
-									 .content(objectMapper.writeValueAsString(c)))
-									.andExpect(status().isCreated());
-											
+		Profile profile = new Profile();
+		Post post = new Post();
+		Comment previous = new Comment();
+		Timestamp tStamp = new Timestamp(40);
+		Comment c = new Comment(1, profile, post, "body", tStamp, previous);
+
+		mockMvc.perform(MockMvcRequestBuilders.post("/comment").contentType("application/json").param("comment", "true")
+				.content(objectMapper.writeValueAsString(c))).andExpect(status().isCreated());
 	}
 	
 	@Test
@@ -73,9 +72,8 @@ public class CommentControllerTests {
 		List<Comment> cListTest = cServ.getCommentsByPostPsid(1730099524);
 		List<CommentDTO> commentDtos = new LinkedList<>();
     	cListTest.forEach(C -> commentDtos.add(new CommentDTO(C)));
-		cListTest.forEach(c1 -> System.out.println(c1));
     	
-    	mockMvc.perform(MockMvcRequestBuilders.get(BASE_URL)
+    	mockMvc.perform(MockMvcRequestBuilders.get(baseUrl)
     			.contentType("application/json"))
     			.andExpect(status().is4xxClientError());
 	}

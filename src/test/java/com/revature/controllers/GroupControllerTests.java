@@ -30,7 +30,7 @@ import com.revature.services.GroupServiceImpl;
 import com.revature.services.ProfileServiceImpl;
 
 
-public class GroupControllerTests {
+class GroupControllerTests {
 	private static Set<Profile> members = new HashSet<>();
 	private static List<Group> list = new ArrayList<>();
 	private static final Profile PROFILE = new Profile(1,"tazer", "sadfjkeii", "tazer", "tLname", "tazer@email.com", true );

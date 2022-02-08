@@ -2,8 +2,6 @@ package com.revature.services;
 
 import java.util.List;
 
-import org.springframework.data.repository.query.Param;
-
 import com.revature.models.Profile;
 
 public interface ProfileService {

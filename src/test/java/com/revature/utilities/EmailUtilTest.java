@@ -10,7 +10,7 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import com.revature.utilites.EmailUtil;
 
 //At least one assert for each method
-public class EmailUtilTest {
+class EmailUtilTest {
 	
 	
 	EmailUtil eUtil = new EmailUtil();
