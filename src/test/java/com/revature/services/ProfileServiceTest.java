@@ -74,9 +74,6 @@ public class ProfileServiceTest {
                  "CYoZcKm9vrrH+CaFykfIUdjnln5jhLoRmjeBIHgYWITG5J5/NCzAM+a3k4Y92/hbgDDE15GD1ud1EU8GHY4eb5LU1pAb2O7zbcW9" +
                  "pQbtVcbqyJGNRFA6OAGcWb1R0+04d0+1DA6BjTDsxkltgsvUpLrVFBo4VaFAT6Jf4ZI2Pg39WjFY1an8=";
         expected2 = new Profile(USERNAME2, passkey2, name2, name2, EMAIL2, VERIFICATION);
-
-        // profileList.add(expected);
-        // profileList.add(expected2);
     }
 
     @Test

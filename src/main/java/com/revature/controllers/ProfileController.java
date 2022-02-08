@@ -113,7 +113,6 @@ public class ProfileController {
      * @param id
      * @return Profile object with HttpStatusAccepted or HttpStatusBackRequest
      */
-    @NoAuthIn
     @GetMapping("{id}")
     public ResponseEntity<ProfileDTO> getProfileByPid(@PathVariable("id")int id) {
         Profile profile = profileService.getProfileByPid(id);
@@ -160,16 +159,8 @@ public class ProfileController {
      * @return
      */
     @PostMapping("/follow")
-    
-//    public static final String ANSI_RESET = "\u001B[0m";
-//    public static final String ANSI_BLACK = "\u001B[30m";
-//    public static final String ANSI_RED = "\u001B[31m";
     public ResponseEntity<String> newFollower(String email, int id , HttpServletRequest req) {
-//        Profile creator = (Profile) req.getAttribute("profile");
         Profile profile = profileService.getProfileByPid(id);
-//        System.out.println(  "\u001B[31m" + "================================================================");
-//        System.out.println(profile.getImgurl().charAt(3));
-//        System.out.println("================================================================" + "\u001B[0m");
         
         Profile newProfile = profileService.addFollowerByEmail(profile, email);
         if (newProfile != null) {
@@ -191,7 +182,7 @@ public class ProfileController {
     /**
      * Removed profile from list of profiles being followed by the user
      * @param email email of the profile to be unfollowed
-     * @param req http request including the user's authorization token in the "Authroization" header
+     * @param req http request including the user's authorization token in the "Authorization" header
      * @return OK response with new authorization token, bad request response if unsuccessful
      */
     @PostMapping("/unfollow")
@@ -201,9 +192,6 @@ public class ProfileController {
         if (follower != null) {
             follower = profileService.removeFollowByEmail(follower, email);
             if (follower != null) {
-            	
-            	
-            	
                 Profile pro = new Profile();
                 
                 pro.setPid(follower.getPid());
@@ -233,7 +221,6 @@ public class ProfileController {
      * @param pageNumber pageNumber to be retrieved
      * @return page of profiles for page number requested
      */
-    @NoAuthIn
     @GetMapping("/page/{pageNumber}")
     public ResponseEntity<List<ProfileDTO>> getAllPostsbyPage(@PathVariable("pageNumber") int pageNumber) {
     	List<Profile> profiles = profileService.getAllProfilesPaginated(pageNumber);
@@ -248,7 +235,6 @@ public class ProfileController {
      * @param query Takes in a String without space at end point /search{query}
      * @return List <Profile> matching search query
      */
-	@NoAuthIn
 	@GetMapping("/search/{query}")
 	public ResponseEntity<List<ProfileDTO>> search(@PathVariable("query") String query){
 		log.info("/search hit");
@@ -266,15 +252,9 @@ public class ProfileController {
 		List<Profile> profiles = profileService.getFollowers(id);
 		
 		
-		List<ProfileDTO> profileDtos = new LinkedList<>();
-		
+		List<ProfileDTO> profileDtos = new LinkedList<>();		
     	profiles.forEach(p -> profileDtos.add(new ProfileDTO(p)));
-    	
-      System.out.println(  "\u001B[31m" + "================================================================");
-      System.out.println(profiles);
-      System.out.println("================================================================" + "\u001B[0m");
 		
-    
 		return new ResponseEntity<>(profileDtos, new HttpHeaders(), HttpStatus.OK);
 	}
 	
