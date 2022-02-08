@@ -31,6 +31,7 @@ import com.revature.services.CommentServiceImpl;
 class CommentControllerTests {
 
 	private MockMvc mockMvc;
+
 	private static String baseUrl = "/comment";
 	@Autowired
 	private WebApplicationContext webApplicationContext;
@@ -56,7 +57,6 @@ class CommentControllerTests {
 
 		mockMvc.perform(MockMvcRequestBuilders.post("/comment").contentType("application/json").param("comment", "true")
 				.content(objectMapper.writeValueAsString(c))).andExpect(status().isCreated());
-
 	}
 	
 	@Test
@@ -72,9 +72,8 @@ class CommentControllerTests {
 		List<Comment> cListTest = cServ.getCommentsByPostPsid(1730099524);
 		List<CommentDTO> commentDtos = new LinkedList<>();
     	cListTest.forEach(C -> commentDtos.add(new CommentDTO(C)));
-
     	
-    	mockMvc.perform(MockMvcRequestBuilders.get("/comment")
+    	mockMvc.perform(MockMvcRequestBuilders.get(baseUrl)
     			.contentType("application/json"))
     			.andExpect(status().is4xxClientError());
 	}

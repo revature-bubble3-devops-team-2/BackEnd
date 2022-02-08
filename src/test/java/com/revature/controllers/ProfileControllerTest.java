@@ -2,7 +2,6 @@ package com.revature.controllers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -148,6 +147,7 @@ class ProfileControllerTest {
 	      when(profileService.getAllProfilesPaginated(any(Integer.class))).thenReturn(profileList);
 	      ResponseEntity<List<ProfileDTO>> list = profileController.getAllPostsbyPage(pageRequested);
 	      List<Profile> profiles = list.getBody().stream().map(pdto -> pdto.toProfile() ).collect(Collectors.toList());
+	      assertEquals(HttpStatus.OK.value(),list.getStatusCodeValue());
 	      for(int index = 0; index<2;index++){
 	    	  assertEquals(profiles.get(index).getPid(), profileList.get(index).getPid());
 	      }
@@ -160,6 +160,7 @@ class ProfileControllerTest {
 	      when(profileService.search(any(String.class))).thenReturn(profileList);
 	      ResponseEntity<List<ProfileDTO>> searchList = profileController.search(query);
 	      List<Profile> profiles = searchList.getBody().stream().map(pdto -> pdto.toProfile() ).collect(Collectors.toList());
+	      assertEquals(HttpStatus.OK.value(),searchList.getStatusCodeValue());
 	      for(int index = 0; index<2;index++){
 	    	  assertEquals(profiles.get(index).getPid(), profileList.get(index).getPid());
 	      }
@@ -167,9 +168,13 @@ class ProfileControllerTest {
 	  
 	  @Test
 	  void testGetFollowing() { 
+		 List<Profile> profileList = Arrays.asList(expected, expected2);
+		 when(profileService.getFollowers(any(Integer.class))).thenReturn(profileList);
 		 ResponseEntity<List<ProfileDTO>> followingList = profileController.getFollowers(1);
 		 List<Profile> actualProfileList = followingList.getBody().stream().map(profileDTO -> profileDTO.toProfile() ).collect(Collectors.toList());
-		 actualProfileList.forEach(profile -> System.out.println(profile));
-	     assertTrue(actualProfileList.isEmpty());
+		 assertEquals(HttpStatus.OK.value(), followingList.getStatusCodeValue());
+		 for(int index = 0; index < actualProfileList.size(); index++) {
+			 assertEquals(profileList.get(index).getPid(), actualProfileList.get(index).getPid());
+		 }
 	  }
 }
