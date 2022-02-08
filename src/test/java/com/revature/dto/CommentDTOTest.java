@@ -1,6 +1,7 @@
 package com.revature.dto;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.sql.Timestamp;
 
@@ -11,7 +12,7 @@ import com.revature.models.Comment;
 import com.revature.models.Post;
 import com.revature.models.Profile;
 
-class CommentDTOTest {
+public class CommentDTOTest {
 
 	private static final int CID = 0;
 	private static final String C_BODY = "haha that's funny";
@@ -80,6 +81,14 @@ class CommentDTOTest {
 	@Test
 	void testToComment() {
 		assertEquals(comment, commentDto1.toComment());
+	}
+	
+	@Test
+	void testCustomConstructor() {
+		CommentDTO cDto = new CommentDTO(writer, post, C_BODY, dateCreated, previous);
+		assertNotEquals(commentDto1.getCid(), cDto.getCid());
+		cDto.setCid(commentDto1.getCid());
+		assertEquals(commentDto1, cDto);
 	}
 
 }

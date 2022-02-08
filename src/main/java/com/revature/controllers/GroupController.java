@@ -63,7 +63,7 @@ public class GroupController {
 	/**
 	 * @author Zak
 	 * 
-	 * Get request that returns a list of all groups as GroupDTO objects
+	 * Get request that returns a page of the Paginated list of all groups as GroupDTO objects
 	 * @return List of GroupDTOs for all groups
 	 */
 	@GetMapping("/page/{pageNumber}")
