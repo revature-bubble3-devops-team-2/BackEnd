@@ -127,7 +127,7 @@ public class ProfileServiceImpl implements ProfileService {
             if (profile.getEmail()!=null) targetProfile.setEmail(profile.getEmail());
             if (profile.getFirstName()!=null) targetProfile.setFirstName(profile.getFirstName());
             if (profile.getLastName()!=null) targetProfile.setLastName(profile.getLastName());
-            if (profile.getPasskey()!=null) targetProfile.setPasskey(SecurityUtil.hashPassword(profile.getPasskey()));
+            targetProfile.setPasskey(profile.getPasskey());
             targetProfile.setVerification(profile.isVerification());
             if(profile.getImgurl() != null) { 
             	
@@ -140,6 +140,46 @@ public class ProfileServiceImpl implements ProfileService {
         } else {
             return null;
         }
+    }
+    /**
+     *
+     *
+     * @param profile
+     * @return updated profile if it exists otherwise return null.
+     * 
+     * 
+     * @author marouanekhabbaz : add update img url;
+     * 
+     * 
+     */
+    public Profile updatePassword(Profile profile) {
+    	
+    	log.info(profile);
+    	Profile targetProfile;
+    	if(profile.getPid() <= 0) {
+    		targetProfile = profileRepo.getProfileByEmail(profile.getEmail());
+    	} else {
+    		targetProfile = profileRepo.getProfileByPid(profile.getPid());
+    	}
+    	
+    	
+    	if (targetProfile!=null) {
+    		if (profile.getEmail()!=null) targetProfile.setEmail(profile.getEmail());
+    		if (profile.getFirstName()!=null) targetProfile.setFirstName(profile.getFirstName());
+    		if (profile.getLastName()!=null) targetProfile.setLastName(profile.getLastName());
+    		targetProfile.setPasskey(SecurityUtil.hashPassword(profile.getPasskey()));
+    		targetProfile.setVerification(profile.isVerification());
+    		if(profile.getImgurl() != null) { 
+    			
+    			log.info(profile.getImgurl());
+    			
+    			log.error("here we go   " + profile.getImgurl() );
+    			targetProfile.setImgurl(profile.getImgurl()) ;
+    		}
+    		return profileRepo.save(targetProfile);
+    	} else {
+    		return null;
+    	}
     }
 
     /**
