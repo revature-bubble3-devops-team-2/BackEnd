@@ -31,7 +31,7 @@ import com.revature.repositories.ProfileRepo;
 import lombok.extern.log4j.Log4j2;
 
 
-public class ProfileServiceTest {
+class ProfileServiceTest {
 
     private static final String USERNAME = "dummyUsername";
     private static final String PASSWORD = "abc123";
@@ -210,7 +210,7 @@ public class ProfileServiceTest {
     }
 
     @Test
-    public void testAddFollowerByEmail() {
+    void testAddFollowerByEmail() {
         ArrayList<Profile> empty = new ArrayList<>();
 
         Set<Group> groups = new HashSet<>();
