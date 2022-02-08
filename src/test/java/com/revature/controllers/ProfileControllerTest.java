@@ -21,6 +21,9 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.revature.dto.ProfileDTO;
 import com.revature.models.Profile;
@@ -42,7 +45,8 @@ class ProfileControllerTest {
 	 private static final String TOKEN_NAME = "Authorization";
 	
 	 private ProfileDTO profiledto;
-	 private ProfileDTO testprofiledto; 
+	 private ProfileDTO testprofiledto;
+	 private MockHttpServletRequest request;
 	 
 	 @Mock
 	 private ProfileServiceImpl profileService;
@@ -90,6 +94,8 @@ class ProfileControllerTest {
 	       testprofiledto.setLastName(name2);
 	       testprofiledto.setEmail(EMAIL2);
 	       testprofiledto.setVerification(VERIFICATION);
+	       
+	       request = new MockHttpServletRequest();
 	  }
 	 
 	 @BeforeEach
@@ -177,4 +183,59 @@ class ProfileControllerTest {
 			 assertEquals(profileList.get(index).getPid(), actualProfileList.get(index).getPid());
 		 }
 	  }
+	  
+	  @Test
+	  void testNewFollower() {
+		  MockHttpServletRequest request = new MockHttpServletRequest();
+		  when(profileService.getProfileByPid(any(Integer.class))).thenReturn(expected);
+		  when(profileService.addFollowerByEmail(expected, EMAIL2)).thenReturn(expected2);
+		  assertEquals(HttpStatus.ACCEPTED, profileController.newFollower(EMAIL2, expected.getPid(), request).getStatusCode());
+	  }
+	  
+	  @Test
+	  void testInvalidEmailNewFollower() {
+		  MockHttpServletRequest request = new MockHttpServletRequest();
+		  when(profileService.getProfileByPid(any(Integer.class))).thenReturn(expected);
+		  when(profileService.addFollowerByEmail(expected, EMAIL2)).thenReturn(null);
+		  assertEquals(HttpStatus.BAD_REQUEST, profileController.newFollower(EMAIL2, expected.getPid(), request).getStatusCode());
+	  }
+	  
+	  @Test
+	  void testAddNewProfileNewEmail() {
+		  when(profileService.getProfileByEmail(any(Profile.class))).thenReturn(null);
+		  when(profileService.addNewProfile(any(Profile.class))).thenReturn(expected);
+		  assertEquals(HttpStatus.CREATED, profileController.addNewProfile(profiledto).getStatusCode());
+	  }
+	  
+	  @Test
+	  void testAddNewProfileIncomplete() {
+		  when(profileService.getProfileByEmail(any(Profile.class))).thenReturn(null);
+		  when(profileService.addNewProfile(any(Profile.class))).thenReturn(null);
+		  assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, profileController.addNewProfile(profiledto).getStatusCode());
+	  }
+	  
+	  @Test
+	  void testLoginNullProfile() {
+		  when(profileService.login(any(String.class), any(String.class))).thenReturn(null);
+		  assertEquals(HttpStatus.UNAUTHORIZED, profileController.login(USERNAME, PASSWORD).getStatusCode());
+	  }
+	  
+	  @Test
+	  void testProfileByPidNullProfile() {
+		  when(profileService.getProfileByPid(any(Integer.class))).thenReturn(null);
+		  assertEquals(HttpStatus.BAD_REQUEST, profileController.getProfileByPid(0).getStatusCode());
+	  }
+	  
+	  @Test
+	  void testUpdateProfileNullProfile() {
+		  when(profileService.updateProfile(any(Profile.class))).thenReturn(null);
+		  assertEquals(HttpStatus.BAD_REQUEST, profileController.updateProfile(profiledto).getStatusCode());
+	  }
+	  
+	  @Test
+	  void testUnfollowNullFollower() {
+		  when(profileService.getProfileByEmail(null)).thenReturn(null);
+		  assertEquals(HttpStatus.BAD_REQUEST, profileController.unfollow(EMAIL, request).getStatusCode());
+	  }
+	  
 }
