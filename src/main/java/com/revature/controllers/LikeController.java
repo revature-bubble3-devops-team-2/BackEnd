@@ -1,14 +1,23 @@
 package com.revature.controllers;
 
-import com.revature.models.Post;
-import com.revature.models.Profile;
-import com.revature.services.PostService;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
+import com.revature.dto.PostDTO;
+import com.revature.dto.ProfileDTO;
+import com.revature.models.Profile;
+import com.revature.services.PostService;
 
 @RestController
 @CrossOrigin
@@ -32,20 +41,25 @@ public class LikeController {
      *          found response if the like already exists
      */
     @PostMapping
-    public ResponseEntity<Profile> addLike(@RequestBody Post post, HttpServletRequest req) {
-        Profile temp = (Profile) req.getAttribute(PROFILE);
-        if (post.getCreator().equals(temp)) return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
-        Profile existProfile = postService.likeFindByID(temp, post);
-        if (existProfile == null) {
-            Profile check = postService.likePost(temp, post);
-            if (check == null) {
-                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-            } else {
-                return new ResponseEntity<>(check, HttpStatus.CREATED);
-            }
+    public ResponseEntity<ProfileDTO> addLike(@RequestBody PostDTO post, HttpServletRequest req) {
+        if (req.getAttribute(PROFILE) == null || post == null) {
+        	return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else {
-            return new ResponseEntity<>(existProfile, HttpStatus.FOUND);
+        	
+        	Profile temp = (Profile) req.getAttribute(PROFILE);
+        	Profile existProfile = postService.likeFindByID(temp, post.toPost());
+            if (existProfile == null) {
+                Profile check = postService.likePost(temp, post.toPost());
+                if (check == null) {
+                    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                } else {
+                    return new ResponseEntity<>(new ProfileDTO(check), HttpStatus.CREATED);
+                }
+            } else {
+                return new ResponseEntity<>(new ProfileDTO(existProfile), HttpStatus.FOUND);
+            }
         }
+        
     }
 
     /**
@@ -60,13 +74,13 @@ public class LikeController {
      *          like was not deleted or a null and ok request if the like was deleted
      */
     @DeleteMapping
-    public ResponseEntity<Profile> removeLike(@RequestBody Post post, HttpServletRequest req) {
+    public ResponseEntity<ProfileDTO> removeLike(@RequestBody PostDTO post, HttpServletRequest req) {
         Profile temp = (Profile) req.getAttribute(PROFILE);
-        int check = postService.likeDelete(temp, post);
+        int check = postService.likeDelete(temp, post.toPost());
         if (check == -1){
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else {
-            return new ResponseEntity<>(null, HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
     }
 
@@ -84,13 +98,13 @@ public class LikeController {
      *              like was not deleted or a null and ok request if the like was deleted
      */
     @GetMapping
-    public ResponseEntity<Integer> getLike(@RequestHeader Post post, @RequestHeader boolean find, HttpServletRequest req) {
+    public ResponseEntity<Integer> getLike(@RequestHeader PostDTO post, @RequestHeader boolean find, HttpServletRequest req) {
         Profile temp = (Profile) req.getAttribute(PROFILE);
         if (!find) {
-            int result = postService.likeGet(post);
+            int result = postService.likeGet(post.toPost());
             return new ResponseEntity<>(result, HttpStatus.OK);
         } else {
-            Profile exist = postService.likeFindByID(temp, post);
+            Profile exist = postService.likeFindByID(temp, post.toPost());
             if (exist == null) {
                 return new ResponseEntity<>(0, HttpStatus.OK);
             } else {

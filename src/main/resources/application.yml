@@ -1,10 +1,25 @@
 server:
-  port: 8082
+  port: 5000
 spring:
   datasource:
     url: ${DB_URL}
-    username: ${DB_USER}
+    username:  ${DB_USER}
     password: ${DB_PASS}
   jpa:
     hibernate:
       ddl-auto: update
+  mail:
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: 'true'
+          timeout: '3000'
+          auth: 'true'
+          connectiontimeout: '5000'
+          writetimeout: '5000'
+    host: smtp.gmail.com
+    username: bubbleatrevature@gmail.com
+    password: R3Vature!
+    port: '587'
+    
