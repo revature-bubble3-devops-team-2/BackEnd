@@ -273,8 +273,13 @@ class ProfileServiceTest {
 				 .withMatcher("firstName", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
 				 .withMatcher("lastName", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
 				 .withMatcher("email", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
-				 .withMatcher("groups", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
-				 .withIgnorePaths("pid");
+				 .withIgnorePaths("pid")
+				 .withIgnorePaths("following")
+				 .withIgnorePaths("following")
+				 .withIgnorePaths("groups")
+				 .withIgnorePaths("imgurl")
+				 .withIgnorePaths("passkey")
+				 .withIgnorePaths("verification");
 				 
 		Example <Profile> example = Example.of(sampleProfile, ignoringExampleMatcher);
     	when(profileRepo.findAll(example)).thenReturn(searchExpected);
