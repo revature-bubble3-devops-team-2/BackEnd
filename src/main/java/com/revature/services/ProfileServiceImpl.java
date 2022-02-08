@@ -114,8 +114,7 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public Profile updateProfile(Profile profile) {
     	
-    	log.info(profile);
-    	 Profile targetProfile;
+    	Profile targetProfile;
     	if(profile.getPid() <= 0) {
     		targetProfile = profileRepo.getProfileByEmail(profile.getEmail());
     	} else {
@@ -130,10 +129,6 @@ public class ProfileServiceImpl implements ProfileService {
             targetProfile.setPasskey(profile.getPasskey());
             targetProfile.setVerification(profile.isVerification());
             if(profile.getImgurl() != null) { 
-            	
-            	log.info(profile.getImgurl());
-            	
-            	log.error("here we go   " + profile.getImgurl() );
             	targetProfile.setImgurl(profile.getImgurl()) ;
             }
             return profileRepo.save(targetProfile);
@@ -154,7 +149,6 @@ public class ProfileServiceImpl implements ProfileService {
      */
     public Profile updatePassword(Profile profile) {
     	
-    	log.info(profile);
     	Profile targetProfile;
     	if(profile.getPid() <= 0) {
     		targetProfile = profileRepo.getProfileByEmail(profile.getEmail());
