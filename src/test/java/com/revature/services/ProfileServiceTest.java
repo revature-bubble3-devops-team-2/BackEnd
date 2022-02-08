@@ -113,23 +113,40 @@ public class ProfileServiceTest {
 
     @Test
     void testFindProfileByEmailSuccess() {
+    	expected2.setEmail(EMAIL);
         when(profileRepo.getProfileByEmail(EMAIL)).thenReturn(expected);
-        Profile actual = profileRepo.getProfileByEmail(EMAIL);
-        assertEquals(actual, expected);
+        Profile actual = profileService.getProfileByEmail(expected2);
+        assertEquals(expected, actual);
     }
 
     @Test
     void testFindProfileByEmailNullEntry() {
+    	expected2.setEmail(null);
         when(profileRepo.getProfileByEmail(null)).thenReturn(null);
-        Profile actual = profileRepo.getProfileByEmail((null));
+        Profile actual = profileService.getProfileByEmail(expected2);
         assertNull(actual);
     }
 
     @Test
     void testFindProfileByEmailBadEntry() {
+    	expected2.setEmail("FloppyDisk");
         when(profileRepo.getProfileByEmail("FloppyDisk")).thenReturn(null);
-        Profile actual = profileRepo.getProfileByEmail(("FloppyDisk"));
+        Profile actual = profileService.getProfileByEmail(expected2);
         assertNull(actual);
+    }
+    
+    @Test
+    void testFindProfileByUsernameSuccess() {
+    	when(profileRepo.getProfileByUsername(USERNAME)).thenReturn(expected);
+    	Profile actual = profileService.getProfileByUsername(USERNAME);
+    	assertEquals(expected, actual);
+    }
+    
+    @Test
+    void testFindProfileByUsernameNullEntry() {
+    	when(profileRepo.getProfileByUsername(null)).thenReturn(null);
+    	Profile actual = profileService.getProfileByUsername((null));
+    	assertNull(actual);
     }
 
     @Test
@@ -168,13 +185,13 @@ public class ProfileServiceTest {
         List<Profile> profileList = Arrays.asList(expected, expected2);
         int pageRequested = 1;
 
-        Pageable pageable = PageRequest.of(pageRequested - 1, 2, Sort.unsorted());
+        Pageable pageable = PageRequest.of(pageRequested - 1, 15, Sort.by("username").ascending());
         assertNotNull(pageable);
 
         Page<Profile> profilePage = new PageImpl<Profile>(profileList);
         when(profileRepo.findAll(pageable)).thenReturn(profilePage);
-        List<Profile> actual = profileRepo.findAll(pageable).getContent();
-        assertEquals(actual, profileList);
+        List<Profile> actual = profileService.getAllProfilesPaginated(1);
+        assertEquals(profileList, actual);
     }
 
     @Test
