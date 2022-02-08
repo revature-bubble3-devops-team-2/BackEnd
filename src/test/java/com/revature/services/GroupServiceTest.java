@@ -112,9 +112,11 @@ class GroupServiceTest {
 		sampleGroup.setGroupId(0);
 		sampleGroup.setGroupName("group");
 		
-		 ExampleMatcher ignoringExampleMatcher = ExampleMatcher.matchingAny()
-				 .withMatcher("groupName", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
-				 .withIgnorePaths("pid");
+		ExampleMatcher ignoringExampleMatcher = ExampleMatcher.matchingAny()
+				 .withMatcher("groupName", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+				 .withIgnorePaths("groupId")
+				 .withIgnorePaths("owner")
+				 .withIgnorePaths("members");
 				 
 		 Example <Group> example = Example.of(sampleGroup, ignoringExampleMatcher);
 		 
@@ -130,9 +132,11 @@ class GroupServiceTest {
     	sampleGroup.setGroupId(0);
     	sampleGroup.setGroupName("grop");
     	
-    	ExampleMatcher ignoringExampleMatcher = ExampleMatcher.matchingAny()
-    			.withMatcher("groupName", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
-    			.withIgnorePaths("pid");
+		ExampleMatcher ignoringExampleMatcher = ExampleMatcher.matchingAny()
+				 .withMatcher("groupName", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+				 .withIgnorePaths("groupId")
+				 .withIgnorePaths("owner")
+				 .withIgnorePaths("members");
     	
     	Example <Group> example = Example.of(sampleGroup, ignoringExampleMatcher);
     	
