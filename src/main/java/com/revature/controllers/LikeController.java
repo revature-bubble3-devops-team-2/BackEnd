@@ -41,27 +41,28 @@ public class LikeController {
      *          like and post does not exist; a profile and created response if the like was added; a profile and
      *          found response if the like already exists
      */
-    @PostMapping
-    @Nullable
-    public ResponseEntity<ProfileDTO> addLike(@RequestBody PostDTO post, HttpServletRequest req) {
-        Profile temp = (Profile) req.getAttribute(PROFILE);
-	    if (post != null && temp != null) {
-	    	if (post.getCreator().getUsername().equals(temp.getUsername())) {
-	    		return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
-	    	}
-	    }
-        Profile existProfile = postService.likeFindByID(temp, post.toPost());
-        if (existProfile == null) {
-            Profile check = postService.likePost(temp, post.toPost());
-            if (check == null) {
-                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-            } else {
-                return new ResponseEntity<>(new ProfileDTO(check), HttpStatus.CREATED);
-            }
-        } else {
-            return new ResponseEntity<>(new ProfileDTO(existProfile), HttpStatus.FOUND);
-        }
-    }
+	@PostMapping
+	@Nullable
+	public ResponseEntity<ProfileDTO> addLike(@RequestBody PostDTO post, HttpServletRequest req) {
+		Profile temp = (Profile) req.getAttribute(PROFILE);
+		if (post != null && temp != null) {
+			if (post.getCreator().getUsername().equals(temp.getUsername())) {
+				return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+			}
+			Profile existProfile = postService.likeFindByID(temp, post.toPost());
+			if (existProfile == null) {
+				Profile check = postService.likePost(temp, post.toPost());
+				if (check == null) {
+					return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+				} else {
+					return new ResponseEntity<>(new ProfileDTO(check), HttpStatus.CREATED);
+				}
+			} else {
+				return new ResponseEntity<>(new ProfileDTO(existProfile), HttpStatus.FOUND);
+			}
+		}
+		return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+	}
 
     /**
      * Removes a like from the database.
