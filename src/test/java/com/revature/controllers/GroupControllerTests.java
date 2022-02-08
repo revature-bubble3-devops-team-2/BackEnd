@@ -168,4 +168,29 @@ class GroupControllerTests {
 	    	  assertEquals(list.get(index).getGroupId(), groups.get(index).getGroupId());
 	      }
 	}
+	
+	@Test
+	void testGetMembersInvalidGroupId() {
+		when(gserv.findById(0)).thenReturn(null);
+		assertEquals(HttpStatus.NOT_FOUND, groupController.getMembers(0).getStatusCode());
+	}
+	
+	@Test
+	void testGetPostsInvalidGroupId() {
+		when(postServ.getAllGroupPosts(0)).thenReturn(null);
+		assertEquals(HttpStatus.NOT_FOUND, groupController.getPosts(0).getStatusCode());
+	}
+	
+	@Test
+	void testUserJoinInvalidGroupId() {
+		when(gserv.findById(0)).thenReturn(null);
+		assertEquals(HttpStatus.BAD_REQUEST, groupController.userJoin(0, 0).getStatusCode());
+	}
+	
+	@Test
+	void testUserLeaveInvalidGroupId() {
+		when(gserv.findById(0)).thenReturn(null);
+		assertEquals(HttpStatus.BAD_REQUEST, groupController.userLeave(0, 0).getStatusCode());
+	}
+	
 }
