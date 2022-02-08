@@ -52,12 +52,6 @@ class LikeControllerTest {
 	}
 	
 	@Test
-	void testAddLikeOwnPost() {
-		request.setAttribute("profile", creator);
-		assertEquals(HttpStatus.FORBIDDEN, likeController.addLike(new PostDTO(post), request).getStatusCode());
-	}
-	
-	@Test
 	void testAddLikePostAlreadyLiked() {
 		when(postService.likeFindByID(any(Profile.class), any(Post.class))).thenReturn(profile);
 		assertEquals(HttpStatus.FOUND, likeController.addLike(new PostDTO(post), request).getStatusCode());
