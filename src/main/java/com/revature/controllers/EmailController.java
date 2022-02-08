@@ -18,7 +18,7 @@ import com.revature.aspects.annotations.NoAuthIn;
 import com.revature.dto.ProfileDTO;
 import com.revature.models.Profile;
 import com.revature.services.EmailService;
-import com.revature.services.ProfileService;
+import com.revature.services.ProfileServiceImpl;
 
 import freemarker.template.TemplateException;
 import lombok.extern.log4j.Log4j2;
@@ -32,7 +32,7 @@ public class EmailController {
 	EmailService eserv;
 
 	@Autowired
-	ProfileService pserv;
+	ProfileServiceImpl pserv;
 
 	
 	private static final String EMAIL = "email";
@@ -116,7 +116,7 @@ public class EmailController {
 		prof.setPasskey(pmap.get("password"));
 		prof.setVerification(true);
 
-		Profile p = pserv.updateProfile(prof);
+		Profile p = pserv.updatePassword(prof);
 		return new ResponseEntity<>(new ProfileDTO(p), HttpStatus.OK);
 	}
 

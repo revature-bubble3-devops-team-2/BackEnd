@@ -16,7 +16,8 @@ import com.revature.models.Profile;
 public interface PostRepo extends JpaRepository<Post, Integer> {
     Page<Post> findAll(Pageable pageable);
     Page<Post> getPostsByCreator(Pageable pageable, int profileID );
-    List<Post>findTop3ByCreator(Profile profile, Sort sort);
+    List<Post> findTop3ByCreator(Profile profile, Sort sort);
+	List<Post> findAllByGroupGroupId(int groupId);
 
 
 }

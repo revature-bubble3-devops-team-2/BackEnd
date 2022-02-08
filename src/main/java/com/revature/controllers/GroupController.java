@@ -3,6 +3,7 @@ package com.revature.controllers;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -21,10 +22,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.aspects.annotations.NoAuthIn;
 import com.revature.dto.GroupDTO;
+import com.revature.dto.PostDTO;
 import com.revature.dto.ProfileDTO;
 import com.revature.models.Group;
+import com.revature.models.Post;
 import com.revature.models.Profile;
 import com.revature.services.GroupServiceImpl;
+import com.revature.services.PostServiceImpl;
 import com.revature.services.ProfileServiceImpl;
 
 /**
@@ -45,6 +49,8 @@ public class GroupController {
 	GroupServiceImpl groupService;
 	@Autowired
 	ProfileServiceImpl profileService;
+	@Autowired
+	PostServiceImpl postService;
 
 	/** 
 	 * 
@@ -106,7 +112,24 @@ public class GroupController {
 	                    .body(galaxyDTO.getMembers());
 		}
 		return new ResponseEntity<>(new GroupDTO(group).getMembers(), HttpStatus.NOT_FOUND);
-		
+	}
+	
+	/**
+	 * @author kphu
+	 * Get Request that returns a list of Posts that belong to a particular group
+	 * 
+	 * @param id of Group
+	 * @return List containing all the posts that belong to the group with the given id
+	 */
+	@GetMapping("/{id}/posts")
+	public ResponseEntity<List<PostDTO>> getPosts(@PathVariable("id") int id) {
+		List<Post> postList;
+		if((postList = postService.getAllGroupPosts(id)) != null) {
+			List<PostDTO> pDtoList = postList.stream().map(PostDTO::new).collect(Collectors.toList());
+			return ResponseEntity.ok()
+					.body(pDtoList);
+		}
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 
 	/**

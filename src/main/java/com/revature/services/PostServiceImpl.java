@@ -60,6 +60,10 @@ public class PostServiceImpl implements PostService {
     public List<Post> getAllPosts() {
         return postRepo.findAll();
     }
+    
+    public List<Post> getAllGroupPosts(int groupId) {
+    	return postRepo.findAllByGroupGroupId(groupId);
+    }
 
     /**
      * likePost utilizes the repository's findById method to return a post that is
