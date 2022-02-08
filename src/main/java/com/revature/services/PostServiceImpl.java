@@ -1,6 +1,7 @@
 package com.revature.services;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import com.revature.models.Post;
@@ -125,8 +126,8 @@ public class PostServiceImpl implements PostService {
      */
     @Override
     public int likeGet(Post post) {
-        Set<Integer> likes = postRepo.findById(post.getPsid()).get().getLikes();
-        return likes.size();
+        Optional<Post> likes = postRepo.findById(post.getPsid());
+        return likes.isPresent() ? likes.get().getLikes().size() : 0;
     }
 
     /**
@@ -144,7 +145,7 @@ public class PostServiceImpl implements PostService {
     public Profile likeFindByID(Profile profile, Post post) {
         try {
             Post tempPost = postRepo.findById(post.getPsid()).orElse(null);
-            if (tempPost.getLikes().contains(profile.getPid())) {
+            if (tempPost != null && tempPost.getLikes().contains(profile.getPid())) {
                 return profile;
             } else {
                 return null;
