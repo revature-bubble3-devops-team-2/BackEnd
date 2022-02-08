@@ -32,8 +32,7 @@ class PostControllerTest {
     PostServiceImpl postServiceImpl;
 	
 	@Test
-    void testInvalidAddPost() 
-    {
+    void testInvalidAddPost() {
         MockHttpServletRequest request = new MockHttpServletRequest();
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
         when(postServiceImpl.addPost(any(Post.class))).thenReturn(null);    
@@ -43,8 +42,7 @@ class PostControllerTest {
     }
 	
 	@Test
-    void testValidAddPost() 
-    {
+    void testValidAddPost() {
         MockHttpServletRequest request = new MockHttpServletRequest();
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
         when(postServiceImpl.addPost(any(Post.class))).thenReturn(new Post());         
@@ -54,20 +52,20 @@ class PostControllerTest {
     }
 	
 	@Test
-    void testGetAllPostsbyPage() 
-    {
+    void testGetAllPostsbyPage() {
         MockHttpServletRequest request = new MockHttpServletRequest();
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
         when(postServiceImpl.getAllPostsPaginated(any(Integer.class))).thenReturn(new LinkedList<>());
         ResponseEntity<List<PostDTO>> responseEntity = postController.getAllPostsbyPage(0);
-        assertEquals(HttpStatus.OK.value(), responseEntity.getStatusCodeValue());    }
+        assertEquals(HttpStatus.OK.value(), responseEntity.getStatusCodeValue());    
+    }
 	
 	@Test
-    void testGetAllPostsbyPageNoArgs() 
-    {
+    void testGetAllPostsbyPageNoArgs() {
         MockHttpServletRequest request = new MockHttpServletRequest();
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
         when(postServiceImpl.getAllPosts()).thenReturn(new LinkedList<>());
         ResponseEntity<List<PostDTO>> responseEntity = postController.getAllPostsbyPage();
-        assertEquals(HttpStatus.OK.value(), responseEntity.getStatusCodeValue());    }
+        assertEquals(HttpStatus.OK.value(), responseEntity.getStatusCodeValue());    
+    }
 }
