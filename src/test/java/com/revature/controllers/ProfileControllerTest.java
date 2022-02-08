@@ -127,7 +127,7 @@ public class ProfileControllerTest {
 		  when(profileService.updateProfile(any(Profile.class))).thenReturn(expected2);
 		  ResponseEntity<ProfileDTO> responseEntity = profileController.updateProfile(testprofiledto);
 		  assertTrue(responseEntity.getBody().toProfile().getFirstName().equals(expected2.getFirstName()));
-		  assertEquals(HttpStatus.IM_USED.value(), responseEntity.getStatusCodeValue());
+		  assertEquals(HttpStatus.ACCEPTED.value(), responseEntity.getStatusCodeValue());
 	  }
 	  
 	  @Test
