@@ -270,9 +270,7 @@ public class ProfileServiceImpl implements ProfileService {
 				 .withIgnorePaths("verification");
 				 
 		Example<Profile> example = Example.of(sampleProfile, ignoringExampleMatcher);
-		List<Profile> profiles = profileRepo.findAll(example);
-		profiles.stream().forEach(p-> System.out.println(p.getUsername()));
-		return profiles;
+		return profileRepo.findAll(example);
 	}
 
 	@Override
