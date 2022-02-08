@@ -5,7 +5,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,22 +41,28 @@ public class LikeController {
      *          found response if the like already exists
      */
     @PostMapping
-    public ResponseEntity<ProfileDTO> addLike(@RequestBody PostDTO post, @Nullable HttpServletRequest req) {
-        Profile temp = (Profile) req.getAttribute(PROFILE);
-//	    if (post.getCreator().getUsername().equals(temp.getUsername())) {
-//	    	return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-//	    } 
-        Profile existProfile = postService.likeFindByID(temp, post.toPost());
-        if (existProfile == null) {
-            Profile check = postService.likePost(temp, post.toPost());
-            if (check == null) {
-                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-            } else {
-                return new ResponseEntity<>(new ProfileDTO(check), HttpStatus.CREATED);
-            }
+    public ResponseEntity<ProfileDTO> addLike(@RequestBody PostDTO post, HttpServletRequest req) {
+        if (req.getAttribute(PROFILE) == null || post == null) {
+        	return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         } else {
-            return new ResponseEntity<>(new ProfileDTO(existProfile), HttpStatus.FOUND);
+        	
+        	Profile temp = (Profile) req.getAttribute(PROFILE);
+//    	    if (post.getCreator().getUsername().equals(temp.getUsername())) {
+//	    	return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+//	    	}
+        	Profile existProfile = postService.likeFindByID(temp, post.toPost());
+            if (existProfile == null) {
+                Profile check = postService.likePost(temp, post.toPost());
+                if (check == null) {
+                    return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+                } else {
+                    return new ResponseEntity<>(new ProfileDTO(check), HttpStatus.CREATED);
+                }
+            } else {
+                return new ResponseEntity<>(new ProfileDTO(existProfile), HttpStatus.FOUND);
+            }
         }
+        
     }
 
     /**
