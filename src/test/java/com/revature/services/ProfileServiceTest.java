@@ -201,6 +201,14 @@ class ProfileServiceTest {
         when(profileRepo.save(expected)).thenReturn(expected);
         assertEquals(expected, profileService.updateProfile(expected));
     }
+    
+    @Test
+    void testUpdatePassword() {
+    	expected.setPid(138759);
+    	when(profileRepo.getProfileByPid(expected.getPid())).thenReturn(expected);
+    	when(profileRepo.save(expected)).thenReturn(expected);
+    	assertEquals(expected, profileService.updatePassword(expected));
+    }
 
     @Test
     void testUpdateInvalidProfile() {
