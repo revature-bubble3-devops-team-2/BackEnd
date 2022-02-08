@@ -45,9 +45,11 @@ public class LikeController {
     @Nullable
     public ResponseEntity<ProfileDTO> addLike(@RequestBody PostDTO post, HttpServletRequest req) {
         Profile temp = (Profile) req.getAttribute(PROFILE);
-        if (post.getCreator().getUsername().equals(temp.getUsername())) {
-        	return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
-        }
+	    if (post != null && temp != null) {
+	    	if (post.getCreator().getUsername().equals(temp.getUsername())) {
+	    		return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+	    	}
+	    }
         Profile existProfile = postService.likeFindByID(temp, post.toPost());
         if (existProfile == null) {
             Profile check = postService.likePost(temp, post.toPost());
