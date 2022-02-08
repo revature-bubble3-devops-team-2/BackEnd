@@ -31,7 +31,7 @@ import com.revature.services.ProfileService;
 import freemarker.template.TemplateException;
 
 @ExtendWith(MockitoExtension.class)
-public class EmailControllerTest {
+class EmailControllerTest {
 
 	@InjectMocks
 	EmailController emailController;
@@ -131,7 +131,7 @@ public class EmailControllerTest {
 	void testUpdatePassword() {
 		when(profileService.updateProfile(any(Profile.class))).thenReturn(profile);
 		ResponseEntity<ProfileDTO> response = emailController.updatePassword(new HashMap<>());
-		assertEquals(response.getStatusCode(), HttpStatus.OK);
+		assertEquals(HttpStatus.OK, response.getStatusCode());
 	}
 
 }
