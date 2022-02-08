@@ -26,7 +26,7 @@ import org.springframework.http.ResponseEntity;
 import com.revature.dto.ProfileDTO;
 import com.revature.models.Profile;
 import com.revature.services.EmailService;
-import com.revature.services.ProfileService;
+import com.revature.services.ProfileServiceImpl;
 
 import freemarker.template.TemplateException;
 
@@ -40,7 +40,7 @@ class EmailControllerTest {
 	EmailService emailService;
 
 	@Mock
-	ProfileService profileService;
+	ProfileServiceImpl profileService;
 
 	private static Profile profile;
 	private static Map<String, Object> map;
@@ -129,7 +129,7 @@ class EmailControllerTest {
 
 	@Test
 	void testUpdatePassword() {
-		when(profileService.updateProfile(any(Profile.class))).thenReturn(profile);
+		when(profileService.updatePassword(any(Profile.class))).thenReturn(profile);
 		ResponseEntity<ProfileDTO> response = emailController.updatePassword(new HashMap<>());
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 	}
