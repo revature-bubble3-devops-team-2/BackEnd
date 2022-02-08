@@ -1,5 +1,7 @@
 package com.revature.controllers;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -11,9 +13,12 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -25,6 +30,7 @@ import com.revature.dto.CommentDTO;
 import com.revature.models.Comment;
 import com.revature.models.Post;
 import com.revature.models.Profile;
+import com.revature.services.CommentService;
 import com.revature.services.CommentServiceImpl;
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(controllers = CommentController.class)
@@ -41,6 +47,12 @@ class CommentControllerTests {
 
 	@MockBean
 	CommentServiceImpl cServ;
+	
+	@Mock
+	CommentServiceImpl commentService;
+	
+	@InjectMocks
+	CommentController commentController;
 
 	@BeforeEach
 	void setup() {
@@ -76,5 +88,11 @@ class CommentControllerTests {
     	mockMvc.perform(MockMvcRequestBuilders.get(baseUrl)
     			.contentType("application/json"))
     			.andExpect(status().is4xxClientError());
+	}
+	
+	@Test
+	void testGetCommentsByPost() {
+		when(commentService.getCommentsByPostPsid(0)).thenReturn(new LinkedList<Comment>());
+		assertEquals(HttpStatus.ACCEPTED, commentController.getCommentsByPost(0).getStatusCode());
 	}
 }
