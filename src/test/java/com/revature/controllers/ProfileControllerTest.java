@@ -5,33 +5,29 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import javax.servlet.http.HttpServletRequest;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.platform.runner.JUnitPlatform;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 import com.revature.dto.ProfileDTO;
 import com.revature.models.Profile;
 import com.revature.services.ProfileServiceImpl;
-import com.revature.utilites.SecurityUtil;
-import lombok.extern.log4j.Log4j2;
 
-
-@Log4j2
 @ExtendWith(MockitoExtension.class)
-@RunWith(JUnitPlatform.class)
 public class ProfileControllerTest {
 	 private static final String USERNAME = "dummyUsername";
 	 private static final String PASSWORD = "abc123";
@@ -101,14 +97,7 @@ public class ProfileControllerTest {
 	 private void initEachMock() {
 		 MockitoAnnotations.openMocks(this);
 	 }
-	 
-	 private void generateHeaders() {
-		  Profile newProfile = profiledto.toProfile();
-		  HttpHeaders responseHeaders = new HttpHeaders();
-         String token = SecurityUtil.generateToken(new ProfileDTO(newProfile));
-         responseHeaders.set(TOKEN_NAME, token);
-	 }
-	 
+
 	  @Test
 	  public void testRegister() throws Exception {
 		  when(profileService.getProfileByEmail(any(Profile.class))).thenReturn(expected);
@@ -138,14 +127,6 @@ public class ProfileControllerTest {
 		  when(profileService.updateProfile(any(Profile.class))).thenReturn(expected2);
 		  ResponseEntity<ProfileDTO> responseEntity = profileController.updateProfile(testprofiledto);
 		  assertEquals(responseEntity.getBody().toProfile().getFirstName(), expected2.getFirstName());
-		  assertThat(responseEntity.getStatusCodeValue()).isEqualTo(HttpStatus.ACCEPTED.value()); 
-	  }
-	  
-	  @Test
-	  public void testFollow() {
-		  HttpServletRequest req = Mockito.mock(HttpServletRequest.class);
-		  when(profileService.addFollowerByEmail(any(Profile.class), any(String.class))).thenReturn(expected);
-		  ResponseEntity<String> responseEntity = profileController.newFollower(expected.getEmail(), 1,  req);
 		  assertThat(responseEntity.getStatusCodeValue()).isEqualTo(HttpStatus.ACCEPTED.value()); 
 	  }
 	  
