@@ -9,8 +9,6 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.platform.runner.JUnitPlatform;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -25,7 +23,6 @@ import com.revature.models.Post;
 import com.revature.services.PostServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
-@RunWith(JUnitPlatform.class)
 public class PostControllerTest {
 
 	@InjectMocks
@@ -35,7 +32,7 @@ public class PostControllerTest {
     PostServiceImpl postServiceImpl;
 	
 	@Test
-    public void testInvalidAddEmployee() 
+    public void testInvalidAddPost() 
     {
         MockHttpServletRequest request = new MockHttpServletRequest();
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
@@ -46,7 +43,7 @@ public class PostControllerTest {
     }
 	
 	@Test
-    public void testValidAddEmployee() 
+    public void testValidAddPost() 
     {
         MockHttpServletRequest request = new MockHttpServletRequest();
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
@@ -66,4 +63,13 @@ public class PostControllerTest {
         assertThat(responseEntity.getStatusCodeValue()).isEqualTo(HttpStatus.OK.value());
     }
 	
+	@Test
+    public void testGetAllPostsbyPageNoArgs() 
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
+        when(postServiceImpl.getAllPosts()).thenReturn(new LinkedList<>());
+        ResponseEntity<List<PostDTO>> responseEntity = postController.getAllPostsbyPage();
+        assertThat(responseEntity.getStatusCodeValue()).isEqualTo(HttpStatus.OK.value());
+    }
 }
