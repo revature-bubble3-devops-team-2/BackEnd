@@ -47,9 +47,6 @@ public class LikeController {
         } else {
         	
         	Profile temp = (Profile) req.getAttribute(PROFILE);
-//    	    if (post.getCreator().getUsername().equals(temp.getUsername())) {
-//	    	return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-//	    	}
         	Profile existProfile = postService.likeFindByID(temp, post.toPost());
             if (existProfile == null) {
                 Profile check = postService.likePost(temp, post.toPost());
