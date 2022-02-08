@@ -3,6 +3,7 @@ package com.revature.services;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -27,8 +28,6 @@ import org.springframework.data.domain.Sort;
 import com.revature.models.Group;
 import com.revature.models.Profile;
 import com.revature.repositories.ProfileRepo;
-
-import lombok.extern.log4j.Log4j2;
 
 
 class ProfileServiceTest {
@@ -269,10 +268,10 @@ class ProfileServiceTest {
 		sampleProfile.setEmail("test");
 		
 		ExampleMatcher ignoringExampleMatcher = ExampleMatcher.matchingAny()
-				 .withMatcher("username", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
-				 .withMatcher("firstName", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
-				 .withMatcher("lastName", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
-				 .withMatcher("email", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
+				 .withMatcher("username", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+				 .withMatcher("firstName", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+				 .withMatcher("lastName", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+				 .withMatcher("email", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
 				 .withIgnorePaths("pid")
 				 .withIgnorePaths("following")
 				 .withIgnorePaths("following")
