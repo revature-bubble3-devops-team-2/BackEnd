@@ -43,7 +43,7 @@ public class LikeController {
     @PostMapping
     public ResponseEntity<ProfileDTO> addLike(@RequestBody PostDTO post, HttpServletRequest req) {
         if (req.getAttribute(PROFILE) == null || post == null) {
-        	return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        	return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else {
         	
         	Profile temp = (Profile) req.getAttribute(PROFILE);
@@ -54,7 +54,7 @@ public class LikeController {
             if (existProfile == null) {
                 Profile check = postService.likePost(temp, post.toPost());
                 if (check == null) {
-                    return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+                    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
                 } else {
                     return new ResponseEntity<>(new ProfileDTO(check), HttpStatus.CREATED);
                 }
@@ -81,9 +81,9 @@ public class LikeController {
         Profile temp = (Profile) req.getAttribute(PROFILE);
         int check = postService.likeDelete(temp, post.toPost());
         if (check == -1){
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else {
-            return new ResponseEntity<>(null, HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
     }
 

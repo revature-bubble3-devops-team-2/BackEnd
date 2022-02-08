@@ -164,7 +164,7 @@ class GroupControllerTests {
 		ResponseEntity<List<GroupDTO>> responseEntity = groupController.search(query);
 		List<Group> groups = responseEntity.getBody().stream().map(gDto -> gDto.toGroup()).collect(Collectors.toList());
 		assertEquals(HttpStatus.OK.value(), responseEntity.getStatusCodeValue());
-		for(int index = 0; index<2;index++){
+		for(int index = 0; index < groups.size(); index++){
 	    	  assertEquals(list.get(index).getGroupId(), groups.get(index).getGroupId());
 	      }
 	}

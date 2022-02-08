@@ -124,9 +124,9 @@ public class GroupController {
 	 */
 	@GetMapping("/{id}/posts")
 	public ResponseEntity<List<PostDTO>> getPosts(@PathVariable("id") int id) {
-		List<Post> postList = new ArrayList<>();
+		List<Post> postList;
 		if((postList = postService.getAllGroupPosts(id)) != null) {
-			List<PostDTO> pDtoList = postList.stream().map(post -> new PostDTO(post)).collect(Collectors.toList());
+			List<PostDTO> pDtoList = postList.stream().map(PostDTO::new).collect(Collectors.toList());
 			return ResponseEntity.ok()
 					.body(pDtoList);
 		}
