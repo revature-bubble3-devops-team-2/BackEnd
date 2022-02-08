@@ -113,7 +113,6 @@ public class GroupController {
 	                    .body(galaxyDTO.getMembers());
 		}
 		return new ResponseEntity<>(new GroupDTO(group).getMembers(), HttpStatus.NOT_FOUND);
-		
 	}
 	
 	/**
