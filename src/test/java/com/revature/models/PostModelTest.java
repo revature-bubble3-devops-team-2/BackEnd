@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.sql.Timestamp;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -27,7 +28,12 @@ class PostModelTest {
 		creator = new Profile();
 		group = new Group();
 		timestamp = new Timestamp(0);
-		likes = Set.of(1, 2, 3);
+//		likes = Set.of(1, 2, 3);
+		likes = new HashSet<>();
+		likes.add(1);
+		likes.add(2);
+		likes.add(3);
+		
 		post1 = new Post(PSID, creator, BODY, IMG_URL, timestamp, likes, group);
 		post2 = new Post(PSID, creator, BODY, IMG_URL, timestamp, likes, group);
 	}
