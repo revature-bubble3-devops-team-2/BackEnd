@@ -203,7 +203,7 @@ public class ProfileServiceImpl implements ProfileService {
     public List<Profile> getAllProfilesPaginated(int page) {
         Pageable pageable = PageRequest.of(page - 1, 15, Sort.by("username").ascending());
         Page<Profile> resultPage = profileRepo.findAll(pageable);
-        if (resultPage != null && resultPage.hasContent()) {
+        if (resultPage.hasContent()) {
             return resultPage.getContent();
         }
         return new ArrayList<>();
