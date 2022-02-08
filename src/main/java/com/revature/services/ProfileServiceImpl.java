@@ -7,6 +7,7 @@ import com.revature.models.Profile;
 import com.revature.repositories.ProfileRepo;
 import com.revature.utilites.SecurityUtil;
 
+import org.hibernate.internal.build.AllowSysOut;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.data.domain.Page;
@@ -257,14 +258,18 @@ public class ProfileServiceImpl implements ProfileService {
 		sampleProfile.setEmail(query);
 		
 		ExampleMatcher ignoringExampleMatcher = ExampleMatcher.matchingAny()
-				 .withMatcher("username", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
-				 .withMatcher("firstName", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
-				 .withMatcher("lastName", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
-				 .withMatcher("email", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
-				 .withMatcher("groups", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
-				 .withIgnorePaths("pid");
+				 .withMatcher("username", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+				 .withMatcher("firstName", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+				 .withMatcher("lastName", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+				 .withMatcher("email", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+				 .withIgnorePaths("pid")
+				 .withIgnorePaths("following")
+				 .withIgnorePaths("groups")
+				 .withIgnorePaths("imgurl")
+				 .withIgnorePaths("passkey")
+				 .withIgnorePaths("verification");
 				 
-		Example <Profile> example = Example.of(sampleProfile, ignoringExampleMatcher);
+		Example<Profile> example = Example.of(sampleProfile, ignoringExampleMatcher);
 		return profileRepo.findAll(example);
 	}
 

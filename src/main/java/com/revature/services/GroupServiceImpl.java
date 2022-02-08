@@ -104,9 +104,11 @@ public class GroupServiceImpl implements GroupService {
 		sampleGroup.setGroupId(0);
 		sampleGroup.setGroupName(query);
 		
-		 ExampleMatcher ignoringExampleMatcher = ExampleMatcher.matchingAny()
-				 .withMatcher("groupName", ExampleMatcher.GenericPropertyMatchers.startsWith().ignoreCase())
-				 .withIgnorePaths("pid");
+		ExampleMatcher ignoringExampleMatcher = ExampleMatcher.matchingAny()
+				 .withMatcher("groupName", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+				 .withIgnorePaths("groupId")
+				 .withIgnorePaths("owner")
+				 .withIgnorePaths("members");
 				 
 		 Example <Group> example = Example.of(sampleGroup, ignoringExampleMatcher);
 		
