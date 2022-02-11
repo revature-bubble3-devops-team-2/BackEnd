@@ -1,26 +1,36 @@
 package com.revature.services;
 
-import com.revature.models.Post;
-import com.revature.models.Profile;
-import com.revature.repositories.PostRepo;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.Mockito.when;
+
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.mockito.Mockito.when;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.util.*;
+import com.revature.models.Post;
+import com.revature.models.Profile;
+import com.revature.repositories.PostRepo;
 
-import static org.junit.jupiter.api.Assertions.*;
 
-public class PostServiceTest {
+class PostServiceTest {
     private static final String USERNAME = "dummyUsername";
     private static final String PASSWORD = "dummyPassword";
     private static final String NAME = "dummyName";
     private static final String EMAIL = "dummy@email.com";
+    private static boolean VERIFICATION = true;
     private Profile creator = new Profile();
     private Profile liker = new Profile();
 
@@ -42,9 +52,9 @@ public class PostServiceTest {
     @BeforeEach
     void initMock() {
         MockitoAnnotations.openMocks(this);
-        creator = new Profile(USERNAME, PASSWORD, NAME, NAME, EMAIL);
-        liker = new Profile(USERNAME, PASSWORD, NAME, NAME, EMAIL);
-        post = new Post(creator, BODY, IMG, getTime());
+        creator = new Profile(USERNAME, PASSWORD, NAME, NAME, EMAIL, VERIFICATION);
+        liker = new Profile(USERNAME, PASSWORD, NAME, NAME, EMAIL, VERIFICATION);
+        post = new Post(creator, BODY, IMG, getTime(), null);
     }
 
     @Test
@@ -59,8 +69,8 @@ public class PostServiceTest {
 
             () -> assertNull(postService.addPost(null)),
             () -> assertNull(postService.addPost(new Post())),
-            () -> assertNull(postService.addPost(new Post(13, null, null, null,Timestamp.valueOf(LocalDateTime.now())))),
-            () -> assertNull(postService.addPost(new Post(134, new Profile(), null, null, null)))
+            () -> assertNull(postService.addPost(new Post(13, null, null, null,Timestamp.valueOf(LocalDateTime.now()), null))),
+            () -> assertNull(postService.addPost(new Post(134, new Profile(), null, null, null, null)))
 
         );
     }
@@ -68,9 +78,9 @@ public class PostServiceTest {
     @Test
     void testGetAllPosts() {
         List<Post> expected = new ArrayList<>();
-        expected.add(new Post(creator, USERNAME, PASSWORD, getTime()));
-        expected.add(new Post(creator, USERNAME, PASSWORD, getTime()));
-        expected.add(new Post(creator, USERNAME, PASSWORD, getTime()));
+        expected.add(new Post(creator, USERNAME, PASSWORD, getTime(), null));
+        expected.add(new Post(creator, USERNAME, PASSWORD, getTime(), null));
+        expected.add(new Post(creator, USERNAME, PASSWORD, getTime(), null));
 
         postService.addPost(expected.get(0));
         postService.addPost(expected.get(1));

@@ -1,17 +1,9 @@
 package com.revature.utilites;
-import com.nimbusds.jose.EncryptionMethod;
-import com.nimbusds.jose.JOSEException;
-import com.nimbusds.jose.JWEAlgorithm;
-import com.nimbusds.jose.JWEHeader;
-import com.nimbusds.jose.crypto.RSADecrypter;
-import com.nimbusds.jose.crypto.RSAEncrypter;
-import com.nimbusds.jwt.EncryptedJWT;
-import com.nimbusds.jwt.JWTClaimsSet;
-import com.revature.models.Profile;
-import lombok.extern.log4j.Log4j2;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.PBEKeySpec;
-import java.security.*;
+import java.security.KeyFactory;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
@@ -24,6 +16,22 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.Map;
 import java.util.UUID;
+
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
+
+import com.nimbusds.jose.EncryptionMethod;
+import com.nimbusds.jose.JOSEException;
+import com.nimbusds.jose.JWEAlgorithm;
+import com.nimbusds.jose.JWEHeader;
+import com.nimbusds.jose.crypto.RSADecrypter;
+import com.nimbusds.jose.crypto.RSAEncrypter;
+import com.nimbusds.jwt.EncryptedJWT;
+import com.nimbusds.jwt.JWTClaimsSet;
+import com.revature.dto.ProfileDTO;
+import com.revature.models.Profile;
+
+import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 public class SecurityUtil {
@@ -70,6 +78,8 @@ public class SecurityUtil {
         } finally {
             spec.clearPassword();
         }
+        
+        // is this return null the reason why ?
         return null;
     }
 
@@ -162,7 +172,7 @@ public class SecurityUtil {
      * @param profile the object that is going to be encrypted
      * @return the encrypted token string
      */
-    public static String generateToken(Profile profile) {
+    public static String generateToken(ProfileDTO profile) {
         if (profile == null) {
             log.error("Cannot generate token from null values. Exiting method and returning null.");
             return null;
@@ -250,8 +260,9 @@ public class SecurityUtil {
             String firstName = (String) guts.get("firstName");
             String lastName = (String) guts.get("lastName");
             String email = (String) guts.get("email");
+            boolean verification = (boolean) guts.get("verification");
 
-            return new Profile(id, username, passkey, firstName, lastName, email);
+            return new Profile(id, username, passkey, firstName, lastName, email, verification);
         } catch (ParseException e) {
             log.error("Unable to parse token " + e.getMessage());
         }
