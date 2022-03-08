@@ -32,6 +32,8 @@ public class GroupDTO {
 
 	private String groupName;
 
+	private String groupImgurl;
+
 	private ProfileDTO owner;
 
 	private Set<ProfileDTO> members = new HashSet<>();
@@ -58,7 +60,7 @@ public class GroupDTO {
 					}
 					Set<GroupDTO> groups = new HashSet<>();
 					if (m.getGroups() != null) {
-						m.getGroups().forEach(g -> groups.add(new GroupDTO(g.getGroupId(), g.getGroupName(), null, null)));
+						m.getGroups().forEach(g -> groups.add(new GroupDTO(g.getGroupId(), g.getGroupName(),g.getGroupImgurl(), null, null)));
 					}
 					profileDto.setFollowing(following);
 					profileDto.setGroups(groups);
@@ -75,10 +77,10 @@ public class GroupDTO {
 		if(members != null) {
 			members.forEach(m -> newMembers.add(m.toProfile()));
 		}
-		return new Group(groupId, groupName, (owner != null ? owner.toProfile() : null), newMembers);
+		return new Group(groupId, groupName,groupImgurl, (owner != null ? owner.toProfile() : null), newMembers);
 	}
 
-	public GroupDTO(String groupName, ProfileDTO owner, Set<ProfileDTO> members) {
+	public GroupDTO(String groupName,String groupImgurl, ProfileDTO owner, Set<ProfileDTO> members) {
 		this();
 		this.groupName = groupName;
 		this.owner = owner;

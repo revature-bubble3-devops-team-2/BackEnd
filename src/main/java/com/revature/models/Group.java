@@ -33,6 +33,9 @@ public class Group {
 	@Column(name="group_name", nullable=false, unique=true)
 	private String groupName;
 
+	@Column(name="group_imgrul")
+	private String groupImgurl;
+
 	@ManyToOne
 	private Profile owner;
 
