@@ -14,10 +14,7 @@ import javax.persistence.Table;
 
 import com.revature.utilites.SecurityUtil;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
 
 @Entity
 @Table(name = "groups")
@@ -33,7 +30,7 @@ public class Group {
 	@Column(name="group_name", nullable=false, unique=true)
 	private String groupName;
 
-	@Column(name="group_imgrul")
+	@Column(name="group_imgrul", columnDefinition = "TEXT")
 	private String groupImgurl;
 
 	@ManyToOne
@@ -47,8 +44,6 @@ public class Group {
 		super();
 		groupId = SecurityUtil.getId();
 	}
-	
-	public Set<Profile> getMembers() {
-		return members;
-	}
+
+	;
 }

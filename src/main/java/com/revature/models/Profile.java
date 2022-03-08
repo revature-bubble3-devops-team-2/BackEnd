@@ -42,6 +42,8 @@ public class Profile {
 	private boolean verification = false;
 	@Column(name = "imgurl", columnDefinition = "TEXT")
 	private String imgurl;
+	@Column(name = "coverimgurl", columnDefinition = "TEXT")
+	private String coverimgurl;
 	@Column(name = "following")
 	@ManyToMany
 	@JsonIgnore

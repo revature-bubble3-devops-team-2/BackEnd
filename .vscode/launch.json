@@ -4,11 +4,12 @@
       "type": "java",
       "name": "Spring Boot-Driver<Bubble>",
       "request": "launch",
-      "cwd": "${workspaceFolder}",
-      "console": "internalConsole",
       "mainClass": "com.revature.Driver",
-      "projectName": "Bubble",
-      "args": ""
+      "env": {
+        "DB_URL":"jdbc:postgresql://35.226.253.17/postgres",
+        "DB_USER":"postgres",
+        "DB_PASS":"123456789!"
+      }
     }
   ]
 }

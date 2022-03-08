@@ -24,6 +24,7 @@ class ProfileDTOTest {
 	private static final String EMAIL = "email";
 	private static final boolean VERIFICATION = false;
 	private static final String IMG_URL = "imgurl";
+	private static final String IMG_COVERURL="coverimgurl";
 	private static ProfileDTO profileDto1;
 	private static ProfileDTO profileDto2;
 	private static Profile profile;
@@ -38,11 +39,11 @@ class ProfileDTOTest {
 		modelFollowing = new LinkedList<>();
 		groups = new HashSet<>();
 		modelGroups = new HashSet<>();
-		profileDto1 = new ProfileDTO(PID, USERNAME, PASSKEY, FIRST_NAME, LAST_NAME, EMAIL, VERIFICATION, IMG_URL,
+		profileDto1 = new ProfileDTO(PID, USERNAME, PASSKEY, FIRST_NAME, LAST_NAME, EMAIL, VERIFICATION, IMG_URL,IMG_COVERURL,
 				following, groups);
-		profileDto2 = new ProfileDTO(PID, USERNAME, PASSKEY, FIRST_NAME, LAST_NAME, EMAIL, VERIFICATION, IMG_URL,
+		profileDto2 = new ProfileDTO(PID, USERNAME, PASSKEY, FIRST_NAME, LAST_NAME, EMAIL, VERIFICATION, IMG_URL,IMG_COVERURL,
 				following, groups);
-		profile = new Profile(PID, USERNAME, PASSKEY, FIRST_NAME, LAST_NAME, EMAIL, VERIFICATION, IMG_URL,
+		profile = new Profile(PID, USERNAME, PASSKEY, FIRST_NAME, LAST_NAME, EMAIL, VERIFICATION, IMG_URL,IMG_COVERURL,
 				modelFollowing, modelGroups);
 	}
 
@@ -98,7 +99,7 @@ class ProfileDTOTest {
 
 	@Test
 	void testCustomConstructor() {
-		ProfileDTO pDto = new ProfileDTO(USERNAME, PASSKEY, FIRST_NAME, LAST_NAME, EMAIL, VERIFICATION, IMG_URL,
+		ProfileDTO pDto = new ProfileDTO(USERNAME, PASSKEY, FIRST_NAME, LAST_NAME, EMAIL, VERIFICATION, IMG_URL,IMG_COVERURL,
 				following, groups);
 		assertNotEquals(profileDto1.getPid(), pDto.getPid());
 		pDto.setPid(profileDto1.getPid());
