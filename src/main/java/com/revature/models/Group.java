@@ -33,7 +33,7 @@ public class Group {
 	@Column(name="group_name", nullable=false, unique=true)
 	private String groupName;
 
-	@Column(name="group_imgrul")
+	@Column(name="group_imgurl")
 	private String groupImgurl;
 
 	@ManyToOne
