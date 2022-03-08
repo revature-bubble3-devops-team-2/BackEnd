@@ -29,12 +29,8 @@ public class Group {
 	
 	@Column(name="group_name", nullable=false, unique=true)
 	private String groupName;
-
-<<<<<<< HEAD
+	
 	@Column(name="group_imgrul", columnDefinition = "TEXT")
-=======
-	@Column(name="group_imgurl")
->>>>>>> 9925f844e2d5079d69d547e7817e8da332e7cfb7
 	private String groupImgurl;
 
 	@ManyToOne
