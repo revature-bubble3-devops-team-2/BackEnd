@@ -2,7 +2,6 @@ package com.revature.services;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import com.revature.models.Post;
 import com.revature.models.Profile;

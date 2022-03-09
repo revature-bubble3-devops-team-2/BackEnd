@@ -32,6 +32,8 @@ public class GroupDTO {
 
 	private String groupName;
 
+	private String groupImgurl;
+
 	private ProfileDTO owner;
 
 	private Set<ProfileDTO> members = new HashSet<>();
@@ -50,15 +52,15 @@ public class GroupDTO {
 				members = new HashSet<>();
 				group.getMembers().forEach(m -> {
 					ProfileDTO profileDto = new ProfileDTO(m.getPid(), m.getUsername(), m.getPasskey(),
-							m.getFirstName(), m.getLastName(), m.getEmail(), m.isVerification(), m.getImgurl(), null, null);
+							m.getFirstName(), m.getLastName(), m.getEmail(), m.isVerification(), m.getImgurl(),m.getCoverimgurl(), null, null);
 					List<ProfileDTO> following = new ArrayList<>();
 					if (m.getFollowing() != null) {
 						m.getFollowing().forEach(f -> following.add(new ProfileDTO(f.getPid(), f.getUsername(), f.getPasskey(),
-										f.getFirstName(), f.getLastName(), f.getEmail(), f.isVerification(), f.getImgurl(), null, null)));
+										f.getFirstName(), f.getLastName(), f.getEmail(), f.isVerification(), f.getImgurl(),f.getCoverimgurl(), null, null)));
 					}
 					Set<GroupDTO> groups = new HashSet<>();
 					if (m.getGroups() != null) {
-						m.getGroups().forEach(g -> groups.add(new GroupDTO(g.getGroupId(), g.getGroupName(), null, null)));
+						m.getGroups().forEach(g -> groups.add(new GroupDTO(g.getGroupId(), g.getGroupName(),g.getGroupImgurl(), null, null)));
 					}
 					profileDto.setFollowing(following);
 					profileDto.setGroups(groups);
@@ -75,10 +77,10 @@ public class GroupDTO {
 		if(members != null) {
 			members.forEach(m -> newMembers.add(m.toProfile()));
 		}
-		return new Group(groupId, groupName, (owner != null ? owner.toProfile() : null), newMembers);
+		return new Group(groupId, groupName,groupImgurl, (owner != null ? owner.toProfile() : null), newMembers);
 	}
 
-	public GroupDTO(String groupName, ProfileDTO owner, Set<ProfileDTO> members) {
+	public GroupDTO(String groupName,String groupImgurl, ProfileDTO owner, Set<ProfileDTO> members) {
 		this();
 		this.groupName = groupName;
 		this.owner = owner;

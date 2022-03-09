@@ -43,6 +43,8 @@ public class ProfileDTO {
 	private boolean verification;
 
     private String imgurl;
+
+	private String coverimgurl;
 	
 	private List<ProfileDTO> following = new LinkedList<>();
 
@@ -67,12 +69,12 @@ public class ProfileDTO {
 			if (profile.getFollowing() != null) {
 				following = new LinkedList<>();
 				profile.getFollowing().forEach(f -> following.add(new ProfileDTO(f.getPid(), f.getUsername(),
-						f.getPasskey(), f.getFirstName(), f.getLastName(), f.getEmail(), f.isVerification(), f.getImgurl(), null, null)));
+						f.getPasskey(), f.getFirstName(), f.getLastName(), f.getEmail(), f.isVerification(), f.getImgurl(),f.getCoverimgurl(), null, null)));
 			}
 			groups = null;
 			if (profile.getGroups() != null) {
 				groups = new HashSet<>();
-				profile.getGroups().forEach(g -> groups.add(new GroupDTO(g.getGroupId(), g.getGroupName(), null, null)));
+				profile.getGroups().forEach(g -> groups.add(new GroupDTO(g.getGroupId(), g.getGroupName(),g.getGroupImgurl(), null, null)));
 			}
 		}
 	}
@@ -93,11 +95,11 @@ public class ProfileDTO {
 		if(groups != null) {
 			groups.forEach(g -> newGroups.add(g.toGroup()));
 		}
-		return new Profile(pid, username, passkey, firstName, lastName, email, verification, imgurl, newFollowing, newGroups);
+		return new Profile(pid, username, passkey, firstName, lastName, email, verification, imgurl,coverimgurl, newFollowing, newGroups);
 	}
 
 	public ProfileDTO(String username, String passkey, String firstName, String lastName, String email, boolean verification,
-			String imgurl, List<ProfileDTO> following, Set<GroupDTO> groups) {
+			String imgurl,String coverimgurl, List<ProfileDTO> following, Set<GroupDTO> groups) {
 		this();
 		this.username = username;
 		this.passkey = passkey;
@@ -106,6 +108,7 @@ public class ProfileDTO {
 		this.email = email;
 		this.verification = verification;
 		this.imgurl = imgurl;
+		this.coverimgurl=coverimgurl;
 		this.following = following;
 		this.groups = groups;
 	}

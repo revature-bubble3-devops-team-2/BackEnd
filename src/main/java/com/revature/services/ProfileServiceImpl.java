@@ -7,7 +7,6 @@ import com.revature.models.Profile;
 import com.revature.repositories.ProfileRepo;
 import com.revature.utilites.SecurityUtil;
 
-import org.hibernate.internal.build.AllowSysOut;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.data.domain.Page;
