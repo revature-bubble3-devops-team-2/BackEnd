@@ -17,7 +17,7 @@ import com.revature.models.Group;
 import com.revature.models.Post;
 import com.revature.models.Profile;
 
-class PostDTOTest {
+/*class PostDTOTest {
 
 	private static final int PSID = 0;
 	private static final String BODY = "body";
@@ -45,6 +45,7 @@ class PostDTOTest {
 
 		postDto1 = new PostDTO(PSID, creator, BODY, IMG_URL, dateCreated, likes, group);
 		postDto2 = new PostDTO(PSID, creator, BODY, IMG_URL, dateCreated, likes, group);
+		//postDto3 = new PostDTO(creator, BODY, IMG_URL, dateCreated, bookmarks);
 		post = new Post(PSID, modelCreator, BODY, IMG_URL, dateCreated, likes, modelGroup);
 	}
 
@@ -109,4 +110,4 @@ class PostDTOTest {
 		assertEquals(postDto1, pDto);
 	}
 	
-}
+}*/
