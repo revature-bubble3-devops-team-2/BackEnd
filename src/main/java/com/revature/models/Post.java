@@ -45,7 +45,8 @@ public class Post {
 	@Column(name = "profile_id")
 	@ElementCollection()
 	private Set<Integer> likes = new LinkedHashSet<>();
-	
+
+
 	@ManyToOne
 	private Group group;
 
