@@ -50,7 +50,7 @@ public class EmailController {
 		Profile emailProfile = new Profile();
 		emailProfile.setEmail((String) emailMap.get(EMAIL));
 		Profile profile = pserv.getProfileByEmail(emailProfile);
-		// log.info(profile);
+		log.info(profile);
 		tempMap.put("profile", profile);
 
 		try {
