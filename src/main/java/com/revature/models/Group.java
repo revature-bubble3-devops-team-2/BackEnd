@@ -30,7 +30,7 @@ public class Group {
 	@Column(name="group_name", nullable=false, unique=true)
 	private String groupName;
 	
-	@Column(name="group_imgrul", columnDefinition = "TEXT")
+	@Column(name="group_imgurl", columnDefinition = "TEXT")
 	private String groupImgurl;
 
 	@ManyToOne
