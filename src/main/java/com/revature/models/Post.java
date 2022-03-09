@@ -48,10 +48,10 @@ public class Post {
 
 
 	//attempting bookmark table
-	@CollectionTable(name = "bookmarks", joinColumns = @JoinColumn(name = "post_id", referencedColumnName = "post_id"))
+	/*@CollectionTable(name = "bookmarks", joinColumns = @JoinColumn(name = "post_id", referencedColumnName = "post_id"))
 	@Column(name = "profile_id")
 	@ElementCollection()
-	private Set<Post> bookmarks = new LinkedHashSet<>();
+	private Set<Post> bookmarks = new LinkedHashSet<>();*/
 
 
 	@ManyToOne
