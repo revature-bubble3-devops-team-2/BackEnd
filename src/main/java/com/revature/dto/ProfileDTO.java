@@ -65,6 +65,7 @@ public class ProfileDTO {
 			email = profile.getEmail();
 			verification = profile.isVerification();
 			imgurl = profile.getImgurl();
+			coverimgurl = profile.getCoverImgurl();
 			following = null;
 			if (profile.getFollowing() != null) {
 				following = new LinkedList<>();
