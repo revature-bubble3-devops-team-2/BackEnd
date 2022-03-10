@@ -9,13 +9,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
- *
- * The class is a data transfer object for the Comment model
- *
- * @author John Boyle
- * @batch: 211129-Enterprise
- *
- */
+*
+* The class is a data transfer object for the Comment model
+*
+* @author John Boyle
+* @batch: 211129-Enterprise
+*
+*/
 @Data
 @AllArgsConstructor
 public class CommentDTO {
@@ -36,7 +36,7 @@ public class CommentDTO {
 		super();
 		cid = SecurityUtil.getId();
 	}
-
+	
 	public CommentDTO(Comment comment) {
 		if (comment != null) {
 			cid = comment.getCid();
@@ -47,7 +47,7 @@ public class CommentDTO {
 			previous = comment.getPrevious() != null ? new CommentDTO(comment.getPrevious()) : null;
 		}
 	}
-
+	
 	public Comment toComment() {
 		return new Comment(cid, (writer != null ? writer.toProfile() : null), (post != null ? post.toPost() : null),
 				cBody, dateCreated, (previous != null ? previous.toComment() : null));
@@ -62,5 +62,6 @@ public class CommentDTO {
 		this.dateCreated = dateCreated;
 		this.previous = previous;
 	}
+	
 
 }

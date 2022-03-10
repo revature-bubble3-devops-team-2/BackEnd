@@ -54,11 +54,11 @@ public class ProfileController {
     public ResponseEntity<ProfileDTO> login(String username, String password) {
         Profile profile = profileService.login(username, password);
 
-        // log.info(profile);
+        log.info(profile);
         if(profile != null) {
             HttpHeaders headers = new HttpHeaders();
-            // log.info(profile.getImgurl());   //this will make you wait for a long time
-            // log.info(profile);
+            log.info(profile.getImgurl());
+            log.info(profile);
             
             Profile pro = new Profile();
             

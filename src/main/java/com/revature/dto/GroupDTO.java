@@ -15,13 +15,13 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- *
- * The class is a data transfer object for the Group model
- *
- * @author John Boyle
- * @batch: 211129-Enterprise
- *
- */
+*
+* The class is a data transfer object for the Group model
+*
+* @author John Boyle
+* @batch: 211129-Enterprise
+*
+*/
 @Data
 @AllArgsConstructor
 @EqualsAndHashCode(exclude = { "members" })
@@ -32,9 +32,7 @@ public class GroupDTO {
 
 	private String groupName;
 
-	private String imgurl;
-
-	private String coverImgurl;
+	private String groupImgurl;
 
 	private ProfileDTO owner;
 
@@ -44,31 +42,25 @@ public class GroupDTO {
 		super();
 		groupId = SecurityUtil.getId();
 	}
-
+	
 	public GroupDTO(Group group) {
 		if (group != null) {
 			groupId = group.getGroupId();
 			groupName = group.getGroupName();
 			owner = group.getOwner() != null ? new ProfileDTO(group.getOwner()) : null;
-			coverImgurl = group.getCoverImgurl();
-			imgurl = group.getImgurl();
 			if (group.getMembers() != null) {
 				members = new HashSet<>();
 				group.getMembers().forEach(m -> {
 					ProfileDTO profileDto = new ProfileDTO(m.getPid(), m.getUsername(), m.getPasskey(),
-							m.getFirstName(), m.getLastName(), m.getEmail(), m.isVerification(), m.getImgurl(),
-							m.getImgurl(), null, null);
+							m.getFirstName(), m.getLastName(), m.getEmail(), m.isVerification(), m.getImgurl(),m.getCoverimgurl(), null, null);
 					List<ProfileDTO> following = new ArrayList<>();
 					if (m.getFollowing() != null) {
-						m.getFollowing()
-								.forEach(f -> following.add(new ProfileDTO(f.getPid(), f.getUsername(), f.getPasskey(),
-										f.getFirstName(), f.getLastName(), f.getEmail(), f.isVerification(),
-										f.getImgurl(), f.getImgurl(), null, null)));
+						m.getFollowing().forEach(f -> following.add(new ProfileDTO(f.getPid(), f.getUsername(), f.getPasskey(),
+										f.getFirstName(), f.getLastName(), f.getEmail(), f.isVerification(), f.getImgurl(),f.getCoverimgurl(), null, null)));
 					}
 					Set<GroupDTO> groups = new HashSet<>();
 					if (m.getGroups() != null) {
-						m.getGroups().forEach(g -> groups.add(new GroupDTO(g.getGroupId(), g.getGroupName(),
-								g.getImgurl(), g.getCoverImgurl(), null, null)));
+						m.getGroups().forEach(g -> groups.add(new GroupDTO(g.getGroupId(), g.getGroupName(),g.getGroupImgurl(), null, null)));
 					}
 					profileDto.setFollowing(following);
 					profileDto.setGroups(groups);
@@ -79,21 +71,20 @@ public class GroupDTO {
 			}
 		}
 	}
-
+	
 	public Group toGroup() {
 		Set<Profile> newMembers = new HashSet<>();
-		if (members != null) {
+		if(members != null) {
 			members.forEach(m -> newMembers.add(m.toProfile()));
 		}
-		return new Group(groupId, groupName, imgurl, coverImgurl, (owner != null ? owner.toProfile() : null),
-				newMembers);
+		return new Group(groupId, groupName,groupImgurl, (owner != null ? owner.toProfile() : null), newMembers);
 	}
 
-	public GroupDTO(String groupName, String groupImgurl, ProfileDTO owner, Set<ProfileDTO> members) {
+	public GroupDTO(String groupName,String groupImgurl, ProfileDTO owner, Set<ProfileDTO> members) {
 		this();
 		this.groupName = groupName;
 		this.owner = owner;
 		this.members = members;
 	}
-
+	
 }

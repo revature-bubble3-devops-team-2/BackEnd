@@ -15,13 +15,13 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- *
- * The class is a data transfer object for the Profile model
- *
- * @author John Boyle
- * @batch: 211129-Enterprise
- *
- */
+*
+* The class is a data transfer object for the Profile model
+*
+* @author John Boyle
+* @batch: 211129-Enterprise
+*
+*/
 @Data
 @AllArgsConstructor
 @EqualsAndHashCode(exclude = { "groups", "following" })
@@ -39,13 +39,13 @@ public class ProfileDTO {
 	private String lastName;
 
 	private String email;
-
+	
 	private boolean verification;
 
-	private String imgurl;
+    private String imgurl;
 
 	private String coverimgurl;
-
+	
 	private List<ProfileDTO> following = new LinkedList<>();
 
 	private Set<GroupDTO> groups = new HashSet<>();
@@ -54,7 +54,7 @@ public class ProfileDTO {
 		super();
 		pid = SecurityUtil.getId();
 	}
-
+	
 	public ProfileDTO(Profile profile) {
 		if (profile != null) {
 			pid = profile.getPid();
@@ -65,19 +65,16 @@ public class ProfileDTO {
 			email = profile.getEmail();
 			verification = profile.isVerification();
 			imgurl = profile.getImgurl();
-			coverimgurl = profile.getCoverImgurl();
 			following = null;
 			if (profile.getFollowing() != null) {
 				following = new LinkedList<>();
 				profile.getFollowing().forEach(f -> following.add(new ProfileDTO(f.getPid(), f.getUsername(),
-						f.getPasskey(), f.getFirstName(), f.getLastName(), f.getEmail(), f.isVerification(),
-						f.getImgurl(), f.getCoverImgurl(), null, null)));
+						f.getPasskey(), f.getFirstName(), f.getLastName(), f.getEmail(), f.isVerification(), f.getImgurl(),f.getCoverimgurl(), null, null)));
 			}
 			groups = null;
 			if (profile.getGroups() != null) {
 				groups = new HashSet<>();
-				profile.getGroups().forEach(g -> groups.add(
-						new GroupDTO(g.getGroupId(), g.getGroupName(), g.getImgurl(), g.getCoverImgurl(), null, null)));
+				profile.getGroups().forEach(g -> groups.add(new GroupDTO(g.getGroupId(), g.getGroupName(),g.getGroupImgurl(), null, null)));
 			}
 		}
 	}
@@ -88,23 +85,21 @@ public class ProfileDTO {
 				|| this.passkey.isEmpty() || this.firstName.isEmpty() || this.lastName.isEmpty() || this.email.isEmpty()
 				|| this.pid < 100;
 	}
-
+	
 	public Profile toProfile() {
 		List<Profile> newFollowing = new LinkedList<>();
-		if (following != null) {
+		if(following != null) {
 			following.forEach(f -> newFollowing.add(f.toProfile()));
 		}
 		Set<Group> newGroups = new HashSet<>();
-		if (groups != null) {
+		if(groups != null) {
 			groups.forEach(g -> newGroups.add(g.toGroup()));
 		}
-		return new Profile(pid, username, passkey, firstName, lastName, email, verification, imgurl, coverimgurl,
-				newFollowing, newGroups);
+		return new Profile(pid, username, passkey, firstName, lastName, email, verification, imgurl,coverimgurl, newFollowing, newGroups);
 	}
 
-	public ProfileDTO(String username, String passkey, String firstName, String lastName, String email,
-			boolean verification,
-			String imgurl, String coverimgurl, List<ProfileDTO> following, Set<GroupDTO> groups) {
+	public ProfileDTO(String username, String passkey, String firstName, String lastName, String email, boolean verification,
+			String imgurl,String coverimgurl, List<ProfileDTO> following, Set<GroupDTO> groups) {
 		this();
 		this.username = username;
 		this.passkey = passkey;
@@ -113,9 +108,9 @@ public class ProfileDTO {
 		this.email = email;
 		this.verification = verification;
 		this.imgurl = imgurl;
-		this.coverimgurl = coverimgurl;
+		this.coverimgurl=coverimgurl;
 		this.following = following;
 		this.groups = groups;
 	}
-
+	
 }

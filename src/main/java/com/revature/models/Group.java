@@ -26,15 +26,12 @@ public class Group {
 
 	@Id
 	private Integer groupId;
-
-	@Column(name = "group_name", nullable = false, unique = true)
+	
+	@Column(name="group_name", nullable=false, unique=true)
 	private String groupName;
-
-	@Column(name = "group_imgurl", columnDefinition = "TEXT")
-	private String imgurl;
-
-	@Column(name = "group_coverimgurl", columnDefinition = "TEXT")
-	private String coverImgurl;
+	
+	@Column(name="group_imgrul", columnDefinition = "TEXT")
+	private String groupImgurl;
 
 	@ManyToOne
 	private Profile owner;
