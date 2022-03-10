@@ -84,6 +84,7 @@ public class LikeController {
         }
     }
 
+    //This comment will need to be edited.
     /**
      * Counts the total number of liked within a post or find if a like exists in the post.
      *
@@ -98,7 +99,10 @@ public class LikeController {
      *              like was not deleted or a null and ok request if the like was deleted
      */
     @GetMapping
-    public ResponseEntity<Integer> getLike(@RequestHeader PostDTO post, @RequestHeader boolean find, HttpServletRequest req) {
+    public ResponseEntity<Integer> getLike(@RequestHeader int postId, @RequestHeader boolean find, HttpServletRequest req) {
+        PostDTO post = new PostDTO();
+        post.setPsid(postId);
+
         Profile temp = (Profile) req.getAttribute(PROFILE);
         if (!find) {
             int result = postService.likeGet(post.toPost());
