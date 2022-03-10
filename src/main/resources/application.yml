@@ -1,10 +1,11 @@
 server:
-  port: 5000
+  port: 8080
 spring:
   datasource:
     url: ${DB_URL}
-    username:  ${DB_USER}
+    username: ${DB_USER}
     password: ${DB_PASS}
+
   jpa:
     hibernate:
       ddl-auto: update
