@@ -46,13 +46,10 @@ public class Post {
 	@ElementCollection()
 	private Set<Integer> likes = new LinkedHashSet<>();
 
-
-	//attempting bookmark table
-	/*@CollectionTable(name = "bookmarks", joinColumns = @JoinColumn(name = "post_id", referencedColumnName = "post_id"))
+	@CollectionTable(name = "bookmarks", joinColumns = @JoinColumn(name = "post_id", referencedColumnName = "post_id"))
 	@Column(name = "profile_id")
 	@ElementCollection()
-	private Set<Post> bookmarks = new LinkedHashSet<>();*/
-
+	private Set<Integer> bookmarks = new LinkedHashSet<>();
 
 	@ManyToOne
 	private Group group;
@@ -81,18 +78,6 @@ public class Post {
 		this.likes = likes;
 		this.group = group;
 	}
-
-	//attempting a new post method to include bookmarks
-	public Post(Profile creator, String body, String imgURL, Timestamp datePosted, Set<Post> bookmarks)
-	{
-		this();
-		this.creator = creator;
-		this.body = body;
-		this.imgURL = imgURL;
-		this.datePosted = datePosted;
-		this.bookmarks = bookmarks;
-	}
-
 
 	public Post(int psid, Profile creator, String body, String imgURL, Timestamp dateposted, Group group) {
 		this.psid = psid;
