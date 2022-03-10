@@ -30,7 +30,7 @@ import com.revature.models.Comment;
 import com.revature.models.Post;
 import com.revature.models.Profile;
 import com.revature.services.CommentServiceImpl;
-/*@ExtendWith(SpringExtension.class)
+@ExtendWith(SpringExtension.class)
 @WebMvcTest(controllers = CommentController.class)
 class CommentControllerTests {
 
@@ -93,4 +93,4 @@ class CommentControllerTests {
 		when(commentService.getCommentsByPostPsid(0)).thenReturn(new LinkedList<Comment>());
 		assertEquals(HttpStatus.ACCEPTED, commentController.getCommentsByPost(0).getStatusCode());
 	}
-}*/
+}

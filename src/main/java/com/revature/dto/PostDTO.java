@@ -20,8 +20,7 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
-public class PostDTO
-{
+public class PostDTO {
 
 	private int psid;
 
@@ -35,21 +34,12 @@ public class PostDTO
 
 	private Set<Integer> likes = new LinkedHashSet<>();
 
-
-
-	//bookmarks
-	private Set<Post> bookmarks = new LinkedHashSet<>();
 	private GroupDTO group;
 
-
-
-
-	public PostDTO()
-	{
+	public PostDTO() {
 		super();
 		psid = SecurityUtil.getId();
 	}
-
 
 	public PostDTO(Post post) {
 		if (post != null) {
@@ -59,17 +49,16 @@ public class PostDTO
 			imgURL = post.getImgURL();
 			datePosted = post.getDatePosted();
 			likes = post.getLikes();
-			bookmarks = post.getBookmarks();
 			group = post.getGroup() != null ? new GroupDTO(post.getGroup()) : null;
 		}
 	}
 
-	public Post toPost(){
-		return new Post(psid, (creator != null ? creator.toProfile() : null), body, imgURL, datePosted, likes, bookmarks,
+	public Post toPost() {
+		return new Post(psid, (creator != null ? creator.toProfile() : null), body, imgURL, datePosted, likes,
 				(group != null ? group.toGroup() : null));
 	}
 
-	public PostDTO(ProfileDTO creator, String body, String imgURL, Timestamp datePosted, GroupDTO group){
+	public PostDTO(ProfileDTO creator, String body, String imgURL, Timestamp datePosted, GroupDTO group) {
 		this();
 		this.creator = creator;
 		this.body = body;
@@ -77,7 +66,6 @@ public class PostDTO
 		this.datePosted = datePosted;
 		this.group = group;
 	}
-
 
 	public PostDTO(ProfileDTO creator, String body, String imgURL, Timestamp datePosted, Set<Integer> likes,
 			GroupDTO group) {
@@ -90,15 +78,4 @@ public class PostDTO
 		this.group = group;
 	}
 
-
-	//more bookmark attempts
-	public PostDTO(ProfileDTO creator, String body, String imgURL, Timestamp datePosted, Set<Post> bookmarks)
-	{
-		this();
-		this.creator = creator;
-		this.body = body;
-		this.imgURL = imgURL;
-		this.datePosted = datePosted;
-		this.bookmarks = bookmarks;
-	}
 }
