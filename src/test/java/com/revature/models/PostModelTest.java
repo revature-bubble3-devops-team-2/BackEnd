@@ -10,7 +10,7 @@ import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-/*class PostModelTest {
+class PostModelTest {
 
 	private static final int PSID = 0;
 	private static final String BODY = "body";
@@ -33,8 +33,8 @@ import org.junit.jupiter.api.Test;
 		likes = new HashSet<>();
 		likes.addAll(Arrays.asList(1,2,3));
 
-		post1 = new Post(PSID, creator, BODY, IMG_URL, timestamp, likes, group);
-		post2 = new Post(PSID, creator, BODY, IMG_URL, timestamp, likes, group);
+		//post1 = new Post(PSID, creator, BODY, IMG_URL, timestamp, likes, group);
+		//post2 = new Post(PSID, creator, BODY, IMG_URL, timestamp, likes, group);
 	}
 
 	@Test
@@ -71,4 +71,4 @@ import org.junit.jupiter.api.Test;
 		assertEquals(post1.hashCode(), post2.hashCode());
 	}
 
-}*/
+}

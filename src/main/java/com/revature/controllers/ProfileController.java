@@ -54,11 +54,11 @@ public class ProfileController {
     public ResponseEntity<ProfileDTO> login(String username, String password) {
         Profile profile = profileService.login(username, password);
 
-        log.info(profile);
+        // log.info(profile);
         if(profile != null) {
             HttpHeaders headers = new HttpHeaders();
-            log.info(profile.getImgurl());
-            log.info(profile);
+            // log.info(profile.getImgurl());   //this will make you wait for a long time
+            // log.info(profile);
             
             Profile pro = new Profile();
             
@@ -145,6 +145,8 @@ public class ProfileController {
            pro.setFirstName(result.getFirstName());
            pro.setLastName(result.getLastName());
            pro.setEmail(result.getEmail());
+           pro.setImgurl(result.getImgurl());
+           pro.setCoverImgurl(result.getCoverImgurl());
         	
             return new ResponseEntity<>(new ProfileDTO(pro), HttpStatus.ACCEPTED);
         } else {

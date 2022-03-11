@@ -43,7 +43,7 @@ public class Profile {
 	@Column(name = "imgurl", columnDefinition = "TEXT")
 	private String imgurl;
 	@Column(name = "coverimgurl", columnDefinition = "TEXT")
-	private String coverimgurl;
+	private String coverImgurl;
 	@Column(name = "following")
 	@ManyToMany
 	@JsonIgnore
@@ -56,7 +56,8 @@ public class Profile {
 		this.pid = SecurityUtil.getId();
 	}
 
-	public Profile(int pid, String username, String passkey, String firstName, String lastName, String email, boolean verification) {
+	public Profile(int pid, String username, String passkey, String firstName, String lastName, String email,
+			boolean verification) {
 		this.pid = pid;
 		this.username = username;
 		this.passkey = passkey;
@@ -66,7 +67,8 @@ public class Profile {
 		this.verification = verification;
 	}
 
-	public Profile(String username, String passkey, String firstName, String lastName, String email, boolean verification) {
+	public Profile(String username, String passkey, String firstName, String lastName, String email,
+			boolean verification) {
 		this();
 		this.username = username;
 		this.passkey = passkey;
@@ -76,10 +78,8 @@ public class Profile {
 		this.verification = verification;
 	}
 
-
 	public Profile(String firstName) {
 		this.firstName = firstName;
 	}
-
 
 }
