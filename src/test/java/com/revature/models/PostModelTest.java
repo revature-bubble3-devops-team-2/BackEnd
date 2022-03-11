@@ -33,8 +33,8 @@ class PostModelTest {
 		likes = new HashSet<>();
 		likes.addAll(Arrays.asList(1,2,3));
 
-		post1 = new Post(PSID, creator, BODY, IMG_URL, timestamp, likes, group);
-		post2 = new Post(PSID, creator, BODY, IMG_URL, timestamp, likes, group);
+		//post1 = new Post(PSID, creator, BODY, IMG_URL, timestamp, likes, group);
+		//post2 = new Post(PSID, creator, BODY, IMG_URL, timestamp, likes, group);
 	}
 
 	@Test
