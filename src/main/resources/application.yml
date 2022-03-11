@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 5000
 spring:
   datasource:
     url: ${DB_URL}
@@ -8,7 +8,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
   mail:
     properties:
       mail:
