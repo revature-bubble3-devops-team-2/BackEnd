@@ -43,9 +43,9 @@ class PostDTOTest {
 
 		likes.addAll(Arrays.asList(1,2,3));
 
-		postDto1 = new PostDTO(PSID, creator, BODY, IMG_URL, dateCreated, likes, group);
-		postDto2 = new PostDTO(PSID, creator, BODY, IMG_URL, dateCreated, likes, group);
-		post = new Post(PSID, modelCreator, BODY, IMG_URL, dateCreated, likes, modelGroup);
+		//postDto1 = new PostDTO(PSID, creator, BODY, IMG_URL, dateCreated, likes, group);
+		//postDto2 = new PostDTO(PSID, creator, BODY, IMG_URL, dateCreated, likes, group);
+		//post = new Post(PSID, modelCreator, BODY, IMG_URL, dateCreated, likes, modelGroup);
 	}
 
 	@Test
