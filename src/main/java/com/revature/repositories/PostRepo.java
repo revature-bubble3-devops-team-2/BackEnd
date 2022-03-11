@@ -20,4 +20,6 @@ public interface PostRepo extends JpaRepository<Post, Integer> {
     List<Post> findAllByGroupGroupId(int groupId);
 
 
+    List<Post> findAllByCreator(Profile profile);
+
 }

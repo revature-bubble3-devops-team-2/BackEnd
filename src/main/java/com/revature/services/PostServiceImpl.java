@@ -1,5 +1,7 @@
 package com.revature.services;
 
+import java.awt.print.Book;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,6 +9,7 @@ import com.revature.models.Post;
 import com.revature.models.Profile;
 import com.revature.repositories.PostRepo;
 
+import lombok.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -241,6 +244,20 @@ public class PostServiceImpl implements PostService {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    @Override
+    public List<Post> allBookMarksByCreator(Profile profile){
+
+        List<Post> allPosts = postRepo.findAllByCreator(profile);
+        List<Post> bookmarkedPosts = new ArrayList<>();
+        for(int i = 0; i < allPosts.size(); i++){
+            Post post = allPosts.get(i);
+            if(post.getBookmarks().contains(profile.getPid())){
+                bookmarkedPosts.add(post);
+            }
+        }
+        return bookmarkedPosts;
     }
 
 }
