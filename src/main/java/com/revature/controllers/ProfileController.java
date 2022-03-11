@@ -145,6 +145,8 @@ public class ProfileController {
            pro.setFirstName(result.getFirstName());
            pro.setLastName(result.getLastName());
            pro.setEmail(result.getEmail());
+           pro.setImgurl(result.getImgurl());
+           pro.setCoverImgurl(result.getCoverImgurl());
         	
             return new ResponseEntity<>(new ProfileDTO(pro), HttpStatus.ACCEPTED);
         } else {

@@ -131,6 +131,9 @@ public class ProfileServiceImpl implements ProfileService {
             if(profile.getImgurl() != null) { 
             	targetProfile.setImgurl(profile.getImgurl()) ;
             }
+            if(profile.getCoverImgurl() != null) { 
+            	targetProfile.setCoverImgurl(profile.getCoverImgurl());
+            }
             return profileRepo.save(targetProfile);
         } else {
             return null;

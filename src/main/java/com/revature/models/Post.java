@@ -38,7 +38,12 @@ public class Post {
 	@Column(name = "profile_id")
 	@ElementCollection()
 	private Set<Integer> likes = new LinkedHashSet<>();
-	
+
+	@CollectionTable(name = "bookmarks", joinColumns = @JoinColumn(name = "post_id", referencedColumnName = "post_id"))
+	@Column(name = "profile_id")
+	@ElementCollection()
+	private Set<Integer> bookmarks = new LinkedHashSet<>();
+
 	@ManyToOne
 	private Group group;
 
