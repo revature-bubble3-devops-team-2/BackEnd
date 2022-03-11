@@ -29,7 +29,7 @@ pipeline {
             steps {
                 sh 'mvn test'
 //                 discordSend description: ":memo: *Tested ${env.JOB_NAME}*", result: currentBuild.currentResult, webhookURL: env.WEBHO_BE
-//                 script {testfail = false}
+                script {testfail = false}
             }
         }
         stage('Package Jar') {
