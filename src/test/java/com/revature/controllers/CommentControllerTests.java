@@ -1,7 +1,6 @@
 package com.revature.controllers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -30,7 +29,6 @@ import com.revature.dto.CommentDTO;
 import com.revature.models.Comment;
 import com.revature.models.Post;
 import com.revature.models.Profile;
-import com.revature.services.CommentService;
 import com.revature.services.CommentServiceImpl;
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(controllers = CommentController.class)

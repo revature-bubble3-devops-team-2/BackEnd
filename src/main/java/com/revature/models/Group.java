@@ -12,12 +12,10 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.revature.utilites.SecurityUtil;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
 
 @Entity
 @Table(name = "groups")
@@ -29,9 +27,15 @@ public class Group {
 
 	@Id
 	private Integer groupId;
-	
-	@Column(name="group_name", nullable=false, unique=true)
+
+	@Column(name = "group_name", nullable = false, unique = true)
 	private String groupName;
+
+	@Column(name = "group_imgurl", columnDefinition = "TEXT")
+	private String imgurl;
+
+	@Column(name = "group_coverimgurl", columnDefinition = "TEXT")
+	private String coverImgurl;
 
 	@ManyToOne
 	private Profile owner;
@@ -43,9 +47,5 @@ public class Group {
 	public Group() {
 		super();
 		groupId = SecurityUtil.getId();
-	}
-	
-	public Set<Profile> getMembers() {
-		return members;
 	}
 }

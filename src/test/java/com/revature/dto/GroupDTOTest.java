@@ -17,6 +17,8 @@ class GroupDTOTest {
 
 	private static final int GROUP_ID = 0;
 	private static final String GROUP_NAME = "Friends";
+	private static final String GROUP_IMGURL = "";
+	private static final String GROUP_COVER="";
 	private static ProfileDTO owner;
 	private static Profile modelOwner;
 	private static Set<ProfileDTO> members;
@@ -32,9 +34,9 @@ class GroupDTOTest {
 		members = new HashSet<>();
 		members.add(owner);
 		modelMembers = members.stream().map(m -> m.toProfile()).collect(Collectors.toSet());
-		groupDto1 = new GroupDTO(GROUP_ID, GROUP_NAME, owner, members);
-		groupDto2 = new GroupDTO(GROUP_ID, GROUP_NAME, owner, members);
-		group = new Group(GROUP_ID, GROUP_NAME, modelOwner, modelMembers);
+		groupDto1 = new GroupDTO(GROUP_ID, GROUP_NAME,GROUP_IMGURL,GROUP_COVER, owner, members);
+		groupDto2 = new GroupDTO(GROUP_ID, GROUP_NAME,GROUP_IMGURL,GROUP_COVER, owner, members);
+		group = new Group(GROUP_ID, GROUP_NAME,GROUP_IMGURL,GROUP_COVER, modelOwner, modelMembers);
 	}
 
 	@Test
@@ -77,7 +79,7 @@ class GroupDTOTest {
 	
 	@Test
 	void testCustomConstructor() {
-		GroupDTO gDto = new GroupDTO(GROUP_NAME, owner, members);
+		GroupDTO gDto = new GroupDTO(GROUP_NAME,GROUP_IMGURL, owner, members);
 		assertNotEquals(groupDto1.getGroupId(), gDto.getGroupId());
 		gDto.setGroupId(groupDto1.getGroupId());
 		assertEquals(groupDto1, gDto);

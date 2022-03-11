@@ -115,4 +115,19 @@ public class GroupServiceImpl implements GroupService {
 		
 		return groupRepo.findAll(example);
 	}
+
+	@Override
+    public Group updateGroup(Group group) {
+    	
+    	Group targetProfile = groupRepo.getOne(group.getGroupId());
+
+        if (targetProfile!=null) {
+            if (group.getCoverImgurl()!=null) targetProfile.setCoverImgurl(group.getCoverImgurl());
+            if (group.getGroupName()!=null) targetProfile.setGroupName(group.getGroupName());
+            if (group.getImgurl()!=null) targetProfile.setImgurl(group.getImgurl());
+            return groupRepo.save(targetProfile);
+        } else {
+            return null;
+        }
+    }
 }
