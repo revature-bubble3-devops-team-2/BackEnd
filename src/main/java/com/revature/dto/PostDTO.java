@@ -34,6 +34,8 @@ public class PostDTO {
 
 	private Set<Integer> likes = new LinkedHashSet<>();
 
+	private Set<Integer> bookmarks = new LinkedHashSet<>();
+
 	private GroupDTO group;
 
 	public PostDTO() {
@@ -54,7 +56,7 @@ public class PostDTO {
 	}
 
 	public Post toPost() {
-		return new Post(psid, (creator != null ? creator.toProfile() : null), body, imgURL, datePosted, likes,
+		return new Post(psid, (creator != null ? creator.toProfile() : null), body, imgURL, datePosted, likes, bookmarks,
 				(group != null ? group.toGroup() : null));
 	}
 
@@ -68,13 +70,25 @@ public class PostDTO {
 	}
 
 	public PostDTO(ProfileDTO creator, String body, String imgURL, Timestamp datePosted, Set<Integer> likes,
-			GroupDTO group) {
+				   GroupDTO group) {
 		this();
 		this.creator = creator;
 		this.body = body;
 		this.imgURL = imgURL;
 		this.datePosted = datePosted;
 		this.likes = likes;
+		this.group = group;
+	}
+
+	public PostDTO(ProfileDTO creator, String body, String imgURL, Timestamp datePosted, Set<Integer> likes, Set<Integer> bookmarks,
+				   GroupDTO group) {
+		this();
+		this.creator = creator;
+		this.body = body;
+		this.imgURL = imgURL;
+		this.datePosted = datePosted;
+		this.likes = likes;
+		this.bookmarks = bookmarks;
 		this.group = group;
 	}
 
