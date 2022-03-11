@@ -49,6 +49,7 @@ public class Profile {
 	@JsonIgnore
 	private List<Profile> following = new LinkedList<>();
 	@ManyToMany(mappedBy = "members")
+	@JsonIgnore
 	private Set<Group> groups = new HashSet<>();
 
 	public Profile() {

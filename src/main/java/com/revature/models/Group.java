@@ -12,6 +12,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.revature.utilites.SecurityUtil;
 
 import lombok.*;
@@ -47,6 +48,4 @@ public class Group {
 		super();
 		groupId = SecurityUtil.getId();
 	}
-
-	;
 }
