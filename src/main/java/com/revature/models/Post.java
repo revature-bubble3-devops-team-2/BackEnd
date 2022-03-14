@@ -62,8 +62,8 @@ public class Post {
 		this.group = group;
 	}
 
-	public Post(Profile creator, String body, String imgURL, Timestamp datePosted, Set<Integer> likes, Group group) {
-		this();
+	public Post(int psid, Profile creator, String body, String imgURL, Timestamp datePosted, Set<Integer> likes, Group group) {
+		this.psid = psid;
 		this.creator = creator;
 		this.body = body;
 		this.imgURL = imgURL;

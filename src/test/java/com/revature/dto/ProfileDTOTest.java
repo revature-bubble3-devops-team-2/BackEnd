@@ -72,6 +72,7 @@ class ProfileDTOTest {
 		profileDto.setEmail(EMAIL);
 		profileDto.setVerification(VERIFICATION);
 		profileDto.setImgurl(IMG_URL);
+		profileDto.setCoverimgurl(IMG_COVERURL);
 		profileDto.setFollowing(following);
 		profileDto.setGroups(groups);
 		assertEquals(profileDto1, profileDto);

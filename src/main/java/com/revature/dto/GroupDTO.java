@@ -89,9 +89,12 @@ public class GroupDTO {
 				newMembers);
 	}
 
-	public GroupDTO(String groupName, String groupImgurl, ProfileDTO owner, Set<ProfileDTO> members) {
+	//groupDto1 = new GroupDTO(GROUP_ID, GROUP_NAME,GROUP_IMGURL,GROUP_COVER, owner, members);
+	public GroupDTO(String groupName, String groupImgurl, String groupCover, ProfileDTO owner, Set<ProfileDTO> members) {
 		this();
 		this.groupName = groupName;
+		this.imgurl = groupImgurl;
+		this.coverImgurl = groupCover;
 		this.owner = owner;
 		this.members = members;
 	}
