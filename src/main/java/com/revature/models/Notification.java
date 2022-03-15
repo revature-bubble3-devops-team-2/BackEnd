@@ -1,6 +1,5 @@
 package com.revature.models;
 
-import java.sql.Timestamp;
 import javax.persistence.*;
 
 import lombok.AllArgsConstructor;
@@ -32,21 +31,33 @@ public class Notification {
     @JoinColumn(name = "post_id", referencedColumnName = "post_id")
     private Post pid;
 
-    @Column(name = "timestamp")
-    private Timestamp nTimestamp;
-
-    @Column(name = "read")
+    @Column(name = "isRead")
     private boolean isRead;
 
     public Notification() { }
 
-    public Notification(int nid, Timestamp nTimestamp, boolean isRead, Comment cid, Profile fromProfileId, Profile toProfileId, Post postId) {
+    public Notification(int nid, boolean isRead, Comment cid, Profile fromProfileId, Profile toProfileId, Post postId) {
         this.nid = nid;
-        this.nTimestamp = nTimestamp;
         this.isRead = isRead;
         this.cid = cid;
         this.fromProfileId = fromProfileId;
         this.toProfileId = toProfileId;
         this.pid = postId;
+    }
+
+    public Notification(int nid, boolean isRead, Profile fromProfileId, Profile toProfileId, Post postId) {
+        this.nid = nid;
+        this.isRead = isRead;
+        this.fromProfileId = fromProfileId;
+        this.toProfileId = toProfileId;
+        this.pid = postId;
+    }
+
+    public Notification(int nid, boolean isRead, Comment cid, Profile fromProfileId, Profile toProfileId) {
+        this.nid = nid;
+        this.isRead = isRead;
+        this.cid = cid;
+        this.fromProfileId = fromProfileId;
+        this.toProfileId = toProfileId;
     }
 }

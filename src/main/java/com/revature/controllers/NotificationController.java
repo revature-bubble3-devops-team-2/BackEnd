@@ -18,7 +18,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/notify")
+@RequestMapping("/notification")
 
 public class NotificationController {
     private static final String PROFILE = "profile";
@@ -37,6 +37,7 @@ public class NotificationController {
 
         Notification newNotification = notificationDTO.toNotification();
 
+        //replicating frontend
         Profile fromProfile = profileService.getProfileByPid(notificationDTO.getFromProfileId().getPid());
         Profile toProfile = profileService.getProfileByPid(notificationDTO.getToProfileId().getPid());
         Post post = postService.getPostByPsid(notificationDTO.getPostId().getPsid());
@@ -54,15 +55,12 @@ public class NotificationController {
         }
     }
 
-    @GetMapping
+    @GetMapping("/{toProfileId}")
     @ResponseBody
-    public ResponseEntity<List<NotificationDTO>> findAllNotifications() {
-        System.out.println("Notification err");
-        List<Notification> notifications = notificationService.findAllNotifications();
+    public ResponseEntity<List<NotificationDTO>> findByToProfileId(@PathVariable Profile toProfileId) {
+        List<Notification> notifications = notificationService.findByToProfileId(toProfileId);
         List<NotificationDTO> notificationDTOS = new LinkedList<>();
-        System.out.println("HERE" + notifications);
-
-        notifications.forEach(notify -> notificationDTOS.add(new NotificationDTO(notify)));
+        notifications.forEach(notification -> notificationDTOS.add(new NotificationDTO(notification)));
         return new ResponseEntity<>(notificationDTOS, HttpStatus.OK);
     }
 }
