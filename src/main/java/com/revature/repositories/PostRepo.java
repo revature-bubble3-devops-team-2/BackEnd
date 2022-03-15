@@ -18,6 +18,6 @@ public interface PostRepo extends JpaRepository<Post, Integer> {
     Page<Post> getPostsByCreator(Pageable pageable, int profileID );
     List<Post> findTop3ByCreator(Profile profile, Sort sort);
   
-	  List<Post> findAllByGroupGroupId(int groupId);
+    List<Post> findAllByGroupGroupId(int groupId);
     Post getPostByPsid(Integer psid);
 }

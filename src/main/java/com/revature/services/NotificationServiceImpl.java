@@ -1,10 +1,12 @@
 package com.revature.services;
 
 import com.revature.models.Notification;
+import com.revature.models.Profile;
 import com.revature.repositories.NotificationRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,13 +20,13 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public Notification addNotification(Notification notify) {
+    public Notification addNotification(Notification notification) {
         try {
-            if (notify.getFromProfileId() == null || notify.getToProfileId() == null) {
+            if (notification.getFromProfileId() == null || notification.getToProfileId() == null) {
                 throw new NullPointerException();
             }
-            notificationRepo.save(notify);
-            return notify;
+            notificationRepo.save(notification);
+            return notification;
         } catch (Exception e) {
             return null;
         }
@@ -35,10 +37,10 @@ public class NotificationServiceImpl implements NotificationService {
         return notificationRepo.findAll();
     }
 
-//    @Override
-//    public int NotificationDelete(int nid) {
-//        return 0;
-//    }
+    @Override
+    public List<Notification> findByToProfileId(Profile toProfileId) {
+        return notificationRepo.findByToProfileId(toProfileId);
+    }
 
     @Override
     public String toString() {

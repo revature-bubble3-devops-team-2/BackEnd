@@ -6,14 +6,12 @@ import com.revature.models.Comment;
 import com.revature.models.Profile;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import java.sql.Timestamp;
 
 @Data
 @AllArgsConstructor
 public class NotificationDTO {
 
     private int nid;
-    private Timestamp nTimestamp;
     private boolean isRead;
     private Comment cid;
     private Profile fromProfileId;
@@ -21,15 +19,16 @@ public class NotificationDTO {
     private Post postId;
 
     public Notification toNotification() {
-        System.out.println("nTimestamp:" + nTimestamp + "TEST nid:" + nid + " isRead:" + isRead + " cid" + cid + " fromProfileId:" + fromProfileId);
-        return new Notification(nid, nTimestamp, isRead, cid, fromProfileId, toProfileId, postId);
+        if(cid == null) {
+            return new Notification(nid, isRead, fromProfileId, toProfileId, postId);
+        }
+        return new Notification(nid, isRead, cid, fromProfileId, toProfileId, postId);
     }
 
     public NotificationDTO() { }
 
-    public NotificationDTO(Timestamp nTimestamp, boolean isRead, Comment cid, Profile fromProfileId, Profile toProfileId, Post postId) {
+    public NotificationDTO(boolean isRead, Comment cid, Profile fromProfileId, Profile toProfileId, Post postId) {
         this.nid = nid;
-        this.nTimestamp = nTimestamp;
         this.isRead = isRead;
         this.cid = cid;
         this.fromProfileId = fromProfileId;
@@ -37,17 +36,30 @@ public class NotificationDTO {
         this.postId = postId;
     }
 
+    public NotificationDTO(boolean isRead, Profile fromProfileId, Profile toProfileId, Post postId) {
+        this.nid = nid;
+        this.isRead = isRead;
+        this.fromProfileId = fromProfileId;
+        this.toProfileId = toProfileId;
+        this.postId = postId;
+    }
+
+    public NotificationDTO(boolean isRead, Comment cid, Profile fromProfileId, Profile toProfileId) {
+        this.nid = nid;
+        this.isRead = isRead;
+        this.cid = cid;
+        this.fromProfileId = fromProfileId;
+        this.toProfileId = toProfileId;
+    }
+
     public NotificationDTO(Notification notification) {
         if (notification != null) {
             nid = notification.getNid();
-            nTimestamp = notification.getNTimestamp();
             isRead = notification.isRead();
             cid = notification.getCid();
             fromProfileId = notification.getFromProfileId();
             toProfileId = notification.getToProfileId();
             postId = notification.getPid();
-        } else {
-            System.out.println("NULL?");
         }
     }
 }
