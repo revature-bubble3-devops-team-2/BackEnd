@@ -30,7 +30,7 @@ public class ProfileServiceImpl implements ProfileService {
 
     /**
      * processes login request fromprofile controller
-     * 
+     *
      * @param username
      * @param password
      * @return a user profile
@@ -49,7 +49,7 @@ public class ProfileServiceImpl implements ProfileService {
 
     /**
      * Add User Profile into the Database
-     * 
+     *
      * @param profile
      * @return a big fat load of object
      *
@@ -66,7 +66,7 @@ public class ProfileServiceImpl implements ProfileService {
 
     /**
      * Gets User Profile by Email in the Database
-     * 
+     *
      * @param profile
      * @return profile object
      */
@@ -81,18 +81,18 @@ public class ProfileServiceImpl implements ProfileService {
 
     /**
      * Gets User Profile by ID in database
-     * 
+     *
      * @param pid
      * @return profile object from database.
      */
     @Override
-    public Profile getProfileByPid(Integer pid) {
+    public Profile getProfileByPid(int pid) {
         return profileRepo.getProfileByPid(pid);
     }
 
     /**
      * initiates a profile lookup by username in ProfileRepo
-     * 
+     *
      * @param username
      * @return
      */
@@ -105,34 +105,34 @@ public class ProfileServiceImpl implements ProfileService {
      *
      * @param profile
      * @return updated profile if it exists otherwise return null.
-     * 
-     * 
+     *
+     *
      * @author marouanekhabbaz : add update img url;
-     * 
-     * 
+     *
+     *
      */
     @Override
     public Profile updateProfile(Profile profile) {
-    	
-    	Profile targetProfile;
-    	if(profile.getPid() <= 0) {
-    		targetProfile = profileRepo.getProfileByEmail(profile.getEmail());
-    	} else {
-    		targetProfile = profileRepo.getProfileByPid(profile.getPid());
-    	}
-    	
-       
+
+        Profile targetProfile;
+        if(profile.getPid() <= 0) {
+            targetProfile = profileRepo.getProfileByEmail(profile.getEmail());
+        } else {
+            targetProfile = profileRepo.getProfileByPid(profile.getPid());
+        }
+
+
         if (targetProfile!=null) {
             if (profile.getEmail()!=null) targetProfile.setEmail(profile.getEmail());
             if (profile.getFirstName()!=null) targetProfile.setFirstName(profile.getFirstName());
             if (profile.getLastName()!=null) targetProfile.setLastName(profile.getLastName());
             targetProfile.setPasskey(profile.getPasskey());
             targetProfile.setVerification(profile.isVerification());
-            if(profile.getImgurl() != null) { 
-            	targetProfile.setImgurl(profile.getImgurl()) ;
+            if(profile.getImgurl() != null) {
+                targetProfile.setImgurl(profile.getImgurl()) ;
             }
-            if(profile.getCoverImgurl() != null) { 
-            	targetProfile.setCoverImgurl(profile.getCoverImgurl());
+            if(profile.getCoverImgurl() != null) {
+                targetProfile.setCoverImgurl(profile.getCoverImgurl());
             }
             return profileRepo.save(targetProfile);
         } else {
@@ -144,40 +144,40 @@ public class ProfileServiceImpl implements ProfileService {
      *
      * @param profile
      * @return updated profile if it exists otherwise return null.
-     * 
-     * 
+     *
+     *
      * @author marouanekhabbaz : add update img url;
-     * 
-     * 
+     *
+     *
      */
     public Profile updatePassword(Profile profile) {
-    	
-    	Profile targetProfile;
-    	if(profile.getPid() <= 0) {
-    		targetProfile = profileRepo.getProfileByEmail(profile.getEmail());
-    	} else {
-    		targetProfile = profileRepo.getProfileByPid(profile.getPid());
-    	}
-    	
-    	
-    	if (targetProfile!=null) {
-    		
-    		targetProfile.setEmail(profile.getEmail());
-    		targetProfile.setFirstName(profile.getFirstName());
-    		targetProfile.setLastName(profile.getLastName());
-    		targetProfile.setPasskey(SecurityUtil.hashPassword(profile.getPasskey()));
-    		targetProfile.setVerification(profile.isVerification());
-    		targetProfile.setImgurl(profile.getImgurl()) ;
-    		
-    		return profileRepo.save(targetProfile);
-    	} else {
-    		return null;
-    	}
+
+        Profile targetProfile;
+        if(profile.getPid() <= 0) {
+            targetProfile = profileRepo.getProfileByEmail(profile.getEmail());
+        } else {
+            targetProfile = profileRepo.getProfileByPid(profile.getPid());
+        }
+
+
+        if (targetProfile!=null) {
+
+            targetProfile.setEmail(profile.getEmail());
+            targetProfile.setFirstName(profile.getFirstName());
+            targetProfile.setLastName(profile.getLastName());
+            targetProfile.setPasskey(SecurityUtil.hashPassword(profile.getPasskey()));
+            targetProfile.setVerification(profile.isVerification());
+            targetProfile.setImgurl(profile.getImgurl()) ;
+
+            return profileRepo.save(targetProfile);
+        } else {
+            return null;
+        }
     }
 
     /**
      * Calls ProfileRepo to remove a profile from following by email
-     * 
+     *
      * @param profile profile of user initiating request
      * @param email   email of profile to be removed
      * @return profile, null if unsuccessful
@@ -201,17 +201,17 @@ public class ProfileServiceImpl implements ProfileService {
 
     /**
      * Calls ProfileRepo to add a profile o following by email
-     * 
+     *
      * @param profile profile of user initiating request
      * @param email   email of profile to be removed
      * @return profile, null if unsuccessful
      */
     @Override
     public Profile addFollowerByEmail(Profile profile, String email) {
-    	 	
+
         List<Profile> pList = profile.getFollowing();
-        
-        
+
+
         Profile followed = profileRepo.getProfileByEmail(email);
         if (followed != null && !followed.equals(profile)) {
             if (!pList.contains(followed)) {
@@ -227,9 +227,9 @@ public class ProfileServiceImpl implements ProfileService {
 
     /**
      * Calls ProfileRepo to get a page of profiles
-     * 
+     *
      * @param page profile of user initiating request
-     * 
+     *
      * @return page of profiles
      */
     @Override
@@ -245,41 +245,41 @@ public class ProfileServiceImpl implements ProfileService {
 
     /**
      * Calls ProfileRepo to get a list of matching profiles.
-     * 
+     *
      * ImageUrl and Pid are ignored when searching.
      * @param Search query without spaces
      * @return List <Profile> matching search
-     */ 
-	@Override
-	public List<Profile> search(String query) {
-		Profile sampleProfile = new Profile();
-		sampleProfile.setPid(0);
-		sampleProfile.setFirstName(query);
-		sampleProfile.setLastName(query);
-		sampleProfile.setUsername(query);
-		sampleProfile.setEmail(query);
-		
-		ExampleMatcher ignoringExampleMatcher = ExampleMatcher.matchingAny()
-				 .withMatcher("username", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
-				 .withMatcher("firstName", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
-				 .withMatcher("lastName", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
-				 .withMatcher("email", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
-				 .withIgnorePaths("pid")
-				 .withIgnorePaths("following")
-				 .withIgnorePaths("groups")
-				 .withIgnorePaths("imgurl")
-				 .withIgnorePaths("passkey")
-				 .withIgnorePaths("verification");
-				 
-		Example<Profile> example = Example.of(sampleProfile, ignoringExampleMatcher);
-		return profileRepo.findAll(example);
-	}
+     */
+    @Override
+    public List<Profile> search(String query) {
+        Profile sampleProfile = new Profile();
+        sampleProfile.setPid(0);
+        sampleProfile.setFirstName(query);
+        sampleProfile.setLastName(query);
+        sampleProfile.setUsername(query);
+        sampleProfile.setEmail(query);
 
-	@Override
-	public List<Profile> getFollowers(int id) {
-		return profileRepo.getFollowers(id);
-	}
-	
+        ExampleMatcher ignoringExampleMatcher = ExampleMatcher.matchingAny()
+                .withMatcher("username", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+                .withMatcher("firstName", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+                .withMatcher("lastName", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+                .withMatcher("email", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+                .withIgnorePaths("pid")
+                .withIgnorePaths("following")
+                .withIgnorePaths("groups")
+                .withIgnorePaths("imgurl")
+                .withIgnorePaths("passkey")
+                .withIgnorePaths("verification");
+
+        Example<Profile> example = Example.of(sampleProfile, ignoringExampleMatcher);
+        return profileRepo.findAll(example);
+    }
+
+    @Override
+    public List<Profile> getFollowers(int id) {
+        return profileRepo.getFollowers(id);
+    }
+
 
 
 }
