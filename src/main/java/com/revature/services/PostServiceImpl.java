@@ -53,7 +53,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<Post> getAllPostsPaginated(int page) {
         Pageable pageable = PageRequest.of(page - 1, 3, Sort.by("datePosted").descending());
-        Page<Post> resultPage = postRepo.findAll(pageable);
+        Page<Post> resultPage = postRepo.findAllByGroupIsNull(pageable);
         if (resultPage.hasContent()) {
             return resultPage.getContent();
         }
@@ -61,7 +61,7 @@ public class PostServiceImpl implements PostService {
     }
 
     public List<Post> getAllPosts() {
-        return postRepo.findAll();
+        return postRepo.findAllByGroupIsNull();
     }
 
     public List<Post> getAllGroupPosts(int groupId) {
