@@ -52,6 +52,8 @@ class GroupDTOTest {
 		GroupDTO groupDto = new GroupDTO();
 		groupDto.setGroupId(GROUP_ID);
 		groupDto.setGroupName(GROUP_NAME);
+		groupDto.setImgurl(GROUP_IMGURL);
+		groupDto.setCoverImgurl(GROUP_COVER);
 		groupDto.setOwner(owner);
 		groupDto.setMembers(members);
 		assertEquals(groupDto, groupDto1);
@@ -79,7 +81,7 @@ class GroupDTOTest {
 	
 	@Test
 	void testCustomConstructor() {
-		GroupDTO gDto = new GroupDTO(GROUP_NAME,GROUP_IMGURL, owner, members);
+		GroupDTO gDto = new GroupDTO(GROUP_NAME,GROUP_IMGURL,GROUP_COVER, owner, members);
 		assertNotEquals(groupDto1.getGroupId(), gDto.getGroupId());
 		gDto.setGroupId(groupDto1.getGroupId());
 		assertEquals(groupDto1, gDto);

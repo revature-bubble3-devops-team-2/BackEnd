@@ -68,6 +68,11 @@ public class PostServiceImpl implements PostService {
         return postRepo.findAllByGroupGroupId(groupId);
     }
 
+    @Override
+    public Post getPostByPsid(Integer psid) {
+        return postRepo.getPostByPsid(psid);
+    }
+
     /**
      * likePost utilizes the repository's findById method to return a post that is
      * to be liked by a profile. It
