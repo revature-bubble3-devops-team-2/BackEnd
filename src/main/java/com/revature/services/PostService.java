@@ -10,7 +10,7 @@ public interface PostService {
 
     List<Post> getAllPostsPaginated(int pageNumber);
     List<Post> getAllPosts();
-
+    Post getPostByPsid(Integer psid);
 
     Profile likePost(Profile profile, Post post);
     int likeDelete(Profile profile, Post post);
@@ -21,6 +21,7 @@ public interface PostService {
     int bookmarkDelete(Profile profile, Post post);
     int bookmarkGet(Post post);
     Profile bookmarkFindByID(Profile profile, Post post);
+
 
     Profile getAllBookmarkById();
     List <Post> getAllBookmarkById(int psid);

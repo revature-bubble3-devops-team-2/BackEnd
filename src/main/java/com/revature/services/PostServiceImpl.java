@@ -1,5 +1,7 @@
 package com.revature.services;
 
+import java.awt.print.Book;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -8,6 +10,7 @@ import com.revature.models.Post;
 import com.revature.models.Profile;
 import com.revature.repositories.PostRepo;
 
+import lombok.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -64,6 +67,11 @@ public class PostServiceImpl implements PostService {
 
     public List<Post> getAllGroupPosts(int groupId) {
         return postRepo.findAllByGroupGroupId(groupId);
+    }
+
+    @Override
+    public Post getPostByPsid(Integer psid) {
+        return postRepo.getPostByPsid(psid);
     }
 
     /**
