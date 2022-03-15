@@ -37,7 +37,7 @@ public class Group {
 	@Column(name = "group_coverimgurl", columnDefinition = "TEXT")
 	private String coverImgurl;
 
-	@Column(name = "Description", columnDefinition = "TEXT")
+	@Column(name = "description", columnDefinition = "TEXT")
 	private String Description;
 
 	@ManyToOne

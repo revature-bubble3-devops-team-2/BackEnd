@@ -97,7 +97,7 @@ public class GroupDTO {
 		this();
 		this.groupName = groupName;
 		this.imgurl = groupImgurl;
-		this.Description=Description;
+		this.Description= Description;
 		this.coverImgurl = groupCover;
 		this.owner = owner;
 		this.members = members;
