@@ -23,7 +23,7 @@ public class PostServiceImpl implements PostService {
     /**
      * Adds a new post to the database. The date and the creator of the post cannot
      * be null.
-     *
+     * <p>
      * If the date or creator is null, a null will be returned.
      *
      * @param post the post to be added into the database
@@ -241,6 +241,11 @@ public class PostServiceImpl implements PostService {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    @Override
+    public Profile getAllBookmarkById() {
+        return null;
     }
 
 }
