@@ -251,10 +251,11 @@ public class PostServiceImpl implements PostService {
         }
     }
 
+
     @Override
     public List<Post> allBookMarksByCreator(Profile profile){
 
-        List<Post> allPosts = postRepo.findAllByCreator(profile);
+        List<Post> allPosts = postRepo.findAll();
         List<Post> bookmarkedPosts = new ArrayList<>();
         for(int i = 0; i < allPosts.size(); i++){
             Post post = allPosts.get(i);

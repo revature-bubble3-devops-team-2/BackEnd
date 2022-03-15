@@ -102,8 +102,6 @@ public class BookmarkController {
      * @return a http response with an integer in a {@link ResponseEntity} that contains a 0 and bad request if
      *              like was not deleted or a null and ok request if the like was deleted
      */
-
-
     @GetMapping
     public ResponseEntity<List<Post>> getBookmark(HttpServletRequest req) {
         Profile temp = (Profile) req.getAttribute(PROFILE);
