@@ -25,4 +25,6 @@ public interface PostService {
     Profile getAllBookmarkById();
     List <Post> getAllBookmarkById(int psid);
     List <Post> getBookmarkById(Post post );
+
+    List<Post> allBookMarksByCreator(Profile profile);
 }

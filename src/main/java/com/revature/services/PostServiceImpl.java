@@ -1,5 +1,6 @@
 package com.revature.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -243,9 +244,35 @@ public class PostServiceImpl implements PostService {
         }
     }
 
+
     @Override
     public Profile getAllBookmarkById() {
         return null;
+    }
+
+    @Override
+    public List<Post> getAllBookmarkById(int psid) {
+        return null;
+    }
+
+
+    @Override
+    public List<Post> getBookmarkById(Post post) {
+        return null;
+    }
+
+    @Override
+    public List<Post> allBookMarksByCreator(Profile profile){
+
+        List<Post> allPosts = postRepo.findAllByCreator(profile);
+        List<Post> bookmarkedPosts = new ArrayList<>();
+        for(int i = 0; i < allPosts.size(); i++){
+            Post post = allPosts.get(i);
+            if(post.getBookmarks().contains(profile.getPid())){
+                bookmarkedPosts.add(post);
+            }
+        }
+        return bookmarkedPosts;
     }
 
 }
