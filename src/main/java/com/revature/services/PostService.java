@@ -21,4 +21,5 @@ public interface PostService {
     int bookmarkDelete(Profile profile, Post post);
     int bookmarkGet(Post post);
     Profile bookmarkFindByID(Profile profile, Post post);
+    List<Post> allBookMarksByCreator(Profile profile);
 }

@@ -63,7 +63,7 @@ class ProfileModelTest {
 		profile.setImgurl(IMG_URL);
 		profile.setFollowing(following);
 		profile.setGroups(groups);
-		assertEquals(profile1, profile);
+		assertEquals(profile1, profile2);
 	}
 
 	@Test
