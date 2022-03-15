@@ -22,10 +22,5 @@ public interface PostService {
     int bookmarkGet(Post post);
     Profile bookmarkFindByID(Profile profile, Post post);
 
-
-    Profile getAllBookmarkById();
-    List <Post> getAllBookmarkById(int psid);
-    List <Post> getBookmarkById(Post post );
-
     List<Post> allBookMarksByCreator(Profile profile);
 }

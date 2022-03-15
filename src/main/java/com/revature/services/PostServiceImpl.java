@@ -1,7 +1,6 @@
 package com.revature.services;
 
 import java.awt.print.Book;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +26,7 @@ public class PostServiceImpl implements PostService {
     /**
      * Adds a new post to the database. The date and the creator of the post cannot
      * be null.
-     * <p>
+     *
      * If the date or creator is null, a null will be returned.
      *
      * @param post the post to be added into the database
@@ -54,7 +53,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<Post> getAllPostsPaginated(int page) {
         Pageable pageable = PageRequest.of(page - 1, 3, Sort.by("datePosted").descending());
-        Page<Post> resultPage = postRepo.findAll(pageable);
+        Page<Post> resultPage = postRepo.findAllByGroupIsNull(pageable);
         if (resultPage.hasContent()) {
             return resultPage.getContent();
         }
@@ -62,7 +61,7 @@ public class PostServiceImpl implements PostService {
     }
 
     public List<Post> getAllPosts() {
-        return postRepo.findAll();
+        return postRepo.findAllByGroupIsNull();
     }
 
     public List<Post> getAllGroupPosts(int groupId) {
@@ -254,25 +253,9 @@ public class PostServiceImpl implements PostService {
 
 
     @Override
-    public Profile getAllBookmarkById() {
-        return null;
-    }
-
-    @Override
-    public List<Post> getAllBookmarkById(int psid) {
-        return null;
-    }
-
-
-    @Override
-    public List<Post> getBookmarkById(Post post) {
-        return null;
-    }
-
-    @Override
     public List<Post> allBookMarksByCreator(Profile profile){
 
-        List<Post> allPosts = postRepo.findAllByCreator(profile);
+        List<Post> allPosts = postRepo.findAll();
         List<Post> bookmarkedPosts = new ArrayList<>();
         for(int i = 0; i < allPosts.size(); i++){
             Post post = allPosts.get(i);
