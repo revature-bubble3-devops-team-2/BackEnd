@@ -1,7 +1,9 @@
 package com.revature.controllers;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.swing.text.html.Option;
 
+import com.revature.models.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,10 +21,13 @@ import com.revature.dto.ProfileDTO;
 import com.revature.models.Profile;
 import com.revature.services.PostService;
 
+import java.util.List;
+import java.util.Optional;
+
 @RestController
 @CrossOrigin
-@RequestMapping("/like")
-public class LikeController {
+@RequestMapping("/bookmark")
+public class BookmarkController {
     private static final String PROFILE = "profile";
 
     @Autowired
@@ -41,15 +46,15 @@ public class LikeController {
      *          found response if the like already exists
      */
     @PostMapping
-    public ResponseEntity<ProfileDTO> addLike(@RequestBody PostDTO post, HttpServletRequest req) {
+    public ResponseEntity<ProfileDTO> addBookmark(@RequestBody PostDTO post, HttpServletRequest req) {
         if (req.getAttribute(PROFILE) == null || post == null) {
-        	return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else {
-        	
-        	Profile temp = (Profile) req.getAttribute(PROFILE);
-        	Profile existProfile = postService.likeFindByID(temp, post.toPost());
+
+            Profile temp = (Profile) req.getAttribute(PROFILE);
+            Profile existProfile = postService.bookmarkFindByID(temp, post.toPost());
             if (existProfile == null) {
-                Profile check = postService.likePost(temp, post.toPost());
+                Profile check = postService.bookmarkPost(temp, post.toPost());
                 if (check == null) {
                     return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
                 } else {
@@ -59,7 +64,7 @@ public class LikeController {
                 return new ResponseEntity<>(new ProfileDTO(existProfile), HttpStatus.FOUND);
             }
         }
-        
+
     }
 
     /**
@@ -74,9 +79,9 @@ public class LikeController {
      *          like was not deleted or a null and ok request if the like was deleted
      */
     @DeleteMapping
-    public ResponseEntity<ProfileDTO> removeLike(@RequestBody PostDTO post, HttpServletRequest req) {
+    public ResponseEntity<ProfileDTO> removeBookmark(@RequestBody PostDTO post, HttpServletRequest req) {
         Profile temp = (Profile) req.getAttribute(PROFILE);
-        int check = postService.likeDelete(temp, post.toPost());
+        int check = postService.bookmarkDelete(temp, post.toPost());
         if (check == -1){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else {
@@ -84,7 +89,6 @@ public class LikeController {
         }
     }
 
-    //This comment will need to be edited.
     /**
      * Counts the total number of liked within a post or find if a like exists in the post.
      *
@@ -99,22 +103,13 @@ public class LikeController {
      *              like was not deleted or a null and ok request if the like was deleted
      */
     @GetMapping
-    public ResponseEntity<Integer> getLike(@RequestHeader int postId, @RequestHeader boolean find, HttpServletRequest req) {
-        PostDTO post = new PostDTO();
-        post.setPsid(postId);
-
+    public ResponseEntity<List<Post>> getBookmark(HttpServletRequest req) {
         Profile temp = (Profile) req.getAttribute(PROFILE);
-        if (!find) {
-            int result = postService.likeGet(post.toPost());
-            return new ResponseEntity<>(result, HttpStatus.OK);
-        } else {
-            Profile exist = postService.likeFindByID(temp, post.toPost());
-            if (exist == null) {
-                return new ResponseEntity<>(0, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(1, HttpStatus.OK);
-            }
-        }
-    }
 
+
+        List<Post> bookmarkedPosts = postService.allBookMarksByCreator(temp);
+
+
+        return new ResponseEntity<>(bookmarkedPosts, HttpStatus.OK);
+    }
 }

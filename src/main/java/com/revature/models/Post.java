@@ -4,14 +4,7 @@ import java.sql.Timestamp;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import com.revature.utilites.SecurityUtil;
 
@@ -45,7 +38,12 @@ public class Post {
 	@Column(name = "profile_id")
 	@ElementCollection()
 	private Set<Integer> likes = new LinkedHashSet<>();
-	
+
+	@CollectionTable(name = "bookmarks", joinColumns = @JoinColumn(name = "post_id", referencedColumnName = "post_id"))
+	@Column(name = "profile_id")
+	@ElementCollection()
+	private Set<Integer> bookmarks = new LinkedHashSet<>();
+
 	@ManyToOne
 	private Group group;
 
@@ -64,8 +62,8 @@ public class Post {
 		this.group = group;
 	}
 
-	public Post(Profile creator, String body, String imgURL, Timestamp datePosted, Set<Integer> likes, Group group) {
-		this();
+	public Post(int psid, Profile creator, String body, String imgURL, Timestamp datePosted, Set<Integer> likes, Group group) {
+		this.psid = psid;
 		this.creator = creator;
 		this.body = body;
 		this.imgURL = imgURL;

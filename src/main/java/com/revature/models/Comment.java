@@ -51,4 +51,6 @@ public class Comment {
 		this.dateCreated = dateCreated;
 		this.previous = previous;
 	}
+
+
 }

@@ -20,6 +20,7 @@ class ProfileModelTest {
 	private static final String EMAIL = "email";
 	private static final boolean VERIFICATION = false;
 	private static final String IMG_URL = "imgurl";
+	private static final String IMG_COVERURL="coverimgurl";
 	private static Profile profile1;
 	private static Profile profile2;
 	private static List<Profile> following;
@@ -29,9 +30,9 @@ class ProfileModelTest {
 	void init() {
 		following = new LinkedList<>();
 		groups = new HashSet<>();
-		profile1 = new Profile(PID, USERNAME, PASSKEY, FIRST_NAME, LAST_NAME, EMAIL, VERIFICATION, IMG_URL, following,
+		profile1 = new Profile(PID, USERNAME, PASSKEY, FIRST_NAME, LAST_NAME, EMAIL, VERIFICATION, IMG_URL,IMG_COVERURL, following,
 				groups);
-		profile2 = new Profile(PID, USERNAME, PASSKEY, FIRST_NAME, LAST_NAME, EMAIL, VERIFICATION, IMG_URL, following,
+		profile2 = new Profile(PID, USERNAME, PASSKEY, FIRST_NAME, LAST_NAME, EMAIL, VERIFICATION, IMG_URL,IMG_COVERURL, following,
 				groups);
 	}
 
@@ -62,7 +63,7 @@ class ProfileModelTest {
 		profile.setImgurl(IMG_URL);
 		profile.setFollowing(following);
 		profile.setGroups(groups);
-		assertEquals(profile1, profile);
+		assertEquals(profile1, profile2);
 	}
 
 	@Test

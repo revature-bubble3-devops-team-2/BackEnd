@@ -31,6 +31,7 @@ class LikeControllerTest {
 	private static Post post;
 	private static Profile creator;
 	private static Profile profile;
+	private static int profile_id;
 	
 	@BeforeEach
 	void init() {
@@ -44,6 +45,8 @@ class LikeControllerTest {
 		
 		post = new Post();
 		post.setCreator(creator);
+
+		profile_id = 1;
 	}
 	
 	@Test
@@ -87,22 +90,22 @@ class LikeControllerTest {
 	void testGetLikeFindFalse() {
 		int numberOfLikes = 5;
 		when(postService.likeGet(any(Post.class))).thenReturn(numberOfLikes);
-		assertEquals(HttpStatus.OK, likeController.getLike(new PostDTO(post), false, request).getStatusCode());
-		assertEquals(numberOfLikes, likeController.getLike(new PostDTO(post), false, request).getBody());
+		assertEquals(HttpStatus.OK, likeController.getLike(profile_id, false, request).getStatusCode());
+		assertEquals(numberOfLikes, likeController.getLike(profile_id, false, request).getBody());
 	}
 	
 	@Test
 	void testGetLikeFindTrueBadRequest() {
 		when(postService.likeFindByID(any(Profile.class), any(Post.class))).thenReturn(null);
-		assertEquals(HttpStatus.OK, likeController.getLike(new PostDTO(post), true, request).getStatusCode());
-		assertEquals(0, likeController.getLike(new PostDTO(post), true, request).getBody());
+		assertEquals(HttpStatus.OK, likeController.getLike(profile_id, true, request).getStatusCode());
+		assertEquals(0, likeController.getLike(profile_id, true, request).getBody());
 	}
 	
 	@Test
 	void testGetLikeFindTrueProfileNotExists() {
 		when(postService.likeFindByID(any(Profile.class), any(Post.class))).thenReturn(profile);
-		assertEquals(HttpStatus.OK, likeController.getLike(new PostDTO(post), true, request).getStatusCode());
-		assertEquals(1, likeController.getLike(new PostDTO(post), true, request).getBody());
+		assertEquals(HttpStatus.OK, likeController.getLike(profile_id, true, request).getStatusCode());
+		assertEquals(1, likeController.getLike(profile_id, true, request).getBody());
 	}
 	
 }
