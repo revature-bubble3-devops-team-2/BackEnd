@@ -1,7 +1,9 @@
 package com.revature.controllers;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.swing.text.html.Option;
 
+import com.revature.models.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,9 @@ import com.revature.dto.PostDTO;
 import com.revature.dto.ProfileDTO;
 import com.revature.models.Profile;
 import com.revature.services.PostService;
+
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin
@@ -98,7 +103,18 @@ public class BookmarkController {
      *              like was not deleted or a null and ok request if the like was deleted
      */
     @GetMapping
-    public ResponseEntity<Integer> getBookmark(@RequestHeader int post, HttpServletRequest req) {
+    public ResponseEntity<List<Post>> getBookmark(HttpServletRequest req) {
+        Profile temp = (Profile) req.getAttribute(PROFILE);
+
+
+        List<Post> bookmarkedPosts = postService.allBookMarksByCreator(temp);
+
+
+        return new ResponseEntity<>(bookmarkedPosts, HttpStatus.OK);
+    }
+
+    @GetMapping("/has")
+    public ResponseEntity<Integer> hasBookmark(@RequestHeader int post, HttpServletRequest req) {
         PostDTO postObj = new PostDTO();
         postObj.setPsid(post);
 

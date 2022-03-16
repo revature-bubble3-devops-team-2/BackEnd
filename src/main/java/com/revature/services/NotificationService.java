@@ -1,13 +1,15 @@
 package com.revature.services;
 
 import com.revature.models.Notification;
+import com.revature.models.Profile;
 
 import java.util.List;
 
 
 public interface NotificationService {
 
-    Notification addNotification(Notification notify);
+    Notification addNotification(Notification notification);
     List<Notification> findAllNotifications();
-//    int NotificationDelete(int pid);
+    List<Notification> findByToProfileId(Profile toProfileId);
+    Notification updateNotification(Notification toNotification);
 }

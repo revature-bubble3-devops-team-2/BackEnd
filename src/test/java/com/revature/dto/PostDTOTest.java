@@ -29,6 +29,7 @@ class PostDTOTest {
 	private static Profile modelCreator;
 	private static Timestamp dateCreated;
 	private static Set<Integer> likes;
+	private static Set<Integer> bookmarks;
 	private static GroupDTO group;
 	private static Group modelGroup;
 
@@ -40,12 +41,13 @@ class PostDTOTest {
 		modelGroup = group.toGroup();
 		dateCreated = new Timestamp(0);
 		likes = new HashSet<>();
+		bookmarks = new HashSet<>();
 
 		likes.addAll(Arrays.asList(1,2,3));
 
-		//postDto1 = new PostDTO(PSID, creator, BODY, IMG_URL, dateCreated, likes, group);
-		//postDto2 = new PostDTO(PSID, creator, BODY, IMG_URL, dateCreated, likes, group);
-		//post = new Post(PSID, modelCreator, BODY, IMG_URL, dateCreated, likes, modelGroup);
+		postDto1 = new PostDTO(PSID, creator, BODY, IMG_URL, dateCreated, likes, bookmarks, group);
+		postDto2 = new PostDTO(PSID, creator, BODY, IMG_URL, dateCreated, likes, bookmarks, group);
+		post = new Post(PSID, modelCreator, BODY, IMG_URL, dateCreated, likes, bookmarks, modelGroup);
 	}
 
 	@Test
@@ -94,7 +96,7 @@ class PostDTOTest {
 
 	@Test
 	void testCustomConstructorNoPSID() {
-		PostDTO pDto = new PostDTO(creator, BODY, IMG_URL, dateCreated, likes, group);
+		PostDTO pDto = new PostDTO(creator, BODY, IMG_URL, dateCreated, likes, bookmarks, group);
 		assertNotEquals(postDto1.getPsid(), pDto.getPsid());
 		pDto.setPsid(postDto1.getPsid());
 		assertEquals(postDto1, pDto);
