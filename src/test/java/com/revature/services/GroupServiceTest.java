@@ -46,8 +46,8 @@ class GroupServiceTest {
         MockitoAnnotations.openMocks(this);
         groups = new ArrayList<>();
         tempProfile = new Profile(2, "profile2", "22", "Two", "LastTwo", "Email2@mail.com", true);
-        tempGroup1 = new Group(3234, "Group1","","", tempProfile, new HashSet<>());
-        tempGroup2 = new Group(3235, "Group2","","", tempProfile, new HashSet<>());
+        tempGroup1 = new Group(3234, "Group1","","","", tempProfile, new HashSet<>());
+        tempGroup2 = new Group(3235, "Group2","","","", tempProfile, new HashSet<>());
     }
     
     @Test
@@ -58,7 +58,7 @@ class GroupServiceTest {
     
     @Test
     void testAddInvalidGroup() {
-    	tempGroup2 = new Group(0, null,null, null,null, new HashSet<>());
+    	tempGroup2 = new Group(0, null,null, null,null,null, new HashSet<>());
     	when(groupRepo.save(tempGroup2)).thenReturn(null);
     	assertNull(groupServ.save(tempGroup2));
     }

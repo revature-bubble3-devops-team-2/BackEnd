@@ -77,7 +77,7 @@ public class ProfileDTO {
 			if (profile.getGroups() != null) {
 				groups = new HashSet<>();
 				profile.getGroups().forEach(g -> groups.add(
-						new GroupDTO(g.getGroupId(), g.getGroupName(), g.getImgurl(), g.getCoverImgurl(), null, null)));
+						new GroupDTO(g.getGroupId(), g.getGroupName(), g.getImgurl(), g.getCoverImgurl(), g.getDescription(), null, null)));
 			}
 		}
 	}
