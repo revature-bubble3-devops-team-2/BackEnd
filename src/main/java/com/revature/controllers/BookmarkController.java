@@ -112,4 +112,20 @@ public class BookmarkController {
 
         return new ResponseEntity<>(bookmarkedPosts, HttpStatus.OK);
     }
+
+    @GetMapping("/has")
+    public ResponseEntity<Integer> hasBookmark(@RequestHeader int post, HttpServletRequest req) {
+        PostDTO postObj = new PostDTO();
+        postObj.setPsid(post);
+
+        Profile temp = (Profile) req.getAttribute(PROFILE);
+
+        Profile exist = postService.bookmarkFindByID(temp, postObj.toPost());
+        if (exist == null) {
+            return new ResponseEntity<>(0, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(1, HttpStatus.OK);
+        }
+
+    }
 }
