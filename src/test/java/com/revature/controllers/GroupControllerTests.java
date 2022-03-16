@@ -65,10 +65,10 @@ class GroupControllerTests {
 		MockitoAnnotations.openMocks(this);
 		members.add(PROFILE);
 		members.add(PROFILE2);
-		group = new Group(1, "dodgeball","","", PROFILE, members);
+		group = new Group(1, "dodgeball","","","", PROFILE, members);
 		Set<Profile> singleMember = new HashSet<>();
 		singleMember.add(PROFILE2);
-		group2 = new Group(2, "hodgeball","","", PROFILE2, singleMember);
+		group2 = new Group(2, "hodgeball","","","", PROFILE2, singleMember);
 		POST.setGroup(group);
 		posts.add(POST);
 		
