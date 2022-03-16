@@ -6,7 +6,6 @@ import com.revature.repositories.NotificationRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -40,6 +39,12 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public List<Notification> findByToProfileId(Profile toProfileId) {
         return notificationRepo.findByToProfileId(toProfileId);
+    }
+
+    @Override
+    public Notification updateNotification(Notification toNotification) {
+        // TODO: Wrap in try/catch
+        return notificationRepo.save(toNotification);
     }
 
     @Override

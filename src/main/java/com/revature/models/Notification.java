@@ -2,6 +2,7 @@ package com.revature.models;
 
 import javax.persistence.*;
 
+import com.revature.utilites.SecurityUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -34,10 +35,13 @@ public class Notification {
     @Column(name = "isRead")
     private boolean isRead;
 
-    public Notification() { }
+    public Notification() {
+        super();
+        this.nid = SecurityUtil.getId();
+    }
 
     public Notification(int nid, boolean isRead, Comment cid, Profile fromProfileId, Profile toProfileId, Post postId) {
-        this.nid = nid;
+        this.nid = SecurityUtil.getId();
         this.isRead = isRead;
         this.cid = cid;
         this.fromProfileId = fromProfileId;
@@ -46,18 +50,37 @@ public class Notification {
     }
 
     public Notification(int nid, boolean isRead, Profile fromProfileId, Profile toProfileId, Post postId) {
-        this.nid = nid;
+        this.nid = SecurityUtil.getId();
         this.isRead = isRead;
         this.fromProfileId = fromProfileId;
         this.toProfileId = toProfileId;
         this.pid = postId;
     }
 
-    public Notification(int nid, boolean isRead, Comment cid, Profile fromProfileId, Profile toProfileId) {
-        this.nid = nid;
+    public Notification(boolean isRead, Comment cid, Profile fromProfileId, Profile toProfileId) {
         this.isRead = isRead;
         this.cid = cid;
         this.fromProfileId = fromProfileId;
         this.toProfileId = toProfileId;
+    }
+
+    public boolean isRead() {
+        return isRead;
+    }
+
+    public void setRead(boolean read) {
+        isRead = read;
+    }
+
+    @Override
+    public String toString() {
+        return "Notification{" +
+                "nid=" + nid +
+                ", fromProfileId=" + fromProfileId +
+                ", toProfileId=" + toProfileId +
+                ", cid=" + cid +
+                ", pid=" + pid +
+                ", isRead=" + isRead +
+                '}';
     }
 }
