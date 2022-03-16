@@ -25,6 +25,9 @@ import com.revature.repositories.GroupRepo;
 * @author John Boyle
 * @batch: 211129-Enterprise
 *
+* @edit David Guijosa
+* @batch: 220118-UTA-JAVA-GCP-EM
+*
 */
 @Service
 public class GroupServiceImpl implements GroupService {
@@ -116,6 +119,13 @@ public class GroupServiceImpl implements GroupService {
 		return groupRepo.findAll(example);
 	}
 
+	/**
+     * Calls GroupRepo to update a group.
+     * Currently it only updates the cover image, the image and the name
+     * 
+     * @param group
+     * @return an updated group
+     */ 
 	@Override
     public Group updateGroup(Group group) {
     	

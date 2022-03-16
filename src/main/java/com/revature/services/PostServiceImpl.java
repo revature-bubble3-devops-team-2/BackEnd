@@ -59,15 +59,32 @@ public class PostServiceImpl implements PostService {
         }
         return null;
     }
-
+    /**
+     * Returns a list of the post that are not part of a group
+     * 
+     * @return List of post 
+     * 
+     */
     public List<Post> getAllPosts() {
         return postRepo.findAllByGroupIsNull();
     }
 
+    /**
+     * Returns a list of the post that are part of a group
+     * 
+     * @param groupId
+     * @return List of Post that are part of a group
+     */
     public List<Post> getAllGroupPosts(int groupId) {
         return postRepo.findAllByGroupGroupId(groupId);
     }
 
+    /**
+     * Looks for a Post by id in the database and then returns such Post
+     * 
+     * @param psid
+     * @return Post
+     */
     @Override
     public Post getPostByPsid(Integer psid) {
         return postRepo.getPostByPsid(psid);

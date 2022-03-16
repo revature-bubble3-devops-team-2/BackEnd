@@ -21,6 +21,9 @@ import lombok.ToString;
  * @author John Boyle
  * @batch: 211129-Enterprise
  *
+ * @edit David Guijosa
+ * @batch: 220118-UTA-JAVA-GCP-EM
+ * 
  */
 @Data
 @AllArgsConstructor
@@ -46,6 +49,16 @@ public class GroupDTO {
 		super();
 		groupId = SecurityUtil.getId();
 	}
+
+	/**
+	 * Creates a GroupDTO by passing a Group
+	 * Checks if the group is not empty and if its, it sets the non object variables
+	 * then it check if there are any members and if there are it adds the followers
+	 * and the groups they are following
+	 * 
+	 * @param group
+	 * 
+	 */
 
 	public GroupDTO(Group group) {
 		if (group != null) {
