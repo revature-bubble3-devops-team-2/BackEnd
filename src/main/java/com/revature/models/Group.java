@@ -37,6 +37,9 @@ public class Group {
 	@Column(name = "group_coverimgurl", columnDefinition = "TEXT")
 	private String coverImgurl;
 
+	@Column(name = "description", columnDefinition = "TEXT")
+	private String Description;
+
 	@ManyToOne
 	private Profile owner;
 

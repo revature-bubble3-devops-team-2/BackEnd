@@ -45,7 +45,7 @@ public class PostController {
      */
     @PostMapping
     public ResponseEntity<PostDTO> addPost(@RequestBody PostDTO post, HttpServletRequest req) {
-    	Post newPost = post.toPost();
+        Post newPost = post.toPost();
         newPost.setCreator((Profile) req.getAttribute("profile"));
         Post check = postService.addPost(newPost);
         if (check == null) {
@@ -65,24 +65,22 @@ public class PostController {
     @GetMapping("/page/{pageNumber}")
     @ResponseBody
     public ResponseEntity<List<PostDTO>> getAllPostsbyPage(@PathVariable ("pageNumber") int pageNumber) {
-    	List<Post> posts = postService.getAllPostsPaginated(pageNumber);
-    	List<PostDTO> postDtos = new LinkedList<>();
-    	posts.forEach(p -> postDtos.add(new PostDTO(p)));
+        List<Post> posts = postService.getAllPostsPaginated(pageNumber);
+        List<PostDTO> postDtos = new LinkedList<>();
+        posts.forEach(p -> postDtos.add(new PostDTO(p)));
         return new ResponseEntity<>(postDtos, HttpStatus.OK);
     }
-    
-	@NoAuthIn
+
+    @NoAuthIn
     @GetMapping("/page/all")
     @ResponseBody
     public ResponseEntity<List<PostDTO>> getAllPostsbyPage() {
-    	List<Post> posts = postService.getAllPosts();
-    	List<PostDTO> postDtos = new LinkedList<>();
-    	posts.forEach(p -> postDtos.add(new PostDTO(p)));
+        List<Post> posts = postService.getAllPosts();
+        List<PostDTO> postDtos = new LinkedList<>();
+        posts.forEach(p -> postDtos.add(new PostDTO(p)));
         return new ResponseEntity<>(postDtos, HttpStatus.OK);
     }
-    
-    
-    
+
+
+
 }
-
-
