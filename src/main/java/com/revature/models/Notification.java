@@ -5,7 +5,6 @@ import javax.persistence.*;
 import com.revature.utilites.SecurityUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
 @Table(name = "notification")

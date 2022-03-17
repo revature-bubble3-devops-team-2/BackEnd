@@ -1,6 +1,5 @@
 package com.revature.services;
 
-import com.revature.models.Group;
 import com.revature.models.Notification;
 import com.revature.models.Profile;
 import com.revature.repositories.NotificationRepo;
@@ -8,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -53,7 +51,7 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public Notification findById(int id) {
         Optional<Notification> notification = notificationRepo.findById(id);
-        return  notification.isPresent() ? notification.get() : null;
+        return notification.orElse(null);
     }
 
 
