@@ -5,11 +5,9 @@ import javax.persistence.*;
 import com.revature.utilites.SecurityUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
 @Table(name = "notification")
-// @DynamicUpdate
 @Data
 @AllArgsConstructor
 public class Notification {
@@ -58,7 +56,6 @@ public class Notification {
         this.fromProfileId = fromProfileId;
         this.toProfileId = toProfileId;
         this.pid = postId;
-        this.nid = SecurityUtil.getId();
     }
 
     public Notification(boolean isRead, Comment cid, Profile fromProfileId, Profile toProfileId) {
