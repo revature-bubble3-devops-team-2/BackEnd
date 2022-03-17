@@ -18,6 +18,13 @@ public class NotificationDTO {
     private Profile toProfileId;
     private Post postId;
 
+    public Notification toNewNotification() {
+        if(cid == null) {
+            return new Notification(isRead, fromProfileId, toProfileId, postId);
+        }
+        return new Notification(isRead, cid, fromProfileId, toProfileId, postId);
+    }
+
     public Notification toNotification() {
         if(cid == null) {
             return new Notification(nid, isRead, fromProfileId, toProfileId, postId);
