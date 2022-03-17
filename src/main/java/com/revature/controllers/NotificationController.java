@@ -39,7 +39,7 @@ public class NotificationController {
         Profile fromProfile = profileService.getProfileByPid(notificationDTO.getFromProfileId().getPid());
         Profile toProfile = profileService.getProfileByPid(notificationDTO.getToProfileId().getPid());
         Post post;
-
+      
         try {
             post = postService.getPostByPsid(notificationDTO.getPostId().getPsid());
         } catch(NullPointerException e) {

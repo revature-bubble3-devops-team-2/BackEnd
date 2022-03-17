@@ -4,6 +4,7 @@ import com.revature.models.Notification;
 import com.revature.models.Post;
 import com.revature.models.Comment;
 import com.revature.models.Profile;
+import com.revature.utilites.SecurityUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -44,6 +45,13 @@ public class NotificationDTO {
         this.fromProfileId = fromProfileId;
         this.toProfileId = toProfileId;
         this.postId = postId;
+    }
+
+    public NotificationDTO(int nid, boolean isRead, Profile fromProfileId, Profile toProfileId) {
+        this.nid = SecurityUtil.getId();
+        this.isRead = isRead;
+        this.fromProfileId = fromProfileId;
+        this.toProfileId = toProfileId;
     }
 
     public NotificationDTO(Notification notification) {
