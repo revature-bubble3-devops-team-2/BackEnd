@@ -39,7 +39,12 @@ public class NotificationController {
         //replicating frontend
         Profile fromProfile = profileService.getProfileByPid(notificationDTO.getFromProfileId().getPid());
         Profile toProfile = profileService.getProfileByPid(notificationDTO.getToProfileId().getPid());
-        Post post = postService.getPostByPsid(notificationDTO.getPostId().getPsid());
+        Post post;
+        try {
+            post = postService.getPostByPsid(notificationDTO.getPostId().getPsid());
+        } catch(NullPointerException e) {
+            post = null;
+        }
 
         newNotification.setFromProfileId(fromProfile);
         newNotification.setToProfileId(toProfile);
