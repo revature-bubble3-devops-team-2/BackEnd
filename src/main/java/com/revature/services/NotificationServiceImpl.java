@@ -51,7 +51,7 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public Notification findById(int id) {
         Optional<Notification> notification = notificationRepo.findById(id);
-        return  notification.isPresent() ? notification.get() : null;
+        return notification.orElse(null);
     }
 
 

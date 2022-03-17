@@ -34,7 +34,8 @@ public class NotificationController {
     @PostMapping
     public ResponseEntity<NotificationDTO> addNotification(@RequestBody NotificationDTO notificationDTO, HttpServletRequest req) {
 
-        Notification newNotification = notificationDTO.toNewNotification();
+        Notification newNotification = notificationDTO.toNotification();
+
 
         Profile fromProfile = profileService.getProfileByPid(notificationDTO.getFromProfileId().getPid());
         Profile toProfile = profileService.getProfileByPid(notificationDTO.getToProfileId().getPid());
