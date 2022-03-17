@@ -26,7 +26,7 @@ public class Notification {
     @JoinColumn(name = "to_profile_id", referencedColumnName = "profile_id")
     private Profile toProfileId;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "cid", referencedColumnName = "cid")
     private Comment cid;
 
@@ -58,7 +58,7 @@ public class Notification {
         this.fromProfileId = fromProfileId;
         this.toProfileId = toProfileId;
         this.pid = postId;
-        this.nid = SecurityUtil.getId();
+
     }
 
     public Notification(boolean isRead, Comment cid, Profile fromProfileId, Profile toProfileId) {
