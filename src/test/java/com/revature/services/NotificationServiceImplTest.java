@@ -89,14 +89,13 @@ class NotificationServiceImplTest {
     @Test
     void testFindByToProfileId() {
         List<Notification> expectedNotifications = new ArrayList<>();
-
         expectedNotifications.add(notification);
 
         notificationService.addNotification(expectedNotifications.get(0));
 
         when(notificationRepo.findByToProfileId(fromProfile)).thenReturn(expectedNotifications);
 
-        List<Notification> actualNotifications = notificationService.findAllNotifications();
+        List<Notification> actualNotifications = notificationService.findByToProfileId(fromProfile);
 
         assertAll(
                 () -> assertNotNull(actualNotifications),
@@ -110,10 +109,5 @@ class NotificationServiceImplTest {
         notification.setRead(true);
         when(notificationRepo.save(notification)).thenReturn(notification);
         assertEquals(notification, notificationService.updateNotification(notification));
-    }
-
-    @Test
-    void testToString() {
-        assertEquals(notification.toString(), notificationService.toString());
     }
 }
