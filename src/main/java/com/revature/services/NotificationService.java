@@ -11,5 +11,6 @@ public interface NotificationService {
     Notification addNotification(Notification notification);
     List<Notification> findAllNotifications();
     List<Notification> findByToProfileId(Profile toProfileId);
-    Notification updateNotification(Notification toNotification);
+    Notification findById(int id);
+    Notification updateNotification(Notification notification);
 }
