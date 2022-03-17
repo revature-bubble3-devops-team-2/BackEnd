@@ -58,7 +58,6 @@ public class Notification {
         this.fromProfileId = fromProfileId;
         this.toProfileId = toProfileId;
         this.pid = postId;
-        this.nid = SecurityUtil.getId();
     }
 
     public Notification(boolean isRead, Comment cid, Profile fromProfileId, Profile toProfileId) {

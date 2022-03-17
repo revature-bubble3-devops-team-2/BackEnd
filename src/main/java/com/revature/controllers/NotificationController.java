@@ -33,15 +33,8 @@ public class NotificationController {
 
     @PostMapping
     public ResponseEntity<NotificationDTO> addNotification(@RequestBody NotificationDTO notificationDTO, HttpServletRequest req) {
-//        Notification notification = notificationService.findById(id);
-//
-//        notification.setFromProfileId(notificationDTO.getFromProfileId());
-//        notification.setToProfileId((notificationDTO.getToProfileId()));
-//        notification.setPid(notificationDTO.getPostId());
-//        notification.setRead(notificationDTO.isRead());
-
         Notification newNotification = notificationDTO.toNotification();
-        //replicating frontend
+
         Profile fromProfile = profileService.getProfileByPid(notificationDTO.getFromProfileId().getPid());
         Profile toProfile = profileService.getProfileByPid(notificationDTO.getToProfileId().getPid());
         Post post = postService.getPostByPsid(notificationDTO.getPostId().getPsid());
