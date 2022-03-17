@@ -27,7 +27,6 @@
 //    private static final String USERNAME = "testUsername";
 //    private static final String PASSWORD = "testPassword";
 //    private static final boolean VERIFICATION = true;
-//    private static final String COMMENT = "Some Comment";
 //
 //    private Comment comment = new Comment();
 //    private Profile fromProfile = new Profile();
@@ -54,7 +53,7 @@
 //        fromProfile = new Profile(USERNAME, PASSWORD, NAME, NAME, EMAIL, VERIFICATION);
 //        toProfile = new Profile(USERNAME, PASSWORD, NAME, NAME, EMAIL, VERIFICATION);
 //        post = new Post(fromProfile, BODY, IMAGE, getTime(), null);
-//        notification = new Notification(ID, getTime(), READ, comment, fromProfile, toProfile, post);
+//        notification = new Notification(ID, READ, comment, fromProfile, toProfile, post);
 //    }
 //
 //    @Test
@@ -66,9 +65,9 @@
 //    void testFindAllNotifications() {
 //        List<Notification> expectedNotifications = new ArrayList<>();
 //
-//        expectedNotifications.add(new Notification(ID, getTime(), READ, comment, fromProfile, toProfile, post));
-//        expectedNotifications.add(new Notification(ID, getTime(), READ, comment, fromProfile, toProfile, post));
-//        expectedNotifications.add(new Notification(ID, getTime(), READ, comment, fromProfile, toProfile, post));
+//        expectedNotifications.add(new Notification(ID, READ, comment, fromProfile, toProfile, post));
+//        expectedNotifications.add(new Notification(ID, READ, comment, fromProfile, toProfile, post));
+//        expectedNotifications.add(new Notification(ID, READ, comment, fromProfile, toProfile, post));
 //
 //        notificationService.addNotification(expectedNotifications.get(0));
 //        notificationService.addNotification(expectedNotifications.get(1));
@@ -85,5 +84,18 @@
 //                () -> assertEquals(expectedNotifications.get(1), actualNotifications.get(1)),
 //                () -> assertEquals(expectedNotifications.get(2), actualNotifications.get(2))
 //        );
+//    }
+//
+//    @Test
+//    void findByToProfileId() {
+//        Notification expectedNotification = new Notification(ID, READ, comment, fromProfile, toProfile, post);
+//
+//        Notification actualNotification = notificationRepo.findByToProfileId(fromProfile);
+//
+//
+//    }
+//
+//    @Test
+//    void updateNotification() {
 //    }
 //}
