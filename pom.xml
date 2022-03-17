@@ -16,7 +16,7 @@
 	</parent>
 
 	<properties>
-		<sonar.organization>revature-bubble-2</sonar.organization>
+		<sonar.organization>revature-bubble-3</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 	</properties>
 
