@@ -5,7 +5,6 @@ import javax.persistence.*;
 import com.revature.utilites.SecurityUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
 @Table(name = "notification")
@@ -26,7 +25,7 @@ public class Notification {
     @JoinColumn(name = "to_profile_id", referencedColumnName = "profile_id")
     private Profile toProfileId;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "cid", referencedColumnName = "cid")
     private Comment cid;
 
@@ -58,6 +57,7 @@ public class Notification {
         this.fromProfileId = fromProfileId;
         this.toProfileId = toProfileId;
         this.pid = postId;
+
     }
 
     public Notification(boolean isRead, Comment cid, Profile fromProfileId, Profile toProfileId) {

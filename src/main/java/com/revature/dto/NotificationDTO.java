@@ -48,7 +48,7 @@ public class NotificationDTO {
             if (notification.getNid() > 0) {
                 nid = notification.getNid();
             }
-            isRead = notification.isRead(); // TODO: FIX?????
+            isRead = notification.isRead();
             cid = notification.getCid();
             fromProfileId = notification.getFromProfileId();
             toProfileId = notification.getToProfileId();
