@@ -5,9 +5,11 @@ import javax.persistence.*;
 import com.revature.utilites.SecurityUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
 @Table(name = "notification")
+// @DynamicUpdate
 @Data
 @AllArgsConstructor
 public class Notification {
@@ -24,7 +26,7 @@ public class Notification {
     @JoinColumn(name = "to_profile_id", referencedColumnName = "profile_id")
     private Profile toProfileId;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "cid", referencedColumnName = "cid")
     private Comment cid;
 
@@ -41,20 +43,22 @@ public class Notification {
     }
 
     public Notification(int nid, boolean isRead, Comment cid, Profile fromProfileId, Profile toProfileId, Post postId) {
-        this.nid = SecurityUtil.getId();
+        this.nid = nid;
         this.isRead = isRead;
         this.cid = cid;
         this.fromProfileId = fromProfileId;
         this.toProfileId = toProfileId;
         this.pid = postId;
+
     }
 
     public Notification(int nid, boolean isRead, Profile fromProfileId, Profile toProfileId, Post postId) {
-        this.nid = SecurityUtil.getId();
+        this.nid = nid;
         this.isRead = isRead;
         this.fromProfileId = fromProfileId;
         this.toProfileId = toProfileId;
         this.pid = postId;
+
     }
 
     public Notification(boolean isRead, Comment cid, Profile fromProfileId, Profile toProfileId) {
@@ -62,6 +66,7 @@ public class Notification {
         this.cid = cid;
         this.fromProfileId = fromProfileId;
         this.toProfileId = toProfileId;
+        this.nid = SecurityUtil.getId();
     }
 
     public Notification(int nid, boolean isRead, Profile fromProfileId, Profile toProfileId) {
@@ -73,10 +78,6 @@ public class Notification {
 
     public boolean isRead() {
         return isRead;
-    }
-
-    public void setRead(boolean read) {
-        isRead = read;
     }
 
     @Override
