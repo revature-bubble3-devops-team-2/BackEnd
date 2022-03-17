@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.revature.services.NotificationService;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.Null;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -39,7 +40,13 @@ public class NotificationController {
         //replicating frontend
         Profile fromProfile = profileService.getProfileByPid(notificationDTO.getFromProfileId().getPid());
         Profile toProfile = profileService.getProfileByPid(notificationDTO.getToProfileId().getPid());
-        Post post = postService.getPostByPsid(notificationDTO.getPostId().getPsid());
+        Post post;
+
+        try {
+            post = postService.getPostByPsid(notificationDTO.getPostId().getPsid());
+        } catch(NullPointerException e) {
+            post = null;
+        }
 
         newNotification.setFromProfileId(fromProfile);
         newNotification.setToProfileId(toProfile);
