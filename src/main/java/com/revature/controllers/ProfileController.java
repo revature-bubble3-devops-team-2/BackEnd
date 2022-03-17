@@ -32,8 +32,8 @@ import lombok.extern.log4j.Log4j2;
 @RequestMapping("/profile")
 @CrossOrigin
 public class ProfileController {
-	
-	private static final String TOKEN_NAME = "Authorization";
+
+    private static final String TOKEN_NAME = "Authorization";
 
     @Autowired
     private ProfileService profileService;
@@ -45,9 +45,9 @@ public class ProfileController {
      * @param password
      * @return secure token as json
      *
-     * @author marouanekhabbaz	
+     * @author marouanekhabbaz
      * refactor the code prevent it from crushing when it have an image 49 - 73	
-     * 
+     *
      */
     @PostMapping("/login")
     @NoAuthIn
@@ -59,9 +59,9 @@ public class ProfileController {
             HttpHeaders headers = new HttpHeaders();
             // log.info(profile.getImgurl());   //this will make you wait for a long time
             // log.info(profile);
-            
+
             Profile pro = new Profile();
-            
+
             pro.setPid(profile.getPid());
             pro.setUsername(profile.getUsername());
             pro.setPasskey(profile.getPasskey());
@@ -69,7 +69,7 @@ public class ProfileController {
             pro.setLastName(profile.getLastName());
             pro.setEmail(profile.getEmail());
             pro.setVerification(profile.isVerification());
-            
+
             headers.set(TOKEN_NAME, SecurityUtil.generateToken(new ProfileDTO(pro)));
             return new ResponseEntity<>(new ProfileDTO(profile), headers, HttpStatus.OK);
 
@@ -87,7 +87,7 @@ public class ProfileController {
     @NoAuthIn
     @PostMapping("/register")
     public ResponseEntity<ProfileDTO> addNewProfile(@Valid @RequestBody ProfileDTO profile) {
-    	Profile newProfile = profile.toProfile();
+        Profile newProfile = profile.toProfile();
         Profile returnedUser = profileService.getProfileByEmail(newProfile);
         if (returnedUser == null) {
 
@@ -128,7 +128,7 @@ public class ProfileController {
      * the database.
      * If no token is sent in the token it fails the Auth and doesn't update the
      * profile.	
-     * 
+     *
      * @param profile
      * @return Updated profile with HttpStatus.ACCEPTED otherwise if invalid returns HttpStatus.BAD_REQUEST
      */
@@ -136,18 +136,18 @@ public class ProfileController {
     public ResponseEntity<ProfileDTO> updateProfile(@RequestBody ProfileDTO profile) {
         Profile result = profileService.updateProfile(profile.toProfile());
         if (result != null) {
-        	
-     	   Profile pro = new Profile();
-           
-           pro.setPid(result.getPid());
-           pro.setUsername(result.getUsername());
-           pro.setPasskey(result.getPasskey());
-           pro.setFirstName(result.getFirstName());
-           pro.setLastName(result.getLastName());
-           pro.setEmail(result.getEmail());
-           pro.setImgurl(result.getImgurl());
-           pro.setCoverImgurl(result.getCoverImgurl());
-        	
+
+            Profile pro = new Profile();
+
+            pro.setPid(result.getPid());
+            pro.setUsername(result.getUsername());
+            pro.setPasskey(result.getPasskey());
+            pro.setFirstName(result.getFirstName());
+            pro.setLastName(result.getLastName());
+            pro.setEmail(result.getEmail());
+            pro.setImgurl(result.getImgurl());
+            pro.setCoverImgurl(result.getCoverImgurl());
+
             return new ResponseEntity<>(new ProfileDTO(pro), HttpStatus.ACCEPTED);
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -163,12 +163,12 @@ public class ProfileController {
     @PostMapping("/follow")
     public ResponseEntity<String> newFollower(String email, int id , HttpServletRequest req) {
         Profile profile = profileService.getProfileByPid(id);
-        
+
         Profile newProfile = profileService.addFollowerByEmail(profile, email);
         if (newProfile != null) {
             HttpHeaders headers = new HttpHeaders();
             Profile pro = new Profile();
-            
+
             pro.setPid(newProfile.getPid());
             pro.setUsername(newProfile.getUsername());
             pro.setPasskey(newProfile.getPasskey());
@@ -195,14 +195,14 @@ public class ProfileController {
             follower = profileService.removeFollowByEmail(follower, email);
             if (follower != null) {
                 Profile pro = new Profile();
-                
+
                 pro.setPid(follower.getPid());
                 pro.setUsername(follower.getUsername());
                 pro.setPasskey(follower.getPasskey());
                 pro.setFirstName(follower.getFirstName());
                 pro.setLastName(follower.getLastName());
                 pro.setEmail(follower.getEmail());
-            	
+
                 log.info("Profile successfully unfollowed");
                 HttpHeaders headers = new HttpHeaders();
                 String newToken = SecurityUtil.generateToken(new ProfileDTO(pro));
@@ -215,49 +215,49 @@ public class ProfileController {
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
-    
+
 
     /**
      * Retrieved a page of profiles
-     * 
+     *
      * @param pageNumber pageNumber to be retrieved
      * @return page of profiles for page number requested
      */
     @GetMapping("/page/{pageNumber}")
     public ResponseEntity<List<ProfileDTO>> getAllPostsbyPage(@PathVariable("pageNumber") int pageNumber) {
-    	List<Profile> profiles = profileService.getAllProfilesPaginated(pageNumber);
-    	List<ProfileDTO> profileDtos = new LinkedList<>();
-    	profiles.forEach(p -> profileDtos.add(new ProfileDTO(p)));
+        List<Profile> profiles = profileService.getAllProfilesPaginated(pageNumber);
+        List<ProfileDTO> profileDtos = new LinkedList<>();
+        profiles.forEach(p -> profileDtos.add(new ProfileDTO(p)));
         return new ResponseEntity<>(profileDtos, HttpStatus.OK);
     }
 
     /**
      * Search all fields function in profile 
-     * 
+     *
      * @param query Takes in a String without space at end point /search{query}
      * @return List <Profile> matching search query
      */
-	@GetMapping("/search/{query}")
-	public ResponseEntity<List<ProfileDTO>> search(@PathVariable("query") String query){
-		log.info("/search hit");
-		List<Profile> profiles = profileService.search(query);
-    	List<ProfileDTO> profileDtos = new LinkedList<>();
-    	profiles.forEach(p -> profileDtos.add(new ProfileDTO(p)));
-		return new ResponseEntity<>(profileDtos, new HttpHeaders(), HttpStatus.OK);
-	}
-	
-	@NoAuthIn
-	@GetMapping("/followers/{id}")
-	public ResponseEntity<List<ProfileDTO>> getFollowers(@PathVariable("id") int id){
-		
-		
-		List<Profile> profiles = profileService.getFollowers(id);
-		
-		
-		List<ProfileDTO> profileDtos = new LinkedList<>();		
-    	profiles.forEach(p -> profileDtos.add(new ProfileDTO(p)));
-		
-		return new ResponseEntity<>(profileDtos, new HttpHeaders(), HttpStatus.OK);
-	}
-	
+    @GetMapping("/search/{query}")
+    public ResponseEntity<List<ProfileDTO>> search(@PathVariable("query") String query){
+        log.info("/search hit");
+        List<Profile> profiles = profileService.search(query);
+        List<ProfileDTO> profileDtos = new LinkedList<>();
+        profiles.forEach(p -> profileDtos.add(new ProfileDTO(p)));
+        return new ResponseEntity<>(profileDtos, new HttpHeaders(), HttpStatus.OK);
+    }
+
+    @NoAuthIn
+    @GetMapping("/followers/{id}")
+    public ResponseEntity<List<ProfileDTO>> getFollowers(@PathVariable("id") int id){
+
+
+        List<Profile> profiles = profileService.getFollowers(id);
+
+
+        List<ProfileDTO> profileDtos = new LinkedList<>();
+        profiles.forEach(p -> profileDtos.add(new ProfileDTO(p)));
+
+        return new ResponseEntity<>(profileDtos, new HttpHeaders(), HttpStatus.OK);
+    }
+
 }
