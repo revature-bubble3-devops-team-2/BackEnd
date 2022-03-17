@@ -20,6 +20,9 @@ public class NotificationDTO {
     private Post postId;
 
     public Notification toNotification() {
+        if(cid == null && postId == null) {
+            return new Notification(nid, isRead, fromProfileId, toProfileId);
+        }
         if(cid == null) {
             return new Notification(nid, isRead, fromProfileId, toProfileId, postId);
         }
@@ -29,7 +32,6 @@ public class NotificationDTO {
     public NotificationDTO() { }
 
     public NotificationDTO(boolean isRead, Comment cid, Profile fromProfileId, Profile toProfileId, Post postId) {
-        this.nid = nid;
         this.isRead = isRead;
         this.cid = cid;
         this.fromProfileId = fromProfileId;
@@ -54,8 +56,10 @@ public class NotificationDTO {
 
     public NotificationDTO(Notification notification) {
         if (notification != null) {
-            nid = notification.getNid();
-            isRead = notification.isRead(); // TODO: FIX?????
+            if (notification.getNid() > 0) {
+                nid = notification.getNid();
+            }
+            isRead = notification.isRead();
             cid = notification.getCid();
             fromProfileId = notification.getFromProfileId();
             toProfileId = notification.getToProfileId();

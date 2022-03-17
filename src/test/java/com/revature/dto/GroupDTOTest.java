@@ -55,6 +55,7 @@ class GroupDTOTest {
 		groupDto.setGroupName(GROUP_NAME);
 		groupDto.setImgurl(GROUP_IMGURL);
 		groupDto.setCoverImgurl(GROUP_COVER);
+		groupDto.setDescription(DESCRIPTION);
 		groupDto.setOwner(owner);
 		groupDto.setMembers(members);
 		assertEquals(groupDto, groupDto1);
