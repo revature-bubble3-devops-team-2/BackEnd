@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class NotificationServiceImpl implements NotificationService {
@@ -42,10 +43,17 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public Notification updateNotification(Notification toNotification) {
-        // TODO: Wrap in try/catch
-        return notificationRepo.save(toNotification);
+    public Notification updateNotification(Notification notification) {
+        notificationRepo.save(notification);
+        return notification;
     }
+
+    @Override
+    public Notification findById(int id) {
+        Optional<Notification> notification = notificationRepo.findById(id);
+        return notification.orElse(null);
+    }
+
 
     @Override
     public String toString() {

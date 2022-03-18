@@ -46,6 +46,7 @@ class GroupModelTest {
 		group.setGroupName(GROUP_NAME);
 		group.setCoverImgurl(GROUP_COVER);
 		group.setImgurl(GROUP_IMGURL);
+		group.setDescription(DESCRIPTION);
 		group.setOwner(owner);
 		group.setMembers(members);
 		assertEquals(group, group1);

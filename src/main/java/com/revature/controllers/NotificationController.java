@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.revature.services.NotificationService;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.Null;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -19,7 +20,6 @@ import java.util.List;
 @RestController
 @CrossOrigin
 @RequestMapping("/notification")
-
 public class NotificationController {
     private static final String PROFILE = "profile";
 
@@ -35,11 +35,18 @@ public class NotificationController {
     @PostMapping
     public ResponseEntity<NotificationDTO> addNotification(@RequestBody NotificationDTO notificationDTO, HttpServletRequest req) {
 
-        Notification newNotification = notificationDTO.toNotification();
-        //replicating frontend
+        Notification newNotification = notificationDTO.toNewNotification();
+
         Profile fromProfile = profileService.getProfileByPid(notificationDTO.getFromProfileId().getPid());
         Profile toProfile = profileService.getProfileByPid(notificationDTO.getToProfileId().getPid());
-        Post post = postService.getPostByPsid(notificationDTO.getPostId().getPsid());
+        Post post;
+
+
+        try {
+            post = postService.getPostByPsid(notificationDTO.getPostId().getPsid());
+        } catch(NullPointerException e) {
+            post = null;
+        }
 
         newNotification.setFromProfileId(fromProfile);
         newNotification.setToProfileId(toProfile);
@@ -63,32 +70,16 @@ public class NotificationController {
         return new ResponseEntity<>(notificationDTOS, HttpStatus.OK);
     }
 
-    @PutMapping("/{toProfileId}/update")
+    @PutMapping("/{nid}/update-read")
     @ResponseBody
-    public ResponseEntity<NotificationDTO> updateNotification(@RequestBody NotificationDTO notification, @PathVariable Profile toProfileId) {
-        Notification tempN = notification.toNotification();
+    public ResponseEntity<NotificationDTO> setReadNotification(@PathVariable int nid, @RequestBody NotificationDTO notificationDTO) {
+        Notification notification = notificationService.findById(nid);
+        notification.setRead(notificationDTO.isRead());
 
-        //replicating frontend - to avoid "unable to join" errors in repo
-        Profile fromProfile = profileService.getProfileByPid(notification.getFromProfileId().getPid());
-        Profile toProfile = profileService.getProfileByPid(notification.getToProfileId().getPid());
-        Post post = postService.getPostByPsid(notification.getPostId().getPsid());
+        Notification savedNotification = notificationService.updateNotification(notification);
 
-        tempN.setFromProfileId(fromProfile);
-        tempN.setToProfileId(toProfile);
-        tempN.setPid(post);
+        NotificationDTO responseDTO = new NotificationDTO(savedNotification);
 
-        Notification result = notificationService.updateNotification(tempN);
-        if (result != null) {
-            Notification notify = new Notification();
-            notify.setNid(result.getNid());
-            notify.setCid(result.getCid());
-            notify.setFromProfileId(result.getFromProfileId());
-            notify.setToProfileId(result.getToProfileId());
-            notify.setRead(result.isRead());
-            return new ResponseEntity<>(new NotificationDTO(notify), HttpStatus.ACCEPTED);
-        } else {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
-
 }
