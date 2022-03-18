@@ -53,21 +53,38 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<Post> getAllPostsPaginated(int page) {
         Pageable pageable = PageRequest.of(page - 1, 3, Sort.by("datePosted").descending());
-        Page<Post> resultPage = postRepo.findAll(pageable);
+        Page<Post> resultPage = postRepo.findAllByGroupIsNull(pageable);
         if (resultPage.hasContent()) {
             return resultPage.getContent();
         }
         return null;
     }
-
+    /**
+     * Returns a list of the post that are not part of a group
+     * 
+     * @return List of post 
+     * 
+     */
     public List<Post> getAllPosts() {
-        return postRepo.findAll();
+        return postRepo.findAllByGroupIsNull();
     }
 
+    /**
+     * Returns a list of the post that are part of a group
+     * 
+     * @param groupId
+     * @return List of Post that are part of a group
+     */
     public List<Post> getAllGroupPosts(int groupId) {
         return postRepo.findAllByGroupGroupId(groupId);
     }
 
+    /**
+     * Looks for a Post by id in the database and then returns such Post
+     * 
+     * @param psid
+     * @return Post
+     */
     @Override
     public Post getPostByPsid(Integer psid) {
         return postRepo.getPostByPsid(psid);
@@ -227,15 +244,13 @@ public class PostServiceImpl implements PostService {
     }
 
     /**
-     * likeFindById uses the repository's findById method that returns the post that
-     * is being searched through. Then it checks
-     * if the profile that is being searched for is in the post's set of likes. If
-     * the profile is found then that profile is returned,
-     * null if not
+     *bookmarkFindByID uses the repository's findById method to  returns the profile that
+     * created the post. It checks  if the post passed through the repo is not null and the bookmark contains
+     * the  profile then that profile is returned, else an exception is thrown
      *
-     * @param profile that is to be searched for in the post's likes
+     * @param profile that is to be searched for in the post's bookmark
      * @param post    that is to search through
-     * @return profile that has been found in the post's likes
+     * @return profile that has been found in the post's bookmark
      */
     @Override
     public Profile bookmarkFindByID(Profile profile, Post post) {
@@ -251,10 +266,15 @@ public class PostServiceImpl implements PostService {
         }
     }
 
+    /**
+     * allBookMarksByCreator  uses the repo findAll method  and return an array of all bookmarked post
+     * in our database.We loop through all posts and if a post contains a bookmark we store in our array
+     * return the array
+     */
+
     @Override
     public List<Post> allBookMarksByCreator(Profile profile){
-
-        List<Post> allPosts = postRepo.findAllByCreator(profile);
+        List<Post> allPosts = postRepo.findAll();
         List<Post> bookmarkedPosts = new ArrayList<>();
         for(int i = 0; i < allPosts.size(); i++){
             Post post = allPosts.get(i);

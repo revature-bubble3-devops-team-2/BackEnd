@@ -57,6 +57,13 @@ public class Notification {
         this.pid = postId;
     }
 
+    public Notification(int nid, boolean isRead, Profile fromProfileId, Profile toProfileId) {
+        this.nid = SecurityUtil.getId();
+        this.isRead = isRead;
+        this.fromProfileId = fromProfileId;
+        this.toProfileId = toProfileId;
+    }
+
     public Notification(boolean isRead, Comment cid, Profile fromProfileId, Profile toProfileId) {
         this.isRead = isRead;
         this.cid = cid;
@@ -80,6 +87,13 @@ public class Notification {
         this.toProfileId = toProfileId;
         this.pid = postId;
 
+    }
+
+    public Notification(int nid, boolean isRead, Profile fromProfileId, Profile toProfileId) {
+        this.nid = SecurityUtil.getId();
+        this.isRead = isRead;
+        this.fromProfileId = fromProfileId;
+        this.toProfileId = toProfileId;
     }
 
     public boolean isRead() {

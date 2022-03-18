@@ -4,6 +4,7 @@ import com.revature.models.Notification;
 import com.revature.models.Post;
 import com.revature.models.Comment;
 import com.revature.models.Profile;
+import com.revature.utilites.SecurityUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -26,6 +27,9 @@ public class NotificationDTO {
     }
 
     public Notification toNotification() {
+        if(cid == null && postId == null) {
+            return new Notification(nid, isRead, fromProfileId, toProfileId);
+        }
         if(cid == null) {
             return new Notification(nid, isRead, fromProfileId, toProfileId, postId);
         }
@@ -63,7 +67,6 @@ public class NotificationDTO {
         this.toProfileId = toProfileId;
         this.postId = postId;
     }
-
 
     public NotificationDTO(Notification notification) {
         if (notification != null) {

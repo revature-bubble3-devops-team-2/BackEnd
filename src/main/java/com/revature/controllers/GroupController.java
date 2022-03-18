@@ -40,6 +40,8 @@ import com.revature.services.ProfileServiceImpl;
 * @author John Boyle
 * @batch: 211129-Enterprise
 *
+* @edit David Guijosa
+* @batch: 220118-UTA-JAVA-GCP-EM
 */
 @RestController
 @CrossOrigin
@@ -97,6 +99,15 @@ public class GroupController {
 		return ResponseEntity.ok(groupDto);
 	}
 
+	/**
+	 * @autor Zent
+     * Put mapping grabs the updated fields of group and updates the profile in
+     * the database.
+     * 
+     * @param group
+     * @return Updated group with HttpStatus.ACCEPTED otherwise if invalid returns HttpStatus.BAD_REQUEST
+	 * 
+     */
 	@PutMapping
     public ResponseEntity<Group> updateGroup(@RequestBody GroupDTO group) {
         Group result = groupService.updateGroup(group.toGroup());
