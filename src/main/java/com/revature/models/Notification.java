@@ -5,11 +5,9 @@ import javax.persistence.*;
 import com.revature.utilites.SecurityUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
 @Table(name = "notification")
-// @DynamicUpdate
 @Data
 @AllArgsConstructor
 public class Notification {
@@ -26,7 +24,7 @@ public class Notification {
     @JoinColumn(name = "to_profile_id", referencedColumnName = "profile_id")
     private Profile toProfileId;
 
-    @OneToOne(cascade = CascadeType.REMOVE)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "cid", referencedColumnName = "cid")
     private Comment cid;
 
@@ -42,41 +40,54 @@ public class Notification {
         this.nid = SecurityUtil.getId();
     }
 
+    public Notification(int nid, boolean isRead, Comment cid, Profile fromProfileId, Profile toProfileId, Post postId) {
+        this.nid = SecurityUtil.getId();
+        this.isRead = isRead;
+        this.cid = cid;
+        this.fromProfileId = fromProfileId;
+        this.toProfileId = toProfileId;
+        this.pid = postId;
+    }
+
+    public Notification(int nid, boolean isRead, Profile fromProfileId, Profile toProfileId, Post postId) {
+        this.nid = SecurityUtil.getId();
+        this.isRead = isRead;
+        this.fromProfileId = fromProfileId;
+        this.toProfileId = toProfileId;
+        this.pid = postId;
+    }
+
+    public Notification(boolean isRead, Comment cid, Profile fromProfileId, Profile toProfileId) {
+        this.isRead = isRead;
+        this.cid = cid;
+        this.fromProfileId = fromProfileId;
+        this.toProfileId = toProfileId;
+    }
+
+    public Notification(boolean isRead, Comment cid, Profile fromProfileId, Profile toProfileId, Post postId) {
+        this.nid = SecurityUtil.getId();
+        this.isRead = isRead;
+        this.cid = cid;
+        this.fromProfileId = fromProfileId;
+        this.toProfileId = toProfileId;
+        this.pid = postId;
+    }
+
     public Notification(boolean isRead, Profile fromProfileId, Profile toProfileId, Post postId) {
         this.nid = SecurityUtil.getId();
         this.isRead = isRead;
         this.fromProfileId = fromProfileId;
         this.toProfileId = toProfileId;
         this.pid = postId;
-    }
 
-    public Notification(boolean isRead, Comment cid, Profile fromProfileId, Profile toProfileId, Post postId) {
-        this.isRead = isRead;
-        this.cid = cid;
-        this.fromProfileId = fromProfileId;
-        this.toProfileId = toProfileId;
-        this.pid = postId;
-        this.nid = SecurityUtil.getId();
-    }
-
-    public Notification(int nid, boolean isRead, Profile fromProfileId, Profile toProfileId, Post postId) {
-        this.nid = nid;
-        this.isRead = isRead;
-        this.fromProfileId = fromProfileId;
-        this.toProfileId = toProfileId;
-        this.pid = postId;
-    }
-
-    public Notification(int nid, boolean isRead, Comment cid, Profile fromProfileId, Profile toProfileId, Post postId) {
-        this.nid = nid;
-        this.isRead = isRead;
-        this.fromProfileId = fromProfileId;
-        this.toProfileId = toProfileId;
-        this.pid = postId;
     }
 
     public boolean isRead() {
         return isRead;
+    }
+
+    public void setRead(boolean read) {
+        isRead = read;
     }
 
     @Override
