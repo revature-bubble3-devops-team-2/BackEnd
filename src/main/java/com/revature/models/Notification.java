@@ -24,7 +24,7 @@ public class Notification {
     @JoinColumn(name = "to_profile_id", referencedColumnName = "profile_id")
     private Profile toProfileId;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "cid", referencedColumnName = "cid")
     private Comment cid;
 
