@@ -12,7 +12,7 @@ public interface ProfileService {
 
     Profile getProfileByEmail(Profile profile);
 
-    Profile getProfileByPid(Integer pid);
+    Profile getProfileByPid(int pid);
 
     Profile updateProfile(Profile profile);
 

@@ -21,6 +21,9 @@ import lombok.ToString;
  * @author John Boyle
  * @batch: 211129-Enterprise
  *
+ * @edit David Guijosa
+ * @batch: 220118-UTA-JAVA-GCP-EM
+ * 
  */
 @Data
 @AllArgsConstructor
@@ -36,6 +39,8 @@ public class GroupDTO {
 
 	private String coverImgurl;
 
+	private String Description;
+
 	private ProfileDTO owner;
 
 	private Set<ProfileDTO> members = new HashSet<>();
@@ -45,6 +50,16 @@ public class GroupDTO {
 		groupId = SecurityUtil.getId();
 	}
 
+	/**
+	 * Creates a GroupDTO by passing a Group
+	 * Checks if the group is not empty and if its, it sets the non object variables
+	 * then it check if there are any members and if there are it adds the followers
+	 * and the groups they are following
+	 * 
+	 * @param group
+	 * 
+	 */
+
 	public GroupDTO(Group group) {
 		if (group != null) {
 			groupId = group.getGroupId();
@@ -52,6 +67,7 @@ public class GroupDTO {
 			owner = group.getOwner() != null ? new ProfileDTO(group.getOwner()) : null;
 			coverImgurl = group.getCoverImgurl();
 			imgurl = group.getImgurl();
+			Description = group.getDescription();
 			if (group.getMembers() != null) {
 				members = new HashSet<>();
 				group.getMembers().forEach(m -> {
@@ -68,7 +84,7 @@ public class GroupDTO {
 					Set<GroupDTO> groups = new HashSet<>();
 					if (m.getGroups() != null) {
 						m.getGroups().forEach(g -> groups.add(new GroupDTO(g.getGroupId(), g.getGroupName(),
-								g.getImgurl(), g.getCoverImgurl(), null, null)));
+								g.getImgurl(), g.getDescription(), g.getCoverImgurl(), null, null)));
 					}
 					profileDto.setFollowing(following);
 					profileDto.setGroups(groups);
@@ -85,15 +101,16 @@ public class GroupDTO {
 		if (members != null) {
 			members.forEach(m -> newMembers.add(m.toProfile()));
 		}
-		return new Group(groupId, groupName, imgurl, coverImgurl, (owner != null ? owner.toProfile() : null),
+		return new Group(groupId, groupName, imgurl, coverImgurl, Description, (owner != null ? owner.toProfile() : null),
 				newMembers);
 	}
 
 	//groupDto1 = new GroupDTO(GROUP_ID, GROUP_NAME,GROUP_IMGURL,GROUP_COVER, owner, members);
-	public GroupDTO(String groupName, String groupImgurl, String groupCover, ProfileDTO owner, Set<ProfileDTO> members) {
+	public GroupDTO(String groupName, String groupImgurl, String groupCover, String Description, ProfileDTO owner, Set<ProfileDTO> members) {
 		this();
 		this.groupName = groupName;
 		this.imgurl = groupImgurl;
+		this.Description= Description;
 		this.coverImgurl = groupCover;
 		this.owner = owner;
 		this.members = members;

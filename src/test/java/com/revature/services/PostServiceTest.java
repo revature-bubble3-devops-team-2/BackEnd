@@ -82,12 +82,8 @@ class PostServiceTest {
         expected.add(new Post(creator, USERNAME, PASSWORD, getTime(), null));
         expected.add(new Post(creator, USERNAME, PASSWORD, getTime(), null));
 
-        postService.addPost(expected.get(0));
-        postService.addPost(expected.get(1));
-        postService.addPost(expected.get(2));
-        when(postRepo.findAll()).thenReturn(expected);
+        when(postRepo.findAllByGroupIsNull()).thenReturn(expected);
         List<Post> actual = postService.getAllPosts();
-
         assertAll(
                 () -> assertNotNull(actual),
                 () -> assertEquals(expected.size(), actual.size()),
@@ -143,7 +139,7 @@ class PostServiceTest {
         assertEquals(expected, actual);
     }
 
-    @Test
+        @Test
     void testLikeFindID() {
         Set<Integer> tempLikesSet = new LinkedHashSet<>();
         tempLikesSet.add(liker.getPid());
@@ -158,6 +154,95 @@ class PostServiceTest {
         assertNull(actual2);
         assertNull(actual3);
     }
+
+    @Test
+    void testBookmarkFindID() {
+        Set<Integer> tempBookmarksSet = new LinkedHashSet<>();
+        tempBookmarksSet.add(liker.getPid());
+        post.setBookmarks(tempBookmarksSet);
+
+        when(postRepo.findById(post.getPsid())).thenReturn(Optional.of(post));
+        Profile actual = postService.bookmarkFindByID(liker, post);
+        Profile actual2 = postService.bookmarkFindByID(creator, post);
+        Profile actual3 = postService.bookmarkFindByID(liker, badPost);
+
+        assertEquals(liker, actual);
+        assertNull(actual2);
+        assertNull(actual3);
+    }
+
+    @Test
+    void testBookmarkPost() {
+        Set<Integer> tempBookmarksSet = new LinkedHashSet<>();
+        tempBookmarksSet.add(creator.getPid());
+        post.setBookmarks(tempBookmarksSet);
+
+        when(postRepo.findById(post.getPsid())).thenReturn(Optional.of(post));
+        Profile actual = postService.bookmarkPost(liker, post);
+        Profile actual2 = postService.bookmarkPost(liker, badPost);
+        Profile actual3 = postService.bookmarkPost(creator, post);
+
+        assertEquals(liker, actual);
+        assertNull(actual2);
+        assertNull(actual3);
+    }
+
+    @Test
+    void testBookmarkDelete() {
+        Set<Integer> tempBookmarksSet = new LinkedHashSet<>();
+        tempBookmarksSet.add(liker.getPid());
+        post.setBookmarks(tempBookmarksSet);
+
+        when(postRepo.findById(post.getPsid())).thenReturn(Optional.of(post));
+        int actual = postService.bookmarkDelete(liker, post);
+        int actual2 = postService.bookmarkDelete(creator, post);
+        int actual3 = postService.bookmarkDelete(liker, badPost);
+
+        assertEquals(1, actual);
+        assertEquals(-1, actual2);
+        assertEquals(-1, actual3);
+    }
+
+    @Test
+    void testBookmarkGet() {
+        Set<Integer> tempBookmarksSet = new LinkedHashSet<>();
+        tempBookmarksSet.add(liker.getPid());
+        tempBookmarksSet.add(creator.getPid());
+        post.setBookmarks(tempBookmarksSet);
+        int expected = tempBookmarksSet.size();
+
+        when(postRepo.findById(post.getPsid())).thenReturn(Optional.of(post));
+        int actual = postService.bookmarkGet(post);
+
+        assertEquals(expected, actual);
+    }
+    
+    @Test
+    void testAllBookMarksByCreator() {
+        Set<Integer> tempBookmarksSet = new LinkedHashSet<>();
+        tempBookmarksSet.add(liker.getPid());
+        tempBookmarksSet.add(creator.getPid());
+        List<Post> expected = new ArrayList<>();
+        expected.add(new Post(creator, USERNAME, PASSWORD, getTime(), null));
+        expected.add(new Post(creator, USERNAME, PASSWORD, getTime(), null));
+        expected.add(new Post(creator, USERNAME, PASSWORD, getTime(), null));
+
+        expected.get(0).setBookmarks(tempBookmarksSet);
+        expected.get(1).setBookmarks(tempBookmarksSet);
+        expected.get(2).setBookmarks(tempBookmarksSet);
+
+        when(postRepo.findAll()).thenReturn(expected);
+        System.out.println(post.getBookmarks());
+        List<Post> actual = postService.allBookMarksByCreator(creator);
+        assertAll(
+                () -> assertNotNull(actual),
+                () -> assertEquals(expected.size(), actual.size()),
+                () -> assertEquals(expected.get(0), actual.get(0)),
+                () -> assertEquals(expected.get(1), actual.get(1)),
+                () -> assertEquals(expected.get(2), actual.get(2))
+        );
+    }
+
 }
 
 

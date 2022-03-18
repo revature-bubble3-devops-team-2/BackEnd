@@ -1,8 +1,8 @@
 package com.revature.models;
 
-import java.sql.Timestamp;
 import javax.persistence.*;
 
+import com.revature.utilites.SecurityUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -32,21 +32,55 @@ public class Notification {
     @JoinColumn(name = "post_id", referencedColumnName = "post_id")
     private Post pid;
 
-    @Column(name = "timestamp")
-    private Timestamp nTimestamp;
-
-    @Column(name = "read")
+    @Column(name = "isRead")
     private boolean isRead;
 
-    public Notification() { }
+    public Notification() {
+        super();
+        this.nid = SecurityUtil.getId();
+    }
 
-    public Notification(int nid, Timestamp nTimestamp, boolean isRead, Comment cid, Profile fromProfileId, Profile toProfileId, Post postId) {
-        this.nid = nid;
-        this.nTimestamp = nTimestamp;
+    public Notification(int nid, boolean isRead, Comment cid, Profile fromProfileId, Profile toProfileId, Post postId) {
+        this.nid = SecurityUtil.getId();
         this.isRead = isRead;
         this.cid = cid;
         this.fromProfileId = fromProfileId;
         this.toProfileId = toProfileId;
         this.pid = postId;
+    }
+
+    public Notification(int nid, boolean isRead, Profile fromProfileId, Profile toProfileId, Post postId) {
+        this.nid = SecurityUtil.getId();
+        this.isRead = isRead;
+        this.fromProfileId = fromProfileId;
+        this.toProfileId = toProfileId;
+        this.pid = postId;
+    }
+
+    public Notification(boolean isRead, Comment cid, Profile fromProfileId, Profile toProfileId) {
+        this.isRead = isRead;
+        this.cid = cid;
+        this.fromProfileId = fromProfileId;
+        this.toProfileId = toProfileId;
+    }
+
+    public boolean isRead() {
+        return isRead;
+    }
+
+    public void setRead(boolean read) {
+        isRead = read;
+    }
+
+    @Override
+    public String toString() {
+        return "Notification{" +
+                "nid=" + nid +
+                ", fromProfileId=" + fromProfileId +
+                ", toProfileId=" + toProfileId +
+                ", cid=" + cid +
+                ", pid=" + pid +
+                ", isRead=" + isRead +
+                '}';
     }
 }
