@@ -40,7 +40,7 @@ public class NotificationController {
 //        notification.setPid(notificationDTO.getPostId());
 //        notification.setRead(notificationDTO.isRead());
 
-        Notification newNotification = notificationDTO.toNotification();
+        Notification newNotification = notificationDTO.toNewNotification();
         //replicating frontend
         Profile fromProfile = profileService.getProfileByPid(notificationDTO.getFromProfileId().getPid());
         Profile toProfile = profileService.getProfileByPid(notificationDTO.getToProfileId().getPid());
