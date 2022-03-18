@@ -20,10 +20,10 @@ public class NotificationDTO {
     private Post postId;
 
     public Notification toNotification() {
-        if(cid == null && postId == null) {
-            return new Notification(nid, isRead, fromProfileId, toProfileId);
-        }
         if(cid == null) {
+            if(postId == null) {
+                return new Notification(nid, isRead, fromProfileId, toProfileId);
+            }
             return new Notification(nid, isRead, fromProfileId, toProfileId, postId);
         }
         return new Notification(nid, isRead, cid, fromProfileId, toProfileId, postId);
