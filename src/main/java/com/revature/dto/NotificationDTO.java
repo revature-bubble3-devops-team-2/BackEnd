@@ -19,6 +19,13 @@ public class NotificationDTO {
     private Profile toProfileId;
     private Post postId;
 
+    public Notification toNewNotification() {
+        if(cid == null) {
+            return new Notification(isRead, fromProfileId, toProfileId, postId);
+        }
+        return new Notification(isRead, cid, fromProfileId, toProfileId, postId);
+    }
+
     public Notification toNotification() {
         if(cid == null) {
             if(postId == null) {
@@ -48,10 +55,17 @@ public class NotificationDTO {
     }
 
     public NotificationDTO(int nid, boolean isRead, Profile fromProfileId, Profile toProfileId) {
-        this.nid = SecurityUtil.getId();
+        this.nid = nid;
         this.isRead = isRead;
         this.fromProfileId = fromProfileId;
         this.toProfileId = toProfileId;
+    }
+
+    public NotificationDTO(boolean isRead, Profile fromProfileId, Profile toProfileId, Post postId) {
+        this.isRead = isRead;
+        this.fromProfileId = fromProfileId;
+        this.toProfileId = toProfileId;
+        this.postId = postId;
     }
 
     public NotificationDTO(Notification notification) {
