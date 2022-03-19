@@ -24,7 +24,7 @@ public class Notification {
     @JoinColumn(name = "to_profile_id", referencedColumnName = "profile_id")
     private Profile toProfileId;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "cid", referencedColumnName = "cid")
     private Comment cid;
 
@@ -57,11 +57,36 @@ public class Notification {
         this.pid = postId;
     }
 
+    public Notification(int nid, boolean isRead, Profile fromProfileId, Profile toProfileId) {
+        this.nid = SecurityUtil.getId();
+        this.isRead = isRead;
+        this.fromProfileId = fromProfileId;
+        this.toProfileId = toProfileId;
+    }
+
     public Notification(boolean isRead, Comment cid, Profile fromProfileId, Profile toProfileId) {
         this.isRead = isRead;
         this.cid = cid;
         this.fromProfileId = fromProfileId;
         this.toProfileId = toProfileId;
+    }
+
+    public Notification(boolean isRead, Comment cid, Profile fromProfileId, Profile toProfileId, Post postId) {
+        this.nid = SecurityUtil.getId();
+        this.isRead = isRead;
+        this.cid = cid;
+        this.fromProfileId = fromProfileId;
+        this.toProfileId = toProfileId;
+        this.pid = postId;
+    }
+
+    public Notification(boolean isRead, Profile fromProfileId, Profile toProfileId, Post postId) {
+        this.nid = SecurityUtil.getId();
+        this.isRead = isRead;
+        this.fromProfileId = fromProfileId;
+        this.toProfileId = toProfileId;
+        this.pid = postId;
+
     }
 
     public boolean isRead() {
