@@ -39,7 +39,7 @@ public class GroupDTO {
 
 	private String coverImgurl;
 
-	private String Description;
+	private String description;
 
 	private ProfileDTO owner;
 
@@ -67,7 +67,7 @@ public class GroupDTO {
 			owner = group.getOwner() != null ? new ProfileDTO(group.getOwner()) : null;
 			coverImgurl = group.getCoverImgurl();
 			imgurl = group.getImgurl();
-			Description = group.getDescription();
+			description = group.getDescription();
 			if (group.getMembers() != null) {
 				members = new HashSet<>();
 				group.getMembers().forEach(m -> {
@@ -101,7 +101,7 @@ public class GroupDTO {
 		if (members != null) {
 			members.forEach(m -> newMembers.add(m.toProfile()));
 		}
-		return new Group(groupId, groupName, imgurl, coverImgurl, Description, (owner != null ? owner.toProfile() : null),
+		return new Group(groupId, groupName, imgurl, coverImgurl, description, (owner != null ? owner.toProfile() : null),
 				newMembers);
 	}
 
@@ -110,7 +110,7 @@ public class GroupDTO {
 		this();
 		this.groupName = groupName;
 		this.imgurl = groupImgurl;
-		this.Description= Description;
+		this.description = Description;
 		this.coverImgurl = groupCover;
 		this.owner = owner;
 		this.members = members;

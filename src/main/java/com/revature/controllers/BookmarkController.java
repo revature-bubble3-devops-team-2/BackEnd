@@ -1,8 +1,6 @@
 package com.revature.controllers;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.swing.text.html.Option;
-
 import com.revature.models.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,14 +13,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.revature.dto.PostDTO;
 import com.revature.dto.ProfileDTO;
 import com.revature.models.Profile;
 import com.revature.services.PostService;
-
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @CrossOrigin

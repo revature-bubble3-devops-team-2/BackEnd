@@ -2,7 +2,6 @@ package com.revature.models;
 
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -11,10 +10,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.revature.utilites.SecurityUtil;
-
 import lombok.*;
 
 @Entity
@@ -38,7 +34,7 @@ public class Group {
 	private String coverImgurl;
 
 	@Column(name = "description", columnDefinition = "TEXT")
-	private String Description;
+	private String description;
 
 	@ManyToOne
 	private Profile owner;
