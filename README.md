@@ -81,6 +81,7 @@ Here list the people who have contributed to this project .
     Dark mode   
     -Niko Garalde
     -Ryan Sy
+    -Melaku
       
     Bookmark   
     -Celia Nziadeu
@@ -89,7 +90,10 @@ Here list the people who have contributed to this project .
     -Niko Garalde
       
     Add Description fields to groups     
-    -
+    -Dominic Sieli
+    -Ben Paser
+    -Aileen Quang
+    -Henry Sandfer
       
     Notifications 
     -Amy Vang
@@ -125,6 +129,8 @@ Here list the people who have contributed to this project .
     -Selamawi Kahsai
     -Jeremiah Grimes
     -David Guijosa
+    -Ryan Sy
+    -Melaku
 
 **License**
 --------------------------------------------
