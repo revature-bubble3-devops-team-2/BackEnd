@@ -1,8 +1,5 @@
-## PROJECT NAME ##
-  Bubble -3
+ Bubble -3
   -----------------------------------------------------------------------------------------------------------------------------------------------------------
-**Project Description**
-
   Bubble is a social media website which allows users, who sign-up for free profiles, to connect with their freinds or people they 
   don't know online. It allows users to share pictures,videos and posts as well as joining groups and exchanging their thoughts in those group or on their profile. 
   Some functionalities of this website were created by two previous cohort. The java Full stack  GCP corhort was in charge of creating more functionalities 
