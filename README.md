@@ -73,24 +73,58 @@ Stretch Goals:
 Here list the people who have contributed to this project . 
 
     YouTube Links or Videos 
+    -Dominic Sieli
+    -Ben Paser
+    -Aileen Quang
+    -Henry Sandfer
       
     Dark mode   
+    -Niko Garalde
+    -Ryan Sy
       
     Bookmark   
+    -Celia Nziadeu
+    -Mimi Abimbola
+    -Nabiatu Kalokoh
+    -Niko Garalde
       
-    Add Description fields to groups         
+    Add Description fields to groups     
+    -
       
     Notifications 
-      
+    -Amy Vang
+    -Khadga R Parajuli
+    -Ryan Sy
+    -Valentina Brent
+    -Warren Ho
+    
     List of groups a user is part of 
+    -Amy Vang
+    -Khadga R Parajuli
+    -Ryan Sy
+    -Valentina Brent
+    -Warren Ho
       
     Make Group Posts only show up on Group Feed 
+    -David Guijosa
+    -Jeremiah Grimes
+    -Melaku 
+    -Sealmawi Kahsai
       
     Display groups on profile in a new tab like posts and followers
-      
+    -Amy Vang
+    -Khadga R Parajuli
+    -Ryan Sy
+    -Valentina Brent
+    -Warren Ho
+    
     Handle empty group search result list 
-      
+    -Bryan Serfozo
+    
     Add cover photos to group  and Profile headers
+    -Selamawi Kahsai
+    -Jeremiah Grimes
+    -David Guijosa
 
 **License**
 --------------------------------------------
