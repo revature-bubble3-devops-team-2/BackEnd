@@ -33,6 +33,11 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
    * Create a PostgreSQL database on the instance
    * Connect to the instance with a PostgreSQL client
 * GCP Compute Engine
+   * Create a Google Compute Engine on the Google Cloud Platform.
+   * Under the "Boot Disk" option, select change.
+      >Under "Operating System", select Container Optimized OS. (This will come with Docker installed)
+      >Select a minimum of 10GB in size. (Docker will use about this much in combination with Jenkins).
+   * After your Virtual Machine has been created, click the "SSH" option to connect to your virtual machine.
 
 ## Development server
 
