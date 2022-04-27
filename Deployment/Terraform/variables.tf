@@ -7,6 +7,7 @@ variable "availability_zones" {
 variable "region" {
   description = "aws region to deploy to"
   type        = string
+  default = "us-east-1"
 }
 
    
