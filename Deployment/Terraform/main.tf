@@ -36,6 +36,7 @@ provider "aws" {
 
 locals {
   cluster_name = "team-magma-${random_string.suffix.result}"
+  cluster_version = "1.22"
 }
 
 resource "random_string" "suffix" {
