@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  bubble:
+    build: .
+    ports:
+     - 8080:8080
+    container_name: bubble-container
+  
+
+  postgres:
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      #Same password as showned in the dockerfile
+      -POSTGRES_PASSWORD=pass
+      
+    container_name: postgres-container
+    volumes:
+      - db-data:/var/lib/postgressql/data
+
+volumes:
+  db-data:
+    driver: local
+    
