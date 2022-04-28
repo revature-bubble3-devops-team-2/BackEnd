@@ -1,0 +1,73 @@
+version: "3.8"
+
+services:
+  bubble:
+    build: .
+    ports:
+     - 8080:8080
+    # environment: values are in dockerfile, can move here if we want
+    # - DB_URL
+    # - DB_USER
+    # - DB_PASS
+    container_name: bubble-container
+    depends_on:
+      - postgres
+    volumes:
+      - ./logs/application.log:/logs/application.log
+  
+
+  postgres:
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      #Same password as showned in the dockerfile
+      -POSTGRES_PASSWORD=pass
+
+    container_name: postgres-container
+    volumes:
+      - db-data:/var/lib/postgressql/data
+
+  promtail:
+    image: grafana/promtail:latest
+    container_name: promtail-container
+    volumes:
+      - ./Deployment/prom/promtail-docker-config.yml:/etc/promtail/docker-config.yaml
+      - ./logs/application.log:/var/logs/application.log
+    command: "--config.file=/etc/promtail/docker-config.yaml"
+  
+  loki:
+    image: grafana/loki:latest
+    container_name: loki-container
+    ports:
+      - 3100:3100
+  
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana-container
+    volumes:
+      - grafana-data:/var/lib/grafana
+    ports:
+      - 3000:3000
+    depends_on:
+      - loki
+    
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus-container
+    ports:
+      - 9090:9090
+    volumes:
+      - ./Deployment/prom/prometheus.yml:/etc/prometheus.yml
+      - prometheus-data:/prometheus
+
+volumes:
+  db-data:
+    driver: local
+
+  grafana-date:
+    driver: local
+
+  prometheus-data:
+    driver: local
+    
