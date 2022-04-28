@@ -4,36 +4,28 @@ module "eks" {
   cluster_name    = local.cluster_name
   cluster_version = local.cluster_version
 
-  vpc_id = module.vpc.vpc_id
+  vpc_id     = module.vpc.vpc_id
   subnet_ids = module.vpc.private_subnets
 
   self_managed_node_group_defaults = {
-    instance_type = "t2.medium"
+    instance_type                          = "t2.medium"
     update_launch_template_default_version = true
   }
 
   self_managed_node_groups = {
     magma = {
-      name = "magma"
-      public_ip = true
-      max_size = 5
+      name         = "magma"
+      public_ip    = true
+      max_size     = 5
       desired_size = 3
     }
   }
 
   manage_aws_auth_configmap = true
 
-  aws_auth_roles = [
-    {
-      rolearn  = "arn:aws:iam::${var.iam_id}:role/admin"
-      username = "admin"
-      groups   = ["system:masters"]
-    },
-  ]
-
   aws_auth_users = [
     {
-      userarn  = "arn:aws:iam::${var.iam_id}:user/maxie"
+      userarn  = aws_iam_user.maxie.arn
       username = "maxie"
       groups   = ["system:masters"]
     },
