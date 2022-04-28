@@ -2,12 +2,12 @@ apiVersion: v1
 kind: Service
 metadata:
   name: magma-frontend-service
-  namespace: maxie
+  namespace: team-magma
   labels:
-    app: team-magma-app
+    app: bubble-app
 spec:
   selector:
-    app: team-magma-app
+    app: bubble-app
   ports:
     - name: http
       port: 4200
