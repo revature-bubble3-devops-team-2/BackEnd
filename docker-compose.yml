@@ -22,7 +22,7 @@ services:
       - 5432:5432
     environment:
       #Same password as showned in the dockerfile
-      -POSTGRES_PASSWORD=pass
+      - POSTGRES_PASSWORD=pass
 
     container_name: postgres-container
     volumes:
@@ -65,7 +65,7 @@ volumes:
   db-data:
     driver: local
 
-  grafana-date:
+  grafana-data:
     driver: local
 
   prometheus-data:
