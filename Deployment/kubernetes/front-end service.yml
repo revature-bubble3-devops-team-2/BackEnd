@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: magma-frontend-service
+  namespace: maxie
+  labels:
+    app: team-magma-app
+spec:
+  selector:
+    app: team-magma-app
+  ports:
+    - name: http
+      port: 4200
+      targetPort: 4200
+      protocol: TCP
