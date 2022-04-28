@@ -5,7 +5,15 @@ services:
     build: .
     ports:
      - 8080:8080
+    # environment: values are in dockerfile, can move here if we want
+    # - DB_URL
+    # - DB_USER
+    # - DB_PASS
     container_name: bubble-container
+    depends_on:
+      - postgres
+    volumes:
+      - ./logs/application.log:/logs/application.log
   
 
   postgres:
@@ -15,7 +23,7 @@ services:
     environment:
       #Same password as showned in the dockerfile
       -POSTGRES_PASSWORD=pass
-      
+
     container_name: postgres-container
     volumes:
       - db-data:/var/lib/postgressql/data
