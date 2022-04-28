@@ -4,10 +4,10 @@ metadata:
   name: magma-service
   namespace: team-magma
   labels:
-    app: bubble
+    app: magma-bubble
 spec:
   selector:
-    app: bubble
+    app: magma-bubble
   ports:
   - port: 8080
     targetPort: 8080
