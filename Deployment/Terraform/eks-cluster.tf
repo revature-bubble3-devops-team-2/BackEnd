@@ -1,24 +1,40 @@
 module "eks" {
   source          = "terraform-aws-modules/eks/aws"
-  version         = "17.24.0"
+  version         = "18.20.5"
   cluster_name    = local.cluster_name
-  cluster_version = "1.20"
-  subnets         = module.vpc.private_subnets
+  cluster_version = local.cluster_version
 
-  vpc_id = module.vpc.vpc_id
+  vpc_id     = module.vpc.vpc_id
+  subnet_ids = module.vpc.private_subnets
 
-  workers_group_defaults = {
-    root_volume_type = "gp2"
+  self_managed_node_group_defaults = {
+    instance_type                          = "t2.medium"
+    update_launch_template_default_version = true
   }
 
-  worker_groups = [
+  self_managed_node_groups = {
+    magma = {
+      name         = "magma"
+      public_ip    = true
+      max_size     = 5
+      desired_size = 3
+    }
+  }
+
+  manage_aws_auth_configmap = true
+
+  aws_auth_users = [
     {
-      name                          = "worker-group-1"
-      instance_type                 = "t2.small"
-      additional_security_group_ids = [aws_security_group.allow_tls.id]
-      asg_desired_capacity          = 3
+      userarn  = aws_iam_user.maxie.arn
+      username = "maxie"
+      groups   = ["system:masters"]
     },
   ]
+
+  tags = {
+    Environment = "Prod"
+    Terraform   = "true"
+  }
 }
 
 data "aws_eks_cluster" "cluster" {

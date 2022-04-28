@@ -35,7 +35,8 @@ provider "aws" {
 }
 
 locals {
-  cluster_name = "team-magma-${random_string.suffix.result}"
+  cluster_name    = "team-magma-${random_string.suffix.result}"
+  cluster_version = "1.22"
 }
 
 resource "random_string" "suffix" {
@@ -49,4 +50,15 @@ resource "aws_default_vpc" "default" {
   }
 }
 
+resource "aws_iam_user" "maxie" {
+  name = "maxieMagma"
+  path = "/"
 
+  tags = {
+    team = "magma"
+  }
+}
+
+resource "aws_iam_access_key" "maxie" {
+  user = aws_iam_user.maxie.name
+}

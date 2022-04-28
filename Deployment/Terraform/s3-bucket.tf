@@ -1,13 +1,13 @@
 resource "aws_s3_bucket" "s3" {
-  bucket = "bubble-bucket"
+  bucket = "team-magma-bubble-bucket"
 
   tags = {
-    Name        = "bubble-bucket"
+    Name        = "team-magma-bubble-bucket"
     Environment = "Prod"
   }
 }
 
-resource "aws_s3_bucket_acl" "bubble-bucket" {
+resource "aws_s3_bucket_acl" "team-magma-bubble-bucket" {
   bucket = aws_s3_bucket.s3.id
-  acl    = "private"
+  acl    = "public-read"
 }
