@@ -44,12 +44,6 @@ resource "random_string" "suffix" {
   special = false
 }
 
-resource "aws_default_vpc" "default" {
-  tags = {
-    Name = "Default VPC"
-  }
-}
-
 resource "aws_iam_user_policy" "maxie-policy" {
   name = "220307-kevin-sre-team-magma-policy"
   user = aws_iam_user.maxie.name
