@@ -56,7 +56,7 @@ resource "aws_iam_user_policy" "maxie-policy" {
           "eks:AccessKubernetesApi"
         ]
         Effect   = "Allow"
-        Resource = "*"
+        Resource = module.eks.cluster_arn
       },
     ]
   })
