@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: team-magma
+  name: magma-deployment
+  labels:
+    name: magma-bubble
+spec:
+  replicas: 3
+  minReadySeconds: 5
+  strategy: 
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: magma-bubble
+  template:
+    metadata:
+      labels:
+        app: magma-bubble
+    spec:
+      containers:
+      - name: magma-bubble-container
+        image: teammagma/bubbleback
+        resources:
+          limits:             
+            memory: "128Mi"   
+            cpu: "500m"       
+        ports:
+        - containerPort: 8080
+        env:
+          - name: DB_URL
+            valueFrom:
+              secretKeyRef:
+                name: magma-bubble-secret
+                key: magma-bubble-url
+          - name: DB_USER
+            valueFrom:
+              secretKeyRef:
+                name: magma-bubble-secret
+                key: magma-bubble-username
+          - name: DB_PASS
+            valueFrom:
+              secretKeyRef:
+                name: magma-bubble-secret
+                key: magma-bubble-password
