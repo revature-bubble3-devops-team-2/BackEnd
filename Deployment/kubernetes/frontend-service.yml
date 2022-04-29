@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: magma-frontend-service
+  name: frontend-service
   namespace: team-magma
   labels:
-    app: bubble-app
+    app: bubble
 spec:
   selector:
-    app: bubble-app
+    app: bubble
   ports:
     - name: http
       port: 4200

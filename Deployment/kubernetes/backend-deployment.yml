@@ -29,17 +29,20 @@ spec:
             memory: "128Mi"   
             cpu: "500m"       
         ports:
-        - containerPort: 5000
+        - containerPort: 8080
         env:
           - name: DB_URL
-            value: jdbc:postgresql://postgres-service:5432/postgres
+            valueFrom:
+              secretKeyRef:
+                name: magma-bubble-secret
+                key: magma-bubble-url
           - name: DB_USER
             valueFrom:
               secretKeyRef:
                 name: magma-bubble-secret
-                key: username
+                key: magma-bubble-username
           - name: DB_PASS
             valueFrom:
               secretKeyRef:
                 name: magma-bubble-secret
-                key: password
+                key: magma-bubble-password

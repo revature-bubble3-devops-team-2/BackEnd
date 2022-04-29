@@ -1,10 +1,10 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: magma-svc-monitor
+  name: bubble-svc-monitor
   namespace: team-magma
   labels:
-    app: magma-bubble
+    app: bubble
     release: prom
 spec: 
   endpoints:
@@ -16,4 +16,4 @@ spec:
       - team-magma
   selector:
     matchLabels: 
-      app: magma-bubble
+      app: bubble
