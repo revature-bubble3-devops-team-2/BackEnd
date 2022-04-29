@@ -11,7 +11,7 @@ spec:
   - http:
       paths:
       - pathType: Prefix
-        path: "/bubble/(.*)"
+        path: "/magma-bubble/(.*)"
         backend:
           service:
             name: frontend-service
