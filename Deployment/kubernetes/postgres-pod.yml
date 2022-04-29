@@ -15,13 +15,17 @@ spec:
         cpu: "250m"
     ports:
       - containerPort: 5432
-    #env: 
-      # - name: SECRET_USERNAME
-       # valueFrom:
-        #  secretKeyRef:
-         #   key: 
-
-
+    env: 
+       - name: POSTGRES_USER
+         valueFrom: 
+          secretKeyRef: 
+            name: magma-bubble-secret
+            key: username
+       - name: POSTGRES_PASSWORD
+         valueFrom:
+          secretKeyRef:
+            name: magma-bubble-secret
+            key: password
     volumeMounts:
       - mountPath: /var/lib/postgresql/data
         name: db-data
