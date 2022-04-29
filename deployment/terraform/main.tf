@@ -54,12 +54,12 @@ resource "aws_iam_user_policy" "maxie-policy" {
   name = "220307-kevin-sre-team-magma-policy"
   user = aws_iam_user.maxie.name
   policy = jsonencode({
-    Version = "2022-04-28"
+    Version = "2012-10-17"
     Statement = [
       {
         Action = [
           "eks:DescribeCluster",
-          "eks:AccessKubernetesApi",
+          "eks:AccessKubernetesApi"
         ]
         Effect   = "Allow"
         Resource = "*"
