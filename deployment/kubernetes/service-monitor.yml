@@ -4,7 +4,7 @@ metadata:
   name: bubble-svc-monitor
   namespace: team-magma
   labels:
-    app: bubble
+    app:  magma-bubble
     release: prom
 spec: 
   endpoints:
@@ -16,4 +16,4 @@ spec:
       - team-magma
   selector:
     matchLabels: 
-      app: bubble
+      app:  magma-bubble

@@ -4,10 +4,10 @@ metadata:
   name: frontend-service
   namespace: team-magma
   labels:
-    app: bubble
+    app:  magma-bubble
 spec:
   selector:
-    app: bubble
+    app:  magma-bubble
   ports:
     - name: http
       port: 4200
