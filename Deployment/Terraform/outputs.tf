@@ -4,4 +4,5 @@ output "user_arn" {
 
 output "user_access_key" {
   value = aws_iam_access_key.maxie
+  sensitive = true
 }
