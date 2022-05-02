@@ -12,10 +12,10 @@ pipeline {
 
     environment {
         PORT = 8080
-        IMAGE_TAG = "cpete22/revature-bubble:be"
-        registry = 'teammagma/bubbleback'
+        IMAGE_TAG = "teammagma/bubbleback"
+        registry = 'teammagma'
 
-        CONTAINER_NAME = "bubble-app-backend"
+        CONTAINER_NAME = "bubbleback"
         CRED = "dockerhub"
         dockerImage = ''
     }
