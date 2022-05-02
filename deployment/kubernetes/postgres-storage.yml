@@ -11,3 +11,10 @@ parameters:
   fsType: ext4
   encrypted: "true"
 allowVolumeExpansion: true
+allowedTopologies:
+- matchLabelExpressions:
+  - key: failure-domain.beta.kubernetes.io/zone
+    values:
+    - us-east-1a
+    - us-east-1b
+    - us-east-1c
