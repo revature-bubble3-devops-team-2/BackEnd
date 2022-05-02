@@ -50,12 +50,33 @@ resource "aws_default_vpc" "default" {
   }
 }
 
+resource "aws_iam_user_policy" "maxie-policy" {
+  name = "220307-kevin-sre-team-magma-policy"
+  user = aws_iam_user.maxie.name
+  policy = jsonencode({
+    Version = "2022-04-28"
+    Statement = [
+      {
+        Action = [
+          "eks:DescribeCluster",
+          "eks:AccessKubernetesApi",
+        ]
+        Effect   = "Allow"
+        Resource = "*"
+      },
+    ]
+  })
+}
+
 resource "aws_iam_user" "maxie" {
-  name = "maxieMagma"
+  name = "220307-kevin-sre-team-magma"
   path = "/"
 
   tags = {
-    team = "magma"
+    team           = "magma"
+    "Created By"   = "Terraform"
+    "Creating On"  = "04-28-22"
+    "Delete After" = "05-16-22"
   }
 }
 

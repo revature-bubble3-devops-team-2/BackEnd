@@ -65,7 +65,7 @@ volumes:
   db-data:
     driver: local
 
-  grafana-date:
+  grafana-data:
     driver: local
 
   prometheus-data:
