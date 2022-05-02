@@ -12,9 +12,12 @@ pipeline {
 
     environment {
         PORT = 8082
-        IMAGE_TAG = "cpete22/revature-bubble:be"
-        CONTAINER_NAME = "bubblebe"
+        IMAGE_TAG = "teammagma/bubbleback"
+        registry = 'teammagma'
+
+        CONTAINER_NAME = "bubbleback"
         CRED = "dockerhub"
+        dockerImage = ''
     }
 
     stages {
@@ -41,8 +44,8 @@ pipeline {
         stage('SonarCloud') {
             environment {
                 SCANNER_HOME = tool 'sonar'
-                ORGANIZATION = "revature-bubble"
-                PROJECT_NAME = "Revature-Bubble_BackEnd"
+                ORGANIZATION = "bubble"
+                PROJECT_NAME = "bubble-app"
             }
             steps {
                 withSonarQubeEnv('CloudScan') {
