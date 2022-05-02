@@ -26,6 +26,8 @@ spec:
           secretKeyRef:
             name: magma-bubble-secret
             key: password
+       - name: PGDATA
+         value: /var/lib/postgresql/data/pgdata
     volumeMounts:
       - mountPath: /var/lib/postgresql/data
         name: db-data
