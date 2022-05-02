@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: magma-promtail-config
+  name: promtail-config
   namespace: team-magma
 data:
   promtail.yml: |-
