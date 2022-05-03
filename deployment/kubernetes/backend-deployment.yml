@@ -4,7 +4,7 @@ metadata:
   namespace: team-magma
   name: backend-deployment
   labels:
-    name: magma-bubble
+    name: magma-bubbleback
 spec:
   replicas: 3
   minReadySeconds: 5
@@ -15,11 +15,11 @@ spec:
       maxUnavailable: 0
   selector:
     matchLabels:
-      app: magma-bubble
+      app: magma-bubbleback
   template:
     metadata:
       labels:
-        app: magma-bubble
+        app: magma-bubbleback
     spec:
       containers:
       - name: magma-bubble-container
@@ -43,25 +43,13 @@ spec:
               secretKeyRef:
                 name: magma-bubble-secret
                 key: password
-      - name: promtail-container
-        image: grafana/promtail
-        resources:
-          requests:
-            memory: "64Mi"
-            cpu: "50m"
-          limits:
-            memory: "256Mi"
-            cpu: "100m"
-        args:
-        - -config.file=/etc/promtail/promtail.yml
-        volumeMounts:
-        - name: logs
-          mountPath: /logs
-        - name: promtail-config
-          mountPath: /etc/promtail
-      volumes:
-        - name: logs
-          emptyDir: {}
-        - name: promtail-config
-          configMap:
-            name: promtail-config
+          - name: MAGMA_MAIL
+            valueFrom:
+              secretKeyRef:
+                name: magma-smtp
+                key: email
+          - name: MAGMA_PASS
+            valueFrom:
+              secretKeyRef:
+                name: magma-smtp
+                key: password
