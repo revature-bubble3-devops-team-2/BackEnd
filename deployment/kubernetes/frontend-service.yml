@@ -4,12 +4,13 @@ metadata:
   name: frontend-service
   namespace: team-magma
   labels:
-    app:  magma-bubble
+    app:  magma-bubblefront
 spec:
   selector:
-    app:  magma-bubble
+    app:  magma-bubblefront
   ports:
-    - name: http
-      port: 4200
-      targetPort: 4200
+    - port: 8080
+      targetPort: 8080
       protocol: TCP
+      name: http
+    type: NodePort

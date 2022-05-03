@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: bubble-ingress
+  name: backend-ingress
   namespace: team-magma
   annotations:
     kubernetes.io/ingress.class: nginx
@@ -12,9 +12,9 @@ spec:
   - http:
       paths:
       - pathType: Prefix
-        path: "/magma-bubble/(.*)"
+        path: "/bubble/(.*)"
         backend:
           service:
-            name: frontend-service
+            name: backend-service
             port: 
-              number: 4200
+              number: 5000

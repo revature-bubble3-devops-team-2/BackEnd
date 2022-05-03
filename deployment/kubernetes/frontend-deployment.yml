@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+  namespace: team-magma
+  labels: 
+    name: magma-bubblefront
+spec:
+  selector:
+    matchLabels:
+      app: magma-bubblefront
+  template:
+    metadata:
+      labels:
+        app: magma-bubblefront
+    spec:
+      containers:
+      - name: magma-bubble-container
+        image: teammagma/bubblefront
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+      - name: angular-container
+        image: portainer/angular-builder:latest
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m" 
+        ports:
+        - containerPort: 8080
