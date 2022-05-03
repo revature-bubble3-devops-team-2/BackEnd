@@ -23,14 +23,14 @@ spec:
     spec:
       containers:
       - name: magma-bubble-container
-        image: teammagma/bubbleback:latest
+        image: docker.io/axpazmino/magmaback:latest
         imagePullPolicy: IfNotPresent
         resources:
           limits:             
             memory: "512Mi"   
             cpu: "500m"       
-        ports:
-        - containerPort: 5000
+        # ports:
+        # - containerPort: 5000
         env:
           - name: DB_URL
             value: jdbc:postgresql://postgres-service:5432/postgres

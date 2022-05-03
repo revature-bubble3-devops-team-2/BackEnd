@@ -16,11 +16,6 @@ spec:
     ports:
       - containerPort: 5432
     env: 
-       - name: POSTGRES_USER
-         valueFrom: 
-          secretKeyRef: 
-            name: magma-bubble-secret
-            key: username
        - name: POSTGRES_PASSWORD
          valueFrom:
           secretKeyRef:
