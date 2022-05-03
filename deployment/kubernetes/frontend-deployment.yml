@@ -4,7 +4,7 @@ metadata:
   name: frontend-deployment
   namespace: team-magma
   labels: 
-    name: magma-bubblefront
+    app: magma-bubblefront
 spec:
   selector:
     matchLabels:
@@ -19,13 +19,5 @@ spec:
         image: teammagma/bubblefront
         resources:
           limits:
-            memory: "128Mi"
+            memory: "512Mi"
             cpu: "500m"
-      - name: angular-container
-        image: portainer/angular-builder:latest
-        resources:
-          limits:
-            memory: "128Mi"
-            cpu: "500m" 
-        ports:
-        - containerPort: 8080

@@ -4,9 +4,9 @@ metadata:
   namespace: team-magma
   name: backend-deployment
   labels:
-    name: magma-bubbleback
+    app: magma-bubbleback
 spec:
-  replicas: 3
+  replicas: 1
   minReadySeconds: 5
   strategy: 
     type: RollingUpdate
@@ -26,13 +26,13 @@ spec:
         image: teammagma/bubbleback
         resources:
           limits:             
-            memory: "256Mi"   
+            memory: "512Mi"   
             cpu: "500m"       
         ports:
         - containerPort: 5000
         env:
           - name: DB_URL
-            value: jdbc:postgresql://postgres-service:5432/postgres
+            value: jdbc:postgresql://postgres:5432/postgres
           - name: DB_USER
             valueFrom:
               secretKeyRef:

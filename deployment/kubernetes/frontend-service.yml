@@ -6,6 +6,7 @@ metadata:
   labels:
     app:  magma-bubblefront
 spec:
+  type: LoadBalancer
   selector:
     app:  magma-bubblefront
   ports:
@@ -13,4 +14,3 @@ spec:
     targetPort: 8080
     protocol: TCP
     name: http
-  type: NodePort
