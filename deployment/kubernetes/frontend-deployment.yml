@@ -4,7 +4,7 @@ metadata:
   name: frontend-deployment
   namespace: team-magma
   labels:
-    # name: team-magma-frontend
+    name: team-magma-frontend
     app: bubble-front
 spec:
   replicas: 1
@@ -17,12 +17,12 @@ spec:
   selector:
     matchLabels:
       app: bubble-front
-      # tier: frontend
+      tier: frontend
   template:
     metadata:
       labels:
         app: bubble-front
-        # tier: frontend
+        tier: frontend
     spec:
       containers:
       - name: bubble-frontend
@@ -34,7 +34,7 @@ spec:
             memory: "64Mi"
             cpu: "50m"
           limits:
-            memory: "128Mi"
-            cpu: "500m"
+            memory: "512Mi"
+            cpu: "100m"
        
    

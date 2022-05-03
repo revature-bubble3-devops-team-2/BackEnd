@@ -7,7 +7,7 @@ metadata:
     app:  magma-bubbleback
 spec:
   selector:
-    app:  magma-bubbleback
+    app:  magma-bubbleback 
   ports:
   - port: 5000
     targetPort: 5000
