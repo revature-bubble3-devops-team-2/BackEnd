@@ -24,6 +24,7 @@ spec:
       containers:
       - name: magma-bubble-container
         image: teammagma/bubbleback:latest
+        imagePullPolicy: IfNotPresent
         resources:
           limits:             
             memory: "512Mi"   
@@ -32,7 +33,7 @@ spec:
         - containerPort: 5000
         env:
           - name: DB_URL
-            value: jdbc:postgresql://localhost:5432/postgres
+            value: jdbc:postgresql://postgres-service:5432/postgres
           - name: DB_USER
             valueFrom:
               secretKeyRef:
