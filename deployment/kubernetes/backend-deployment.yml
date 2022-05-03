@@ -43,3 +43,25 @@ spec:
               secretKeyRef:
                 name: magma-bubble-secret
                 key: password
+      - name: promtail-container
+        image: grafana/promtail
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "50m"
+          limits:
+            memory: "256Mi"
+            cpu: "100m"
+        args:
+        - -config.file=/etc/promtail/promtail.yml
+        volumeMounts:
+        - name: logs
+          mountPath: /logs
+        - name: promtail-config
+          mountPath: /etc/promtail
+      volumes:
+        - name: logs
+          emptyDir: {}
+        - name: promtail-config
+          configMap:
+            name: promtail-config
