@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+  namespace: team-magma
+  labels:
+    # name: team-magma-frontend
+    app: bubble-front
+spec:
+  replicas: 1
+  # minReadySeconds: 5
+  # strategy: 
+  #   type: RollingUpdate
+  #   rollingUpdate:
+  #     maxSurge: 1
+  #     maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: bubble-front
+      # tier: frontend
+  template:
+    metadata:
+      labels:
+        app: bubble-front
+        # tier: frontend
+    spec:
+      containers:
+      - name: bubble-frontend
+        image: jaylopez/magmabubblefront:v1
+        # ports:
+        # - containerPort: 4200
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "50m"
+          limits:
+            memory: "512Mi"
+            cpu: "100m"
+       
+   

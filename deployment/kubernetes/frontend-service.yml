@@ -1,15 +1,17 @@
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: frontend-service
-#   namespace: team-magma
-#   labels:
-#     app:  magma-bubble
-# spec:
-#   selector:
-#     app:  magma-bubble
-#   ports:
-#     - name: http
-#       port: 4200
-#       targetPort: 4200
-#       protocol: TCP
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-svc
+  namespace: team-magma
+  labels:
+    app: bubble-front
+spec:
+  selector:
+    app: bubble-front
+    # tier: frontend
+  ports:
+    - port: 80
+      # targetPort: 80kube
+      protocol: TCP
+    # name: http
+  type: LoadBalancer

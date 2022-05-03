@@ -4,10 +4,10 @@ metadata:
   name: backend-service
   namespace: team-magma
   labels:
-    app:  magma-bubble
+    app:  magma-bubbleback
 spec:
   selector:
-    app:  magma-bubble
+    app:  magma-bubbleback
   ports:
   - port: 5000
     targetPort: 5000
