@@ -27,8 +27,8 @@ spec:
       containers:
       - name: bubble-frontend
         image: jaylopez/magmabubblefront:v1
-        # ports:
-        # - containerPort: 4200
+        ports:
+        - containerPort: 80
         resources:
           requests:
             memory: "64Mi"
