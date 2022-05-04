@@ -2,9 +2,9 @@ def testfail = true
 pipeline {
     agent any
 
-    // tools {
-    //     maven 'Maven 4.0.0'
-    // }
+    tools {
+        maven 'Maven 4.0.0'
+    }
     // options {
     //     buildDiscarder(logRotator(daysToKeepStr: '7', numToKeepStr: '1'))
     //     disableConcurrentBuilds()
