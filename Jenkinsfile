@@ -4,7 +4,6 @@ pipeline {
 
     tools {
         maven 'Maven'
-        jdk 'jdk11'
     }
     // options {
     //     buildDiscarder(logRotator(daysToKeepStr: '7', numToKeepStr: '1'))
