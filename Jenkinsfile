@@ -5,10 +5,10 @@ pipeline {
     // tools {
     //     maven 'Maven '
     // }
-    options {
-        buildDiscarder(logRotator(daysToKeepStr: '7', numToKeepStr: '1'))
-        disableConcurrentBuilds()
-    }
+    // options {
+    //     buildDiscarder(logRotator(daysToKeepStr: '7', numToKeepStr: '1'))
+    //     disableConcurrentBuilds()
+    // }
 
     environment {
         PORT = 8080
