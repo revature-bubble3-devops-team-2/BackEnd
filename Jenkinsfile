@@ -4,6 +4,7 @@ pipeline {
 
     tools {
         maven 'Maven'
+        jdk 'jdk11'
     }
     // options {
     //     buildDiscarder(logRotator(daysToKeepStr: '7', numToKeepStr: '1'))
@@ -76,12 +77,10 @@ pipeline {
         stage('Create Image') {
             steps {
                 container('docker'){
-                    // sh 'docker build -t ${IMAGE_TAG} -f Dockerfile .'
-                    script{
-                        dockerImage = docker.build "$registry"
-                    }
+                    sh 'docker build -t ${IMAGE_TAG} -f Dockerfile .'
+
                 }
-                sh 'docker build -t ${IMAGE_TAG} -f Dockerfile .'
+                //sh 'docker build -t ${IMAGE_TAG} -f Dockerfile .'
 //                 discordSend description: ":screwdriver: *Built New Docker Image*", result: currentBuild.currentResult, webhookURL: env.WEBHO_BE
             }
         }
