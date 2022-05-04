@@ -75,9 +75,10 @@ pipeline {
 //         }
         stage('Create Image') {
             steps {
-                container('docker'){
-                    sh 'docker build -t ${IMAGE_TAG} .'
-                }
+                // container('docker'){
+                //     sh 'docker build -t ${IMAGE_TAG} -f Dockerfile .'
+                // }
+                sh 'docker build -t ${IMAGE_TAG} -f Dockerfile .'
 //                 discordSend description: ":screwdriver: *Built New Docker Image*", result: currentBuild.currentResult, webhookURL: env.WEBHO_BE
             }
         }
