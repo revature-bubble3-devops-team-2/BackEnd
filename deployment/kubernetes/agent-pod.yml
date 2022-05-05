@@ -32,6 +32,11 @@ spec:
       securityContext:
         privileged: true
       volumeMounts:
-        - name: docker
+        - name: dockersock
           mountPath: /var/lib/docker
+  volumes: 
+    - name: dockersock
+      emptyDir: {}
+
+
 
