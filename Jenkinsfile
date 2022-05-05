@@ -12,8 +12,9 @@ pipeline {
 
     environment {
         PORT = 8080
-        IMAGE_TAG = "teammagma/bubbleback"
-        // REGISTRY = 'teammagma'
+        // IMAGE_TAG = 'teammagma/bubbleback'
+       //IMAGE_TAG = "latest"
+        REGISTRY = 'teammagma/bubbleback'
         CONTAINER_NAME = "bubbleback"
         CRED = "dockerhub"
         DOCKER_IMAGE=''
@@ -73,16 +74,24 @@ pipeline {
 // //                 discordSend description: ":axe: *Removed Previous Docker Artifacts*", result: currentBuild.currentResult, webhookURL: env.WEBHO_BE
 //             }
 //         }
-        stage('Create Image') {
-            steps {
-                container('docker'){
-                    sh 'docker build -t ${IMAGE_TAG} -f Dockerfile .'
 
-                }
-                //sh 'docker build -t ${IMAGE_TAG} -f Dockerfile .'
-//                 discordSend description: ":screwdriver: *Built New Docker Image*", result: currentBuild.currentResult, webhookURL: env.WEBHO_BE
-            }
-        }
+            stage("Create Image"){
+                        steps{
+                            script{
+                                DOCKER_IMAGE = docker.build "$REGISTRY"
+                            }
+                        }
+                    }
+//         stage('Create Image') {
+//             steps {
+//                 container('docker'){
+//                     sh 'docker build -t ${IMAGE_TAG} -f Dockerfile .'
+
+//                 }
+//                 //sh 'docker build -t ${IMAGE_TAG} -f Dockerfile .'
+// //                 discordSend description: ":screwdriver: *Built New Docker Image*", result: currentBuild.currentResult, webhookURL: env.WEBHO_BE
+//             }
+//         }
 //         stage('Run Container') {
 //             steps {
 //                 sh 'docker run -d --env DB_URL --env DB_USER --env DB_PASS --rm -p ${PORT}:${PORT} --name ${CONTAINER_NAME} ${IMAGE_TAG} '
