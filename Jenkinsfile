@@ -27,8 +27,10 @@ pipeline {
         }
         stage('Create Image') {
       steps {
-        script {
-          docker.build("${env.CONTAINER_NAME}:${env.BUILD_ID}")
+        container('docker') {
+          script {
+            docker.build("${env.CONTAINER_NAME}:${env.BUILD_ID}")
+          }
         }
       }
         }
