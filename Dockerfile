@@ -11,7 +11,7 @@ RUN mvn clean package -Dmaven.test.skip
 FROM openjdk:8-jdk-alpine as runner
 # Copy the JAR from the target folder into the container
 COPY --from=builder target/Bubble.jar Bubble.jar 
-EXPOSE 5000
+EXPOSE 8080
 
 ENTRYPOINT ["java", "-jar", "/Bubble.jar"]
 
