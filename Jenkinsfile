@@ -12,8 +12,9 @@ pipeline {
 
     environment {
         PORT = 8080
-        IMAGE_TAG = "teammagma/bubbleback"
-        // REGISTRY = 'teammagma'
+        // IMAGE_TAG = 'teammagma/bubbleback'
+       //IMAGE_TAG = "latest"
+        REGISTRY = 'teammagma/bubbleback'
         CONTAINER_NAME = "bubbleback"
         CRED = "dockerhub"
         DOCKER_IMAGE=''
@@ -74,10 +75,10 @@ pipeline {
 //             }
 //         }
 
-            stage("Docker build"){
+            stage("Create Image"){
                         steps{
                             script{
-                                DOCKER_IMAGE = docker.build "$IMAGE_TAG"
+                                DOCKER_IMAGE = docker.build "$REGISTRY"
                             }
                         }
                     }
