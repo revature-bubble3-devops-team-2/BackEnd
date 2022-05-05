@@ -6,7 +6,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/user-regex: "true"
-    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
   rules:
   - http:
@@ -15,9 +15,16 @@ spec:
         path: "/bubble/(.*)"
         backend:
           service:
-            name: backend-service
+            name: backend-service-test
             port: 
-              number: 5000
+              number: 8080
+      - pathType: Prefix
+        path: "/bubble/(.*)"
+        backend:
+          service:
+            name: frontend-service
+            port: 
+              number: 80
 
 #               apiVersion: networking.k8s.io/v1
 # kind: Ingress
