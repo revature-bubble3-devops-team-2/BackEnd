@@ -1,11 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontend
+  name: magmabubble-frontend-deployment
   namespace: team-magma
   labels:
     # name: team-magma-frontend
-    app: frontend
+    app: magmabubble
 spec:
   replicas: 1
   # minReadySeconds: 5
@@ -26,10 +26,10 @@ spec:
         tier: frontend
         track: stable
     spec:
-      nodeSelector:
-        name: w1
+      # nodeSelector:
+      #   name: w1
       containers:
-      - name: frontend
+      - name: frontend-container
         image: jaylopez/bubblefront:latest
         ports:
         - containerPort: 80

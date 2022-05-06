@@ -2,9 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   namespace: team-magma
-  name: backend
+  name: magmabubble-backend-deployment
   labels:
-    app: magmabubble
+    app: magmabubble-backend
 spec:
   replicas: 3
   minReadySeconds: 5
@@ -15,20 +15,18 @@ spec:
       maxUnavailable: 0
   selector:
     matchLabels:
-      app: magmabubble
+      app: magmabubble-backend
       tier: backend
       track: stable
   template:
     metadata:
       labels:
-        app: magmabubble
+        app: magmabubble-backend
         tier: backend
         track: stable
     spec:
-      nodeSelector:
-        name: w1
       containers:
-      - name: magmabubble
+      - name: magma-backend-container
         image: docker.io/axpazmino/magmabubbleback2:latest
         imagePullPolicy: IfNotPresent
         resources:

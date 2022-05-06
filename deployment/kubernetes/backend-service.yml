@@ -1,13 +1,14 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: magmabubble
+  name: magmabubble-backend-service
   namespace: team-magma
-  # labels:
-  # app:  magma-bubbleback
+  labels:
+    app:  magmabubble-backend
 spec:
+  type: LoadBalancer
   selector:
-    app:  magmabubble
+    app:  magmabubble-backend
     tier: backend
   ports:
   - port: 8080
