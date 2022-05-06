@@ -5,11 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.revature.controllers.ProfileController;
 import com.revature.models.Post;
 import com.revature.models.Profile;
 import com.revature.repositories.PostRepo;
 
 import lombok.Builder;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,7 +23,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PostServiceImpl implements PostService {
-
+	
+	private static Logger log =LoggerFactory.getLogger(PostServiceImpl.class);
     @Autowired
     public PostRepo postRepo;
 
@@ -41,6 +46,7 @@ public class PostServiceImpl implements PostService {
             postRepo.save(post);
             return post;
         } catch (Exception e) {
+        	log.error("PostServiceImpl.addPost: {}", e.getMessage());
             return null;
         }
     }
@@ -175,6 +181,7 @@ public class PostServiceImpl implements PostService {
                 return null;
             }
         } catch (Exception e) {
+        	log.error("PostServiceImple.likeFindByID: {}", e.getMessage());
             return null;
         }
     }
@@ -262,6 +269,7 @@ public class PostServiceImpl implements PostService {
                 return null;
             }
         } catch (Exception e) {
+        	log.error("PostServiceImpl.bookmarkFindByID: {}", e.getMessage());
             return null;
         }
     }

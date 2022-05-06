@@ -1,8 +1,12 @@
 package com.revature.services;
 
+import com.revature.controllers.ProfileController;
 import com.revature.models.Notification;
 import com.revature.models.Profile;
 import com.revature.repositories.NotificationRepo;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +15,8 @@ import java.util.Optional;
 
 @Service
 public class NotificationServiceImpl implements NotificationService {
-
+	private static Logger log =LoggerFactory.getLogger(NotificationServiceImpl.class);
+	
     @Autowired
     public NotificationRepo notificationRepo;
 
@@ -28,6 +33,7 @@ public class NotificationServiceImpl implements NotificationService {
             notificationRepo.save(notification);
             return notification;
         } catch (Exception e) {
+        	log.error("NotificationServiceImpl.addNotification: {}",e.getMessage());
             return null;
         }
     }
