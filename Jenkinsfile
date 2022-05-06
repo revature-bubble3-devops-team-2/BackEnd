@@ -27,11 +27,11 @@ pipeline {
         }
         stage('Create Image') {
       steps {
-        container('docker') {
+        //container('docker') {
           script {
             docker.build("${env.CONTAINER_NAME}:${env.BUILD_ID}")
           }
-        }
+       //}
       }
         }
         stage('Push to DockerHub') {
