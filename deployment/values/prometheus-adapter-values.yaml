@@ -31,8 +31,8 @@ customLabels: {}
 # Url to access prometheus
 prometheus:
   # Value is templated
-  url: http://prometheus-server.monitors.grafana.svc
-  port: 80
+  url: http://prometheus-kube-prometheus-prometheus.monitors.grafana.svc
+  port: 9090
   path: ""
 
 replicas: 1
