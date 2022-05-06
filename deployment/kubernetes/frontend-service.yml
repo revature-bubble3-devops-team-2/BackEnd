@@ -1,18 +1,17 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: frontend-service
+  name: frontend
   namespace: team-magma
-  labels:
-    app:  bubble-front
-    tier: frontend
-    track: stable
+  # labels:
+  #   app:  bubble-front
+  #   tier: frontend
+  #   track: stable
 spec:
   type: LoadBalancer
   selector:
-    app:  bubble-front
+    app:  magmabubble
     tier: frontend
-    track: stable
   ports:
   - port: 80
     targetPort: 80
