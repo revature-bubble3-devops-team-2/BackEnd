@@ -4,7 +4,7 @@ metadata:
   namespace: team-magma
   name: magmabubble-backend-deployment
   labels:
-    app: magmabubble-backend
+    app: magma-bubbleback
 spec:
   replicas: 3
   minReadySeconds: 5
@@ -15,13 +15,13 @@ spec:
       maxUnavailable: 0
   selector:
     matchLabels:
-      app: magmabubble-backend
+      app: magma-bubbleback
       tier: backend
       track: stable
   template:
     metadata:
       labels:
-        app: magmabubble-backend
+        app: magma-bubbleback
         tier: backend
         track: stable
     spec:

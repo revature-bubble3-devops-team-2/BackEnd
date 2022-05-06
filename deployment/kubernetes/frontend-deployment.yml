@@ -3,17 +3,11 @@ kind: Deployment
 metadata:
   name: magmabubble-frontend-deployment
   namespace: team-magma
-  labels:
-    # name: team-magma-frontend
-    app: magmabubble
+  # labels:
+  #   name: team-magma-frontend
+  #   app: magmabubble
 spec:
-  replicas: 1
-  # minReadySeconds: 5
-  # strategy: 
-  #   type: RollingUpdate
-  #   rollingUpdate:
-  #     maxSurge: 1
-  #     maxUnavailable: 0
+  replicas: 3
   selector:
     matchLabels:
       app: magmabubble
@@ -26,11 +20,9 @@ spec:
         tier: frontend
         track: stable
     spec:
-      # nodeSelector:
-      #   name: w1
       containers:
       - name: frontend-container
-        image: jaylopez/bubblefront:latest
+        image: jaylopez/magmabubblefront:latest
         ports:
         - containerPort: 80
         resources:
@@ -40,8 +32,5 @@ spec:
           limits:
             memory: "512Mi"
             cpu: "100m"
-        lifecycle:
-            preStop:
-              exec:
-                command: ["/usr/sbin/nginx","-s","quit"]
+        
    

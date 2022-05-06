@@ -4,15 +4,14 @@ metadata:
   name: magmabubble-backend-service
   namespace: team-magma
   labels:
-    app:  magmabubble-backend
+    app:  magma-bubbleback
 spec:
   type: LoadBalancer
   selector:
-    app:  magmabubble-backend
+    app:  magma-bubbleback
     tier: backend
   ports:
   - port: 8080
     targetPort: 8080
     protocol: TCP
-    name: http
   

@@ -15,7 +15,7 @@ spec:
         path: "/bubble/(.*)"
         backend:
           service:
-            name: backend-service-test
+            name: backend-service-
             port: 
               number: 8080
       - pathType: Prefix
