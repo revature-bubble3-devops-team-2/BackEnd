@@ -1,5 +1,9 @@
 pipeline {
-    agent any
+    agent{
+      docker{
+        image "docker:latest"
+      }
+    }
 
     tools {
         maven 'Maven'
@@ -27,10 +31,10 @@ pipeline {
         }
         stage('Create Image') {
       steps {
-        container('docker-daemon') {
+        //container('docker-cmds') {
           script {
             docker.build("${env.CONTAINER_NAME}:${env.BUILD_ID}")
-          }
+          //}
         }
       }
         }
