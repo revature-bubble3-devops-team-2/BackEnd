@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   namespace: team-magma
-  name: magmabubble-backend-deployment
+  name: backend-deployment
   labels:
     app: magma-bubbleback
 spec:
@@ -51,12 +51,12 @@ spec:
           - name: MAGMA_MAIL
             valueFrom:
               secretKeyRef:
-                name: magma-smtp
+                name: magma-smtp-test
                 key: email
           - name: MAGMA_PASS
             valueFrom:
               secretKeyRef:
-                name: magma-smtp
+                name: magma-smtp-test
                 key: password
       - name: promtail-container
         image: grafana/promtail
