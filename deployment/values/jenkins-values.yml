@@ -740,7 +740,7 @@ agent:
 
 # Here you can add additional agents
 # They inherit all values from `agent` so you only need to specify values which differ
-additionalAgents: 
+additionalAgents: {}
 #  maven:
 #    podName: maven
 #    customJenkinsLabels: maven
@@ -757,11 +757,11 @@ additionalAgents:
 #    command: "/bin/sh -c"
 #    args: "cat"
 #    TTYEnabled: true
-  docker: 
-    podName: docker
-    customJenkinsLabels: docker
-    image: docker
-    tag: 1.12.6
+  # docker: 
+  #   podName: docker
+  #   customJenkinsLabels: docker
+  #   image: docker
+  #   tag: 1.12.6
     
 persistence:
   enabled: true
