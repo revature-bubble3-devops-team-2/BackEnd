@@ -2,46 +2,33 @@ def testfail = true
 pipeline {
     agent {
         kubernetes {
-            label 'docker-in-docker'
+            label 'docker-in-docker-maven'
             yaml """
 apiVersion: v1
 kind: Pod
-metadata:
-  name: docker-pod
-  labels:
-    app: docker
 spec:
-  containers:
-    - name: docker-cmds
-      image: docker:1.12.6
-      command: ['docker', 'run', '-p', '80:80', 'httpd:latest']
-      resources: 
-        limits:
-          cpu: 10m
-          memory: 256Mi
-        requests: 
-          cpu: 5m 
-          memory: 64Mi 
-      env: 
-        - name: DOCKER_HOST 
-          value: tcp://localhost:2375 
-    - name: docker-daemon 
-      image: docker:1.12.6-dind 
-      resources:
-        limits:
-          cpu: 20m
-          memory: 512Mi
-        requests: 
-          cpu: 5m 
-          memory: 64Mi 
-      securityContext:
-        privileged: true
-      volumeMounts:
-        - name: dockersock
-          mountPath: /var/lib/docker
-  volumes: 
-    - name: dockersock
-      emptyDir: {}
+containers:
+- name: docker-client
+  image: docker:19.03.1
+  command: ['sleep', '99d']
+  env:
+    - name: DOCKER_HOST
+      value: tcp://localhost:2375
+- name: docker-daemon
+  image: docker:19.03.1-dind
+  env:
+    - name: DOCKER_TLS_CERTDIR
+      value: ""
+  securityContext:
+    privileged: true
+  volumeMounts:
+      - name: cache
+        mountPath: /var/lib/docker
+volumes:
+  - name: cache
+    hostPath:
+      path: /tmp
+      type: Directory
 """
         }
     }
@@ -62,8 +49,12 @@ spec:
         CRED = 'dockerhub'
         DOCKER_IMAGE = ''
     }
-
+    
     stages {
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/jenkinsci/docker-jnlp-slave.git'
+            }
             stage('Clean Directory') {
         steps {
             sh 'mvn clean'
