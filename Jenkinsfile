@@ -13,7 +13,7 @@ metadata:
 spec:
   containers:
     - name: docker-cmds
-      image: docker:20.10.15
+      image: docker:1.12.6
       command: ['docker', 'run', '-p', '80:80', 'httpd:latest']
       resources: 
         limits:
@@ -26,7 +26,7 @@ spec:
         - name: DOCKER_HOST 
           value: tcp://localhost:2375 
     - name: docker-daemon 
-      image: docker:20.10.15-dind
+      image: docker:1.12.6-dind 
       resources:
         limits:
           cpu: 20m
