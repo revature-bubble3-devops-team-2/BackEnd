@@ -2,7 +2,7 @@ def testfail = true
 pipeline {
     agent {
         kubernetes {
-            ymlFile '/deployment/kubernetes/agent-pod.yml'  // path to the pod definition relative to the root of our project 
+            yamlFile '/deployment/kubernetes/agent-pod.yaml'  // path to the pod definition relative to the root of our project 
             defaultContainer 'maven' 
         }
     }
