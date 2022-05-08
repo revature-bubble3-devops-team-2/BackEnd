@@ -10,7 +10,7 @@ spec:
 containers:
 - name: docker-cmds
   image: docker:19.03.1
-  command: ['sleep', '99d']
+  command: ['docker', 'run', '-p', '80:80', 'httpd:latest']
   env:
     - name: DOCKER_HOST
       value: tcp://localhost:2375
