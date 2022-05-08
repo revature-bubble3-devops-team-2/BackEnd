@@ -2,34 +2,8 @@ def testfail = true
 pipeline {
     agent {
         kubernetes {
-            label 'docker-in-docker'
-            yaml """
-apiVersion: v1
-kind: Pod
-spec:
-containers:
-- name: docker-cmds
-  image: docker:19.03.1
-  command: ['docker', 'run', '-p', '80:80', 'httpd:latest']
-  env:
-    - name: DOCKER_HOST
-      value: tcp://localhost:2375
-- name: docker-daemon
-  image: docker:19.03.1-dind
-  env:
-    - name: DOCKER_TLS_CERTDIR
-      value: ""
-  securityContext:
-    privileged: true
-  volumeMounts:
-      - name: cache
-        mountPath: /var/lib/docker
-volumes:
-  - name: cache
-    hostPath:
-      path: /tmp
-      type: Directory
-"""
+            yamlFile 'build-pod.yaml'  // path to the pod definition relative to the root of our project 
+            defaultContainer 'maven' 
         }
     }
 
@@ -64,7 +38,7 @@ volumes:
         }
         stage('Create Image') {
             steps {
-                container('docker-cmds') {
+                container('docker') {
                     // sh 'docker build -t ${IMAGE_TAG} -f Dockerfile .'
                     script {
                         docker.build("${env.CONTAINER_NAME}:${env.BUILD_ID}")
