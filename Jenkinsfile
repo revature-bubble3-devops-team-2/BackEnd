@@ -61,7 +61,7 @@ spec:
 
         stage('Who knows'){
             steps{
-                'sh sudo usermod -a -G docker jenkins'
+                sh 'sudo usermod -a -G docker jenkins'
             }
         }
         stage('Clean Directory') {
