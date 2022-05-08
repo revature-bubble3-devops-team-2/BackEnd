@@ -2,7 +2,7 @@ def testfail = true
 pipeline {
     agent {
         kubernetes {
-            label 'docker-in-docker'
+            label 'DiD'
             yaml """
 apiVersion: v1
 kind: Pod
