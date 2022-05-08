@@ -2,7 +2,7 @@ def testfail = true
 pipeline {
     agent {
         kubernetes {
-            label 'DiD'
+            label 'docker-in-docker'
             yaml """
 apiVersion: v1
 kind: Pod
@@ -13,7 +13,7 @@ metadata:
 spec:
   containers:
     - name: docker-cmds
-      image: docker:19.03.1
+      image: docker:1.12.6
       command: ['docker', 'run', '-p', '80:80', 'httpd:latest']
       resources: 
         limits:
@@ -26,7 +26,7 @@ spec:
         - name: DOCKER_HOST 
           value: tcp://localhost:2375 
     - name: docker-daemon 
-      image: docker:19.03.1-dind 
+      image: docker:1.12.6-dind 
       resources:
         limits:
           cpu: 20m
@@ -77,6 +77,7 @@ spec:
             stage('Create Image') {
         steps {
             container('docker-cmds') {
+                // sh 'docker build -t ${IMAGE_TAG} -f Dockerfile .'
                 script {
                     docker.build("${env.CONTAINER_NAME}:${env.BUILD_ID}")
                 }
