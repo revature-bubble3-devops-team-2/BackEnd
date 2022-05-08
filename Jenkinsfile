@@ -51,11 +51,6 @@ volumes:
     }
 
     stages {
-        stage('Checkout') {
-            steps {
-                git 'https://github.com/jenkinsci/docker-jnlp-slave.git'
-            }
-        }
         stage('Clean Directory') {
             steps {
                 sh 'mvn clean'
