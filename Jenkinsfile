@@ -13,7 +13,7 @@ metadata:
 spec:
   containers:
     - name: docker-cmds
-      image: docker:1.12.6
+      image: docker:19.03.1
       command: ['docker', 'run', '-p', '80:80', 'httpd:latest']
       resources: 
         limits:
@@ -26,7 +26,7 @@ spec:
         - name: DOCKER_HOST 
           value: tcp://localhost:2375 
     - name: docker-daemon 
-      image: docker:1.12.6-dind 
+      image: docker:19.03.1-dind 
       resources:
         limits:
           cpu: 20m
@@ -77,10 +77,9 @@ spec:
             stage('Create Image') {
         steps {
             container('docker-cmds') {
-                sh 'docker build -t ${REGISTRY}:${env.BUILD_ID} -f Dockerfile .'
-                // script {
-                //     docker.build("${env.CONTAINER_NAME}:${env.BUILD_ID}")
-                // }
+                script {
+                    docker.build("${env.CONTAINER_NAME}:${env.BUILD_ID}")
+                }
             }
         }
             }
