@@ -49,32 +49,33 @@ volumes:
         CRED = 'dockerhub'
         DOCKER_IMAGE = ''
     }
-    
+
     stages {
         stage('Checkout') {
             steps {
                 git 'https://github.com/jenkinsci/docker-jnlp-slave.git'
             }
-            stage('Clean Directory') {
-        steps {
-            sh 'mvn clean'
         }
+        stage('Clean Directory') {
+            steps {
+                sh 'mvn clean'
             }
-            stage('Package Jar') {
-        steps {
-            sh 'mvn -DskipTests package'
         }
+        stage('Package Jar') {
+            steps {
+                sh 'mvn -DskipTests package'
             }
-            stage('Create Image') {
-        steps {
-            container('docker-cmds') {
-                // sh 'docker build -t ${IMAGE_TAG} -f Dockerfile .'
-                script {
-                    docker.build("${env.CONTAINER_NAME}:${env.BUILD_ID}")
+        }
+        stage('Create Image') {
+            steps {
+                container('docker-client') {
+                    // sh 'docker build -t ${IMAGE_TAG} -f Dockerfile .'
+                    script {
+                        docker.build("${env.CONTAINER_NAME}:${env.BUILD_ID}")
+                    }
                 }
             }
         }
-            }
         //     stage('Push to DockerHub') {
         //     steps {
         //         script {
