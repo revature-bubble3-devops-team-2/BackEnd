@@ -45,7 +45,7 @@ spec:
       emptyDir: {}
 """
         }
-    
+    }
 
     tools {
         maven 'Maven'
