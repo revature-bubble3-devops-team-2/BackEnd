@@ -8,7 +8,6 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: docker-pod
-  namespace: jenkins
   labels:
     app: docker
 spec:
