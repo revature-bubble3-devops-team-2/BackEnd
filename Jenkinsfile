@@ -77,9 +77,10 @@ spec:
             stage('Create Image') {
         steps {
             container('docker-cmds') {
-                script {
-                    docker.build("${env.CONTAINER_NAME}:${env.BUILD_ID}")
-                }
+                sh 'docker build -t ${REGISTRY}:${env.BUILD_ID} -f Dockerfile .'
+                // script {
+                //     docker.build("${env.CONTAINER_NAME}:${env.BUILD_ID}")
+                // }
             }
         }
             }
