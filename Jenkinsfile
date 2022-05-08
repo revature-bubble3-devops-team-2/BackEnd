@@ -6,10 +6,10 @@ pipeline {
             yaml """
 apiVersion: v1
 kind: Pod
-    metadata:
-        name: docker-pod
-        labels:
-            app: docker
+metadata:
+    name: docker-pod
+    labels:
+        app: docker
 spec:
     containers:
         - name: docker-cmds
