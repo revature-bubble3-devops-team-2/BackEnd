@@ -6,32 +6,36 @@ pipeline {
             yaml """
 apiVersion: v1
 kind: Pod
+  name: docker-pod
+  namespace: jenkins
+  labels:
+    app: docker
 spec:
-containers:
-- name: docker-cmds
-  image: docker:19.03.1
-  command: ['docker', 'run', '-p', '80:80', 'httpd:latest']
-  env:
-    - name: DOCKER_HOST
-      value: tcp://localhost:2375
-  volumeMounts:
-    - name: cache
-      mountPath: /tmp/repository
-- name: docker-daemon
-  image: docker:19.03.1-dind
-  env:
-    - name: DOCKER_TLS_CERTDIR
-      value: ""
-  securityContext:
-    privileged: true
-  volumeMounts:
-    - name: cache
-      mountPath: /var/lib/docker
-volumes:
-  - name: cache
-    hostPath:
-      path: /tmp
-      type: Directory
+    containers:
+        - name: docker-cmds
+            image: docker:19.03.1
+            command: ['docker', 'run', '-p', '80:80', 'httpd:latest']
+            env:
+                - name: DOCKER_HOST
+                value: tcp://localhost:2375
+            volumeMounts:
+                - name: cache
+                mountPath: /tmp/repository
+        - name: docker-daemon
+            image: docker:19.03.1-dind
+            env:
+                - name: DOCKER_TLS_CERTDIR
+                value: ""
+            securityContext:
+                privileged: true
+            volumeMounts:
+                - name: cache
+                mountPath: /var/lib/docker
+    volumes:
+        - name: cache
+            hostPath:
+            path: /tmp
+            type: Directory
 """
         }
     }
@@ -54,6 +58,12 @@ volumes:
     }
 
     stages {
+
+        stage('Who knows'){
+            steps{
+                'sh sudo usermod -a -G docker jenkins'
+            }
+        }
         stage('Clean Directory') {
             steps {
                 sh 'mvn clean'
