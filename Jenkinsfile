@@ -6,42 +6,32 @@ pipeline {
             yaml """
 apiVersion: v1
 kind: Pod
-metadata:
-  name: docker-pod
-  labels:
-    app: docker
 spec:
-  containers:
-    - name: docker-cmds
-      image: docker:latest
-      command: ['docker', 'run', '-p', '80:80', 'httpd:latest']
-      resources: 
-        limits:
-          cpu: 10m
-          memory: 256Mi
-        requests: 
-          cpu: 5m 
-          memory: 64Mi 
-      env: 
-        - name: DOCKER_HOST 
-          value: tcp://localhost:2375 
-    - name: docker-daemon 
-      image: docker:dind 
-      resources:
-        limits:
-          cpu: 20m
-          memory: 512Mi
-        requests: 
-          cpu: 5m 
-          memory: 64Mi 
-      securityContext:
-        privileged: true
-      volumeMounts:
-        - name: dockersock
-          mountPath: /var/lib/docker
-  volumes: 
-    - name: dockersock
-      emptyDir: {}
+containers:
+- name: docker-cmds
+  image: docker:19.03.1
+  command: ['sleep', '99d']
+  env:
+    - name: DOCKER_HOST
+      value: tcp://localhost:2375
+  volumeMounts:
+    - name: cache
+      mountPath: /tmp/repository
+- name: docker-daemon
+  image: docker:19.03.1-dind
+  env:
+    - name: DOCKER_TLS_CERTDIR
+      value: ""
+  securityContext:
+    privileged: true
+  volumeMounts:
+    - name: cache
+      mountPath: /var/lib/docker
+volumes:
+  - name: cache
+    hostPath:
+      path: /tmp
+      type: Directory
 """
         }
     }
