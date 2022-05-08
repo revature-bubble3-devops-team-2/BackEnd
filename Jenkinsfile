@@ -52,11 +52,6 @@ volumes:
 
     stages {
 
-        stage('Who knows'){
-            steps{
-                sh 'sudo usermod -a -G docker jenkins'
-            }
-        }
         stage('Clean Directory') {
             steps {
                 sh 'mvn clean'
