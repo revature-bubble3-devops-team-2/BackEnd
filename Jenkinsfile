@@ -44,14 +44,37 @@ pipeline {
                 }
             }
         }
-        //     stage('Push to DockerHub') {
-        //     steps {
-        //         script {
-        //         docker.withRegistry('', CRED) {
-        //             docker.image(IMAGE_TAG).push()
-        //         }
-        //     }
-        // }
-        //     }
-        }
+        stage('Push to DockerHub') {
+            steps {
+                script {
+                    container('docker'){
+                        docker.withRegistry('', CRED) {
+                            docker.image(IMAGE_TAG).push()
+
+                        }
+                    }   
+                }
+            }
+        }//end stage
+
+        stage('Waiting for approval'){
+            steps{
+                script{
+                    try {
+                        timeout(time:30, unit: 'MINUTES'){
+                            approved = input mesasage: 'Deploy to production?', ok: 'Continue',
+                                parameters: [choice(name: 'approved', choices: 'Yes\nNo', description: 'Deploy this build to production')]
+                            if(approved != 'Yes'){
+                                error('Build not approved')
+                            }
+                        }
+                    } catch (error){
+                        error('Build not approved in time')
+                    }
+                }
+            } 
+
+        }//end stage
+
+    }
 }
