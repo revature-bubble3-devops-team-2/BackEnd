@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   namespace: team-magma
-  name: red-backend-deployment
+  name: black-backend-deployment
   labels:
     app: magma-bubbleback
 spec:
@@ -18,12 +18,14 @@ spec:
       app: magma-bubbleback
       tier: backend
       track: stable
+      color: black
   template:
     metadata:
       labels:
         app: magma-bubbleback
         tier: backend
         track: stable
+        color: black
     spec:
       containers:
       - name: magma-backend-container

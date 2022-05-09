@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: red-frontend-deployment
+  name: black-frontend-deployment
   namespace: team-magma
   labels:
   #   name: team-magma-frontend
@@ -13,14 +13,14 @@ spec:
       app: magmabubble
       tier: frontend
       track: stable
-      color: red
+      color: black
   template:
     metadata:
       labels:
         app: magmabubble
         tier: frontend
         track: stable
-        color: red
+        color: black
     spec:
       containers:
       - name: frontend-container
