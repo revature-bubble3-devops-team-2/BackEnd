@@ -3,10 +3,11 @@ pipeline {
     agent {
         kubernetes {
             yamlFile 'deployment/kubernetes/agent-pod.yaml'  // path to the pod definition relative to the root of our project 
-            defaultContainer 'maven' 
         }
     }
-    
+    tools {
+        maven 'Maven'
+    }
     options {
         buildDiscarder(logRotator(daysToKeepStr: '7', numToKeepStr: '1'))
         disableConcurrentBuilds()
