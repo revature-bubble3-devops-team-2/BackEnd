@@ -39,7 +39,8 @@ pipeline {
                 container('docker') {
                     // sh 'docker build -t ${IMAGE_TAG} -f Dockerfile .'
                     script {
-                        DOCKER_IMAGE = docker.build("${env.CONTAINER_NAME}:${env.BUILD_ID}")
+                        DOCKER_IMAGE = docker.build "$REGISTRY"
+                        //DOCKER_IMAGE = docker.build("${env.REGISTRY}:${env.BUILD_ID}")
                     }
                 }
             }
@@ -50,7 +51,9 @@ pipeline {
                     container('docker'){
                         docker.withRegistry('', CRED) {
 
-                            DOCKER_IMAGE.push()
+                            DOCKER_IMAGE.push("$env.BUILD_ID")
+                            DOCKER_IMAGE.push("latest")
+                            //DOCKER_IMAGE.push()
                             //docker.image(DOCKER_IMAGE).push()
 
                         }
