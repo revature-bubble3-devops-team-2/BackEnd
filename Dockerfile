@@ -12,9 +12,6 @@ FROM openjdk:8-jdk-alpine as runner
 # Copy the JAR from the target folder into the container
 COPY target/Bubble.jar Bubble.jar 
 EXPOSE 5000
-ENV DB_URL=jdbc:postgresql://localhost:5432/postgres
-ENV DB_USER=postgres
-ENV DB_PASS=pass
 
 ENTRYPOINT ["java", "-jar", "/Bubble.jar"]
 
