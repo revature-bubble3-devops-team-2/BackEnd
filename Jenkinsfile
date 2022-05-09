@@ -39,7 +39,7 @@ pipeline {
                 container('docker') {
                     // sh 'docker build -t ${IMAGE_TAG} -f Dockerfile .'
                     script {
-                        docker.build("${env.CONTAINER_NAME}:${env.BUILD_ID}")
+                        DOCKER_IMAGE = docker.build("${env.CONTAINER_NAME}:${env.BUILD_ID}")
                     }
                 }
             }
@@ -49,7 +49,9 @@ pipeline {
                 script {
                     container('docker'){
                         docker.withRegistry('', CRED) {
-                            docker.image(IMAGE_TAG).push()
+
+                            DOCKER_IMAGE.push()
+                            //docker.image(DOCKER_IMAGE).push()
 
                         }
                     }   
