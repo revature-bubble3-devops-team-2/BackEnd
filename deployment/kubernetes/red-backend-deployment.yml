@@ -6,7 +6,7 @@ metadata:
   labels:
     app: magma-bubbleback
 spec:
-  replicas: 3
+  replicas: 2
   minReadySeconds: 5
   strategy: 
     type: RollingUpdate
