@@ -28,8 +28,8 @@ spec:
         track: stable
     spec:
       containers:
-      - name: magma-backend-container
-        image: docker.io/teammagma/magmabubbleback:latest
+      - name: bubble
+        image: "teammagma/bubbleback:latest"
         imagePullPolicy: IfNotPresent
         resources:
           limits:             
