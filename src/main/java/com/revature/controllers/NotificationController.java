@@ -6,6 +6,9 @@ import com.revature.models.Post;
 import com.revature.models.Profile;
 import com.revature.services.PostService;
 import com.revature.services.ProfileService;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +24,10 @@ import java.util.List;
 @CrossOrigin
 @RequestMapping("/notification")
 public class NotificationController {
+	
     private static final String PROFILE = "profile";
-
+    private static Logger log =LoggerFactory.getLogger(NotificationController.class);
+    
     @Autowired
     public NotificationService notificationService;
 
@@ -45,6 +50,7 @@ public class NotificationController {
         try {
             post = postService.getPostByPsid(notificationDTO.getPostId().getPsid());
         } catch(NullPointerException e) {
+        	log.error("NotificationController.addNotification: {}",e.getMessage());
             post = null;
         }
 
@@ -57,6 +63,7 @@ public class NotificationController {
         if (check == null) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         } else {
+        	log.info("Added notification: {}", check);
             return new ResponseEntity<>(new NotificationDTO(check), HttpStatus.CREATED);
         }
     }
@@ -67,6 +74,8 @@ public class NotificationController {
         List<Notification> notifications = notificationService.findByToProfileId(toProfileId);
         List<NotificationDTO> notificationDTOS = new LinkedList<>();
         notifications.forEach(notification -> notificationDTOS.add(new NotificationDTO(notification)));
+        
+        log.info("Number of notifications returned: {}", notificationDTOS.size());
         return new ResponseEntity<>(notificationDTOS, HttpStatus.OK);
     }
 
@@ -79,7 +88,7 @@ public class NotificationController {
         Notification savedNotification = notificationService.updateNotification(notification);
 
         NotificationDTO responseDTO = new NotificationDTO(savedNotification);
-
+        log.info("Notification was read: {}", responseDTO.getNid());
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 }

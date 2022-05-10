@@ -6,7 +6,7 @@ metadata:
   labels:
     app: magma-bubbleback
 spec:
-  replicas: 3
+  replicas: 2
   minReadySeconds: 5
   strategy: 
     type: RollingUpdate
@@ -17,17 +17,19 @@ spec:
     matchLabels:
       app: magma-bubbleback
       tier: backend
+      color: red
       track: stable
   template:
     metadata:
       labels:
         app: magma-bubbleback
         tier: backend
+        color: red
         track: stable
     spec:
       containers:
-      - name: magma-backend-container
-        image: docker.io/axpazmino/magmabubbleback2:latest
+      - name: bubble
+        image: "teammagma/bubbleback:latest"
         imagePullPolicy: IfNotPresent
         resources:
           limits:             
@@ -51,12 +53,12 @@ spec:
           - name: MAGMA_MAIL
             valueFrom:
               secretKeyRef:
-                name: magma-smtp-test
+                name: magma-smtp
                 key: email
           - name: MAGMA_PASS
             valueFrom:
               secretKeyRef:
-                name: magma-smtp-test
+                name: magma-smtp
                 key: password
       - name: promtail-container
         image: grafana/promtail

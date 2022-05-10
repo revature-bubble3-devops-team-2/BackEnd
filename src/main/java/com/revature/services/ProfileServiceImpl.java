@@ -7,6 +7,8 @@ import com.revature.models.Profile;
 import com.revature.repositories.ProfileRepo;
 import com.revature.utilites.SecurityUtil;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.data.domain.Page;
@@ -24,7 +26,9 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @Service
 public class ProfileServiceImpl implements ProfileService {
-
+	
+	private static Logger log =LoggerFactory.getLogger(ProfileServiceImpl.class);
+	
     @Autowired
     public ProfileRepo profileRepo;
 
@@ -60,7 +64,8 @@ public class ProfileServiceImpl implements ProfileService {
             profile.setPasskey(SecurityUtil.hashPassword(profile.getPasskey()));
             return profileRepo.save(profile);
         } catch (Exception e) {
-            return null;
+            log.error("ProfileServiceImpl.addNewProfile: {}", e.getMessage());
+        	return null;
         }
     }
 
