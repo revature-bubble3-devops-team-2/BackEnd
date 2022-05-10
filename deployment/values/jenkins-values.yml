@@ -1,0 +1,3 @@
+controller:
+  serviceType: LoadBalancer
+  jenkinsURL: http://ae35d48eb07db4c8284594ac69efa78b-1713494598.us-east-1.elb.amazonaws.com:8080/
