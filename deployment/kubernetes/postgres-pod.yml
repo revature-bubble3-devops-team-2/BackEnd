@@ -16,19 +16,17 @@ spec:
     ports:
       - containerPort: 5432
     env: 
-       - name: POSTGRES_USER
-         valueFrom: 
-          secretKeyRef: 
-            name: magma-bubble-secret
-            key: username
        - name: POSTGRES_PASSWORD
          valueFrom:
           secretKeyRef:
             name: magma-bubble-secret
             key: password
+       - name: PGDATA
+         value: /var/lib/postgresql/data/pgdata
     volumeMounts:
       - mountPath: /var/lib/postgresql/data
         name: db-data
   volumes:
     - name: db-data
-      emptyDir: {}
+      persistentVolumeClaim:
+        claimName: postgres-volume-claim

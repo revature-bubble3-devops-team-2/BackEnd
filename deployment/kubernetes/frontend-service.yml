@@ -4,12 +4,12 @@ metadata:
   name: frontend-service
   namespace: team-magma
   labels:
-    app:  magma-bubble
+    app:  magma-bubblefront
 spec:
+  type: LoadBalancer
   selector:
-    app:  magma-bubble
+    app:  magma-bubblefront
   ports:
-    - name: http
-      port: 4200
-      targetPort: 4200
-      protocol: TCP
+  - port: 80
+    protocol: TCP
+    name: http
