@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: black-frontend-deployment
+  namespace: team-magma
+  labels:
+  #   name: team-magma-frontend
+    app: magmabubble
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: magmabubble
+      tier: frontend
+      track: stable
+      color: black
+  template:
+    metadata:
+      labels:
+        app: magmabubble
+        tier: frontend
+        track: stable
+        color: black
+    spec:
+      containers:
+      - name: frontend-container
+        image: jaylopez/magmabubblefront:latest
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "50m"
+          limits:
+            memory: "512Mi"
+            cpu: "100m"
+        
+   

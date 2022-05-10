@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: red-frontend-service
+  namespace: team-magma
+spec:
+  type: LoadBalancer
+  selector:
+    app:  magmabubble
+    tier: frontend
+    color: red
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+   
+

@@ -1,15 +1,17 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: backend-service
+  name: red-backend-service
   namespace: team-magma
   labels:
     app:  magma-bubbleback
 spec:
+  type: LoadBalancer
   selector:
     app:  magma-bubbleback
+    tier: backend
+    color: red
   ports:
-  - port: 8080
-    targetPort: 8080
+  - port: 80
     protocol: TCP
-    name: http
+  
