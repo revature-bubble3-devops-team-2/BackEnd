@@ -59,8 +59,10 @@ pipeline {
         stage('Set eks use'){
             steps{
                 container('kubectl'){
-                    withAWS(credentials:'aws-creds', region:'us-east-1'){
-                        sh 'aws eks update-kubeconfig --name team-magma-XOglcml3'
+                    script{
+                        withAWS(credentials:'aws-creds', region:'us-east-1'){
+                            sh 'aws eks update-kubeconfig --name team-magma-XOglcml3'
+                        }
                     }
                 }
             }
@@ -111,9 +113,11 @@ pipeline {
 
 		stage('Create the service in kubernetes cluster traffic to black deployment') {
 			steps {
-				withAWS(credentials:'aws-creds', region:'us-east-1') {
-					sh 'kubectl apply -f ./deployment/kubernetes/black-backend-service.yml -n team-magma'
-				}
+                container ('kubectl') {
+				    withAWS(credentials:'aws-creds', region:'us-east-1') {
+					    sh 'kubectl apply -f ./deployment/kubernetes/black-backend-service.yml -n team-magma'
+				    }
+                }
 			}
 		}//end stage
 
