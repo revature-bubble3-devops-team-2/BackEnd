@@ -10,7 +10,7 @@ spec:
   selector:
     app:  magma-bubbleback
     tier: backend
-    color: red
+    color: black
   ports:
   - port: 8080
     targetPort: 8080
