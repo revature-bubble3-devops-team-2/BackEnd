@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
       - name: frontend-container
-        image: jaylopez/magmabubblefront:latest
+        image: teammagma/bubblefront:latest
         ports:
         - containerPort: 80
         resources:
