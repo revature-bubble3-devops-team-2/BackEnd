@@ -59,8 +59,10 @@ pipeline {
         stage('Set kubectl use-context'){
             steps{
                 withAWS(credentials:'aws-creds', region:'us-east-1'){
+                    sh 'curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"'
                     sh 'chmod u+x ./kubectl'
-                    sh 'kubectl config use-context arn:aws:eks:us-east-1:855430746673:cluster/team-magma-XOglcml3'
+                    sh 'aws eks update-kubeconfig --name team-magma-XOglcml3'
+                    sh './kubectl config use-context arn:aws:eks:us-east-1:855430746673:cluster/team-magma-XOglcml3'
                 }
             }
         }//end stage
@@ -108,13 +110,13 @@ pipeline {
 
         // }//end stage
 
-		// stage('Create the service in kubernetes cluster traffic to black deployment') {
-		// 	steps {
-		// 		withAWS(credentails:'aws-creds', region:'us-east-1') {
-		// 			sh 'kubectl apply -f ./deployment/kubernetes/black-backend-service.yml -n team-magma'
-		// 		}
-		// 	}
-		// }//end stage
+		stage('Create the service in kubernetes cluster traffic to black deployment') {
+			steps {
+				withAWS(credentails:'aws-creds', region:'us-east-1') {
+					sh './kubectl apply -f ./deployment/kubernetes/black-backend-service.yml -n team-magma'
+				}
+			}
+		}//end stage
 
     }//end stages
 }
