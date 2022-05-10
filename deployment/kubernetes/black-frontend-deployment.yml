@@ -23,7 +23,7 @@ spec:
         color: black
     spec:
       containers:
-      - name: frontend-container
+      - name: bubble
         image: teammagma/bubblefront:latest
         ports:
         - containerPort: 80

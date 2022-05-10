@@ -1,4 +1,4 @@
 package com.revature.models;
 
-public class Bookmark {
+class BookmarkModelTest {
 }
