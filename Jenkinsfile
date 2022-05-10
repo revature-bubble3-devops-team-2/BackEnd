@@ -58,11 +58,13 @@ pipeline {
         }//end stage
         stage('Set kubectl use-context'){
             steps{
-                withAWS(credentials:'aws-creds', region:'us-east-1'){
-                    sh 'curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"'
-                    sh 'chmod u+x ./kubectl'
-                    sh 'aws eks update-kubeconfig --name team-magma-XOglcml3'
-                    sh './kubectl config use-context arn:aws:eks:us-east-1:855430746673:cluster/team-magma-XOglcml3'
+                container('kubectl'){
+                    withAWS(credentials:'aws-creds', region:'us-east-1'){
+                    // sh 'curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"'
+                        sh 'chmod u+x ./kubectl'
+                        sh 'aws eks update-kubeconfig --name team-magma-XOglcml3'
+                        sh './kubectl config use-context arn:aws:eks:us-east-1:855430746673:cluster/team-magma-XOglcml3'
+                    }
                 }
             }
         }//end stage
