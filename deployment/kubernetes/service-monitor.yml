@@ -4,7 +4,7 @@ metadata:
   name: bubble-svc-monitor
   namespace: team-magma
   labels:
-    app:  magma-bubble
+    app:  magma-bubbleback
     release: prometheus-community
 spec: 
   endpoints:
@@ -16,4 +16,4 @@ spec:
       - team-magma
   selector:
     matchLabels: 
-      app:  magma-bubble
+      app:  magma-bubbleback
