@@ -56,12 +56,11 @@ pipeline {
                 }
             }
         }//end stage
-        stage('Set kubectl use-context'){
+        stage('Set eks use'){
             steps{
                 container('kubectl'){
                     withAWS(credentials:'aws-creds', region:'us-east-1'){
                         sh 'aws eks update-kubeconfig --name team-magma-XOglcml3'
-                        sh 'kubectl config use-context arn:aws:eks:us-east-1:855430746673:cluster/team-magma-XOglcml3'
                     }
                 }
             }
