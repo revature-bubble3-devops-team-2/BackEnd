@@ -56,37 +56,37 @@ pipeline {
                 }
             }
         }//end stage
-        stage('Set kubectl use-context'){
-            steps{
-                withAWS(credentials:'aws-creds', region:'us-east-1'){
-                    sh 'kubectl config use-context arn:aws:eks:us-east-1:855430746673:cluster/team-magma-XOglcml3'
-                }
-            }
-        }//end stage
+        // stage('Set kubectl use-context'){
+        //     steps{
+        //         withAWS(credentials:'aws-creds', region:'us-east-1'){
+        //             sh 'kubectl config use-context arn:aws:eks:us-east-1:855430746673:cluster/team-magma-XOglcml3'
+        //         }
+        //     }
+        // }//end stage
 
-        stage('Red Deployment'){
-            steps{
-                withAWS(credentials:'aws-creds', region:'us-east-1'){
-                    sh 'kubectl apply -f ./deployment/kubernetes/red-backend-deployment.yml -n team-magma'
-                }
-            }
-        }//end stage
+        // stage('Red Deployment'){
+        //     steps{
+        //         withAWS(credentials:'aws-creds', region:'us-east-1'){
+        //             sh 'kubectl apply -f ./deployment/kubernetes/red-backend-deployment.yml -n team-magma'
+        //         }
+        //     }
+        // }//end stage
 
-        stage('Black Deployment'){
-            steps{
-                withAWS(credentials:'aws-creds', region:'us-east-1'){
-                    sh 'kubectl apply -f ./deployment/kubernetes/black-backend-deployment.yml -n team-magma'
-                }
-            }
-        }//end stage
+        // stage('Black Deployment'){
+        //     steps{
+        //         withAWS(credentials:'aws-creds', region:'us-east-1'){
+        //             sh 'kubectl apply -f ./deployment/kubernetes/black-backend-deployment.yml -n team-magma'
+        //         }
+        //     }
+        // }//end stage
 
-		stage('Create the service in kubernetes cluster traffic to red deployment') {
-			steps {
-				withAWS(credentials:'aws-creds', region:'us-east-1') {
-					sh 'kubectl apply -f ./deployment/kubernetes/red-backend-service.yml -n team-magma'
-				}
-			}
-		}//end stage
+		// stage('Create the service in kubernetes cluster traffic to red deployment') {
+		// 	steps {
+		// 		withAWS(credentials:'aws-creds', region:'us-east-1') {
+		// 			sh 'kubectl apply -f ./deployment/kubernetes/red-backend-service.yml -n team-magma'
+		// 		}
+		// 	}
+		// }//end stage
 
         // stage('Waiting for approval'){
         //     steps{
