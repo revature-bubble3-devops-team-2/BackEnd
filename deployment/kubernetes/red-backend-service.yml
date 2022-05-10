@@ -12,7 +12,6 @@ spec:
     tier: backend
     color: red
   ports:
-  - port: 8080
-    targetPort: 8080
+  - port: 80
     protocol: TCP
   

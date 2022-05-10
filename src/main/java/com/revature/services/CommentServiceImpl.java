@@ -11,13 +11,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.revature.controllers.BookmarkController;
 import com.revature.models.Comment;
 import com.revature.repositories.CommentRepo;
 
+import org.slf4j.*;
 
 @Service
 public class CommentServiceImpl implements CommentService {
-
+	
+	private static Logger log =LoggerFactory.getLogger(CommentServiceImpl.class);
     @Autowired
     CommentRepo commentRepo;
     private static final String DATE_CREATED = "dateCreated";
@@ -35,11 +38,14 @@ public class CommentServiceImpl implements CommentService {
     public Comment addComment(Comment comment) {
         try {
             if (comment.getDateCreated()==null || comment.getWriter()==null) {
+            	
                 throw new NullPointerException();
             }
            commentRepo.save(comment);
+           log.info("comment added: " + comment);
             return comment;
         } catch (Exception e) {
+        	log.error("CommentServiceImpl.addComment: {}", e.getMessage());
             return null;
         }
     }

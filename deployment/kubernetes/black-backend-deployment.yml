@@ -17,19 +17,19 @@ spec:
     matchLabels:
       app: magma-bubbleback
       tier: backend
-      track: stable
       color: black
+      track: stable
   template:
     metadata:
       labels:
         app: magma-bubbleback
         tier: backend
-        track: stable
         color: black
+        track: stable
     spec:
       containers:
       - name: magma-backend-container
-        image: docker.io/axpazmino/magmabubbleback2:latest
+        image: docker.io/teammagma/magmabubbleback:latest
         imagePullPolicy: IfNotPresent
         resources:
           limits:             
@@ -53,12 +53,12 @@ spec:
           - name: MAGMA_MAIL
             valueFrom:
               secretKeyRef:
-                name: magma-smtp-test
+                name: magma-smtp
                 key: email
           - name: MAGMA_PASS
             valueFrom:
               secretKeyRef:
-                name: magma-smtp-test
+                name: magma-smtp
                 key: password
       - name: promtail-container
         image: grafana/promtail

@@ -6,6 +6,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -34,7 +36,8 @@ import lombok.extern.log4j.Log4j2;
 public class ProfileController {
 
     private static final String TOKEN_NAME = "Authorization";
-
+    private static Logger log =LoggerFactory.getLogger(ProfileController.class);
+    
     @Autowired
     private ProfileService profileService;
 
@@ -71,9 +74,11 @@ public class ProfileController {
             pro.setVerification(profile.isVerification());
 
             headers.set(TOKEN_NAME, SecurityUtil.generateToken(new ProfileDTO(pro)));
+            log.info("{} has successfully logged in", pro.getUsername());
             return new ResponseEntity<>(new ProfileDTO(profile), headers, HttpStatus.OK);
 
         }
+        log.warn("Unsuccessful login attempt");
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
@@ -97,8 +102,10 @@ public class ProfileController {
             Profile tempProfile = profileService.addNewProfile(newProfile);
             ProfileDTO profileDto = new ProfileDTO(tempProfile);
             if (tempProfile == null || profileDto.isIncomplete()) {
+            	log.error("Unable to register user");
                 return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
             }
+            log.info("New profile registered: {}", profileDto);
             return new ResponseEntity<>(profileDto, responseHeaders, HttpStatus.CREATED);
 
 
@@ -117,8 +124,10 @@ public class ProfileController {
     public ResponseEntity<ProfileDTO> getProfileByPid(@PathVariable("id")int id) {
         Profile profile = profileService.getProfileByPid(id);
         if (profile!=null) {
+        	log.info("Profile was returned: {}", new ProfileDTO(profile));
             return new ResponseEntity<>(new ProfileDTO(profile), HttpStatus.ACCEPTED);
         }else{
+        	log.warn("No profile of id {} found", id);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -147,9 +156,11 @@ public class ProfileController {
             pro.setEmail(result.getEmail());
             pro.setImgurl(result.getImgurl());
             pro.setCoverImgurl(result.getCoverImgurl());
-
+            
+            log.info("profile updated: {}", new ProfileDTO(pro));
             return new ResponseEntity<>(new ProfileDTO(pro), HttpStatus.ACCEPTED);
         } else {
+        	log.warn("Unable to update profile: {}", profile);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -176,6 +187,8 @@ public class ProfileController {
             pro.setLastName(newProfile.getLastName());
             pro.setEmail(newProfile.getEmail());
             headers.set(TOKEN_NAME, SecurityUtil.generateToken(new ProfileDTO(pro)));
+            
+            log.info("user followed succesfully follow");
             return new ResponseEntity<>(headers, HttpStatus.ACCEPTED);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -209,6 +222,7 @@ public class ProfileController {
                 String body = "{\"Authorization\":\"" +
                         newToken
                         + "\"}";
+       
                 return new ResponseEntity<>(body, headers, HttpStatus.ACCEPTED);
             }
 

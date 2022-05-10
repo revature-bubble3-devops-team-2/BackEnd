@@ -2,6 +2,8 @@ package com.revature.controllers;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,8 +25,10 @@ import com.revature.services.PostService;
 @CrossOrigin
 @RequestMapping("/like")
 public class LikeController {
+	
     private static final String PROFILE = "profile";
-
+    private static Logger log =LoggerFactory.getLogger(LikeController.class);
+    
     @Autowired
     public PostService postService;
 
@@ -43,6 +47,7 @@ public class LikeController {
     @PostMapping
     public ResponseEntity<ProfileDTO> addLike(@RequestBody PostDTO post, HttpServletRequest req) {
         if (req.getAttribute(PROFILE) == null || post == null) {
+        	log.warn("addLike bad request: profile or authorized token are null");
         	return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else {
         	
@@ -53,9 +58,12 @@ public class LikeController {
                 if (check == null) {
                     return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
                 } else {
+                	log.info(String.format("Profile id: %d has liked post psid: %d", check.getPid(), post.getPsid()));
                     return new ResponseEntity<>(new ProfileDTO(check), HttpStatus.CREATED);
                 }
             } else {
+            	
+            	log.info(String.format("Profile id: %d has liked post psid: %d already", existProfile.getPid(), post.getPsid()));
                 return new ResponseEntity<>(new ProfileDTO(existProfile), HttpStatus.FOUND);
             }
         }
@@ -78,8 +86,10 @@ public class LikeController {
         Profile temp = (Profile) req.getAttribute(PROFILE);
         int check = postService.likeDelete(temp, post.toPost());
         if (check == -1){
+        	log.warn(String.format("Profile id: %d has never liked post psid: %d", temp.getPid(), post.getPsid()));
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else {
+        	log.info(String.format("Profile id: %d removed like from post psid: %d", temp.getPid(), post.getPsid()));
             return new ResponseEntity<>(HttpStatus.OK);
         }
     }
@@ -110,8 +120,10 @@ public class LikeController {
         } else {
             Profile exist = postService.likeFindByID(temp, post.toPost());
             if (exist == null) {
+            	log.info(String.format("Profile id: %d has not liked post psid: %d", temp.getPid(), post.getPsid()));
                 return new ResponseEntity<>(0, HttpStatus.OK);
             } else {
+            	log.info(String.format("Profile id: %d has liked post psid: %d", temp.getPid(), post.getPsid()));
                 return new ResponseEntity<>(1, HttpStatus.OK);
             }
         }
