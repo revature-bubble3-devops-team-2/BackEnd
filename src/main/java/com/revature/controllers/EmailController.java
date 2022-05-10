@@ -6,6 +6,8 @@ import java.util.Map;
 
 import javax.mail.MessagingException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +29,9 @@ import lombok.extern.log4j.Log4j2;
 @RestController
 @CrossOrigin
 public class EmailController {
-
+	
+	private static Logger log = LoggerFactory.getLogger(EmailController.class);
+	
 	@Autowired
 	EmailService eserv;
 
@@ -50,18 +54,18 @@ public class EmailController {
 		Profile emailProfile = new Profile();
 		emailProfile.setEmail((String) emailMap.get(EMAIL));
 		Profile profile = pserv.getProfileByEmail(emailProfile);
-		log.info(profile);
+		log.info("{}", profile);
 		tempMap.put("profile", profile);
 
 		try {
 			eserv.sendVerificationMessage((String) emailMap.get(EMAIL), "Verify", tempMap);
 			return true;
 		} catch (IOException e) {
-			log.error(e.getMessage());
+			log.error("EmailController.sendEmail: {}", e.getMessage());
 		} catch (TemplateException e) {
-			log.error(e.getMessage());
+			log.error("EmailController.sendEmail: {}", e.getMessage());
 		} catch (MessagingException e) {
-			log.error(e.getMessage());
+			log.error("EmailController.sendEmail: {}", e.getMessage());
 		}
 		return false;
 	}
@@ -96,11 +100,11 @@ public class EmailController {
 			eserv.sendPasswordResetMessage((String) emailMap.get(EMAIL), "Verify", tempMap);
 			return true;
 		} catch (IOException ioE) {
-			log.error(ioE.getMessage());
+			log.error("EmailController.sendPasswordResetMessage: {}", ioE.getMessage());
 		} catch (TemplateException tE) {
-			log.error(tE.getMessage());
+			log.error("EmailController.sendPasswordResetMessage: {}", tE.getMessage());
 		} catch (MessagingException mE) {
-			log.error(mE.getMessage());
+			log.error("EmailController.sendPasswordResetMessage: {}", mE.getMessage());
 		}
 		return false;
 

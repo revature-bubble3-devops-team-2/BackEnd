@@ -1,0 +1,14 @@
+global:
+  scape_interval: 15s
+
+scrape_configs:
+  - job_name: prometheus
+    static_configs:
+      - targets:
+        - prometheus:9090
+  
+  - job_name: bubble
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets:
+        - bubble:8080

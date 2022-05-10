@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+  namespace: team-magma
+  labels: 
+    app: magma-bubblefront
+spec:
+  selector:
+    matchLabels:
+      app: magma-bubblefront
+  template:
+    metadata:
+      labels:
+        app: magma-bubblefront
+    spec:
+      containers:
+      - name: magma-bubble-container
+        image: teammagma/bubblefront
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
