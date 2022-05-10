@@ -56,7 +56,6 @@ pipeline {
                 }
             }
         }//end stage
-
         stage('Set kubectl use-context'){
             steps{
                 withAWS(credentials:'aws-creds', region:'us-east-1'){
@@ -89,32 +88,32 @@ pipeline {
 			}
 		}//end stage
 
-        stage('Waiting for approval'){
-            steps{
-                script{
-                    try {
-                        timeout(time:15, unit: 'MINUTES'){
-                            approved = input mesasage: 'Redirect traffic to Black?', ok: 'Continue',
-                                parameters: [choice(name: 'approved', choices: 'Yes\nNo', description: 'Redirect to black')]
-                            if(approved != 'Yes'){
-                                error('Redirect not approved')
-                            }
-                        }
-                    } catch (error){
-                        error('Redirect not approved in time')
-                    }
-                }
-            } 
+        // stage('Waiting for approval'){
+        //     steps{
+        //         script{
+        //             try {
+        //                 timeout(time:15, unit: 'MINUTES'){
+        //                     approved = input mesasage: 'Redirect traffic to Black?', ok: 'Continue',
+        //                         parameters: [choice(name: 'approved', choices: 'Yes\nNo', description: 'Redirect to black')]
+        //                     if(approved != 'Yes'){
+        //                         error('Redirect not approved')
+        //                     }
+        //                 }
+        //             } catch (error){
+        //                 error('Redirect not approved in time')
+        //             }
+        //         }
+        //     } 
 
-        }//end stage
+        // }//end stage
 
-		stage('Create the service in kubernetes cluster traffic to black deployment') {
-			steps {
-				withAWS(credentails:'aws-creds', region:'us-east-1') {
-					sh 'kubectl apply -f ./deployment/kubernetes/black-backend-service.yml -n team-magma'
-				}
-			}
-		}//end stage
+		// stage('Create the service in kubernetes cluster traffic to black deployment') {
+		// 	steps {
+		// 		withAWS(credentails:'aws-creds', region:'us-east-1') {
+		// 			sh 'kubectl apply -f ./deployment/kubernetes/black-backend-service.yml -n team-magma'
+		// 		}
+		// 	}
+		// }//end stage
 
     }//end stages
 }
