@@ -23,8 +23,8 @@ spec:
         color: red
     spec:
       containers:
-      - name: frontend-container
-        image: jaylopez/magmabubblefront:latest
+      - name: bubble
+        image: teammagma/bubblefront:latest
         ports:
         - containerPort: 80
         resources:
