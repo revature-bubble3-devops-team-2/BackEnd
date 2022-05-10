@@ -56,13 +56,13 @@ pipeline {
                 }
             }
         }//end stage
-        // stage('Set kubectl use-context'){
-        //     steps{
-        //         withAWS(credentials:'aws-creds', region:'us-east-1'){
-        //             sh 'kubectl config use-context arn:aws:eks:us-east-1:855430746673:cluster/team-magma-XOglcml3'
-        //         }
-        //     }
-        // }//end stage
+        stage('Set kubectl use-context'){
+            steps{
+                withAWS(credentials:'aws-creds', region:'us-east-1'){
+                    sh 'kubectl config use-context arn:aws:eks:us-east-1:855430746673:cluster/team-magma-XOglcml3'
+                }
+            }
+        }//end stage
 
         // stage('Red Deployment'){
         //     steps{
