@@ -47,7 +47,7 @@ pipeline {
                         docker.withRegistry('', CRED) {
 
                             DOCKER_IMAGE.push("$env.BUILD_ID")
-                            DOCKER_IMAGE.push("latest")
+                            // DOCKER_IMAGE.push("latest")
                             //DOCKER_IMAGE.push()
                             //docker.image(DOCKER_IMAGE).push()
 
