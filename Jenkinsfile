@@ -60,6 +60,7 @@ pipeline {
             steps{
                 withAWS(credentials:'aws-creds', region:'us-east-1'){
                     sh 'chmod u+x ./kubectl'
+
                     sh 'kubectl config use-context arn:aws:eks:us-east-1:855430746673:cluster/team-magma-XOglcml3'
                 }
             }
@@ -117,4 +118,6 @@ pipeline {
 		// }//end stage
 
     }//end stages
+
 }
+
