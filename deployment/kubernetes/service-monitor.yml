@@ -5,7 +5,7 @@ metadata:
   namespace: team-magma
   labels:
     app:  magma-bubble
-    release: prom
+    release: prometheus-community
 spec: 
   endpoints:
   - path : /actuator/prometheus
