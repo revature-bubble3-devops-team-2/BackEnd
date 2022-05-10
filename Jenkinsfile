@@ -1,6 +1,9 @@
 pipeline {
-    agent any
-
+    agent {
+        kubernetes {
+            yamlFile 'deployment/kubernetes/agent-pod.yaml'  // path to the pod definition relative to the root of our project 
+        }
+    }
     tools {
         maven 'Maven'
     }
@@ -15,33 +18,62 @@ pipeline {
     }
 
     stages {
+
         stage('Clean Directory') {
-      steps {
-        sh 'mvn clean'
-      }
+            steps {
+                sh 'mvn clean'
+            }
         }
         stage('Package Jar') {
-      steps {
-        sh 'mvn -DskipTests package'
-      }
+            steps {
+                sh 'mvn -DskipTests package'
+            }
         }
         stage('Create Image') {
-      steps {
-        //container('docker-cmds') {
-          script {
-            docker.build("${env.CONTAINER_NAME}:${env.BUILD_ID}")
-          }
-        //}
-      }
+            steps {
+                container('docker') {
+                    // sh 'docker build -t ${IMAGE_TAG} -f Dockerfile .'
+                    script {
+                        DOCKER_IMAGE = docker.build "$REGISTRY"
+                        //DOCKER_IMAGE = docker.build("${env.REGISTRY}:${env.BUILD_ID}")
+                    }
+                }
+            }
         }
         stage('Push to DockerHub') {
-      steps {
-        script {
-          docker.withRegistry('', CRED) {
-            docker.image(IMAGE_TAG).push()
-          }
-        }
-      }
-        }
+            steps {
+                script {
+                    container('docker'){
+                        docker.withRegistry('', CRED) {
+
+                            DOCKER_IMAGE.push("$env.BUILD_ID")
+                            DOCKER_IMAGE.push("latest")
+                            //DOCKER_IMAGE.push()
+                            //docker.image(DOCKER_IMAGE).push()
+
+                        }
+                    }   
+                }
+            }
+        }//end stage
+
+        stage('Waiting for approval'){
+            steps{
+                script{
+                    try {
+                        timeout(time:30, unit: 'MINUTES'){
+                            approved = input mesasage: 'Deploy to production?', ok: 'Continue',
+                                parameters: [choice(name: 'approved', choices: 'Yes\nNo', description: 'Deploy this build to production')]
+                            if(approved != 'Yes'){
+                                error('Build not approved')
+                            }
+                        }
+                    } catch (error){
+                        error('Build not approved in time')
+                    }
+                }
+            } 
+
+        }//end stage
     }
 }
