@@ -18,7 +18,7 @@ spec:
         - name: docker
           mountPath: /var/run/docker.sock # We use the k8s host docker engine
     - name: kubectl
-      image: alpine/k8s:latest
+      image: alpine/k8s:1.22.6
       command: ["tail", "-f", "/dev/null"]
       imagePullPolicy: Always
       ttyEnabled: true
