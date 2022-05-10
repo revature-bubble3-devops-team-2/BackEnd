@@ -59,7 +59,7 @@ pipeline {
 
         stage('Set kubectl use-context'){
             steps{
-                withAWS(credentails:'aws-creds', region:'us-east-1'){
+                withAWS(credentials:'aws-creds', region:'us-east-1'){
                     sh 'kubectl config use-context arn:aws:eks:us-east-1:855430746673:cluster/team-magma-XOglcml3'
                 }
             }
@@ -67,7 +67,7 @@ pipeline {
 
         stage('Red Deployment'){
             steps{
-                withAWS(credentails:'aws-creds', region:'us-east-1'){
+                withAWS(credentials:'aws-creds', region:'us-east-1'){
                     sh 'kubectl apply -f ./deployment/kubernetes/red-backend-deployment.yml -n team-magma'
                 }
             }
@@ -75,7 +75,7 @@ pipeline {
 
         stage('Black Deployment'){
             steps{
-                withAWS(credentails:'aws-creds', region:'us-east-1'){
+                withAWS(credentials:'aws-creds', region:'us-east-1'){
                     sh 'kubectl apply -f ./deployment/kubernetes/black-backend-deployment.yml -n team-magma'
                 }
             }
@@ -83,7 +83,7 @@ pipeline {
 
 		stage('Create the service in kubernetes cluster traffic to red deployment') {
 			steps {
-				withAWS(credentails:'aws-creds', region:'us-east-1') {
+				withAWS(credentials:'aws-creds', region:'us-east-1') {
 					sh 'kubectl apply -f ./deployment/kubernetes/red-backend-service.yml -n team-magma'
 				}
 			}
