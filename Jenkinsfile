@@ -112,7 +112,7 @@ pipeline {
 		stage('Create the service in kubernetes cluster traffic to black deployment') {
 			steps {
 				withAWS(credentials:'aws-creds', region:'us-east-1') {
-					sh './kubectl apply -f ./deployment/kubernetes/black-backend-service.yml -n team-magma'
+					sh 'kubectl apply -f ./deployment/kubernetes/black-backend-service.yml -n team-magma'
 				}
 			}
 		}//end stage
