@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: team-magma
+  name: red-backend-deployment
+  labels:
+    app: magma-bubbleback
+spec:
+  replicas: 2
+  minReadySeconds: 5
+  strategy: 
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: magma-bubbleback
+      tier: backend
+      color: red
+      track: stable
+  template:
+    metadata:
+      labels:
+        app: magma-bubbleback
+        tier: backend
+        color: red
+        track: stable
+    spec:
+      containers:
+      - name: bubble
+        image: "teammagma/bubbleback:latest"
+        imagePullPolicy: IfNotPresent
+        resources:
+          limits:             
+            memory: "512Mi"   
+            cpu: "500m"       
+        ports:
+        - containerPort: 8080
+        env:
+          - name: DB_URL
+            value: jdbc:postgresql://postgres-service:5432/postgres
+          - name: DB_USER
+            valueFrom:
+              secretKeyRef:
+                name: magma-bubble-secret
+                key: username
+          - name: DB_PASS
+            valueFrom:
+              secretKeyRef:
+                name: magma-bubble-secret
+                key: password
+          - name: MAGMA_MAIL
+            valueFrom:
+              secretKeyRef:
+                name: magma-smtp
+                key: email
+          - name: MAGMA_PASS
+            valueFrom:
+              secretKeyRef:
+                name: magma-smtp
+                key: password
+      - name: promtail-container
+        image: grafana/promtail
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "50m"
+          limits:
+            memory: "256Mi"
+            cpu: "100m"
+        args:
+        - -config.file=/etc/promtail/promtail.yml
+        volumeMounts:
+        - name: logs
+          mountPath: /logs
+        - name: promtail-config
+          mountPath: /etc/promtail
+      volumes:
+        - name: logs
+          emptyDir: {}
+        - name: promtail-config
+          configMap:
+            name: promtail-config

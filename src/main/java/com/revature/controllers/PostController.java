@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +29,8 @@ import com.revature.services.PostService;
 @CrossOrigin
 @RequestMapping("/post")
 public class PostController {
-
+	
+	private static Logger log =LoggerFactory.getLogger(PostController.class);
     @Autowired
     public PostService postService;
 
@@ -49,8 +52,10 @@ public class PostController {
         newPost.setCreator((Profile) req.getAttribute("profile"));
         Post check = postService.addPost(newPost);
         if (check == null) {
+        	log.warn("Unable to add post: {}", newPost);
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         } else {
+        	log.info("Post was added to the database: {}", check);
             return new ResponseEntity<>(new PostDTO(check), HttpStatus.CREATED);
         }
     }
@@ -68,6 +73,7 @@ public class PostController {
         List<Post> posts = postService.getAllPostsPaginated(pageNumber);
         List<PostDTO> postDtos = new LinkedList<>();
         posts.forEach(p -> postDtos.add(new PostDTO(p)));
+        log.info(String.format("Returned %d posts at page %d", postDtos.size(), pageNumber));
         return new ResponseEntity<>(postDtos, HttpStatus.OK);
     }
 
@@ -78,6 +84,8 @@ public class PostController {
         List<Post> posts = postService.getAllPosts();
         List<PostDTO> postDtos = new LinkedList<>();
         posts.forEach(p -> postDtos.add(new PostDTO(p)));
+        
+        log.info("Number of posts returned: {}", postDtos.size());
         return new ResponseEntity<>(postDtos, HttpStatus.OK);
     }
 

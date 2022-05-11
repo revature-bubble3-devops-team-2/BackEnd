@@ -1,5 +1,5 @@
 server:
-  port: 5000
+  port: 8080
 spring:
   datasource:
     url: ${DB_URL}
@@ -19,7 +19,16 @@ spring:
           connectiontimeout: '5000'
           writetimeout: '5000'
     host: smtp.gmail.com
-    username: bubbleatrevature@gmail.com
-    password: R3Vature!
+    username: ${MAGMA_MAIL}
+    password: ${MAGMA_PASS}
     port: '587'
-    
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, metrics, prometheus
+  metrics:
+    distribution:
+      percentiles-histogram.http.server.requests: true
+      percentiles.http.server.requests: 0.5, 0.9, 0.95, 0.99, 0.999

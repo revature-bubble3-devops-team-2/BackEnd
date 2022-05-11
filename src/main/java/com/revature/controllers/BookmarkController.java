@@ -19,12 +19,15 @@ import com.revature.models.Profile;
 import com.revature.services.PostService;
 import java.util.List;
 
+import org.slf4j.*;
+
 @RestController
 @CrossOrigin
 @RequestMapping("/bookmark")
 public class BookmarkController {
     private static final String PROFILE = "profile";
-
+    
+    private static Logger log =LoggerFactory.getLogger(BookmarkController.class);
     @Autowired
     public PostService postService;
 
@@ -43,6 +46,7 @@ public class BookmarkController {
     @PostMapping
     public ResponseEntity<ProfileDTO> addBookmark(@RequestBody PostDTO post, HttpServletRequest req) {
         if (req.getAttribute(PROFILE) == null || post == null) {
+        	log.warn("addBookmark bad request: profile or authorized token are null");
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else {
 
@@ -53,9 +57,12 @@ public class BookmarkController {
                 if (check == null) {
                     return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
                 } else {
+                	log.info(String.format("Profile id: %d has bookmarked post psid: %d", check.getPid(), post.getPsid()));
                     return new ResponseEntity<>(new ProfileDTO(check), HttpStatus.CREATED);
                 }
             } else {
+            	
+            	log.info(String.format("Profile id: %d has bookmarked post psid: %d already", existProfile.getPid(), post.getPsid()));
                 return new ResponseEntity<>(new ProfileDTO(existProfile), HttpStatus.FOUND);
             }
         }
@@ -78,8 +85,11 @@ public class BookmarkController {
         Profile temp = (Profile) req.getAttribute(PROFILE);
         int check = postService.bookmarkDelete(temp, post.toPost());
         if (check == -1){
+        	log.warn(String.format("Profile id: %d did not have post psid: %d bookmarked", temp.getPid(), post.getPsid()));
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else {
+        	
+        	log.info(String.format("Profile id: %d removed from post psid: %d from bookmarks", temp.getPid(), post.getPsid()));
             return new ResponseEntity<>(HttpStatus.OK);
         }
     }
@@ -104,7 +114,7 @@ public class BookmarkController {
 
         List<Post> bookmarkedPosts = postService.allBookMarksByCreator(temp);
 
-
+        log.info(String.format("Returned %d bookmarks", bookmarkedPosts.size()));
         return new ResponseEntity<>(bookmarkedPosts, HttpStatus.OK);
     }
 
@@ -117,8 +127,12 @@ public class BookmarkController {
 
         Profile exist = postService.bookmarkFindByID(temp, postObj.toPost());
         if (exist == null) {
+        	
+        	log.info(String.format("Profile id: %d does not have post psid: %d bookmarked", temp.getPid(), postObj.getPsid()));
             return new ResponseEntity<>(0, HttpStatus.OK);
         } else {
+        	
+        	log.info(String.format("Profile id: %d has post psid: %d bookmarked", temp.getPid(), postObj.getPsid()));
             return new ResponseEntity<>(1, HttpStatus.OK);
         }
 

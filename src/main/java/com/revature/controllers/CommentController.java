@@ -19,10 +19,15 @@ import com.revature.dto.CommentDTO;
 import com.revature.models.Comment;
 import com.revature.services.CommentServiceImpl;
 
+import org.slf4j.*;
+
 @RestController
 @CrossOrigin
 @RequestMapping("/comment")
 public class CommentController {
+	
+	private static Logger log =LoggerFactory.getLogger(CommentController.class);
+	
     @Autowired
     CommentServiceImpl commentService;
 
@@ -50,6 +55,8 @@ public class CommentController {
     	List<Comment> comments = commentService.getCommentsByPostPsid(id);
     	List<CommentDTO> commentDtos = new LinkedList<>();
     	comments.forEach(c -> commentDtos.add(new CommentDTO(c)));
+    	
+    	log.info(String.format("Returning %d comments made on post psid: %d", commentDtos.size(), id));
         return new ResponseEntity<>(commentDtos, HttpStatus.ACCEPTED);
     }
 

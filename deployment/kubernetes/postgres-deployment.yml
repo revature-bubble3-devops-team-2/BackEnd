@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: postgres
+  namespace: team-magma
+  labels:
+    app: postgres
+spec:
+  containers:
+  - name: postgres
+    image: postgres
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "250m"
+    ports:
+      - containerPort: 5432
+    env: 
+      - name: POSTGRES_USER
+        valueFrom: 
+          secretKeyRef: 
+            name: magma-bubble-secret
+            key: username
+      - name: POSTGRES_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: magma-bubble-secret
+            key: password
+      - name: PGDATA
+        value: /var/lib/postgresql/data/pgdata
+    volumeMounts:
+      - mountPath: /var/lib/postgresql/data
+        name: db-data
+  volumes:
+    - name: db-data
+      persistentVolumeClaim:
+        claimName: postgres-volume-claim

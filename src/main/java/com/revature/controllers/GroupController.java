@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -48,6 +50,8 @@ import com.revature.services.ProfileServiceImpl;
 @RequestMapping("/groups")
 public class GroupController {
 	
+	private static Logger log =LoggerFactory.getLogger(GroupController.class);
+	
 	@Autowired
 	GroupServiceImpl groupService;
 	@Autowired
@@ -66,6 +70,8 @@ public class GroupController {
 	@GetMapping("/{id}")
 	public ResponseEntity<GroupDTO> findGroup(@PathVariable("id") int id) {
 		GroupDTO groupDto = new GroupDTO(groupService.findById(id));
+		
+		log.info("Group was returned: {}", groupDto);
 		return ResponseEntity.ok(groupDto);
 	}
 	
@@ -81,6 +87,8 @@ public class GroupController {
 		List<Group> groups = groupService.findAllPaginated(pageNumber);
 		List<GroupDTO> groupDTOs = new LinkedList<>();
 		groups.forEach(g -> groupDTOs.add(new GroupDTO(g)));
+		
+		log.info("Number of groups returned: {}", groupDTOs.size());
 		return new ResponseEntity<>(groupDTOs, HttpStatus.OK);
 	}
 	
@@ -96,6 +104,8 @@ public class GroupController {
 	@PostMapping("/save")
 	public ResponseEntity<GroupDTO> saveGroup(@Valid @RequestBody GroupDTO group) {
 		GroupDTO groupDto = new GroupDTO(groupService.save(group.toGroup()));
+		
+		log.info("Group was saved: {}", groupDto);
 		return ResponseEntity.ok(groupDto);
 	}
 
@@ -112,8 +122,10 @@ public class GroupController {
     public ResponseEntity<Group> updateGroup(@RequestBody GroupDTO group) {
         Group result = groupService.updateGroup(group.toGroup());
         if (result != null) {
+        	log.info("Group was updated in database: {}", result);
             return ResponseEntity.ok(result);
         } else {
+        	log.warn("Group not found in the database: {}", group);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -129,10 +141,13 @@ public class GroupController {
 	public ResponseEntity<Set<ProfileDTO>> getMembers(@PathVariable("id") int id) {
 		Group group;
 		if((group = groupService.findById(id)) != null) {
+			
 			GroupDTO galaxyDTO = new GroupDTO(group);
+			log.info(String.format("Returning %d members of group id: %d", galaxyDTO.getMembers().size(), id));
 				return ResponseEntity.ok()
 	                    .body(galaxyDTO.getMembers());
 		}
+		log.warn("No group of id {} found", id);
 		return new ResponseEntity<>(new GroupDTO(group).getMembers(), HttpStatus.NOT_FOUND);
 	}
 	
@@ -148,9 +163,11 @@ public class GroupController {
 		List<Post> postList;
 		if((postList = postService.getAllGroupPosts(id)) != null) {
 			List<PostDTO> pDtoList = postList.stream().map(PostDTO::new).collect(Collectors.toList());
+			log.info(String.format("Returning %d posts of group id: %d", pDtoList.size(), id));
 			return ResponseEntity.ok()
 					.body(pDtoList);
 		}
+		log.warn("No group of id {} found", id);
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 
@@ -171,12 +188,15 @@ public class GroupController {
 			Profile user = profileService.getProfileByPid(userId);
 			Set<Profile> members = group.getMembers();
 			if (members.contains(user)) {
+				log.warn(String.format("User id: %d is already a member of group id: %d", userId, groupId));
 				return new ResponseEntity<>(new GroupDTO(group), HttpStatus.BAD_REQUEST);
 			} else {
 				group.getMembers().add(user);
+				log.info(String.format("User id: %d joined group id: %d", userId, groupId));
 				return ResponseEntity.ok(new GroupDTO(groupService.save(group)));
 			}
 		}
+		log.warn("No group of id {} found", groupId);
 		return new ResponseEntity<>(new GroupDTO(group), HttpStatus.BAD_REQUEST);
 	}
 	
@@ -197,12 +217,15 @@ public class GroupController {
 			Profile user = profileService.getProfileByPid(userId);
 			Set<Profile> members = group.getMembers();
 			if(!members.contains(user)) {
+				log.warn(String.format("User id: %d is not a member of group id: %d", userId, groupId));
 				return new ResponseEntity<>(new GroupDTO(group), HttpStatus.BAD_REQUEST);
 			}else {
 				group.getMembers().remove(user);
+				log.info(String.format("User id: %d left group id: %d", userId, groupId));
 				return ResponseEntity.ok(new GroupDTO(groupService.save(group)));
 			}
 		}
+		log.warn("No group of id {} found", groupId);
 		return new ResponseEntity<>(new GroupDTO(group), HttpStatus.BAD_REQUEST);
 	}
 	
@@ -218,6 +241,8 @@ public class GroupController {
 		List<Group> groups = groupService.search(query);
     	List<GroupDTO> groupDtos = new LinkedList<>();
     	groups.forEach(p -> groupDtos.add(new GroupDTO(p)));
+    	
+    	log.info("Number of groups returned: {}", groupDtos.size());
 		return new ResponseEntity<>(groupDtos, new HttpHeaders(), HttpStatus.OK);
 	}
 

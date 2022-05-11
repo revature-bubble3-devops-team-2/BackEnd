@@ -13,6 +13,7 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.4.3</version>
+		<relativePath/>
 	</parent>
 
 	<properties>
@@ -26,6 +27,10 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>javax.persistence</groupId>
@@ -55,11 +60,18 @@
 			<artifactId>postgresql</artifactId>
 		</dependency>
 
+		<!-- Micrometer -->
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-registry-prometheus</artifactId>
+		</dependency>
+
 		<!-- Lombok -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<version>1.18.22</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<!-- Testing -->
@@ -137,6 +149,19 @@
             <version>RELEASE</version>
             <scope>compile</scope>
         </dependency>
+        
+        <!-- Logging -->
+        <dependency>
+		    <groupId>net.logstash.logback</groupId>
+		    <artifactId>logstash-logback-encoder</artifactId>
+		    <version>7.0.1</version>
+		    <!-- Use runtime scope if the project does not have any compile-time usage of logstash-logback-encoder,
+		         such as usage of StructuredArguments/Markers or implementations such as
+		         JsonProvider, AppenderListener, JsonFactoryDecorator, JsonGeneratorDecorator, etc
+		    <scope>runtime</scope>
+		    -->
+		</dependency>
+        
     </dependencies>
 
 	<build>
