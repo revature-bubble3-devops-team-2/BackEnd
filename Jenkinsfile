@@ -15,7 +15,7 @@ pipeline {
         CONTAINER_NAME = 'bubbleback'
         CRED = 'dockerhub'
         DOCKER_IMAGE = ''
-        SERVICE_COLOR= ''
+        SERVICE_COLOR= 'N/A'
     }
 
     stages {
@@ -75,13 +75,13 @@ pipeline {
                     script{
                         withAWS(credentials:'aws-creds', region:'us-east-1'){
                            SERVICE_COLOR = '$(kubectl get service -n team-magma backend-service -o jsonpath="{.spec.selector.color}")'
-                           sh 'echo ${SERVICE_COLOR}'
+
                         }
+                        sh 'echo $SERVICE_COLOR'
                     }
                 }
             }
         }
-
 
 
         // stage('Red Deployment'){
