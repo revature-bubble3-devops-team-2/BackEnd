@@ -48,7 +48,7 @@ pipeline {
                         docker.withRegistry('', CRED) {
 
                             DOCKER_IMAGE.push("$env.BUILD_ID")
-                            // DOCKER_IMAGE.push("latest")
+                            DOCKER_IMAGE.push("latest")
                             //DOCKER_IMAGE.push()
                             //docker.image(DOCKER_IMAGE).push()
 
@@ -57,104 +57,54 @@ pipeline {
                 }
             }
         }//end stage
-        stage('Set eks use'){
-            steps{
-                container('kubectl'){
-                    script{
-                        withAWS(credentials:'aws-creds', region:'us-east-1'){
-                            sh 'aws eks update-kubeconfig --name team-magma-XOglcml3'
-                        }
-                    }
-                }
-            }
-        }//end stage
 
-        stage('Get current service color'){
+        stage('Waiting for approval'){
             steps{
-                container('kubectl'){
-                    script{
-                        withAWS(credentials:'aws-creds', region:'us-east-1'){
-                            SERVICE_COLOR = sh(script: "kubectl get service -n team-magma backend-service -o jsonpath='{.spec.selector.color}'", returnStdout: true).trim()
-                            sh 'echo $SERVICE_COLOR is the service color'
+                script{
+                    try {
+                        timeout(time:15, unit: 'MINUTES'){
+                            approved = input mesasage: 'Deploy new image?', ok: 'Continue',
+                                parameters: [choice(name: 'approved', choices: 'Yes\nNo', description: 'Deployment')]
+                            if(approved != 'Yes'){
+                                error('Redirect not approved')
+                            }
                         }
+                    } catch (error){
+                        error('Redirect not approved in time')
                     }
                 }
-            }
-        }
+            } 
+
+        }//end stage
 
         stage('Deploy to Cluster') { 
             steps {
                 container('kubectl'){
                     script {
-                        if (sh(script: "kubectl get service -n team-magma backend-service -o jsonpath='{.spec.selector.color}'", returnStdout: true).trim() == 'red') {
-                            
-                            sh 'echo red'
 
-                        } else {
-                            
-                            sh 'echo black'
+                        withAWS(credentials:'aws-creds', region:'us-east-1'){
 
+                            sh 'aws eks update-kubeconfig --name team-magma-XOglcml3'
+
+                            if (sh(script: "kubectl get service -n team-magma backend-service -o jsonpath='{.spec.selector.color}'", returnStdout: true).trim() == 'red') {
+                                
+                                sh 'kubectl apply -f ./deployment/kubernetes/black-backend-deployment.yml -n team-magma'
+                                sh 'kubectl apply -f ./deployment/kubernetes/black-backend-service.yml -n team-magma'
+
+                            } else {
+                                
+                                sh 'kubectl apply -f ./deployment/kubernetes/red-backend-deployment.yml -n team-magma'
+                                sh 'kubectl apply -f ./deployment/kubernetes/red-backend-service.yml -n team-magma'
+
+                            }
                         }
                     } 
                 }
 
             }
-        }
- 
 
-
-        // stage('Red Deployment'){
-        //     steps{
-        //         withAWS(credentials:'aws-creds', region:'us-east-1'){
-        //             sh 'kubectl apply -f ./deployment/kubernetes/red-backend-deployment.yml -n team-magma'
-        //         }
-        //     }
-        // }//end stage
-
-        // stage('Black Deployment'){
-        //     steps{
-        //         withAWS(credentials:'aws-creds', region:'us-east-1'){
-        //             sh 'kubectl apply -f ./deployment/kubernetes/black-backend-deployment.yml -n team-magma'
-        //         }
-        //     }
-        // }//end stage
-
-		// stage('Create the service in kubernetes cluster traffic to red deployment') {
-		// 	steps {
-		// 		withAWS(credentials:'aws-creds', region:'us-east-1') {
-		// 			sh 'kubectl apply -f ./deployment/kubernetes/red-backend-service.yml -n team-magma'
-		// 		}
-		// 	}
-		// }//end stage
-
-        // stage('Waiting for approval'){
-        //     steps{
-        //         script{
-        //             try {
-        //                 timeout(time:15, unit: 'MINUTES'){
-        //                     approved = input mesasage: 'Redirect traffic to Black?', ok: 'Continue',
-        //                         parameters: [choice(name: 'approved', choices: 'Yes\nNo', description: 'Redirect to black')]
-        //                     if(approved != 'Yes'){
-        //                         error('Redirect not approved')
-        //                     }
-        //                 }
-        //             } catch (error){
-        //                 error('Redirect not approved in time')
-        //             }
-        //         }
-        //     } 
-
-        // }//end stage
-
-		// stage('Create the service in kubernetes cluster traffic to black deployment') {
-		// 	steps {
-        //         container ('kubectl') {
-		// 		    withAWS(credentials:'aws-creds', region:'us-east-1') {
-		// 			    sh 'kubectl apply -f ./deployment/kubernetes/black-backend-service.yml -n team-magma'
-		// 		    }
-        //         }
-		// 	}
-		// }//end stage
+        }//end stage
+        
 
     }//end stages
 
