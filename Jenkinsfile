@@ -74,8 +74,8 @@ pipeline {
                 container('kubectl'){
                     script{
                         withAWS(credentials:'aws-creds', region:'us-east-1'){
-                            SERVICE_COLOR = 'kubectl get service -n team-magma backend-service -o jsonpath="{.spec.selector.color}"; echo'
-                            sh 'echo $SERVICE_COLOR'
+                            SERVICE_COLOR = sh "kubectl get service -n team-magma backend-service -o jsonpath='{.spec.selector.color}'"
+                            sh 'echo ${env.SERVICE_COLOR}'
                         }
                     }
                 }
