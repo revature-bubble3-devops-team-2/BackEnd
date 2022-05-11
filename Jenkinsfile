@@ -85,16 +85,16 @@ pipeline {
                         withAWS(credentials:'aws-creds', region:'us-east-1'){
 
                             sh 'aws eks update-kubeconfig --name team-magma-XOglcml3'
-                            sh 'echo $REGISTRY:$BUILD_ID.number'
+                            sh 'echo $REGISTRY:$BUILD_ID'
 
                             if (sh(script: "kubectl get service -n team-magma backend-service -o jsonpath='{.spec.selector.color}'", returnStdout: true).trim() == 'red') {
                                 
-                                sh 'kubectl set image -n team-magma deployment.apps/black-backend-deployment bubble=$REGISTRY:$BUILD_ID.number'
+                                sh 'kubectl set image -n team-magma deployment.apps/black-backend-deployment bubble=$REGISTRY:$BUILD_ID'
                                 sh 'kubectl apply -f ./deployment/kubernetes/black-backend-service.yml -n team-magma'
 
                             } else {
                                 
-                                sh 'kubectl set image -n team-magma deployment.apps/red-backend-deployment bubble=$REGISTRY:$BUILD_ID.number'
+                                sh 'kubectl set image -n team-magma deployment.apps/red-backend-deployment bubble=$REGISTRY:$BUILD_ID'
                                 sh 'kubectl apply -f ./deployment/kubernetes/red-backend-service.yml -n team-magma'
 
                             }
