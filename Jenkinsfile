@@ -88,12 +88,12 @@ pipeline {
 
                             if (sh(script: "kubectl get service -n team-magma backend-service -o jsonpath='{.spec.selector.color}'", returnStdout: true).trim() == 'red') {
                                 
-                                sh 'kubectl apply -f ./deployment/kubernetes/black-backend-deployment.yml -n team-magma'
+                                sh 'kubectl set image -n team-magma deployment.apps/black-backend-deployment bubble=$REGISTRY:$BUILD_ID.number'
                                 sh 'kubectl apply -f ./deployment/kubernetes/black-backend-service.yml -n team-magma'
 
                             } else {
                                 
-                                sh 'kubectl apply -f ./deployment/kubernetes/red-backend-deployment.yml -n team-magma'
+                                sh 'kubectl set image -n team-magma deployment.apps/red-backend-deployment bubble=$REGISTRY:$BUILD_ID.number'
                                 sh 'kubectl apply -f ./deployment/kubernetes/red-backend-service.yml -n team-magma'
 
                             }
