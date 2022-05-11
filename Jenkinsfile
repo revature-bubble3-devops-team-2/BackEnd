@@ -85,6 +85,7 @@ pipeline {
                         withAWS(credentials:'aws-creds', region:'us-east-1'){
 
                             sh 'aws eks update-kubeconfig --name team-magma-XOglcml3'
+                            sh 'echo $REGISTRY:$BUILD_ID.number'
 
                             if (sh(script: "kubectl get service -n team-magma backend-service -o jsonpath='{.spec.selector.color}'", returnStdout: true).trim() == 'red') {
                                 
