@@ -74,14 +74,14 @@ pipeline {
                 container('kubectl'){
                     script{
                         withAWS(credentials:'aws-creds', region:'us-east-1'){
-                            SERVICE_COLOR = sh 'kubectl get service -n team-magma backend-service -o jsonpath="{.spec.selector.color}; echo'
+                           SERVICE_COLOR = $(kubectl get service -n team-magma backend-service -o jsonpath="{.spec.selector.color}")
                         }
                     }
                 }
             }
         }
 
-        
+
 
         // stage('Red Deployment'){
         //     steps{
@@ -126,14 +126,14 @@ pipeline {
 
         // }//end stage
 
-		stage('Create the service in kubernetes cluster traffic to black deployment') {
-			steps {
-                container ('kubectl') {
-				    withAWS(credentials:'aws-creds', region:'us-east-1') {
-					    sh 'kubectl apply -f ./deployment/kubernetes/black-backend-service.yml -n team-magma'
-				    }
-                }
-			}
+		// stage('Create the service in kubernetes cluster traffic to black deployment') {
+		// 	steps {
+        //         container ('kubectl') {
+		// 		    withAWS(credentials:'aws-creds', region:'us-east-1') {
+		// 			    sh 'kubectl apply -f ./deployment/kubernetes/black-backend-service.yml -n team-magma'
+		// 		    }
+        //         }
+		// 	}
 		}//end stage
 
     }//end stages
